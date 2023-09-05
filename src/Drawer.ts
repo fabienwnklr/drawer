@@ -17,7 +17,6 @@ import { ClearIcon } from "./icons/clear";
 export class Drawer extends History {
   declare ctx: CanvasRenderingContext2D;
   isDrawing: boolean = false;
-  snapshot!: ImageData;
   activeTool: keyof typeof DrawTools = "brush";
   // options
   options: DrawerOptions;
@@ -35,6 +34,7 @@ export class Drawer extends History {
   $lineThickness!: HTMLDivElement;
   $downloadBtn!: HTMLButtonElement;
   $colorPicker!: HTMLInputElement;
+  dotted: boolean = false;
 
   constructor($el: HTMLElement, options: Partial<DrawerOptions> = {}) {
     super();
@@ -62,7 +62,7 @@ export class Drawer extends History {
       `<div class="drawer-container"></div>`
     );
     const canvas = `
-    <canvas id="${this.options.id}" height="${this.options.height}" width="${this.options.width}"></canvas>
+    <canvas tabindex="0" id="${this.options.id}" height="${this.options.height}" width="${this.options.width}"></canvas>
   `;
     this.$canvas = stringToHTMLElement<HTMLCanvasElement>(canvas);
     this.ctx = this.$canvas.getContext("2d") as CanvasRenderingContext2D;
@@ -78,7 +78,7 @@ export class Drawer extends History {
       try {
         this._buildHTML();
         this.$sourceElement.appendChild(this.$drawerContainer);
-        this._setBgColor(this.options.bgColor);
+        this.setBgColor();
         this._initHandlerEvents();
         this.setCanvas(this.$canvas);
         resolve(this);
@@ -124,10 +124,13 @@ export class Drawer extends History {
     this.ctx.fillStyle = this.options.color; // passing selectedColor as fill style
   }
 
+  setBgColor() {
+    this.$canvas.style.backgroundColor = this.options.bgColor;
+  }
+
   /**
-   * Change background color of canvas
+   * Change background color of canvas for print only
    * be carefull, all drawing are removed
-   * must be used only on initialize
    * @param bgColor Background color
    * @returns {Promise<Drawer>}
    */
@@ -145,9 +148,9 @@ export class Drawer extends History {
         this.ctx.fillStyle = bgColor;
         this.ctx.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
         // rewrite data after updating bgcolor
-        this.loadFromData(data);
-
-        resolve(this);
+        this.loadFromData(data).then(() => {
+          resolve(this);
+        });
       } catch (error: any) {
         reject(new DrawerError(error.message));
       }
@@ -169,17 +172,26 @@ export class Drawer extends History {
    */
   clear(): HTMLCanvasElement {
     this.ctx.clearRect(0, 0, this.$canvas.width, this.$canvas.height);
+    // restore bg color too
     this.$canvas.dispatchEvent(DrawEvent("change", this));
 
     return this.$canvas;
   }
 
   loadFromData(data: string) {
-    const img = new Image();
-    img.onload = () => {
-      this.ctx.drawImage(img, 0, 0, this.$canvas.width, this.$canvas.height);
-    };
-    img.src = data;
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        this.ctx.drawImage(img, 0, 0, this.$canvas.width, this.$canvas.height);
+        resolve(null);
+      };
+      img.onerror = (_err) => {
+        reject(
+          new DrawerError(`Error during loading img with src : "${data}"`)
+        );
+      };
+      img.src = data;
+    });
   }
 
   saveDraw() {
@@ -590,14 +602,18 @@ export class Drawer extends History {
             action(this, this.$downloadBtn);
           } else {
             // Download
-            const data = this.$canvas.toDataURL("image/png");
-            const $link = document.createElement("a");
+            const original = this.getData();
+            this._setBgColor("#fff").then(() => {
+              const data = this.$canvas.toDataURL("image/png");
+              const $link = document.createElement("a");
 
-            $link.download = this.$canvas.id || "draw" + ".png";
-            $link.href = data;
-            document.body.appendChild($link);
-            $link.click();
-            document.body.removeChild($link);
+              $link.download = this.$canvas.id || "draw" + ".png";
+              $link.href = data;
+              document.body.appendChild($link);
+              $link.click();
+              document.body.removeChild($link);
+              this.loadFromData(original);
+            });
           }
         });
 
@@ -610,6 +626,15 @@ export class Drawer extends History {
         );
       }
     });
+  }
+
+  toggleDottedLine() {
+    if (this.dotted) {
+      this.ctx.setLineDash([]);
+    } else {
+      this.ctx.setLineDash([10, 5]);
+    }
+    this.dotted = !this.dotted;
   }
 
   /**
@@ -628,7 +653,7 @@ export class Drawer extends History {
   }
 
   /**
-   * Start drawing
+   * Start drawing (mousedown)
    * @param {MouseEvent} _event
    * @returns
    */
@@ -640,13 +665,6 @@ export class Drawer extends History {
     this.ctx.lineWidth = this.options.lineThickness; // passing brushSize as line width
     this.ctx.strokeStyle = this.options.color; // passing selectedColor as stroke style
     this.ctx.fillStyle = this.options.color; // passing selectedColor as fill style
-    // copying canvas data & passing as snapshot value.. this avoids dragging the image
-    this.snapshot = this.ctx.getImageData(
-      0,
-      0,
-      this.$canvas.width,
-      this.$canvas.height
-    );
   }
 
   /**
@@ -656,8 +674,7 @@ export class Drawer extends History {
    */
   private _drawing(event: MouseEvent) {
     if (!this.isDrawing || this.activeTool === "text") return; // if isDrawing is false return from here
-    this.ctx.putImageData(this.snapshot, 0, 0); // adding copied canvas data on to this canvas
-    this.ctx.strokeStyle = this.options.color;
+
     if (this.activeTool === "brush") {
       this.ctx.globalCompositeOperation = "source-over";
     } else if (this.activeTool === "eraser") {
@@ -679,52 +696,66 @@ export class Drawer extends History {
     this.$canvas.addEventListener("mousemove", this._drawing.bind(this));
     this.$canvas.addEventListener("mouseup", (event: MouseEvent) => {
       if (this.activeTool === "text") {
-        this.ctx.globalCompositeOperation = "source-over";
-        const $textArea = document.createElement("textarea");
-
-        $textArea.style.position = "fixed";
-        $textArea.style.left = event.clientX + "px";
-        $textArea.style.top = event.clientY + "px";
-        $textArea.style.color = this.options.color;
-
-        $textArea.addEventListener("focusout", () => {
-          const value = $textArea.value;
-
-          if (value) {
-            this.ctx.textBaseline = "top";
-            this.ctx.textAlign = "left";
-            this.ctx.font = "14px sans-serif";
-            const lineHeight = this.ctx.measureText("Mi").width;
-            const lines = $textArea.value.split("\n");
-
-            let x =
-              parseInt($textArea.style.left, 10) -
-              this.$canvas.getBoundingClientRect().left;
-            let y =
-              parseInt($textArea.style.top, 10) -
-              this.$canvas.getBoundingClientRect().top;
-            this.ctx.fillStyle = this.options.color;
-            for (const line of lines) {
-              this.ctx.fillText(line, x, y);
-              y += lineHeight;
-            }
-
-            this.$canvas.dispatchEvent(DrawEvent("change", this.getData()));
-          }
-          $textArea.remove();
-        });
-
-        this.$drawerContainer.appendChild($textArea);
-
-        $textArea.focus();
+        this._addTextArea(event);
       } else {
         this.$canvas.dispatchEvent(DrawEvent("change", this.getData()));
       }
       this.isDrawing = false;
     });
 
+    this.$canvas.addEventListener("keypress", (event: KeyboardEvent) => {
+      if (event.ctrlKey) {
+        if (event.code === "KeyW") {
+          this.undo();
+        } else if (event.code === "KeyY") {
+          this.redo();
+        }
+      }
+    });
+
     if (this.options.autoSave) {
       this.$canvas.addEventListener("drawer.change", this.saveDraw.bind(this));
     }
+  }
+
+  private _addTextArea(event: MouseEvent) {
+    this.ctx.globalCompositeOperation = "source-over";
+    const $textArea = document.createElement("textarea");
+
+    $textArea.style.position = "fixed";
+    $textArea.style.left = event.clientX + "px";
+    $textArea.style.top = event.clientY + "px";
+    $textArea.style.color = this.options.color;
+
+    $textArea.addEventListener("focusout", () => {
+      const value = $textArea.value;
+
+      if (value) {
+        this.ctx.textBaseline = "top";
+        this.ctx.textAlign = "left";
+        this.ctx.font = "14px sans-serif";
+        const lineHeight = this.ctx.measureText("Mi").width;
+        const lines = $textArea.value.split("\n");
+
+        let x =
+          parseInt($textArea.style.left, 10) -
+          this.$canvas.getBoundingClientRect().left;
+        let y =
+          parseInt($textArea.style.top, 10) -
+          this.$canvas.getBoundingClientRect().top;
+        this.ctx.fillStyle = this.options.color;
+        for (const line of lines) {
+          this.ctx.fillText(line, x, y);
+          y += lineHeight;
+        }
+
+        this.$canvas.dispatchEvent(DrawEvent("change", this.getData()));
+      }
+      $textArea.remove();
+    });
+
+    this.$drawerContainer.appendChild($textArea);
+
+    $textArea.focus();
   }
 }
