@@ -1,4 +1,4 @@
-import { describe, expect, test, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { Drawer } from "../src/Drawer";
 
 describe("Drawer", () => {
@@ -6,7 +6,8 @@ describe("Drawer", () => {
 
   it("Init single basic drawer", () => {
     const drawer = new Drawer(
-      document.body.querySelector("#test") as HTMLDivElement
+      document.body.querySelector("#test") as HTMLDivElement,
+      { autoSave: false }
     );
     expect(drawer).toBeInstanceOf(Drawer);
     expect(drawer.$toolbar).toBeInstanceOf(HTMLDivElement);
@@ -18,7 +19,7 @@ describe("Drawer", () => {
   it("Init drawer without toolbar", () => {
     const drawer = new Drawer(
       document.body.querySelector("#test") as HTMLDivElement,
-      { defaultToolbar: false }
+      { defaultToolbar: false, autoSave: false }
     );
     expect(drawer.$toolbar).toBeUndefined();
   });
@@ -26,7 +27,7 @@ describe("Drawer", () => {
   it("Init drawer width custom toolbar", () => {
     const drawer = new Drawer(
       document.body.querySelector("#test") as HTMLDivElement,
-      { defaultToolbar: false }
+      { defaultToolbar: false, autoSave: false }
     );
     drawer.addToolbar();
     drawer.addUndoBtn();
@@ -41,7 +42,7 @@ describe("Drawer", () => {
   it("Init drawer with custom size", () => {
     const drawer = new Drawer(
       document.body.querySelector("#test") as HTMLDivElement,
-      { height: 200, width: 200 }
+      { height: 200, width: 200, autoSave: false }
     );
     expect(drawer.$canvas).toBeInstanceOf(HTMLCanvasElement);
     expect(drawer.$canvas.width).toEqual(200);
@@ -50,7 +51,8 @@ describe("Drawer", () => {
 
   it("Resize canvas", () => {
     const drawer = new Drawer(
-      document.body.querySelector("#test") as HTMLDivElement
+      document.body.querySelector("#test") as HTMLDivElement,
+      { autoSave: false }
     );
 
     drawer.setSize(500, 600);
@@ -59,4 +61,15 @@ describe("Drawer", () => {
     // check max-width update of toolbar
     expect(drawer.$toolbar.style.maxWidth).toEqual("500px");
   });
+
+  it("Update line width", () => {
+    const drawer = new Drawer(
+      document.body.querySelector("#test") as HTMLDivElement,
+      { autoSave: false }
+    );
+
+    drawer.setLineWidth(10);
+    expect(drawer.ctx.lineWidth).toEqual(10);
+  });
 });
+
