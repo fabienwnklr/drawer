@@ -1,0 +1,136 @@
+:root {
+  --drawer-primary: #646cff;
+  --drawer-primary-active-color: #f8f8f8;
+  --drawer-primary-active-bg: #4f57c0;
+  --drawer-light: #ebebeb;
+}
+
+.drawer-container {
+  position: relative;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+  width: 100%;
+  overflow: auto;
+  background-color: var(--drawer-light);
+}
+
+.toolbar::-webkit-scrollbar-track {
+  padding: 2px 0;
+  background-color: var(--drawer-light);
+}
+
+.toolbar::-webkit-scrollbar-thumb {
+  border-radius: .25rem;
+  background-color: var(--drawer-primary);
+  border: 1px solid var(--drawer-primary);
+}
+
+.toolbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.toolbar[class*="inner"] {
+  position: absolute;
+  z-index: 2;
+}
+
+.toolbar svg {
+  vertical-align: unset;
+}
+
+.toolbar.innerTop {
+  top: 0;
+  left: 0;
+}
+
+.toolbar.innerStart,
+.toolbar.innerEnd,
+.toolbar.outerStart,
+.toolbar.outerEnd {
+  width: 60px;
+  flex-direction: column;
+  bottom: 0;
+}
+
+.toolbar.outerStart {
+
+}
+.toolbar.innerStart {
+  top: 0;
+  left: 0;
+}
+
+.toolbar.innerEnd {
+  top: 0;
+  right: 0;
+}
+
+.toolbar.innerBottom {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.toolbar input,
+.toolbar button {
+  margin: 0.2em;
+}
+
+.toolbar input[type=color] {
+  min-width: 40px
+}
+
+canvas {
+  position: relative !important;
+  border: lightgrey 1px solid;
+  border-radius: 5px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+.toolbar .btn {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.2em 0.4em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+.toolbar .btn:hover {
+  border-color: var(--drawer-primary);
+}
+
+.toolbar .btn.active {
+  background-color: var(--drawer-primary-active-bg);
+  color: var(--drawer-primary-active-color);
+}
+
+.toolbar .btn:focus,
+.toolbar .btn:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+.toolbar .drawer-range {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  .toolbar .btn {
+    background-color: #f9f9f9;
+  }
+}
