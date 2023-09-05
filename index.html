@@ -12,8 +12,8 @@
       import { Drawer } from './src/Drawer.ts'
 
       const $el = document.querySelector("#app");
-      window.drawer = new Drawer($el, { toolbarPosition: "innerTop"});
-      window.drawer.$canvas.addEventListener("drawer.change", console.log)
+      window.drawer = new Drawer($el);
+      window.drawer.setSize(800, 550)
     </script>
   </body>
 </html>
