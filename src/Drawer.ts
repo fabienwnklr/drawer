@@ -100,11 +100,13 @@ export class Drawer extends History {
   setSize(w?: number, h?: number): Promise<boolean> {
     return new Promise((resolve, reject) => {
       try {
-        const data = this.getData();
-        this.$canvas.width = w || this.$canvas.width;
-        this.$canvas.height = h || this.$canvas.height;
 
-        this.loadFromData(data);
+        const data = this.getData();
+        this.$canvas.width = w ?? this.$canvas.width;
+        this.$canvas.height = h ?? this.$canvas.height;
+
+        // Apply data if not empty for prevent error
+        if (!this.isEmpty()) this.loadFromData(data);
 
         if (this.$toolbar) {
           this.$toolbar.style.maxWidth = this.$canvas.width + "px";
@@ -116,6 +118,14 @@ export class Drawer extends History {
         reject(new DrawerError(error.message));
       }
     });
+  }
+
+  /**
+   * Check if canvas empty
+   * @returns {boolean}
+   */
+  isEmpty(): boolean {
+    return document.createElement('canvas').toDataURL() === this.getData();
   }
 
   setColor(color: string) {
@@ -650,6 +660,15 @@ export class Drawer extends History {
     } else {
       throw new DrawerError(`No toolbar provided`);
     }
+  }
+
+  /**
+   * Set the line width
+   * @param width Line width
+   */
+  setLineWidth(width: number) {
+    this.options.lineThickness = width;
+    this.ctx.lineWidth = width;
   }
 
   /**
