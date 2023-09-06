@@ -13,7 +13,8 @@ describe("Drawer", () => {
     expect(drawer.$toolbar).toBeInstanceOf(HTMLDivElement);
     expect(
       drawer.$toolbar.querySelectorAll("button, input").length
-    ).not.toEqual(0);
+      ).not.toEqual(0);
+    expect(drawer.$brushBtn.classList.contains("active")).toEqual(true);
   });
 
   it("Init drawer without toolbar", () => {
