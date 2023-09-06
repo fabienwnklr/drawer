@@ -11,4 +11,6 @@ export const defaultOptions: DrawerOptions = {
   bgColor: "#fff",
   color: "#000",
   lineThickness: 5,
+  dotted: false,
+  dash: [10, 5],
 };

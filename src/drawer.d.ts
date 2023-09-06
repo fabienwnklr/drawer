@@ -4,6 +4,8 @@ export interface DrawerOptions {
   width: number;
   defaultToolbar: boolean;
   localStorageKey: string;
+  dotted: boolean;
+  dash: number[];
   autoSave: boolean;
   toolbarPosition: keyof typeof ToolbarPosition;
   color: string;
