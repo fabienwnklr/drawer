@@ -71,5 +71,16 @@ describe("Drawer", () => {
     drawer.setLineWidth(10);
     expect(drawer.ctx.lineWidth).toEqual(10);
   });
+
+  it("Change tool", () => {
+    const drawer = new Drawer(
+      document.body.querySelector("#test") as HTMLDivElement,
+      { autoSave: false }
+    );
+
+    drawer.changeTool("eraser");
+    expect(drawer.activeTool).toEqual("eraser");
+    expect(drawer.$eraserBtn.classList.contains("active")).toEqual(true);
+  })
 });
 
