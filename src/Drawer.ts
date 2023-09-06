@@ -52,6 +52,10 @@ export class Drawer extends History {
         this.addToolbar();
         this.addDefaults();
       }
+
+      if (this.options.dotted) {
+        this.setDottedLine(true, this.options.dash);
+      }
     } catch (error: any) {
       throw new DrawerError(error.message);
     }
@@ -100,7 +104,6 @@ export class Drawer extends History {
   setSize(w?: number, h?: number): Promise<boolean> {
     return new Promise((resolve, reject) => {
       try {
-
         const data = this.getData();
         this.$canvas.width = w ?? this.$canvas.width;
         this.$canvas.height = h ?? this.$canvas.height;
@@ -125,7 +128,7 @@ export class Drawer extends History {
    * @returns {boolean}
    */
   isEmpty(): boolean {
-    return document.createElement('canvas').toDataURL() === this.getData();
+    return document.createElement("canvas").toDataURL() === this.getData();
   }
 
   setColor(color: string) {
@@ -173,6 +176,20 @@ export class Drawer extends History {
    */
   changeTool(toolName: keyof typeof DrawTools) {
     this.activeTool = toolName;
+
+    if (this.$toolbar) {
+      switch (toolName) {
+        case "brush":
+          if (this.$brushBtn) this.setActiveBtn(this.$brushBtn);
+          break;
+        case "text":
+          if (this.$textBtn) this.setActiveBtn(this.$textBtn);
+          break;
+        case "eraser":
+          if (this.$eraserBtn) this.setActiveBtn(this.$eraserBtn);
+          break;
+      }
+    }
   }
 
   /**
@@ -192,7 +209,7 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       const img = new Image();
       img.onload = () => {
-        this.ctx.drawImage(img, 0, 0, this.$canvas.width, this.$canvas.height);
+        this.ctx.drawImage(img, 0, 0);
         resolve(null);
       };
       img.onerror = (_err) => {
@@ -638,13 +655,20 @@ export class Drawer extends History {
     });
   }
 
-  toggleDottedLine() {
-    if (this.dotted) {
+  /**
+   * Set line style dotted
+   * @param active
+   * @param {number[]} [dash=[10, 5]] Line dash format [width, spacing]
+   */
+  setDottedLine(active: boolean, dash: number[] = [10, 5]) {
+    this.options.dash = dash;
+
+    if (!active) {
       this.ctx.setLineDash([]);
     } else {
-      this.ctx.setLineDash([10, 5]);
+      this.ctx.setLineDash(dash);
     }
-    this.dotted = !this.dotted;
+    this.dotted = active;
   }
 
   /**
