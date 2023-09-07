@@ -758,12 +758,12 @@ export class Drawer extends History {
       this.isDrawing = false;
     }
 
-    this.$canvas.addEventListener("touchstart", touchstart.bind(this));
-    this.$canvas.addEventListener("touchmove", touchmove.bind(this));
-    this.$canvas.addEventListener("touchend", touchend.bind(this));
+    this.$canvas.addEventListener("touchstart", touchstart.bind(this), false);
+    this.$canvas.addEventListener("touchmove", touchmove.bind(this), false);
+    this.$canvas.addEventListener("touchend", touchend.bind(this), false);
 
-    this.$canvas.addEventListener("mousedown", this._startDraw.bind(this));
-    this.$canvas.addEventListener("mousemove", this._drawing.bind(this));
+    this.$canvas.addEventListener("mousedown", this._startDraw.bind(this), false);
+    this.$canvas.addEventListener("mousemove", this._drawing.bind(this), false);
     this.$canvas.addEventListener("mouseup", (event: MouseEvent) => {
       if (this.activeTool === "text") {
         this._addTextArea(event);
@@ -771,7 +771,7 @@ export class Drawer extends History {
         this.$canvas.dispatchEvent(DrawEvent("change", this.getData()));
       }
       this.isDrawing = false;
-    });
+    }, false);
 
     this.$canvas.addEventListener("keypress", (event: KeyboardEvent) => {
       if (event.ctrlKey) {
