@@ -13,6 +13,7 @@ import { History } from "./History";
 import { UndoIcon } from "./icons/undo";
 import { RedoIcon } from "./icons/redo";
 import { ClearIcon } from "./icons/clear";
+import { ColorIcon } from "./icons/color";
 
 export class Drawer extends History {
   declare ctx: CanvasRenderingContext2D;
@@ -578,13 +579,24 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$colorPicker) {
-          const colorPicker = `<input title="${"Color"}" class="" type="color" value="${
-            this.options.color
-          }" />`;
-          this.$colorPicker =
-            stringToHTMLElement<HTMLInputElement>(colorPicker);
+          const colorPicker = `
+          <div class="container-colorpicker">
+            <input id="${
+              this.options.id
+            }-colopicker" title="${"Color"}" class="" type="color" value="${
+              this.options.color
+            }" />
+            <label class="btn" for="${this.options.id}-colopicker">
+              ${ColorIcon}
+            </label>
+          </div>
+          `;
+          const $colorPicker =
+            stringToHTMLElement<HTMLDivElement>(colorPicker);
 
-          this.$toolbar.appendChild(this.$colorPicker);
+          this.$toolbar.appendChild($colorPicker);
+
+          this.$colorPicker = $colorPicker.querySelector("input") as HTMLInputElement;
 
           this.$colorPicker.addEventListener("change", () => {
             if (typeof action === "function") {

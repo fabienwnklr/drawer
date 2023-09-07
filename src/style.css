@@ -14,7 +14,8 @@
   align-items: center;
   max-width: 100%;
   width: 100%;
-  overflow: auto;
+  overflow: hidden;
+  overflow-x: auto;
   background-color: var(--drawer-light);
 }
 
@@ -24,7 +25,7 @@
 }
 
 .toolbar::-webkit-scrollbar-thumb {
-  border-radius: .25rem;
+  border-radius: 0.25rem;
   background-color: var(--drawer-primary);
   border: 1px solid var(--drawer-primary);
 }
@@ -40,7 +41,7 @@
 }
 
 .toolbar svg {
-  vertical-align: unset;
+  vertical-align: text-bottom;
 }
 
 .toolbar.innerTop {
@@ -57,9 +58,6 @@
   bottom: 0;
 }
 
-.toolbar.outerStart {
-
-}
 .toolbar.innerStart {
   top: 0;
   left: 0;
@@ -77,13 +75,22 @@
   width: 100%;
 }
 
+.toolbar .container-colorpicker {
+  position: relative;
+}
+
 .toolbar input,
-.toolbar button {
+.toolbar button,
+.toolbar label {
   margin: 0.2em;
 }
 
-.toolbar input[type=color] {
-  min-width: 40px
+.toolbar input[type="color"] {
+  min-width: 40px;
+  position: absolute;
+  left: 0;
+  opacity: 0;
+  z-index: 0;
 }
 
 canvas {
