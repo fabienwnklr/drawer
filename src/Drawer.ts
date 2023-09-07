@@ -739,7 +739,8 @@ export class Drawer extends History {
         `Drawerror : unknown active draw tool "${this.activeTool}"`
       );
     }
-    this.ctx.lineTo(event.clientX - this.$canvas.offsetLeft, event.clientY - this.$canvas.offsetTop); // creating line according to the mouse pointer
+    const { top, left } = this.$canvas.getBoundingClientRect();
+    this.ctx.lineTo(event.clientX - left, event.clientY - top); // creating line according to the mouse pointer
     this.ctx.stroke();
   }
 
