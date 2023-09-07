@@ -40,10 +40,6 @@
   z-index: 2;
 }
 
-.toolbar svg {
-  vertical-align: text-bottom;
-}
-
 .toolbar.innerTop {
   top: 0;
   left: 0;
@@ -110,6 +106,9 @@ canvas {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .toolbar .btn:hover {
   border-color: var(--drawer-primary);
