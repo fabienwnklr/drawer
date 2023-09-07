@@ -712,7 +712,7 @@ export class Drawer extends History {
    * @param {MouseEvent} _event
    * @returns
    */
-  private _startDraw(_event: MouseEvent) {
+  private _startDraw(_event: MouseEvent | Touch) {
     if (this.activeTool === "text") return;
     this.saveState();
     this.isDrawing = true;
@@ -727,7 +727,7 @@ export class Drawer extends History {
    * @param {MouseEvent} event
    * @returns
    */
-  private _drawing(event: MouseEvent) {
+  private _drawing(event: MouseEvent | Touch) {
     if (!this.isDrawing || this.activeTool === "text") return; // if isDrawing is false return from here
 
     if (this.activeTool === "brush") {
@@ -739,7 +739,7 @@ export class Drawer extends History {
         `Drawerror : unknown active draw tool "${this.activeTool}"`
       );
     }
-    this.ctx.lineTo(event.offsetX, event.offsetY); // creating line according to the mouse pointer
+    this.ctx.lineTo(event.clientX - this.$canvas.offsetLeft, event.clientY - this.$canvas.offsetTop); // creating line according to the mouse pointer
     this.ctx.stroke();
   }
 
@@ -747,6 +747,21 @@ export class Drawer extends History {
    * @private Initialize all event listener
    */
   private _initHandlerEvents() {
+    const touchstart = (event: TouchEvent) => { this._startDraw(event.touches[0]) }
+    const touchmove = (event: TouchEvent) => { this._drawing(event.touches[0]); event.preventDefault(); }
+    const touchend = (event: TouchEvent) => {
+      if (this.activeTool === "text") {
+        this._addTextArea(event.touches[0]);
+      } else {
+        this.$canvas.dispatchEvent(DrawEvent("change", this.getData()));
+      }
+      this.isDrawing = false;
+    }
+
+    this.$canvas.addEventListener("touchstart", touchstart.bind(this));
+    this.$canvas.addEventListener("touchmove", touchmove.bind(this));
+    this.$canvas.addEventListener("touchend", touchend.bind(this));
+
     this.$canvas.addEventListener("mousedown", this._startDraw.bind(this));
     this.$canvas.addEventListener("mousemove", this._drawing.bind(this));
     this.$canvas.addEventListener("mouseup", (event: MouseEvent) => {
@@ -773,7 +788,7 @@ export class Drawer extends History {
     }
   }
 
-  private _addTextArea(event: MouseEvent) {
+  private _addTextArea(event: MouseEvent | Touch) {
     this.ctx.globalCompositeOperation = "source-over";
     const $textArea = document.createElement("textarea");
 
