@@ -19,6 +19,7 @@ export class Drawer extends History {
   declare ctx: CanvasRenderingContext2D;
   isDrawing: boolean = false;
   activeTool: keyof typeof DrawTools = "brush";
+  dotted: boolean = false;
   // options
   options: DrawerOptions;
   // HTML Elements
@@ -35,7 +36,7 @@ export class Drawer extends History {
   $lineThickness!: HTMLDivElement;
   $downloadBtn!: HTMLButtonElement;
   $colorPicker!: HTMLInputElement;
-  dotted: boolean = false;
+  $shapeBtn!: HTMLButtonElement;
 
   constructor($el: HTMLElement, options: Partial<DrawerOptions> = {}) {
     super();
@@ -283,6 +284,7 @@ export class Drawer extends History {
     this.addEraserBtn();
     this.addClearBtn();
     this.addTextBtn();
+    this.addShapeBtn();
     this.addLineThicknessBtn();
     this.addColorPickerBtn();
     this.addDownloadBtn();
@@ -469,6 +471,48 @@ export class Drawer extends History {
     });
   }
 
+  /**
+   * Add text button to toolbar if exist
+   * see {@link addToolbar} before use it
+   * @returns {Promise<HTMLButtonElement>} HTML button text element
+   */
+  addShapeBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
+    return new Promise((resolve, reject) => {
+      try {
+        if (this.$toolbar && !this.$shapeBtn) {
+          const shapeBtn = `
+          <div class="container-btn-shape">
+            <button title="${"Text zone"}" class="btn btn-shape">${TextIcon}</button>
+            <ul class="nav-menu">
+              <li class="nav-menu-item">Edit</li>
+            </ul>
+          </div>`;
+
+          const $shapeBtnDiv = stringToHTMLElement<HTMLDivElement>(shapeBtn);
+          this.$shapeBtn = $shapeBtnDiv.querySelector("button") as HTMLButtonElement;
+
+          this.$toolbar.appendChild($shapeBtnDiv);
+
+          this.$shapeBtn.addEventListener("click", () => {
+            if (typeof action === "function") {
+              action(this, this.$shapeBtn);
+            } else {
+            }
+          });
+
+          resolve(this.$textBtn);
+        } else {
+          reject(
+            new DrawerError(
+              `No toolbar provided, please call 'addToolbar' method first`
+            )
+          );
+        }
+      } catch (error: any) {
+        reject(new DrawerError(error.message));
+      }
+    });
+  }
   /**
    * Add text button to toolbar if exist
    * see {@link addToolbar} before use it
@@ -723,7 +767,7 @@ export class Drawer extends History {
   }
 
   /**
-   * @private Drawing
+   * @private _drawing
    * @param {MouseEvent} event
    * @returns
    */
@@ -740,8 +784,24 @@ export class Drawer extends History {
       );
     }
     const { top, left } = this.$canvas.getBoundingClientRect();
-    this.ctx.lineTo(event.clientX - left, event.clientY - top); // creating line according to the mouse pointer
+    const positionX = event.clientX - left;
+    const positionY = event.clientY - top;
+    this.ctx.lineTo(positionX, positionY); // creating line according to the mouse pointer
     this.ctx.stroke();
+  }
+
+  /**
+   * @private _drawend
+   * trigger when draw ended
+   * @param {MouseEvent} event
+   */
+  private _drawend(event: MouseEvent | Touch) {
+    if (this.activeTool === "text") {
+      this._addTextArea(event);
+    } else {
+      this.$canvas.dispatchEvent(DrawEvent("change", this.getData()));
+    }
+    this.isDrawing = false;
   }
 
   /**
@@ -750,14 +810,7 @@ export class Drawer extends History {
   private _initHandlerEvents() {
     const touchstart = (event: TouchEvent) => { this._startDraw(event.touches[0]) }
     const touchmove = (event: TouchEvent) => { this._drawing(event.touches[0]); event.preventDefault(); }
-    const touchend = (event: TouchEvent) => {
-      if (this.activeTool === "text") {
-        this._addTextArea(event.touches[0]);
-      } else {
-        this.$canvas.dispatchEvent(DrawEvent("change", this.getData()));
-      }
-      this.isDrawing = false;
-    }
+    const touchend = (event: TouchEvent) => { this._drawend(event.touches[0]); };
 
     this.$canvas.addEventListener("touchstart", touchstart.bind(this), false);
     this.$canvas.addEventListener("touchmove", touchmove.bind(this), false);
@@ -765,14 +818,7 @@ export class Drawer extends History {
 
     this.$canvas.addEventListener("mousedown", this._startDraw.bind(this), false);
     this.$canvas.addEventListener("mousemove", this._drawing.bind(this), false);
-    this.$canvas.addEventListener("mouseup", (event: MouseEvent) => {
-      if (this.activeTool === "text") {
-        this._addTextArea(event);
-      } else {
-        this.$canvas.dispatchEvent(DrawEvent("change", this.getData()));
-      }
-      this.isDrawing = false;
-    }, false);
+    this.$canvas.addEventListener("mouseup", this._drawend.bind(this) , false);
 
     this.$canvas.addEventListener("keypress", (event: KeyboardEvent) => {
       if (event.ctrlKey) {

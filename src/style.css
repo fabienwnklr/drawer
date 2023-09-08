@@ -131,6 +131,22 @@ canvas {
   width: fit-content;
 }
 
+.toolbar .container-btn-shape {
+  position: relative;
+}
+.toolbar .nav-menu {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.toolbar .btn-shape:focus ~ .nav-menu {
+  display: block;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
