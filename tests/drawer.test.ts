@@ -25,7 +25,14 @@ describe("Drawer", () => {
     expect(drawer.$toolbar).toBeUndefined();
   });
 
-  it("Init drawer width custom toolbar", () => {
+  it("Init drawer with default toolbar", () => {
+    const drawer = new Drawer(document.body.querySelector("#test") as HTMLDivElement);
+
+    expect(drawer.$toolbar).toBeInstanceOf(HTMLDivElement);
+    expect(drawer.$toolbar.querySelectorAll("button, input").length).toEqual(12);
+  });
+
+  it("Init drawer with custom toolbar", () => {
     const drawer = new Drawer(
       document.body.querySelector("#test") as HTMLDivElement,
       { defaultToolbar: false, autoSave: false }
@@ -82,6 +89,6 @@ describe("Drawer", () => {
     drawer.changeTool("eraser");
     expect(drawer.activeTool).toEqual("eraser");
     expect(drawer.$eraserBtn.classList.contains("active")).toEqual(true);
-  })
+  });
 });
 
