@@ -14,6 +14,11 @@ import { UndoIcon } from "./icons/undo";
 import { RedoIcon } from "./icons/redo";
 import { ClearIcon } from "./icons/clear";
 import { ColorIcon } from "./icons/color";
+import { ShapeIcon } from "./icons/shape";
+import { TriangleIcon } from "./icons/triangle";
+import { SquareIcon } from "./icons/square";
+import { LineIcon } from "./icons/line";
+import { StarIcon } from "./icons/star";
 
 export class Drawer extends History {
   declare ctx: CanvasRenderingContext2D;
@@ -37,6 +42,7 @@ export class Drawer extends History {
   $downloadBtn!: HTMLButtonElement;
   $colorPicker!: HTMLInputElement;
   $shapeBtn!: HTMLButtonElement;
+  $shapeMenu!: HTMLUListElement;
 
   constructor($el: HTMLElement, options: Partial<DrawerOptions> = {}) {
     super();
@@ -482,23 +488,71 @@ export class Drawer extends History {
         if (this.$toolbar && !this.$shapeBtn) {
           const shapeBtn = `
           <div class="container-btn-shape">
-            <button title="${"Text zone"}" class="btn btn-shape">${TextIcon}</button>
-            <ul class="nav-menu">
-              <li class="nav-menu-item">Edit</li>
-            </ul>
+            <button title="${"Draw shape"}" class="btn btn-shape">${ShapeIcon}</button>
           </div>`;
 
+          const shapeMenu = `
+          <ul class="shape-menu">
+            <li class="shape-menu-item">
+              <button data-shape="triangle" class="btn">${TriangleIcon}</button>
+            </li>
+            <li class="shape-menu-item">
+              <button data-shape="square" class="btn">${SquareIcon}</button>
+            </li>
+            <li class="shape-menu-item">
+              <button data-shape="line" class="btn">${LineIcon}</button>
+            </li>
+            <li class="shape-menu-item">
+              <button data-shape="star" class="btn">${StarIcon}</button>
+            </li>
+          </ul>`;
+
           const $shapeBtnDiv = stringToHTMLElement<HTMLDivElement>(shapeBtn);
-          this.$shapeBtn = $shapeBtnDiv.querySelector("button") as HTMLButtonElement;
+          const $shapeMenu = stringToHTMLElement<HTMLUListElement>(shapeMenu);
+
+          this.$shapeBtn = $shapeBtnDiv.querySelector(
+            "button"
+          ) as HTMLButtonElement;
+          this.$shapeMenu = $shapeMenu;
 
           this.$toolbar.appendChild($shapeBtnDiv);
+          this.$drawerContainer.appendChild(this.$shapeMenu);
 
           this.$shapeBtn.addEventListener("click", () => {
             if (typeof action === "function") {
               action(this, this.$shapeBtn);
             } else {
+              const { bottom, left } = this.$shapeBtn.getBoundingClientRect();
+              this.$shapeMenu.style.top = bottom + "px";
+              this.$shapeMenu.style.left = left + "px";
+              this.$shapeMenu.classList.toggle("show");
             }
           });
+
+          this.$shapeMenu.querySelectorAll("button").forEach($btn => {
+            $btn.addEventListener("click", () => {
+              const shape = $btn.dataset.shape as string;
+              this.setActiveBtn($btn);
+              this.setShape(shape);
+            })
+          })
+
+          // Manage click outside menu or button
+          document.addEventListener(
+            "click",
+            (event) => {
+              if (event.target) {
+                const outsideClick =
+                  !this.$shapeBtn.contains(event.target as Node) &&
+                  !this.$shapeMenu.contains(event.target as Node);
+
+                if (outsideClick) {
+                  this.$shapeMenu.classList.remove("show");
+                }
+              }
+            },
+            false
+          );
 
           resolve(this.$textBtn);
         } else {
@@ -628,19 +682,20 @@ export class Drawer extends History {
             <input id="${
               this.options.id
             }-colopicker" title="${"Color"}" class="" type="color" value="${
-              this.options.color
-            }" />
+            this.options.color
+          }" />
             <label class="btn" for="${this.options.id}-colopicker">
               ${ColorIcon}
             </label>
           </div>
           `;
-          const $colorPicker =
-            stringToHTMLElement<HTMLDivElement>(colorPicker);
+          const $colorPicker = stringToHTMLElement<HTMLDivElement>(colorPicker);
 
           this.$toolbar.appendChild($colorPicker);
 
-          this.$colorPicker = $colorPicker.querySelector("input") as HTMLInputElement;
+          this.$colorPicker = $colorPicker.querySelector(
+            "input"
+          ) as HTMLInputElement;
 
           this.$colorPicker.addEventListener("change", () => {
             if (typeof action === "function") {
@@ -711,6 +766,31 @@ export class Drawer extends History {
     });
   }
 
+  setShape(shape: string) {
+    if (this.$shapeBtn) {
+      let icon = "";
+
+      switch (shape) {
+        case "line":
+          icon = LineIcon;
+          break;
+        case "square":
+          icon = SquareIcon;
+          break;
+        case "star":
+          icon = StarIcon;
+          break;
+        case "triangle":
+          icon = TriangleIcon;
+          break;
+
+        default:
+          break;
+      }
+      this.$shapeBtn.innerHTML = icon;
+    }
+  }
+
   /**
    * Set line style dotted
    * @param active
@@ -736,6 +816,12 @@ export class Drawer extends History {
       this.$toolbar
         .querySelectorAll(".btn")
         .forEach(($b) => $b.classList.remove("active"));
+
+      if (this.$shapeMenu) {
+        this.$shapeMenu
+        .querySelectorAll(".btn")
+        .forEach(($b) => $b.classList.remove("active"));
+      }
       $btn.classList.add("active");
     } else {
       throw new DrawerError(`No toolbar provided`);
@@ -808,17 +894,28 @@ export class Drawer extends History {
    * @private Initialize all event listener
    */
   private _initHandlerEvents() {
-    const touchstart = (event: TouchEvent) => { this._startDraw(event.touches[0]) }
-    const touchmove = (event: TouchEvent) => { this._drawing(event.touches[0]); event.preventDefault(); }
-    const touchend = (event: TouchEvent) => { this._drawend(event.touches[0]); };
+    const touchstart = (event: TouchEvent) => {
+      this._startDraw(event.touches[0]);
+    };
+    const touchmove = (event: TouchEvent) => {
+      this._drawing(event.touches[0]);
+      event.preventDefault();
+    };
+    const touchend = (event: TouchEvent) => {
+      this._drawend(event.touches[0]);
+    };
 
     this.$canvas.addEventListener("touchstart", touchstart.bind(this), false);
     this.$canvas.addEventListener("touchmove", touchmove.bind(this), false);
     this.$canvas.addEventListener("touchend", touchend.bind(this), false);
 
-    this.$canvas.addEventListener("mousedown", this._startDraw.bind(this), false);
+    this.$canvas.addEventListener(
+      "mousedown",
+      this._startDraw.bind(this),
+      false
+    );
     this.$canvas.addEventListener("mousemove", this._drawing.bind(this), false);
-    this.$canvas.addEventListener("mouseup", this._drawend.bind(this) , false);
+    this.$canvas.addEventListener("mouseup", this._drawend.bind(this), false);
 
     this.$canvas.addEventListener("keypress", (event: KeyboardEvent) => {
       if (event.ctrlKey) {
