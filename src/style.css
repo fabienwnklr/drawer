@@ -106,12 +106,11 @@ body {
   margin: 0.2em;
 }
 
-.toolbar input[type="color"] {
+.toolbar input[type="color"], .toolbar input[type="file"] {
   min-width: 40px;
   position: absolute;
   left: 0;
-  opacity: 0;
-  z-index: 0;
+  z-index: -1;
 }
 
 canvas {
@@ -166,7 +165,7 @@ canvas {
   padding: .5rem;
   border-radius: 5px;
   background-color: #fff;
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 
 .drawer-container .shape-menu .shape-menu-item {
