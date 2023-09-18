@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "test": "npm run test:unit && npm run test:e2e",
     "test:e2e": "playwright test",
-    "test:unit": "vitest run"
+    "test:unit": "vitest run",
+    "format": "prettier src/**/*.ts --write"
   },
   "devDependencies": {
     "@playwright/test": "^1.37.1",

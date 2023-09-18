@@ -513,7 +513,8 @@ export class Drawer extends History {
             'click',
             (event) => {
               if (event.target) {
-                const outsideClick = !this.$shapeBtn.contains(event.target as Node) && !this.$shapeMenu.contains(event.target as Node);
+                const outsideClick =
+                  !this.$shapeBtn.contains(event.target as Node) && !this.$shapeMenu.contains(event.target as Node);
 
                 if (outsideClick) {
                   this.$shapeMenu.classList.remove('show');
@@ -576,7 +577,9 @@ export class Drawer extends History {
         if (this.$toolbar && !this.$lineThickness) {
           const lineThickness = `
           <div class="drawer-range">
-            <input title="${'Thickness'}" id="${this.$canvas.id}-line-tickness" type="range" class="" min="1" value="${this.options.lineThickness}" max="30" />
+            <input title="${'Thickness'}" id="${this.$canvas.id}-line-tickness" type="range" class="" min="1" value="${
+              this.options.lineThickness
+            }" max="30" />
             <span class="counter">${this.options.lineThickness}</span>
           </div>`;
           const $lineThickness = stringToHTMLElement<HTMLDivElement>(lineThickness);
@@ -657,7 +660,9 @@ export class Drawer extends History {
           const uploadFile = `
           <div class="container-uploadFile">
             <input id="${this.options.id}-uploadfile" title="${'Color'}" class="" type="file" />
-            <label title="${'Upload file'}" accept="image/png, image/jpeg, .svg" class="btn" for="${this.options.id}-uploadfile">
+            <label title="${'Upload file'}" accept="image/png, image/jpeg, .svg" class="btn" for="${
+              this.options.id
+            }-uploadfile">
               ${UploadIcon}
             </label>
           </div>

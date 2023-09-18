@@ -1,7 +1,7 @@
 export class DrawerError extends Error {
-    constructor(msg: string) {
-      super(msg);
+  constructor(msg: string) {
+    super(msg);
 
-      this.name = `DrawerError`;
-    }
+    this.name = `DrawerError`;
   }
+}

@@ -27,7 +27,7 @@ export class History {
       const restore_state = pop.pop();
 
       if (restore_state) {
-        const img = document.createElement("img");
+        const img = document.createElement('img');
         img.src = restore_state;
         img.onload = () => {
           this.ctx.clearRect(0, 0, this.$canvas.width, this.$canvas.height);
@@ -49,6 +49,6 @@ export class History {
 
   setCanvas($canvas: HTMLCanvasElement) {
     this.$canvas = $canvas;
-    this.ctx = $canvas.getContext("2d") as CanvasRenderingContext2D;
+    this.ctx = $canvas.getContext('2d') as CanvasRenderingContext2D;
   }
 }
