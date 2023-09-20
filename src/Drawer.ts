@@ -75,7 +75,10 @@ export class Drawer extends History {
     }
   }
 
-  private _buildHTML() {
+  /**
+   * Draw html drawer
+   */
+  private _buildDrawer() {
     this.$drawerContainer = stringToHTMLElement<HTMLDivElement>(`<div class="drawer-container"></div>`);
     const canvas = `
     <canvas tabindex="0" id="${this.options.id}" height="${this.options.height}" width="${this.options.width}"></canvas>
@@ -86,13 +89,14 @@ export class Drawer extends History {
   }
 
   /**
+   * @private
    * initialize canvas and event listener
    * @returns {Promise<Drawer>}
    */
   private _init(): Promise<Drawer> {
     return new Promise((resolve, reject) => {
       try {
-        this._buildHTML();
+        this._buildDrawer();
         this.$sourceElement.appendChild(this.$drawerContainer);
         this.setBgColor();
         this._initHandlerEvents();
@@ -108,6 +112,7 @@ export class Drawer extends History {
   }
 
   /**
+   * @private
    * Set canvas sizing
    * @param {number} w Width
    * @param {number} h Height
@@ -143,17 +148,26 @@ export class Drawer extends History {
     return document.createElement('canvas').toDataURL() === this.getData();
   }
 
+  /**
+   * Change drawing color
+   * @param {String} color Color to apply to draw
+   */
   setColor(color: string) {
     this.options.color = color;
     this.ctx.strokeStyle = this.options.color; // passing selectedColor as stroke style
     this.ctx.fillStyle = this.options.color; // passing selectedColor as fill style
   }
 
+  /**
+   * Change css canvas background color (ignored on export)
+   * @param bgColor canvas css background color
+   */
   setBgColor(bgColor?: string) {
     this.$canvas.style.backgroundColor = bgColor || this.options.bgColor;
   }
 
   /**
+   * @private
    * Change background color of canvas for print only
    * be carefull, all drawing are removed
    * @param bgColor Background color
@@ -215,12 +229,17 @@ export class Drawer extends History {
     return this.$canvas;
   }
 
-  loadFromData(data: string) {
+  /**
+   * Inject date to canvas
+   * @param data
+   * @returns {Promise<Drawer>}
+   */
+  loadFromData(data: string): Promise<Drawer> {
     return new Promise((resolve, reject) => {
       const img = new Image();
       img.onload = () => {
         this.ctx.drawImage(img, 0, 0);
-        resolve(null);
+        resolve(this);
       };
       img.onerror = (_err) => {
         reject(new DrawerError(`Error during loading img with src : "${data}"`));
@@ -229,14 +248,21 @@ export class Drawer extends History {
     });
   }
 
+  /**
+   * Save draw to localStorage
+   */
   saveDraw() {
-    localStorage.setItem(this.options.localStorageKey, this.getData());
+    if (this.options.localStorageKey) {
+      localStorage.setItem(this.options.localStorageKey, this.getData());
+    } else {
+      throw new DrawerError(`Error saving draw, options 'localStorageKey' is wrong.`);
+    }
 
     console.debug('draw saved to localstorage');
   }
 
   /**
-   *
+   * Get date url from canvas
    * @returns {string} canvas png data
    */
   getData(): string {
@@ -275,7 +301,7 @@ export class Drawer extends History {
 
   /**
    * Add default button to toolbar,
-   * List of defaults buttons : undo, redo, brush, eraser, clear, text, line thickness, color picker, download
+   * List of defaults buttons : undo, redo, brush, eraser, clear, text, line thickness, color picker, upload, download, setting
    */
   addDefaults() {
     this.addUndoBtn();
@@ -677,7 +703,7 @@ export class Drawer extends History {
             if (typeof action === 'function') {
               action(this, this.$uploadFile);
             } else {
-              this.uploadFile();
+              this._uploadFile();
             }
           });
 
@@ -691,45 +717,6 @@ export class Drawer extends History {
     });
   }
 
-  uploadFile() {
-    if (this.$uploadFile.files) {
-      const file = this.$uploadFile.files[0];
-
-      if (file) {
-        this.loadFromData(URL.createObjectURL(file)).then(() => {
-          this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
-        });
-      }
-    }
-  }
-
-  /**
-   * Add a params button
-   * see {@link addToolbar} before use it
-   * @param action Method to call on click
-   * @returns {Promise<HTMLButtonElement>}
-   */
-  addSettingBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
-    return new Promise((resolve, reject) => {
-      if (this.$toolbar && !this.$settingBtn) {
-        const setting = `<button title="${'Setting'}" class="btn">${SettingIcon}</button>`;
-        this.$settingBtn = stringToHTMLElement<HTMLButtonElement>(setting);
-
-        this.$toolbar.appendChild(this.$settingBtn);
-
-        this.$settingBtn.addEventListener('click', () => {
-          if (typeof action === 'function') {
-            action(this, this.$settingBtn);
-          } else {
-          }
-        });
-
-        resolve(this.$settingBtn);
-      } else {
-        reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
-      }
-    });
-  }
   /**
    * Add a download button
    * see {@link addToolbar} before use it
@@ -771,6 +758,53 @@ export class Drawer extends History {
     });
   }
 
+  /**
+   * Add a params button
+   * see {@link addToolbar} before use it
+   * @param action Method to call on click
+   * @returns {Promise<HTMLButtonElement>}
+   */
+  addSettingBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
+    return new Promise((resolve, reject) => {
+      if (this.$toolbar && !this.$settingBtn) {
+        const setting = `<button title="${'Setting'}" class="btn">${SettingIcon}</button>`;
+        this.$settingBtn = stringToHTMLElement<HTMLButtonElement>(setting);
+
+        this.$toolbar.appendChild(this.$settingBtn);
+
+        this.$settingBtn.addEventListener('click', () => {
+          if (typeof action === 'function') {
+            action(this, this.$settingBtn);
+          } else {
+          }
+        });
+
+        resolve(this.$settingBtn);
+      } else {
+        reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
+      }
+    });
+  }
+
+  /**
+   * Upload file from input file
+   */
+  private _uploadFile() {
+    if (this.$uploadFile.files) {
+      const file = this.$uploadFile.files[0];
+
+      if (file) {
+        this.loadFromData(URL.createObjectURL(file)).then(() => {
+          this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
+        });
+      }
+    }
+  }
+
+  /**
+   * Change drawing shape
+   * @param shape
+   */
   setShape(shape: string) {
     if (this.$shapeBtn) {
       let icon = '';
@@ -929,6 +963,10 @@ export class Drawer extends History {
     }
   }
 
+  /**
+   * Adding textarea to clicked zone
+   * @param event
+   */
   private _addTextArea(event: MouseEvent | Touch) {
     this.ctx.globalCompositeOperation = 'source-over';
     const $textArea = document.createElement('textarea');
