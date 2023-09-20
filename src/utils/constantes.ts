@@ -1,4 +1,4 @@
-import { DrawerOptions } from './drawer.d';
+import { DrawerOptions } from './types/drawer';
 
 export const defaultOptions: DrawerOptions = {
   id: Date.now().toString(),

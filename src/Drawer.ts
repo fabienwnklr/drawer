@@ -1,16 +1,16 @@
-import './style.css';
+import './drawer.css';
 import { stringToHTMLElement } from './utils/dom';
-import { DrawerError } from './DrawError';
+import { DrawerError } from './utils/DrawError';
 import { BrushIcon } from './icons/brush';
 import { EraserIcon } from './icons/eraser';
 import { TextIcon } from './icons/text';
 import { DownloadIcon } from './icons/download';
-import { defaultOptions } from './constantes';
-import { DrawEvent } from './DrawEvent';
+import { defaultOptions } from './utils/constantes';
+import { DrawEvent } from './utils/DrawEvent';
 
 // Type import
-import { DrawTools, DrawerOptions, action } from './drawer.d';
-import { History } from './History';
+import { DrawTools, DrawerOptions, action } from './types/drawer';
+import { History } from './utils/History';
 import { UndoIcon } from './icons/undo';
 import { RedoIcon } from './icons/redo';
 import { ClearIcon } from './icons/clear';
