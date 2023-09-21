@@ -81,7 +81,7 @@ export class Drawer extends History {
   private _buildDrawer() {
     this.$drawerContainer = stringToHTMLElement<HTMLDivElement>(`<div class="drawer-container"></div>`);
     const canvas = `
-    <canvas tabindex="0" id="${this.options.id}" height="${this.options.height}" width="${this.options.width}" moz-opaque></canvas>
+    <canvas tabindex="0" id="${this.options.id}" height="${this.options.height}" width="${this.options.width}"></canvas>
   `;
     this.$canvas = stringToHTMLElement<HTMLCanvasElement>(canvas);
     this.ctx = this.$canvas.getContext('2d') as CanvasRenderingContext2D;
@@ -163,7 +163,7 @@ export class Drawer extends History {
    * @param bgColor canvas css background color
    */
   setBgColor(bgColor?: string) {
-    this.$canvas.style.backgroundColor = bgColor ?? this.options.bgColor;
+    this.$canvas.style.backgroundColor = bgColor || this.options.bgColor;
   }
 
   /**
@@ -897,20 +897,18 @@ export class Drawer extends History {
   private _drawing(event: MouseEvent | Touch) {
     if (!this.isDrawing || this.activeTool === 'text') return; // if isDrawing is false return from here
 
-    requestAnimationFrame(() => {
-      if (this.activeTool === 'brush') {
-        this.ctx.globalCompositeOperation = 'source-over';
-      } else if (this.activeTool === 'eraser') {
-        this.ctx.globalCompositeOperation = 'destination-out';
-      } else {
-        throw new Error(`Drawerror : unknown active draw tool "${this.activeTool}"`);
-      }
-      const { top, left } = this.$canvas.getBoundingClientRect();
-      const positionX = event.clientX - left;
-      const positionY = event.clientY - top;
-      this.ctx.lineTo(positionX, positionY); // creating line according to the mouse pointer
-      this.ctx.stroke();
-    });
+    if (this.activeTool === 'brush') {
+      this.ctx.globalCompositeOperation = 'source-over';
+    } else if (this.activeTool === 'eraser') {
+      this.ctx.globalCompositeOperation = 'destination-out';
+    } else {
+      throw new Error(`Drawerror : unknown active draw tool "${this.activeTool}"`);
+    }
+    const { top, left } = this.$canvas.getBoundingClientRect();
+    const positionX = event.clientX - left;
+    const positionY = event.clientY - top;
+    this.ctx.lineTo(positionX, positionY); // creating line according to the mouse pointer
+    this.ctx.stroke();
   }
 
   /**
@@ -977,8 +975,6 @@ export class Drawer extends History {
     $textArea.style.left = event.clientX + 'px';
     $textArea.style.top = event.clientY + 'px';
     $textArea.style.color = this.options.color;
-    $textArea.style.height = 'auto';
-    $textArea.style.width = 'auto';
 
     $textArea.addEventListener('focusout', () => {
       const value = $textArea.value;
@@ -1001,13 +997,6 @@ export class Drawer extends History {
         this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
       }
       $textArea.remove();
-    });
-
-    $textArea.addEventListener('input', function () {
-      this.style.height = 'auto';
-      this.style.height = this.scrollHeight + 'px';
-      this.style.width = 'auto';
-      this.style.width = this.scrollWidth + 'px';
     });
 
     this.$drawerContainer.appendChild($textArea);
