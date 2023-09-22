@@ -128,8 +128,11 @@ canvas {
   align-items: center;
   justify-content: center;
 }
-.drawer-container .btn:hover {
+.drawer-container .btn:not(:disabled):hover {
   border-color: var(--drawer-primary);
+}
+.drawer-container .btn:disabled {
+  cursor: not-allowed;
 }
 
 .drawer-container .btn.active {

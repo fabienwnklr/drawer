@@ -5,7 +5,7 @@ export class History {
   ctx!: CanvasRenderingContext2D;
 
   saveState(list?: string[], keep_redo?: boolean) {
-    keep_redo = keep_redo || false;
+    keep_redo = keep_redo ?? false;
     if (!keep_redo) {
       this.redo_list = [];
     }

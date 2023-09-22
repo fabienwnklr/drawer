@@ -55,7 +55,7 @@ export function debounce<T extends (...args: any[]) => any>(
  * // Listen for window scroll events and call the throttled function
  * window.addEventListener("scroll", throttledUpdateLayout);
  */
-export function throttle<T extends (...args: any) => any>(func: T, limit: number): ThrottledFunction<T> {
+export function throttle<T extends (...args: any) => any>(func: T, limit: number = 100): ThrottledFunction<T> {
   let inThrottle: boolean;
   let lastResult: ReturnType<T>;
 

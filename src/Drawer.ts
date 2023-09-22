@@ -380,7 +380,7 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$undoBtn) {
-          const undoBtn = `<button title="${'Redo'}" class="btn">${UndoIcon}</button>`;
+          const undoBtn = `<button title="${'Redo'}" class="btn" disabled>${UndoIcon}</button>`;
           this.$undoBtn = stringToHTMLElement<HTMLButtonElement>(undoBtn);
 
           this.$toolbar.appendChild(this.$undoBtn);
@@ -390,6 +390,8 @@ export class Drawer extends History {
               action(this, this.$undoBtn);
             } else {
               this.undo();
+              if (!this.undo_list.length) this.$undoBtn.disabled = true;
+              if (this.redo_list.length) this.$redoBtn.disabled = false;
             }
           });
 
@@ -410,7 +412,7 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$redoBtn) {
-          const redoBtn = `<button title="${'Redo'}" class="btn">${RedoIcon}</button>`;
+          const redoBtn = `<button title="${'Redo'}" class="btn" disabled>${RedoIcon}</button>`;
           this.$redoBtn = stringToHTMLElement<HTMLButtonElement>(redoBtn);
 
           this.$toolbar.appendChild(this.$redoBtn);
@@ -420,6 +422,8 @@ export class Drawer extends History {
               action(this, this.$undoBtn);
             } else {
               this.redo();
+              if (!this.redo_list.length) this.$redoBtn.disabled = true;
+              if (this.undo_list.length) this.$undoBtn.disabled = false;
             }
           });
 
@@ -958,8 +962,8 @@ export class Drawer extends History {
    */
   private _startDraw() {
     if (this.activeTool === 'text') return;
-    this.saveState();
     this.isDrawing = true;
+    this.saveState();
     this.ctx.beginPath(); // creating new path to draw
     this.ctx.lineWidth = this.options.lineThickness; // passing brushSize as line width
     this.ctx.strokeStyle = this.options.color; // passing selectedColor as stroke style
@@ -996,6 +1000,7 @@ export class Drawer extends History {
    */
   private _drawend(event: PointerEvent) {
     if (event.pointerType !== 'mouse' || event.button === 0) {
+      if (this.$undoBtn) this.$undoBtn.disabled = false;
       if (this.activeTool === 'text') {
         this._addTextArea(event);
       } else {
@@ -1049,7 +1054,7 @@ export class Drawer extends History {
   private _initHandlerEvents() {
     this._startDraw = throttle(this._startDraw, 10);
     this._drawing = throttle(this._drawing, 10);
-    this._drawend = throttle(this._drawend);
+    this._drawend = throttle(this._drawend, 10);
 
     this.$canvas.addEventListener('pointerdown', this._startDraw.bind(this), false);
     this.$canvas.addEventListener('pointermove', this._drawing.bind(this), false);
@@ -1072,6 +1077,8 @@ export class Drawer extends History {
     if (this.options.autoSave) {
       this.$canvas.addEventListener('drawer.change', this.saveDraw.bind(this));
     }
+
+    // this.$canvas.addEventListener('drawer.change', () => this.saveState());
   }
 
   /**
@@ -1090,6 +1097,7 @@ export class Drawer extends History {
     $textArea.style.width = 'auto';
 
     $textArea.addEventListener('focusout', () => {
+      this.saveState();
       const value = $textArea.value;
 
       if (value) {
@@ -1107,9 +1115,10 @@ export class Drawer extends History {
           y += lineHeight;
         }
 
-        this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
+
       }
       $textArea.remove();
+      this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
     });
 
     $textArea.addEventListener('input', function () {
