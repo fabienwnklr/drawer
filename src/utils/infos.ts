@@ -7,10 +7,10 @@ export function isTactil(): boolean {
 
 /**
  * returns the xy point where the mouse event was occured inside an element.
- * @param {HTMLCanvasElement} $canvas
+ * @param {HTMLElement} $canvas
  * @param {PointerEvent} evt
  */
-export function getMousePosition($canvas: HTMLCanvasElement, evt: PointerEvent): { x: number; y: number } {
+export function getMousePosition($canvas: HTMLElement | SVGElement, evt: PointerEvent): { x: number; y: number } {
   const rect = $canvas.getBoundingClientRect();
 
   return {

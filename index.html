@@ -9,12 +9,12 @@
   <body>
     <div id="app"></div>
     <script type="module">
+      import { SVGDrawer } from './src/SVGDrawer.ts'
       import { Drawer } from './src/Drawer.ts'
 
       const $el = document.querySelector("#app");
       $el.addEventListener("drawer.init", console.log)
       window.drawer = new Drawer($el);
-      window.drawer.setSize(800, 550)
     </script>
   </body>
 </html>
