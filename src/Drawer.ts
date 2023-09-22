@@ -1088,6 +1088,7 @@ export class Drawer extends History {
   private _addTextArea(event: PointerEvent) {
     this.ctx.globalCompositeOperation = 'source-over';
     const $textArea = document.createElement('textarea');
+    const fontSize = this.options.lineThickness < 12 ? 12 : this.options.lineThickness;
 
     $textArea.style.position = 'fixed';
     $textArea.style.left = event.clientX + 'px';
@@ -1095,6 +1096,7 @@ export class Drawer extends History {
     $textArea.style.color = this.options.color;
     $textArea.style.height = 'auto';
     $textArea.style.width = 'auto';
+    $textArea.style.fontSize = fontSize + 'px';
 
     $textArea.addEventListener('focusout', () => {
       this.saveState();
@@ -1103,7 +1105,7 @@ export class Drawer extends History {
       if (value) {
         this.ctx.textBaseline = 'top';
         this.ctx.textAlign = 'left';
-        this.ctx.font = '14px sans-serif';
+        this.ctx.font = fontSize + 'px sans-serif';
         const lineHeight = this.ctx.measureText('Mi').width;
         const lines = $textArea.value.split('\n');
 
@@ -1114,8 +1116,6 @@ export class Drawer extends History {
           this.ctx.fillText(line, x, y);
           y += lineHeight;
         }
-
-
       }
       $textArea.remove();
       this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
