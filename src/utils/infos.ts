@@ -10,7 +10,7 @@ export function isTactil(): boolean {
  * @param {HTMLCanvasElement} $canvas
  * @param {PointerEvent} evt
  */
-export function getMousePosition($canvas: HTMLCanvasElement, evt: PointerEvent): { x: number, y: number } {
+export function getMousePosition($canvas: HTMLCanvasElement, evt: PointerEvent): { x: number; y: number } {
   const rect = $canvas.getBoundingClientRect();
 
   return {

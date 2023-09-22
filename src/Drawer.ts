@@ -50,6 +50,7 @@ export class Drawer extends History {
   $shapeMenu!: HTMLUListElement;
   $uploadFile!: HTMLInputElement;
   $settingBtn!: HTMLButtonElement;
+  $colorPickerLabel!: HTMLLabelElement;
 
   /**
    *
@@ -77,7 +78,7 @@ export class Drawer extends History {
       if (this.options.dotted) {
         this.setDottedLine(true, this.options.dash);
       }
-    } catch (error: unknown) {
+    } catch (error: any) {
       throw new DrawerError(error.message);
     }
   }
@@ -113,7 +114,7 @@ export class Drawer extends History {
 
         // dispatch drawer.init event
         this.$sourceElement.dispatchEvent(DrawEvent('init'));
-      } catch (error: unknown) {
+      } catch (error: any) {
         reject(new DrawerError(error.message));
       }
     });
@@ -144,7 +145,7 @@ export class Drawer extends History {
         this.$canvas.dispatchEvent(DrawEvent('update.size', { setSize: { w, h } }));
 
         resolve(true);
-      } catch (error: unknown) {
+      } catch (error: any) {
         reject(new DrawerError(error.message));
       }
     });
@@ -169,10 +170,18 @@ export class Drawer extends History {
         this.ctx.strokeStyle = this.options.color; // passing selectedColor as stroke style
         this.ctx.fillStyle = this.options.color; // passing selectedColor as fill style
 
+        // Update icon color for indicate to user
+        if (this.$colorPickerLabel) {
+          const $icon = this.$colorPickerLabel.querySelector('svg');
+          if ($icon) {
+            $icon.style.color = color;
+          }
+        }
+
         this.$canvas.dispatchEvent(DrawEvent('update.color', { color }));
 
         resolve(true);
-      } catch (error: unknown) {
+      } catch (error: any) {
         reject(new DrawerError(error.message));
       }
     });
@@ -190,7 +199,7 @@ export class Drawer extends History {
         this.$canvas.dispatchEvent(DrawEvent('update.bgColor', { bgColor }));
 
         resolve(true);
-      } catch (error: unknown) {
+      } catch (error: any) {
         reject(new DrawerError(error.message));
       }
     });
@@ -218,7 +227,7 @@ export class Drawer extends History {
         this.loadFromData(data).then(() => {
           resolve(this);
         });
-      } catch (error: unknown) {
+      } catch (error: any) {
         reject(new DrawerError(error.message));
       }
     });
@@ -249,7 +258,7 @@ export class Drawer extends History {
           this.$canvas.dispatchEvent(DrawEvent('update.tool', { toolName }));
           resolve(true);
         }
-      } catch (error: unknown) {
+      } catch (error: any) {
         reject(new DrawerError(error.message));
       }
     });
@@ -268,7 +277,7 @@ export class Drawer extends History {
         this.$canvas.dispatchEvent(DrawEvent('change', this));
 
         resolve(this.$canvas);
-      } catch (error: unknown) {
+      } catch (error: any) {
         reject(new DrawerError(error.message));
       }
     });
@@ -338,7 +347,7 @@ export class Drawer extends History {
         }
 
         resolve(this.$toolbar);
-      } catch (error: unknown) {
+      } catch (error: any) {
         reject(new DrawerError(error.message));
       }
     });
@@ -355,12 +364,12 @@ export class Drawer extends History {
     this.addEraserBtn();
     this.addClearBtn();
     this.addTextBtn();
-    this.addShapeBtn();
+    // this.addShapeBtn();
     this.addLineThicknessBtn();
     this.addColorPickerBtn();
     this.addUploadFileBtn();
     this.addDownloadBtn();
-    this.addSettingBtn();
+    // this.addSettingBtn();
   }
 
   /**
@@ -388,7 +397,7 @@ export class Drawer extends History {
         } else {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
         }
-      } catch (error: unknown) {
+      } catch (error: any) {
         reject(new DrawerError(error.message));
       }
     });
@@ -418,7 +427,7 @@ export class Drawer extends History {
         } else {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
         }
-      } catch (error: unknown) {
+      } catch (error: any) {
         reject(new DrawerError(error.message));
       }
     });
@@ -451,7 +460,7 @@ export class Drawer extends History {
         } else {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
         }
-      } catch (error: unknown) {
+      } catch (error: any) {
         reject(new DrawerError(error.message));
       }
     });
@@ -484,7 +493,7 @@ export class Drawer extends History {
         } else {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
         }
-      } catch (error: unknown) {
+      } catch (error: any) {
         reject(new DrawerError(error.message));
       }
     });
@@ -516,7 +525,7 @@ export class Drawer extends History {
         } else {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
         }
-      } catch (error: unknown) {
+      } catch (error: any) {
         reject(new DrawerError(error.message));
       }
     });
@@ -599,7 +608,7 @@ export class Drawer extends History {
         } else {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
         }
-      } catch (error: unknown) {
+      } catch (error: any) {
         reject(new DrawerError(error.message));
       }
     });
@@ -631,7 +640,7 @@ export class Drawer extends History {
         } else {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
         }
-      } catch (error: unknown) {
+      } catch (error: any) {
         reject(new DrawerError(error.message));
       }
     });
@@ -672,7 +681,7 @@ export class Drawer extends History {
         } else {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
         }
-      } catch (error: unknown) {
+      } catch (error: any) {
         reject(new DrawerError(error.message));
       }
     });
@@ -701,6 +710,7 @@ export class Drawer extends History {
           this.$toolbar.appendChild($colorPicker);
 
           this.$colorPicker = $colorPicker.querySelector('input') as HTMLInputElement;
+          this.$colorPickerLabel = $colorPicker.querySelector('label') as HTMLLabelElement;
 
           this.$colorPicker.addEventListener('change', () => {
             if (typeof action === 'function') {
@@ -714,7 +724,7 @@ export class Drawer extends History {
         } else {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
         }
-      } catch (error: unknown) {
+      } catch (error: any) {
         reject(new DrawerError(error.message));
       }
     });
@@ -752,7 +762,7 @@ export class Drawer extends History {
         } else {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
         }
-      } catch (error: unknown) {
+      } catch (error: any) {
         reject(new DrawerError(error.message));
       }
     });
@@ -876,7 +886,7 @@ export class Drawer extends History {
           this.$canvas.dispatchEvent(DrawEvent('update.shape', { shape }));
           resolve(true);
         }
-      } catch (error: unknown) {
+      } catch (error: any) {
         reject(new DrawerError(error.message));
       }
     });
@@ -900,7 +910,7 @@ export class Drawer extends History {
         this.dotted = active;
         this.$canvas.dispatchEvent(DrawEvent('update.dotted', { dotted: active, dash }));
         resolve(true);
-      } catch (error: unknown) {
+      } catch (error: any) {
         reject(new DrawerError(error.message));
       }
     });
@@ -931,9 +941,11 @@ export class Drawer extends History {
     this.options.lineThickness = width;
     this.ctx.lineWidth = width;
 
-    const $counter = this.$lineThickness.querySelector('.counter');
-    if ($counter) {
-      $counter.innerHTML = String(this.options.lineThickness);
+    if (this.$lineThickness) {
+      const $counter = this.$lineThickness.querySelector('.counter');
+      if ($counter) {
+        $counter.innerHTML = String(this.options.lineThickness);
+      }
     }
 
     this.$canvas.dispatchEvent(DrawEvent('update.lineThickness', { lineThickness: width }));

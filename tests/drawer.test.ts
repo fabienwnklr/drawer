@@ -4,7 +4,7 @@ import { Blob } from 'node:buffer';
 
 declare global {
   interface Window {
-    Blob: any;
+    Blob: any
   }
 }
 
@@ -35,7 +35,7 @@ describe('Drawer', () => {
     const drawer = new Drawer(document.body.querySelector('#test') as HTMLDivElement);
 
     expect(drawer.$toolbar).toBeInstanceOf(HTMLDivElement);
-    expect(drawer.$toolbar.querySelectorAll('button, input').length).toEqual(12);
+    expect(drawer.$toolbar.querySelectorAll('button, input').length).toEqual(10);
   });
 
   it('Init drawer with custom toolbar', () => {

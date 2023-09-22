@@ -1,3 +1,1 @@
-export class Menu {
-
-}
+export class Menu {}

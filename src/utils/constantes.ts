@@ -13,5 +13,5 @@ export const defaultOptions: DrawerOptions = {
   lineThickness: 5,
   dotted: false,
   dash: [10, 5],
-  cap: "round",
+  cap: 'round',
 };

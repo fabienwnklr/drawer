@@ -4,7 +4,7 @@ export class Modal {
     this.createModal();
   }
 
-  createModal(showOnCreate = true): void {
+  createModal(showOnCreate = true): string {
     console.log(showOnCreate);
     const $modal = `<div class="drawer-modal"></div>`;
     return $modal;

@@ -1,3 +1,5 @@
+import type { ThrottledFunction } from '../types/utils';
+
 /**
  * permet de déclencher l'appel à une fonction après un certain délai (un peu comme la fonction setTimeout())
  * mais permet en plus de réinitialiser le timer si on demande une nouvelle exécution dans un intervalle de temps plus court que le délai
@@ -53,27 +55,19 @@ export function debounce<T extends (...args: any[]) => any>(
  * // Listen for window scroll events and call the throttled function
  * window.addEventListener("scroll", throttledUpdateLayout);
  */
-export function throttle(fn: Function, wait: number = 300): (this: any) => void {
-  let inThrottle: boolean, lastFn: ReturnType<typeof setTimeout>, lastTime: number;
+export function throttle<T extends (...args: any) => any>(func: T, limit: number): ThrottledFunction<T> {
+  let inThrottle: boolean;
+  let lastResult: ReturnType<T>;
 
-  return function (this: any) {
-    const context = this,
-      args = arguments;
+  return function (this: any, ...args): ReturnType<T> {
     if (!inThrottle) {
-      fn.apply(context, args);
-      lastTime = Date.now();
       inThrottle = true;
-    } else {
-      clearTimeout(lastFn);
-      lastFn = setTimeout(
-        () => {
-          if (Date.now() - lastTime >= wait) {
-            fn.apply(context, args);
-            lastTime = Date.now();
-          }
-        },
-        Math.max(wait - (Date.now() - lastTime), 0)
-      );
+
+      setTimeout(() => (inThrottle = false), limit);
+
+      lastResult = func.apply(this, args);
     }
+
+    return lastResult;
   };
 }
