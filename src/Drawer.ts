@@ -1088,7 +1088,7 @@ export class Drawer extends History {
         const lines = $textArea.value.split('\n');
 
         const x = parseInt($textArea.style.left, 10) - this.$canvas.getBoundingClientRect().left;
-        const y = parseInt($textArea.style.top, 10) - this.$canvas.getBoundingClientRect().top;
+        let y = parseInt($textArea.style.top, 10) - this.$canvas.getBoundingClientRect().top;
         this.ctx.fillStyle = this.options.color;
         for (const line of lines) {
           this.ctx.fillText(line, x, y);
