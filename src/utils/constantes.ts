@@ -1,4 +1,4 @@
-import { DrawerOptions } from './types/drawer';
+import { DrawerOptions } from '../types/drawer';
 
 export const defaultOptions: DrawerOptions = {
   id: Date.now().toString(),
@@ -13,4 +13,5 @@ export const defaultOptions: DrawerOptions = {
   lineThickness: 5,
   dotted: false,
   dash: [10, 5],
+  cap: "round",
 };

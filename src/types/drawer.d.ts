@@ -11,6 +11,7 @@ export interface DrawerOptions {
   color: string;
   bgColor: string;
   lineThickness: number;
+  cap: "round"|"square"
 }
 
 export type action<T> = (drawer: Drawer, $btn: T) => void;

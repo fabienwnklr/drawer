@@ -1,2 +1,2 @@
-class Base {
+export class Base {
 }

@@ -10,10 +10,14 @@
     "test": "npm run test:unit && npm run test:e2e",
     "test:e2e": "playwright test",
     "test:unit": "vitest run",
-    "format": "prettier src/**/*.ts --write"
+    "format": "prettier src/**/*.ts --write",
+    "lint": "npx eslint src/**"
   },
   "devDependencies": {
     "@playwright/test": "^1.37.1",
+    "@typescript-eslint/eslint-plugin": "^6.7.2",
+    "@typescript-eslint/parser": "^6.7.2",
+    "eslint": "^8.49.0",
     "jsdom": "^22.1.0",
     "prettier": "^3.0.3",
     "typescript": "^5.0.2",

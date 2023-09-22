@@ -22,6 +22,8 @@ import { LineIcon } from './icons/line';
 import { StarIcon } from './icons/star';
 import { UploadIcon } from './icons/upload';
 import { SettingIcon } from './icons/setting';
+import { throttle } from './utils/perf';
+import { getMousePosition } from './utils/infos';
 
 export class Drawer extends History {
   declare ctx: CanvasRenderingContext2D;
@@ -49,6 +51,11 @@ export class Drawer extends History {
   $uploadFile!: HTMLInputElement;
   $settingBtn!: HTMLButtonElement;
 
+  /**
+   *
+   * @param {HTMLElement} $el Container for drawer
+   * @param {Partial<DrawerOptions>} options options for drawer
+   */
   constructor($el: HTMLElement, options: Partial<DrawerOptions> = {}) {
     super();
     try {
@@ -70,7 +77,7 @@ export class Drawer extends History {
       if (this.options.dotted) {
         this.setDottedLine(true, this.options.dash);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       throw new DrawerError(error.message);
     }
   }
@@ -101,11 +108,12 @@ export class Drawer extends History {
         this.setBgColor();
         this._initHandlerEvents();
         this.setCanvas(this.$canvas);
+        this._updateCursor();
         resolve(this);
 
         // dispatch drawer.init event
-        this.$canvas.dispatchEvent(DrawEvent('init'));
-      } catch (error: any) {
+        this.$sourceElement.dispatchEvent(DrawEvent('init'));
+      } catch (error: unknown) {
         reject(new DrawerError(error.message));
       }
     });
@@ -133,8 +141,10 @@ export class Drawer extends History {
           this.$toolbar.style.maxHeight = this.$canvas.height + 'px';
         }
 
+        this.$canvas.dispatchEvent(DrawEvent('update.size', { setSize: { w, h } }));
+
         resolve(true);
-      } catch (error: any) {
+      } catch (error: unknown) {
         reject(new DrawerError(error.message));
       }
     });
@@ -152,18 +162,38 @@ export class Drawer extends History {
    * Change drawing color
    * @param {String} color Color to apply to draw
    */
-  setColor(color: string) {
-    this.options.color = color;
-    this.ctx.strokeStyle = this.options.color; // passing selectedColor as stroke style
-    this.ctx.fillStyle = this.options.color; // passing selectedColor as fill style
+  setColor(color: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      try {
+        this.options.color = color;
+        this.ctx.strokeStyle = this.options.color; // passing selectedColor as stroke style
+        this.ctx.fillStyle = this.options.color; // passing selectedColor as fill style
+
+        this.$canvas.dispatchEvent(DrawEvent('update.color', { color }));
+
+        resolve(true);
+      } catch (error: unknown) {
+        reject(new DrawerError(error.message));
+      }
+    });
   }
 
   /**
    * Change css canvas background color (ignored on export)
    * @param bgColor canvas css background color
    */
-  setBgColor(bgColor?: string) {
-    this.$canvas.style.backgroundColor = bgColor ?? this.options.bgColor;
+  setBgColor(bgColor?: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      try {
+        this.$canvas.style.backgroundColor = bgColor ?? this.options.bgColor;
+
+        this.$canvas.dispatchEvent(DrawEvent('update.bgColor', { bgColor }));
+
+        resolve(true);
+      } catch (error: unknown) {
+        reject(new DrawerError(error.message));
+      }
+    });
   }
 
   /**
@@ -188,7 +218,7 @@ export class Drawer extends History {
         this.loadFromData(data).then(() => {
           resolve(this);
         });
-      } catch (error: any) {
+      } catch (error: unknown) {
         reject(new DrawerError(error.message));
       }
     });
@@ -199,21 +229,30 @@ export class Drawer extends History {
    * @param {keyof typeof DrawTools} toolName Tool name to set
    */
   changeTool(toolName: keyof typeof DrawTools) {
-    this.activeTool = toolName;
+    return new Promise((resolve, reject) => {
+      try {
+        this.activeTool = toolName;
 
-    if (this.$toolbar) {
-      switch (toolName) {
-        case 'brush':
-          if (this.$brushBtn) this.setActiveBtn(this.$brushBtn);
-          break;
-        case 'text':
-          if (this.$textBtn) this.setActiveBtn(this.$textBtn);
-          break;
-        case 'eraser':
-          if (this.$eraserBtn) this.setActiveBtn(this.$eraserBtn);
-          break;
+        if (this.$toolbar) {
+          switch (toolName) {
+            case 'brush':
+              if (this.$brushBtn) this.setActiveBtn(this.$brushBtn);
+              break;
+            case 'text':
+              if (this.$textBtn) this.setActiveBtn(this.$textBtn);
+              break;
+            case 'eraser':
+              if (this.$eraserBtn) this.setActiveBtn(this.$eraserBtn);
+              break;
+          }
+
+          this.$canvas.dispatchEvent(DrawEvent('update.tool', { toolName }));
+          resolve(true);
+        }
+      } catch (error: unknown) {
+        reject(new DrawerError(error.message));
       }
-    }
+    });
   }
 
   /**
@@ -221,12 +260,18 @@ export class Drawer extends History {
    *
    * @returns {HTMLCanvasElement}
    */
-  clear(): HTMLCanvasElement {
-    this.ctx.clearRect(0, 0, this.$canvas.width, this.$canvas.height);
-    // restore bg color too
-    this.$canvas.dispatchEvent(DrawEvent('change', this));
+  clear(): Promise<HTMLCanvasElement> {
+    return new Promise((resolve, reject) => {
+      try {
+        this.ctx.clearRect(0, 0, this.$canvas.width, this.$canvas.height);
+        // restore bg color too
+        this.$canvas.dispatchEvent(DrawEvent('change', this));
 
-    return this.$canvas;
+        resolve(this.$canvas);
+      } catch (error: unknown) {
+        reject(new DrawerError(error.message));
+      }
+    });
   }
 
   /**
@@ -241,7 +286,7 @@ export class Drawer extends History {
         this.ctx.drawImage(img, 0, 0);
         resolve(this);
       };
-      img.onerror = (_err) => {
+      img.onerror = () => {
         reject(new DrawerError(`Error during loading img with src : "${data}"`));
       };
       img.src = data;
@@ -293,7 +338,7 @@ export class Drawer extends History {
         }
 
         resolve(this.$toolbar);
-      } catch (error: any) {
+      } catch (error: unknown) {
         reject(new DrawerError(error.message));
       }
     });
@@ -343,7 +388,7 @@ export class Drawer extends History {
         } else {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
         reject(new DrawerError(error.message));
       }
     });
@@ -373,7 +418,7 @@ export class Drawer extends History {
         } else {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
         reject(new DrawerError(error.message));
       }
     });
@@ -406,7 +451,7 @@ export class Drawer extends History {
         } else {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
         reject(new DrawerError(error.message));
       }
     });
@@ -439,7 +484,7 @@ export class Drawer extends History {
         } else {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
         reject(new DrawerError(error.message));
       }
     });
@@ -471,7 +516,7 @@ export class Drawer extends History {
         } else {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
         reject(new DrawerError(error.message));
       }
     });
@@ -554,7 +599,7 @@ export class Drawer extends History {
         } else {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
         reject(new DrawerError(error.message));
       }
     });
@@ -586,7 +631,7 @@ export class Drawer extends History {
         } else {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
         reject(new DrawerError(error.message));
       }
     });
@@ -614,24 +659,20 @@ export class Drawer extends History {
           this.$toolbar.appendChild(this.$lineThickness);
 
           this.$lineThickness.addEventListener('input', () => {
-            this.options.lineThickness = parseInt(this.$lineThickness.querySelector('input')?.value as string);
-
             if (typeof action === 'function') {
               action(this, this.$lineThickness.querySelector('input') as HTMLInputElement);
               return;
             }
 
-            const $counter = this.$lineThickness.querySelector('.counter');
-            if ($counter) {
-              $counter.innerHTML = String(this.options.lineThickness);
-            }
+            const lineThickness = parseInt(this.$lineThickness.querySelector('input')?.value as string);
+            this.setLineWidth(lineThickness);
           });
 
           resolve(this.$lineThickness.querySelector('input') as HTMLInputElement);
         } else {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
         reject(new DrawerError(error.message));
       }
     });
@@ -673,7 +714,7 @@ export class Drawer extends History {
         } else {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
         reject(new DrawerError(error.message));
       }
     });
@@ -711,7 +752,7 @@ export class Drawer extends History {
         } else {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
         reject(new DrawerError(error.message));
       }
     });
@@ -776,6 +817,7 @@ export class Drawer extends History {
           if (typeof action === 'function') {
             action(this, this.$settingBtn);
           } else {
+            // Open setting modal
           }
         });
 
@@ -806,30 +848,38 @@ export class Drawer extends History {
    * @param shape
    */
   setShape(shape: string) {
-    if (this.$shapeBtn) {
-      let icon = '';
+    return new Promise((resolve, reject) => {
+      try {
+        if (this.$shapeBtn) {
+          let icon = '';
 
-      switch (shape) {
-        case 'line':
-          icon = LineIcon;
-          break;
-        case 'square':
-          icon = SquareIcon;
-          break;
-        case 'star':
-          icon = StarIcon;
-          break;
-        case 'triangle':
-          icon = TriangleIcon;
-          break;
+          switch (shape) {
+            case 'line':
+              icon = LineIcon;
+              break;
+            case 'square':
+              icon = SquareIcon;
+              break;
+            case 'star':
+              icon = StarIcon;
+              break;
+            case 'triangle':
+              icon = TriangleIcon;
+              break;
 
-        default:
-          break;
+            default:
+              break;
+          }
+          this.$shapeBtn.innerHTML = icon;
+          this.setActiveBtn(this.$shapeBtn);
+          this.$shapeMenu.classList.remove('show');
+          this.$canvas.dispatchEvent(DrawEvent('update.shape', { shape }));
+          resolve(true);
+        }
+      } catch (error: unknown) {
+        reject(new DrawerError(error.message));
       }
-      this.$shapeBtn.innerHTML = icon;
-      this.setActiveBtn(this.$shapeBtn);
-      this.$shapeMenu.classList.remove('show');
-    }
+    });
   }
 
   /**
@@ -838,14 +888,22 @@ export class Drawer extends History {
    * @param {number[]} [dash=[10, 5]] Line dash format [width, spacing]
    */
   setDottedLine(active: boolean, dash: number[] = [10, 5]) {
-    this.options.dash = dash;
+    return new Promise((resolve, reject) => {
+      try {
+        this.options.dash = dash;
 
-    if (!active) {
-      this.ctx.setLineDash([]);
-    } else {
-      this.ctx.setLineDash(dash);
-    }
-    this.dotted = active;
+        if (!active) {
+          this.ctx.setLineDash([]);
+        } else {
+          this.ctx.setLineDash(dash);
+        }
+        this.dotted = active;
+        this.$canvas.dispatchEvent(DrawEvent('update.dotted', { dotted: active, dash }));
+        resolve(true);
+      } catch (error: unknown) {
+        reject(new DrawerError(error.message));
+      }
+    });
   }
 
   /**
@@ -872,14 +930,21 @@ export class Drawer extends History {
   setLineWidth(width: number) {
     this.options.lineThickness = width;
     this.ctx.lineWidth = width;
+
+    const $counter = this.$lineThickness.querySelector('.counter');
+    if ($counter) {
+      $counter.innerHTML = String(this.options.lineThickness);
+    }
+
+    this.$canvas.dispatchEvent(DrawEvent('update.lineThickness', { lineThickness: width }));
   }
 
   /**
    * Start drawing (mousedown)
-   * @param {MouseEvent} _event
+   * @param {PointerEvent} _event
    * @returns
    */
-  private _startDraw(_event: MouseEvent | Touch) {
+  private _startDraw() {
     if (this.activeTool === 'text') return;
     this.saveState();
     this.isDrawing = true;
@@ -887,68 +952,100 @@ export class Drawer extends History {
     this.ctx.lineWidth = this.options.lineThickness; // passing brushSize as line width
     this.ctx.strokeStyle = this.options.color; // passing selectedColor as stroke style
     this.ctx.fillStyle = this.options.color; // passing selectedColor as fill style
+    this.ctx.lineCap = this.options.cap;
   }
 
   /**
    * @private _drawing
-   * @param {MouseEvent} event
+   * @param {PointerEvent} event
    * @returns
    */
-  private _drawing(event: MouseEvent | Touch) {
-    if (!this.isDrawing || this.activeTool === 'text') return; // if isDrawing is false return from here
+  private _drawing(event: PointerEvent) {
+    if (event.buttons !== 1 || this.activeTool === 'text') return; // if isDrawing is false return from here
 
-    requestAnimationFrame(() => {
-      if (this.activeTool === 'brush') {
-        this.ctx.globalCompositeOperation = 'source-over';
-      } else if (this.activeTool === 'eraser') {
-        this.ctx.globalCompositeOperation = 'destination-out';
-      } else {
-        throw new Error(`Drawerror : unknown active draw tool "${this.activeTool}"`);
-      }
-      const { top, left } = this.$canvas.getBoundingClientRect();
-      const positionX = event.clientX - left;
-      const positionY = event.clientY - top;
-      this.ctx.lineTo(positionX, positionY); // creating line according to the mouse pointer
-      this.ctx.stroke();
-    });
+    if (this.activeTool === 'brush') {
+      this.ctx.globalCompositeOperation = 'source-over';
+    } else if (this.activeTool === 'eraser') {
+      this.ctx.globalCompositeOperation = 'destination-out';
+    } else {
+      throw new Error(`Drawerror : unknown active draw tool "${this.activeTool}"`);
+    }
+
+    const { x, y } = getMousePosition(this.$canvas, event);
+
+    this.ctx.lineTo(x, y); // creating line according to the mouse pointer
+    this.ctx.stroke();
   }
 
   /**
    * @private _drawend
    * trigger when draw ended
-   * @param {MouseEvent} event
+   * @param {PointerEvent} event
    */
-  private _drawend(event: MouseEvent | Touch) {
-    if (this.activeTool === 'text') {
-      this._addTextArea(event);
-    } else {
-      this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
+  private _drawend(event: PointerEvent) {
+    if (event.pointerType !== 'mouse' || event.button === 0) {
+      if (this.activeTool === 'text') {
+        this._addTextArea(event);
+      } else {
+        this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
+      }
+      this.isDrawing = false;
     }
-    this.isDrawing = false;
+  }
+
+  /**
+   * Update cursor style
+   */
+  private _updateCursor() {
+    const rad = this.options.lineThickness;
+    const cursorCanvas = document.createElement('canvas');
+    const ctx = cursorCanvas.getContext('2d') as CanvasRenderingContext2D;
+    cursorCanvas.width = cursorCanvas.height = rad;
+
+    ctx.lineCap = this.options.cap;
+
+    if (this.options.cap === 'round') {
+      ctx.arc(rad / 2, rad / 2, rad / 2, 0, Math.PI * 2);
+    } else {
+      ctx.rect(0, 0, rad, rad);
+    }
+
+    if (this.activeTool === 'brush') {
+      ctx.fillStyle = this.options.color;
+      ctx.fill();
+    } else if (this.activeTool === 'eraser') {
+      ctx.strokeStyle = this.options.color;
+      ctx.stroke();
+    } else {
+      // Text
+      this.$canvas.style.cursor = `text`;
+      return;
+    }
+
+    cursorCanvas.toBlob((blob) => {
+      if (blob) {
+        URL.revokeObjectURL(this.$canvas.style.cursor);
+        const cursorURL = URL.createObjectURL(blob);
+        this.$canvas.style.cursor = `url(${cursorURL}) ${rad / 2} ${rad / 2}, auto`;
+      }
+    });
   }
 
   /**
    * @private Initialize all event listener
    */
   private _initHandlerEvents() {
-    const touchstart = (event: TouchEvent) => {
-      this._startDraw(event.touches[0]);
-    };
-    const touchmove = (event: TouchEvent) => {
-      this._drawing(event.touches[0]);
-      event.preventDefault();
-    };
-    const touchend = (event: TouchEvent) => {
-      this._drawend(event.touches[0]);
-    };
+    this._startDraw = throttle(this._startDraw, 10);
+    this._drawing = throttle(this._drawing, 10);
+    this._drawend = throttle(this._drawend);
 
-    this.$canvas.addEventListener('touchstart', touchstart.bind(this), false);
-    this.$canvas.addEventListener('touchmove', touchmove.bind(this), false);
-    this.$canvas.addEventListener('touchend', touchend.bind(this), false);
+    this.$canvas.addEventListener('pointerdown', this._startDraw.bind(this), false);
+    this.$canvas.addEventListener('pointermove', this._drawing.bind(this), false);
+    this.$canvas.addEventListener('pointerup', this._drawend.bind(this), false);
 
-    this.$canvas.addEventListener('mousedown', this._startDraw.bind(this), false);
-    this.$canvas.addEventListener('mousemove', this._drawing.bind(this), false);
-    this.$canvas.addEventListener('mouseup', this._drawend.bind(this), false);
+    this.$canvas.addEventListener('drawer.update.color', this._updateCursor.bind(this));
+    this.$canvas.addEventListener('drawer.update.lineThickness', this._updateCursor.bind(this));
+    this.$canvas.addEventListener('drawer.update.tool', this._updateCursor.bind(this));
 
     this.$canvas.addEventListener('keypress', (event: KeyboardEvent) => {
       if (event.ctrlKey) {
@@ -969,7 +1066,7 @@ export class Drawer extends History {
    * Adding textarea to clicked zone
    * @param event
    */
-  private _addTextArea(event: MouseEvent | Touch) {
+  private _addTextArea(event: PointerEvent) {
     this.ctx.globalCompositeOperation = 'source-over';
     const $textArea = document.createElement('textarea');
 
@@ -990,8 +1087,8 @@ export class Drawer extends History {
         const lineHeight = this.ctx.measureText('Mi').width;
         const lines = $textArea.value.split('\n');
 
-        let x = parseInt($textArea.style.left, 10) - this.$canvas.getBoundingClientRect().left;
-        let y = parseInt($textArea.style.top, 10) - this.$canvas.getBoundingClientRect().top;
+        const x = parseInt($textArea.style.left, 10) - this.$canvas.getBoundingClientRect().left;
+        const y = parseInt($textArea.style.top, 10) - this.$canvas.getBoundingClientRect().top;
         this.ctx.fillStyle = this.options.color;
         for (const line of lines) {
           this.ctx.fillText(line, x, y);

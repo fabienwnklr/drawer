@@ -10,7 +10,7 @@ export class History {
       this.redo_list = [];
     }
 
-    (list || this.undo_list).push(this.$canvas.toDataURL());
+    (list ?? this.undo_list).push(this.$canvas.toDataURL());
   }
 
   undo() {

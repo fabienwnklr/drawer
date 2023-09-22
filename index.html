@@ -12,6 +12,7 @@
       import { Drawer } from './src/Drawer.ts'
 
       const $el = document.querySelector("#app");
+      $el.addEventListener("drawer.init", console.log)
       window.drawer = new Drawer($el);
       window.drawer.setSize(800, 550)
     </script>
