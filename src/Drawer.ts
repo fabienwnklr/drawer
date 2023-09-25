@@ -59,7 +59,6 @@ export class Drawer extends History {
   #availableShape: Array<keyof typeof DrawTools> = [
     'brush',
     'eraser',
-    'text',
     'rect',
     'circle',
     'square',
@@ -110,7 +109,7 @@ export class Drawer extends History {
     <canvas tabindex="0" id="${this.options.id}" height="${this.options.height}" width="${this.options.width}" moz-opaque class="canvas-drawer"></canvas>
   `;
     this.$canvas = stringToHTMLElement<HTMLCanvasElement>(canvas);
-    this.ctx = this.$canvas.getContext('2d') as CanvasRenderingContext2D;
+    this.ctx = this.$canvas.getContext('2d', { alpha: true, willReadFrequently: true }) as CanvasRenderingContext2D;
     this.$drawerContainer.appendChild(this.$canvas);
   }
 
@@ -1061,7 +1060,10 @@ export class Drawer extends History {
       if (this.isShape()) {
         this._restoreSnapshot();
       }
-      const position = getMousePosition(this.$canvas, event);
+      const position =
+        this.activeTool === 'text'
+          ? { x: event.clientX, y: event.clientY }
+          : getMousePosition(this.$canvas, event);
 
       this._manageUndoRedoBtn();
       this._draw(position);
@@ -1085,6 +1087,8 @@ export class Drawer extends History {
 
     if (this.activeTool === 'brush' || this.activeTool === 'eraser') {
       this._drawHand(position);
+    } else if (this.activeTool === 'text') {
+      this._addTextArea(position);
     } else if (this.activeTool === 'line') {
       this._drawLine(position);
     } else if (this.activeTool === 'rect') {
@@ -1143,19 +1147,32 @@ export class Drawer extends History {
     this.ctx.arc(this.#dragStartLocation.x, this.#dragStartLocation.y, radius, 0, 2 * Math.PI);
   }
 
-  private _drawArrow(position: Position){
-    const headlen = 10; // length of head in pixels
-    const dx = position.x - this.#dragStartLocation.x;
-    const dy = position.y - this.#dragStartLocation.y;
-    const angle = Math.atan2(dy, dx);
+  private _drawArrow(position: Position) {
+    const angle = Math.atan2(position.y - this.#dragStartLocation.y, position.x - this.#dragStartLocation.x);
+    const hyp = Math.sqrt(
+      (position.x - this.#dragStartLocation.x) * (position.x - this.#dragStartLocation.x) +
+        (position.y - this.#dragStartLocation.y) * (position.y - this.#dragStartLocation.y)
+    );
+
+    this.ctx.save();
+    this.ctx.translate(this.#dragStartLocation.x, this.#dragStartLocation.y);
+    this.ctx.rotate(angle);
+
+    // line
     this.ctx.beginPath();
-    this.ctx.moveTo(this.#dragStartLocation.x, this.#dragStartLocation.y);
-    this.ctx.lineTo(position.x, position.y);
-    this.ctx.lineTo(position.x - headlen * Math.cos(angle - Math.PI / 6), position.y - headlen * Math.sin(angle - Math.PI / 6));
-    this.ctx.moveTo(position.x, position.y);
-    this.ctx.lineTo(position.x - headlen * Math.cos(angle + Math.PI / 6), position.y - headlen * Math.sin(angle + Math.PI / 6));
+    this.ctx.moveTo(0, 0);
+    this.ctx.lineTo(hyp - this.options.lineThickness, 0);
     this.ctx.stroke();
-}
+
+    // triangle
+    this.ctx.beginPath();
+    this.ctx.lineTo(hyp - this.options.lineThickness, this.options.lineThickness);
+    this.ctx.lineTo(hyp, 0);
+    this.ctx.lineTo(hyp - this.options.lineThickness, -this.options.lineThickness);
+    this.ctx.fill();
+
+    this.ctx.restore();
+  }
 
   private _drawEllipse(position: Position) {
     const w = position.x - this.#dragStartLocation.x;
@@ -1222,10 +1239,12 @@ export class Drawer extends History {
   private _updateCursor() {
     const rad = this.options.lineThickness;
     const cursorCanvas = document.createElement('canvas');
-    const ctx = cursorCanvas.getContext('2d', { alpha: false, willReadFrequently: true }) as CanvasRenderingContext2D;
+    const ctx = cursorCanvas.getContext('2d') as CanvasRenderingContext2D;
     cursorCanvas.width = cursorCanvas.height = rad;
 
     ctx.lineCap = this.options.cap;
+    ctx.fillStyle = 'transparent';
+    ctx.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
 
     if (this.options.cap === 'round') {
       ctx.arc(rad / 2, rad / 2, rad / 2, 0, Math.PI * 2);
@@ -1292,16 +1311,16 @@ export class Drawer extends History {
 
   /**
    * Adding textarea to clicked zone
-   * @param event
+   * @param {Position} position
    */
-  private _addTextArea(event: PointerEvent) {
+  private _addTextArea(position: Position) {
     this.ctx.globalCompositeOperation = 'source-over';
     const $textArea = document.createElement('textarea');
     const fontSize = this.options.lineThickness < 12 ? 12 : this.options.lineThickness;
 
     $textArea.style.position = 'fixed';
-    $textArea.style.left = event.clientX + 'px';
-    $textArea.style.top = event.clientY + 'px';
+    $textArea.style.left = position.x + 'px';
+    $textArea.style.top = position.y + 'px';
     $textArea.style.color = this.options.color;
     $textArea.style.height = 'auto';
     $textArea.style.width = 'auto';

@@ -3,6 +3,7 @@
   --drawer-primary-active-color: #f8f8f8;
   --drawer-primary-active-bg: #4f57c0;
   --drawer-light: #ebebeb;
+  --drawer-light-btn: #d4d4d4;
   --drawer-border-radius: 5px;
 }
 
@@ -50,7 +51,7 @@ body {
   border-top-left-radius: var(--drawer-border-radius);
   border-top-right-radius: var(--drawer-border-radius);
 }
-.toolbar.outerTop ~ .canvas-draw {
+.toolbar.outerTop ~ .canvas-drawer {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
@@ -60,7 +61,7 @@ body {
   border-bottom-left-radius: var(--drawer-border-radius);
 }
 
-.toolbar.outerStart ~ .canvas-draw {
+.toolbar.outerStart ~ .canvas-drawer {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
@@ -70,7 +71,7 @@ body {
   border-bottom-right-radius: var(--drawer-border-radius);
 }
 
-.toolbar.outerEnd ~ .canvas-draw {
+.toolbar.outerEnd ~ .canvas-drawer {
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
 }
@@ -80,7 +81,7 @@ body {
   border-bottom-right-radius: var(--drawer-border-radius);
 }
 
-.toolbar.outerBottom ~ .canvas-draw {
+.toolbar.outerBottom ~ .canvas-drawer {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
@@ -145,7 +146,8 @@ body {
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
 }
 
-.drawer-container .btn, .shape-menu .btn {
+.drawer-container .btn,
+.shape-menu .btn {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.2em 0.4em;
@@ -157,15 +159,19 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: var(--drawer-light-btn);
 }
-.drawer-container .btn:not(:disabled):hover, .shape-menu .btn:not(:disabled):hover {
+.drawer-container .btn:not(:disabled):hover,
+.shape-menu .btn:not(:disabled):hover {
   border-color: var(--drawer-primary);
 }
-.drawer-container .btn:disabled, .shape-menu .btn:disabled {
+.drawer-container .btn:disabled,
+.shape-menu .btn:disabled {
   cursor: not-allowed;
 }
 
-.drawer-container .btn.active, .shape-menu .btn.active {
+.drawer-container .btn.active,
+.shape-menu .btn.active {
   background-color: var(--drawer-primary-active-bg);
   color: var(--drawer-primary-active-color);
 }
@@ -173,7 +179,7 @@ body {
 .drawer-container .btn:focus,
 .drawer-container .btn:focus-visible,
 .shape-menu .btn:focus,
-.shape-menu .btn:focus-visible   {
+.shape-menu .btn:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
