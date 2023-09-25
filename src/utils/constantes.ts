@@ -14,4 +14,5 @@ export const defaultOptions: DrawerOptions = {
   dotted: false,
   dash: [10, 5],
   cap: 'round',
+  fill: true,
 };

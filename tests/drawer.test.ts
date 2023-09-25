@@ -35,7 +35,7 @@ describe('Drawer', () => {
     const drawer = new Drawer(document.body.querySelector('#test') as HTMLDivElement);
 
     expect(drawer.$toolbar).toBeInstanceOf(HTMLDivElement);
-    expect(drawer.$toolbar.querySelectorAll('button, input').length).toEqual(10);
+    expect(drawer.$toolbar.querySelectorAll('button, input').length).toEqual(11);
   });
 
   it('Init drawer with custom toolbar', () => {

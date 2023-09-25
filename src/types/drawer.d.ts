@@ -12,6 +12,7 @@ export interface DrawerOptions {
   bgColor: string;
   lineThickness: number;
   cap: 'round' | 'square';
+  fill: boolean;
 }
 
 export type action<T> = (drawer: Drawer, $btn: T) => void;
@@ -20,6 +21,14 @@ export enum DrawTools {
   brush = 'brush',
   eraser = 'eraser',
   text = 'text',
+  rect = 'rect',
+  circle = 'circle',
+  square = 'square',
+  arrow = 'arrow',
+  line = 'line',
+  star = 'star',
+  triangle = 'triangle',
+  polygon = 'polygon',
 }
 
 export enum ToolbarPosition {
@@ -37,4 +46,9 @@ export enum ToolbarPosition {
    * if no one available, added to innerTop
    */
   auto = 'auto',
+}
+
+export interface Position {
+  x: number;
+  y: number;
 }
