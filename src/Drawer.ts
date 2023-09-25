@@ -5,7 +5,7 @@ import { BrushIcon } from './icons/brush';
 import { EraserIcon } from './icons/eraser';
 import { TextIcon } from './icons/text';
 import { DownloadIcon } from './icons/download';
-import { defaultOptions } from './utils/constantes';
+import { defaultOptionsDrawer } from './utils/constantes';
 import { DrawEvent } from './utils/DrawEvent';
 
 // Type import
@@ -27,6 +27,7 @@ import { getMousePosition } from './utils/infos';
 import { CircleIcon } from './icons/circle';
 import { RectIcon } from './icons/rect';
 import { ArrowIcon } from './icons/arrow';
+import { SettingsModal } from './ui/SettingsModal';
 
 export class Drawer extends History {
   declare ctx: CanvasRenderingContext2D;
@@ -68,6 +69,7 @@ export class Drawer extends History {
     'triangle',
     'polygon',
   ];
+  settingModal!: SettingsModal | null;
 
   /**
    *
@@ -78,7 +80,7 @@ export class Drawer extends History {
     super();
     try {
       this.$sourceElement = $el;
-      this.options = { ...defaultOptions, ...options };
+      this.options = { ...defaultOptionsDrawer, ...options };
       this._init();
 
       const saved = localStorage.getItem(this.options.localStorageKey);
@@ -400,7 +402,7 @@ export class Drawer extends History {
     this.addColorPickerBtn();
     this.addUploadFileBtn();
     this.addDownloadBtn();
-    // this.addSettingBtn();
+    this.addSettingBtn();
   }
 
   /**
@@ -861,6 +863,15 @@ export class Drawer extends History {
             action(this, this.$settingBtn);
           } else {
             // Open setting modal
+            if (!this.settingModal) {
+              this.settingModal = new SettingsModal(this.options.fill);
+            }
+
+            if (this.settingModal.isVisible()) {
+              this.settingModal.hide();
+            } else {
+              this.settingModal.show();
+            }
           }
         });
 
@@ -1061,9 +1072,7 @@ export class Drawer extends History {
         this._restoreSnapshot();
       }
       const position =
-        this.activeTool === 'text'
-          ? { x: event.clientX, y: event.clientY }
-          : getMousePosition(this.$canvas, event);
+        this.activeTool === 'text' ? { x: event.clientX, y: event.clientY } : getMousePosition(this.$canvas, event);
 
       this._manageUndoRedoBtn();
       this._draw(position);

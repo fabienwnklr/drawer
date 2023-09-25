@@ -1,7 +1,7 @@
 import './drawer.css';
 import { DrawerOptions } from './types/drawer';
 import { DrawerError } from './utils/DrawError';
-import { defaultOptions } from './utils/constantes';
+import { defaultOptionsDrawer } from './utils/constantes';
 import { stringToHTMLElement } from './utils/dom';
 import { getMousePosition } from './utils/infos';
 
@@ -18,7 +18,7 @@ export class SVGDrawer {
   constructor($el: HTMLElement, options: Partial<DrawerOptions>) {
     try {
       this.$sourceElement = $el;
-      this.options = { ...defaultOptions, ...options };
+      this.options = { ...defaultOptionsDrawer, ...options };
       this._init();
 
       const saved = localStorage.getItem(this.options.localStorageKey);

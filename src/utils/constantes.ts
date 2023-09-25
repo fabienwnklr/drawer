@@ -1,6 +1,7 @@
 import { DrawerOptions } from '../types/drawer';
+import { ModalOptions } from '../types/modal';
 
-export const defaultOptions: DrawerOptions = {
+export const defaultOptionsDrawer: DrawerOptions = {
   id: Date.now().toString(),
   defaultToolbar: true,
   width: 400,
@@ -16,3 +17,10 @@ export const defaultOptions: DrawerOptions = {
   cap: 'round',
   fill: true,
 };
+
+export const defaultOptionsModal: ModalOptions = {
+  id: Date.now().toString(),
+  headerContent: '',
+  bodyContent: '',
+  footerContent: '',
+}
