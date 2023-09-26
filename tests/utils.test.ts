@@ -2,7 +2,7 @@ import { test, expect, describe } from 'vitest';
 import { stringToHTMLElement } from '../src/utils/dom';
 import { DrawerError } from '../src/utils/DrawError';
 import { isTactil } from '../src/utils/infos';
-import { hexToRgbA } from '../src/utils/utils';
+import { deepMerge, hexToRgbA } from '../src/utils/utils';
 
 describe('utilities', () => {
   test('Convert string to HTML element', () => {
@@ -19,6 +19,15 @@ describe('utilities', () => {
   test('isTactil', () => {
     expect(isTactil()).toBeTypeOf('boolean');
   });
+
+  test('merge objects refuse falsy value', () => {
+    const target = { test: "test"};
+    const source = { test: "" };
+
+    const final = deepMerge(target, source);
+
+    expect(final.test).eq("test")
+  })
 
   test('accepts a hex value of 6 numbers and returns a rgba color string', () => {
     expect(hexToRgbA('#F3F3F3')).toBe('rgba(243,243,243,1)');

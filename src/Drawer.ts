@@ -742,10 +742,7 @@ export class Drawer extends History {
         if (this.$toolbar && !this.$colorPicker) {
           const colorPicker = `
           <div class="container-colorpicker">
-            <input id="${this.options.id}-colopicker" class="" type="color" value="${this.options.color}" />
-            <label title="${'Color'}" class="btn" for="${this.options.id}-colopicker">
-              ${ColorIcon}
-            </label>
+            <input class="btn" title="${'Color'}" id="${this.options.id}-colopicker" class="" type="color" value="${this.options.color}" />
           </div>
           `;
           const $colorPicker = stringToHTMLElement<HTMLDivElement>(colorPicker);

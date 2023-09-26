@@ -138,7 +138,25 @@ body * {
   margin: 0.2em;
 }
 
-.toolbar input[type='color'],
+.toolbar input[type='color'] {
+  border: none;
+  background-color: transparent;
+  appearance: none;
+  height: 1.5em;
+  width: 1.5em;
+  padding: 0;
+  border-radius: 100%;
+}
+
+.toolbar input[type='color']::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.toolbar input[type='color']::-webkit-color-swatch {
+  border-radius: 100%;
+  border: none;
+}
+
 .toolbar input[type='file'] {
   width: 0;
   position: absolute;
