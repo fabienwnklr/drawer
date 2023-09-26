@@ -145,12 +145,12 @@ export class Drawer extends History {
    * @param {number} height Height
    * @returns {Promise<boolean>}
    */
-  setSize(width?: number, height?: number): Promise<boolean> {
+  setSize(width: number, height: number): Promise<boolean> {
     return new Promise((resolve, reject) => {
       try {
         const data = this.getData();
-        this.$canvas.width = width ?? this.$canvas.width;
-        this.$canvas.height = height ?? this.$canvas.height;
+        this.$canvas.width = width;
+        this.$canvas.height = height;
 
         // Apply data if not empty for prevent error
         if (!this.isEmpty()) this.loadFromData(data);
