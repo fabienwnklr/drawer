@@ -14,7 +14,6 @@ import { History } from './utils/History';
 import { UndoIcon } from './icons/undo';
 import { RedoIcon } from './icons/redo';
 import { ClearIcon } from './icons/clear';
-import { ColorIcon } from './icons/color';
 import { ShapeIcon } from './icons/shape';
 import { TriangleIcon } from './icons/triangle';
 import { SquareIcon } from './icons/square';
@@ -141,18 +140,17 @@ export class Drawer extends History {
   }
 
   /**
-   * @private
    * Set canvas sizing
-   * @param {number} w Width
-   * @param {number} h Height
+   * @param {number} width Width
+   * @param {number} height Height
    * @returns {Promise<boolean>}
    */
-  setSize(w?: number, h?: number): Promise<boolean> {
+  setSize(width?: number, height?: number): Promise<boolean> {
     return new Promise((resolve, reject) => {
       try {
         const data = this.getData();
-        this.$canvas.width = w ?? this.$canvas.width;
-        this.$canvas.height = h ?? this.$canvas.height;
+        this.$canvas.width = width ?? this.$canvas.width;
+        this.$canvas.height = height ?? this.$canvas.height;
 
         // Apply data if not empty for prevent error
         if (!this.isEmpty()) this.loadFromData(data);
@@ -162,7 +160,7 @@ export class Drawer extends History {
           this.$toolbar.style.maxHeight = this.$canvas.height + 'px';
         }
 
-        this.$canvas.dispatchEvent(DrawEvent('update.size', { setSize: { w, h } }));
+        this.$canvas.dispatchEvent(DrawEvent('update.size', { setSize: { w: width, h: height } }));
 
         resolve(true);
       } catch (error: any) {
@@ -326,7 +324,23 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       const img = new Image();
       img.onload = () => {
-        this.ctx.drawImage(img, 0, 0);
+        const hRatio = this.$canvas.width / img.width;
+        const vRatio = this.$canvas.height / img.height;
+        const ratio = Math.min(hRatio, vRatio);
+        const centerShift_x = (this.$canvas.width - img.width * ratio) / 2;
+        const centerShift_y = (this.$canvas.height - img.height * ratio) / 2;
+        this.ctx.clearRect(0, 0, this.$canvas.width, this.$canvas.height);
+        this.ctx.drawImage(
+          img,
+          0,
+          0,
+          img.width,
+          img.height,
+          centerShift_x,
+          centerShift_y,
+          img.width * ratio,
+          img.height * ratio
+        );
         resolve(this);
       };
       img.onerror = () => {
@@ -742,7 +756,9 @@ export class Drawer extends History {
         if (this.$toolbar && !this.$colorPicker) {
           const colorPicker = `
           <div class="container-colorpicker">
-            <input class="btn" title="${'Color'}" id="${this.options.id}-colopicker" class="" type="color" value="${this.options.color}" />
+            <input class="btn" title="${'Color'}" id="${this.options.id}-colopicker" class="" type="color" value="${
+              this.options.color
+            }" />
           </div>
           `;
           const $colorPicker = stringToHTMLElement<HTMLDivElement>(colorPicker);
@@ -1018,7 +1034,7 @@ export class Drawer extends History {
   private _manageUndoRedoBtn() {
     if (!this.undo_list.length && this.$undoBtn) {
       this.$undoBtn.disabled = true;
-    } else if (this.$undoBtn){
+    } else if (this.$undoBtn) {
       this.$undoBtn.disabled = false;
     }
 
