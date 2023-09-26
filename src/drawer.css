@@ -15,8 +15,11 @@ body {
   height: 100vh;
 }
 
-.drawer-container {
+body * {
   box-sizing: border-box;
+}
+
+.drawer-container {
   position: relative;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
@@ -25,7 +28,8 @@ body {
   display: flex;
   align-items: center;
   max-width: 100%;
-  width: 100%;
+  width: auto;
+  height: fit-content;
   overflow: hidden;
   overflow-x: auto;
   background-color: var(--drawer-light);
@@ -81,6 +85,11 @@ body {
   border-bottom-right-radius: var(--drawer-border-radius);
 }
 
+.toolbar.innerBottom {
+  border-bottom-left-radius: var(--drawer-border-radius);
+  border-bottom-right-radius: var(--drawer-border-radius);
+}
+
 .toolbar.outerBottom ~ .canvas-drawer {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
@@ -99,9 +108,7 @@ body {
 .toolbar.innerEnd,
 .toolbar.outerStart,
 .toolbar.outerEnd {
-  width: 60px;
   flex-direction: column;
-  bottom: 0;
 }
 
 .toolbar.innerStart {
@@ -133,10 +140,11 @@ body {
 
 .toolbar input[type='color'],
 .toolbar input[type='file'] {
-  min-width: 40px;
+  width: 0;
   position: absolute;
   left: 0;
   z-index: -1;
+  opacity: 0;
 }
 
 .drawer-container .canvas-drawer,
@@ -161,6 +169,7 @@ body {
   justify-content: center;
   background-color: var(--drawer-light-btn);
 }
+
 .drawer-container .btn:not(:disabled):hover,
 .shape-menu .btn:not(:disabled):hover {
   border-color: var(--drawer-primary);

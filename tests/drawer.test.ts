@@ -20,7 +20,7 @@ describe('Drawer', () => {
     expect(drawer).toBeInstanceOf(Drawer);
     expect(drawer.$toolbar).toBeInstanceOf(HTMLDivElement);
     expect(drawer.$toolbar.querySelectorAll('button, input').length).not.toEqual(0);
-    expect(drawer.$brushBtn.classList.contains('active')).toEqual(true);
+    expect(drawer.$brushBtn?.classList.contains('active')).toEqual(true);
   });
 
   it('Init drawer without toolbar', () => {
@@ -86,6 +86,6 @@ describe('Drawer', () => {
 
     drawer.changeTool('eraser');
     expect(drawer.activeTool).toEqual('eraser');
-    expect(drawer.$eraserBtn.classList.contains('active')).toEqual(true);
+    expect(drawer.$eraserBtn?.classList.contains('active')).toEqual(true);
   });
 });
