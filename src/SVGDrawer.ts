@@ -4,6 +4,7 @@ import { DrawerError } from './utils/DrawError';
 import { defaultOptionsDrawer } from './utils/constantes';
 import { stringToHTMLElement } from './utils/dom';
 import { getMousePosition } from './utils/infos';
+import { deepMerge } from './utils/utils';
 
 export class SVGDrawer {
   // options
@@ -18,7 +19,7 @@ export class SVGDrawer {
   constructor($el: HTMLElement, options: Partial<DrawerOptions>) {
     try {
       this.$sourceElement = $el;
-      this.options = { ...defaultOptionsDrawer, ...options };
+      this.options = deepMerge<DrawerOptions>(defaultOptionsDrawer, options);
       this._init();
 
       const saved = localStorage.getItem(this.options.localStorageKey);

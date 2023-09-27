@@ -1,5 +1,6 @@
 import { DrawerOptions } from '../types/drawer';
 import { ModalOptions } from '../types/modal';
+import { ToolbarOptions } from '../types/toolbar';
 
 export const defaultOptionsDrawer: DrawerOptions = {
   id: Date.now().toString(),
@@ -26,3 +27,7 @@ export const defaultOptionsModal: ModalOptions = {
   closeOnClickOutside: false,
   backdrop: true,
 };
+
+export const defaultOptionsToolbar: ToolbarOptions = {
+
+}

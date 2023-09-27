@@ -80,7 +80,7 @@ export class Drawer extends History {
     super();
     try {
       this.$sourceElement = $el;
-      this.options = deepMerge<Partial<DrawerOptions>>(defaultOptionsDrawer, options) as DrawerOptions;
+      this.options = deepMerge<DrawerOptions>(defaultOptionsDrawer, options);
       this._init();
 
       const saved = localStorage.getItem(this.options.localStorageKey);

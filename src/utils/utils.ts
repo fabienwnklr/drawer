@@ -39,7 +39,7 @@ export function isTruthy(t: any): boolean {
   return typeof t !== 'undefined' && t !== '' && t !== null;
 }
 
-export function deepMerge<T extends object>(target: T, source: T): T {
+export function deepMerge<T extends object>(target: T, source: Partial<T> | T): T {
   if (!source) return target;
   const output = { ...target };
   if (isObject(target) && isObject(source)) {
