@@ -23,6 +23,10 @@
   background-color: var(--drawer-light);
 }
 
+.drawer-modal .drawer-modal-header [data-modal="close"] {
+  float: right;
+}
+
 .drawer-modal .drawer-modal-body {
   display: flex;
   align-items: center;

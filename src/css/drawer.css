@@ -173,7 +173,8 @@ body * {
 }
 
 .drawer-container .btn,
-.shape-menu .btn {
+.shape-menu .btn,
+.drawer-modal .btn {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.2em 0.4em;
@@ -189,16 +190,19 @@ body * {
 }
 
 .drawer-container .btn:not(:disabled):hover,
-.shape-menu .btn:not(:disabled):hover {
+.shape-menu .btn:not(:disabled):hover,
+.drawer-modal .btn:not(:disabled):hover {
   border-color: var(--drawer-primary);
 }
 .drawer-container .btn:disabled,
-.shape-menu .btn:disabled {
+.shape-menu .btn:disabled
+.drawer-modal .btn:disabled {
   cursor: not-allowed;
 }
 
 .drawer-container .btn.active,
-.shape-menu .btn.active {
+.shape-menu .btn.active,
+.drawer-modal .btn.active {
   background-color: var(--drawer-primary-active-bg);
   color: var(--drawer-primary-active-color);
 }

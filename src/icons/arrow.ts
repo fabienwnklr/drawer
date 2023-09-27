@@ -1,3 +1,3 @@
-export const ArrowIcon = `<svg width="16" height="16" viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg">
-<path fill="currentColor" d="M8.293 2.293a1 1 0 0 1 1.414 0l4.5 4.5a1 1 0 0 1 0 1.414l-4.5 4.5a1 1 0 0 1-1.414-1.414L11 8.5H1.5a1 1 0 0 1 0-2H11L8.293 3.707a1 1 0 0 1 0-1.414Z"/>
+export const ArrowIcon = `<svg style="transform: rotate(135deg);" width="16" height="16" viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg">
+<path fill="currentColor" d="M4.5 0h-4a.5.5 0 0 0-.5.5v4a.5.5 0 0 0 .854.354L2.5 3.207l11.646 11.647l.708-.708L3.207 2.5L4.854.854A.5.5 0 0 0 4.5 0Z"/>
 </svg>`;

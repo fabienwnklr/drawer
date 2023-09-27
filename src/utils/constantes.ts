@@ -20,7 +20,9 @@ export const defaultOptionsDrawer: DrawerOptions = {
 
 export const defaultOptionsModal: ModalOptions = {
   id: Date.now().toString(),
-  headerContent: '',
-  bodyContent: '',
-  footerContent: '',
-}
+  headerContent: undefined,
+  bodyContent: undefined,
+  footerContent: undefined,
+  closeOnClickOutside: false,
+  backdrop: true,
+};

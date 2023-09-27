@@ -1,4 +1,4 @@
-import './drawer.css';
+import './css/drawer.css';
 import { stringToHTMLElement } from './utils/dom';
 import { DrawerError } from './utils/DrawError';
 import { BrushIcon } from './icons/brush';
@@ -55,7 +55,7 @@ export class Drawer extends History {
   $uploadFile!: HTMLInputElement;
   $settingBtn!: HTMLButtonElement | null;
   $colorPickerLabel!: HTMLLabelElement;
-  #dragStartLocation!: { x: number; y: number };
+  #dragStartLocation!: Position;
   #snapshot!: ImageData;
   #availableShape: Array<keyof typeof DrawTools> = [
     'brush',
@@ -106,37 +106,37 @@ export class Drawer extends History {
    * Draw html drawer
    */
   private _buildDrawer() {
-    this.$drawerContainer = stringToHTMLElement<HTMLDivElement>(`<div class="drawer-container"></div>`);
-    const canvas = `
-    <canvas tabindex="0" id="${this.options.id}" height="${this.options.height}" width="${this.options.width}" moz-opaque class="canvas-drawer"></canvas>
-  `;
-    this.$canvas = stringToHTMLElement<HTMLCanvasElement>(canvas);
-    this.ctx = this.$canvas.getContext('2d', { alpha: true, willReadFrequently: true }) as CanvasRenderingContext2D;
-    this.$drawerContainer.appendChild(this.$canvas);
+    try {
+      this.$drawerContainer = stringToHTMLElement<HTMLDivElement>(/*html*/`<div class="drawer-container"></div>`);
+      const canvas = /*html*/`
+      <canvas tabindex="0" id="${this.options.id}" height="${this.options.height}" width="${this.options.width}" moz-opaque class="canvas-drawer"></canvas>
+      `;
+      this.$canvas = stringToHTMLElement<HTMLCanvasElement>(canvas);
+      this.ctx = this.$canvas.getContext('2d', { alpha: true, willReadFrequently: true }) as CanvasRenderingContext2D;
+      this.$drawerContainer.appendChild(this.$canvas);
+    } catch (error: any) {
+      throw new DrawerError(error.message);
+    }
   }
 
   /**
    * @private
    * initialize canvas and event listener
-   * @returns {Promise<Drawer>}
    */
-  private _init(): Promise<Drawer> {
-    return new Promise((resolve, reject) => {
-      try {
-        this._buildDrawer();
-        this.$sourceElement.appendChild(this.$drawerContainer);
-        this.setBgColor();
-        this._initHandlerEvents();
-        this.setCanvas(this.$canvas);
-        this._updateCursor();
-        resolve(this);
+  private _init() {
+    try {
+      this._buildDrawer();
+      this.$sourceElement.appendChild(this.$drawerContainer);
+      this.setBgColor();
+      this._initHandlerEvents();
+      this.setCanvas(this.$canvas);
+      this._updateCursor();
 
-        // dispatch drawer.init event
-        this.$sourceElement.dispatchEvent(DrawEvent('init'));
-      } catch (error: any) {
-        reject(new DrawerError(error.message));
-      }
-    });
+      // dispatch drawer.init event
+      this.$sourceElement.dispatchEvent(DrawEvent('init'));
+    } catch (error: any) {
+      throw new DrawerError(error.message);
+    }
   }
 
   /**
@@ -378,7 +378,7 @@ export class Drawer extends History {
   addToolbar(): Promise<HTMLDivElement> {
     return new Promise((resolve, reject) => {
       try {
-        const toolbar = `<div class="toolbar ${this.options.toolbarPosition ?? 'outerTop'}"></div>`;
+        const toolbar = /*html*/`<div class="toolbar ${this.options.toolbarPosition ?? 'outerTop'}"></div>`;
 
         this.$toolbar = stringToHTMLElement<HTMLDivElement>(toolbar);
         this.$toolbar.style.maxWidth = this.$canvas.width + 'px';
@@ -428,7 +428,7 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$undoBtn) {
-          const undoBtn = `<button title="${'Redo'}" class="btn" disabled>${UndoIcon}</button>`;
+          const undoBtn = /*html*/`<button title="${'Redo'}" class="btn" disabled>${UndoIcon}</button>`;
           const $undoBtn = stringToHTMLElement<HTMLButtonElement>(undoBtn);
           this.$undoBtn = $undoBtn;
 
@@ -461,7 +461,7 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$redoBtn) {
-          const redoBtn = `<button title="${'Redo'}" class="btn" disabled>${RedoIcon}</button>`;
+          const redoBtn = /*html*/`<button title="${'Redo'}" class="btn" disabled>${RedoIcon}</button>`;
           const $redoBtn = stringToHTMLElement<HTMLButtonElement>(redoBtn);
           this.$redoBtn = $redoBtn;
 
@@ -495,7 +495,7 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$brushBtn) {
-          const brushBtn = `<button title="${'Brush'}" class="btn active">${BrushIcon}</button>`;
+          const brushBtn = /*html*/`<button title="${'Brush'}" class="btn active">${BrushIcon}</button>`;
           const $brushBtn = stringToHTMLElement<HTMLButtonElement>(brushBtn);
           this.$brushBtn = $brushBtn;
 
@@ -528,7 +528,7 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$eraserBtn) {
-          const eraserBtn = `<button title="${'Eraser'}" class="btn">${EraserIcon}</button>`;
+          const eraserBtn = /*html*/`<button title="${'Eraser'}" class="btn">${EraserIcon}</button>`;
           const $eraserBtn = stringToHTMLElement<HTMLButtonElement>(eraserBtn);
           this.$eraserBtn = $eraserBtn;
 
@@ -561,7 +561,7 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$clearBtn) {
-          const clearBtn = `<button title="${'Clear draw'}" class="btn">${ClearIcon}</button>`;
+          const clearBtn = /*html*/`<button title="${'Clear draw'}" class="btn">${ClearIcon}</button>`;
           const $clearBtn = stringToHTMLElement<HTMLButtonElement>(clearBtn);
           this.$clearBtn = $clearBtn;
 
@@ -594,9 +594,9 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$shapeBtn) {
-          const shapeBtn = `<button title="${'Draw shape'}" class="btn btn-shape">${ShapeIcon}</button>`;
+          const shapeBtn = /*html*/`<button title="${'Draw shape'}" class="btn btn-shape">${ShapeIcon}</button>`;
 
-          const shapeMenu = `
+          const shapeMenu = /*html*/`
           <ul class="shape-menu">
             <li class="shape-menu-item">
               <button data-shape="triangle" class="btn triangle">${TriangleIcon}</button>
@@ -679,7 +679,7 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$textBtn) {
-          const textBtn = `<button title="${'Text zone'}" class="btn">${TextIcon}</button>`;
+          const textBtn = /*html*/`<button title="${'Text zone'}" class="btn">${TextIcon}</button>`;
           const $textBtn = stringToHTMLElement<HTMLButtonElement>(textBtn);
           this.$textBtn = $textBtn;
 
@@ -712,7 +712,7 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$lineThickness) {
-          const lineThickness = `
+          const lineThickness = /*html*/`
           <div class="drawer-range">
             <input title="${'Thickness'}" id="${this.$canvas.id}-line-tickness" type="range" class="" min="1" value="${
               this.options.lineThickness
@@ -754,7 +754,7 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$colorPicker) {
-          const colorPicker = `
+          const colorPicker = /*html*/`
           <div class="container-colorpicker">
             <input class="btn" title="${'Color'}" id="${this.options.id}-colopicker" class="" type="color" value="${
               this.options.color
@@ -790,7 +790,7 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$uploadFile) {
-          const uploadFile = `
+          const uploadFile = /*html*/`
           <div class="container-uploadFile">
             <input id="${this.options.id}-uploadfile" title="${'Color'}" class="" type="file" />
             <label title="${'Upload file'}" accept="image/png, image/jpeg, .svg" class="btn" for="${
@@ -833,7 +833,7 @@ export class Drawer extends History {
   addDownloadBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
     return new Promise((resolve, reject) => {
       if (this.$toolbar && !this.$downloadBtn) {
-        const download = `<button title="${'Download'}" class="btn">${DownloadIcon}</button>`;
+        const download = /*html*/`<button title="${'Download'}" class="btn">${DownloadIcon}</button>`;
         const $downloadBtn = stringToHTMLElement<HTMLButtonElement>(download);
         this.$downloadBtn = $downloadBtn;
 
@@ -875,7 +875,7 @@ export class Drawer extends History {
   addSettingBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
     return new Promise((resolve, reject) => {
       if (this.$toolbar && !this.$settingBtn) {
-        const settingBtn = `<button title="${'Setting'}" class="btn">${SettingIcon}</button>`;
+        const settingBtn = /*html*/`<button title="${'Setting'}" class="btn">${SettingIcon}</button>`;
         const $settingBtn = stringToHTMLElement<HTMLButtonElement>(settingBtn);
         this.$settingBtn = $settingBtn;
 
@@ -887,7 +887,7 @@ export class Drawer extends History {
           } else {
             // Open setting modal
             if (!this.settingModal) {
-              this.settingModal = new SettingsModal(this.options.fill);
+              this.settingModal = new SettingsModal(this);
             }
 
             if (this.settingModal.isVisible()) {
@@ -1152,38 +1152,36 @@ export class Drawer extends History {
     this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
   }
 
-  private _drawHand(position: Position) {
-    this.ctx.lineTo(position.x, position.y);
+  private _drawHand({ x, y }: Position) {
+    this.ctx.lineTo(x, y);
     this.ctx.stroke();
   }
 
-  private _drawLine(position: Position) {
+  private _drawLine({ x, y }: Position) {
     this.ctx.beginPath();
     this.ctx.moveTo(this.#dragStartLocation.x, this.#dragStartLocation.y);
-    this.ctx.lineTo(position.x, position.y);
+    this.ctx.lineTo(x, y);
     this.ctx.stroke();
   }
 
-  private _drawRect(position: Position) {
-    const w = position.x - this.#dragStartLocation.x;
-    const h = position.y - this.#dragStartLocation.y;
+  private _drawRect({ x, y }: Position) {
+    const w = x - this.#dragStartLocation.x;
+    const h = y - this.#dragStartLocation.y;
     this.ctx.beginPath();
     this.ctx.rect(this.#dragStartLocation.x, this.#dragStartLocation.y, w, h);
   }
 
-  private _drawCircle(position: Position) {
-    const radius = Math.sqrt(
-      Math.pow(this.#dragStartLocation.x - position.x, 2) + Math.pow(this.#dragStartLocation.y - position.y, 2)
-    );
+  private _drawCircle({ x, y }: Position) {
+    const radius = Math.sqrt(Math.pow(this.#dragStartLocation.x - x, 2) + Math.pow(this.#dragStartLocation.y - y, 2));
     this.ctx.beginPath();
     this.ctx.arc(this.#dragStartLocation.x, this.#dragStartLocation.y, radius, 0, 2 * Math.PI);
   }
 
-  private _drawArrow(position: Position) {
-    const angle = Math.atan2(position.y - this.#dragStartLocation.y, position.x - this.#dragStartLocation.x);
+  private _drawArrow({ x, y }: Position) {
+    const angle = Math.atan2(y - this.#dragStartLocation.y, x - this.#dragStartLocation.x);
     const hyp = Math.sqrt(
-      (position.x - this.#dragStartLocation.x) * (position.x - this.#dragStartLocation.x) +
-        (position.y - this.#dragStartLocation.y) * (position.y - this.#dragStartLocation.y)
+      (x - this.#dragStartLocation.x) * (x - this.#dragStartLocation.x) +
+        (y - this.#dragStartLocation.y) * (y - this.#dragStartLocation.y)
     );
 
     this.ctx.save();
@@ -1206,7 +1204,7 @@ export class Drawer extends History {
     this.ctx.restore();
   }
 
-  // private _drawEllipse(position: Position) {
+  // private _drawEllipse({x, y }: Position) {
   //   const w = position.x - this.#dragStartLocation.x;
   //   const h = position.y - this.#dragStartLocation.y;
   //   const radius = Math.sqrt(
@@ -1241,11 +1239,9 @@ export class Drawer extends History {
   //   this.ctx.stroke();
   // }
 
-  private _drawPolygon(position: Position, sides: number, angle: number) {
+  private _drawPolygon({ x, y }: Position, sides: number, angle: number) {
     const coordinates = [],
-      radius = Math.sqrt(
-        Math.pow(this.#dragStartLocation.x - position.x, 2) + Math.pow(this.#dragStartLocation.y - position.y, 2)
-      );
+      radius = Math.sqrt(Math.pow(this.#dragStartLocation.x - x, 2) + Math.pow(this.#dragStartLocation.y - y, 2));
 
     for (let index = 0; index < sides; index++) {
       coordinates.push({
@@ -1345,18 +1341,19 @@ export class Drawer extends History {
    * Adding textarea to clicked zone
    * @param {Position} position
    */
-  private _addTextArea(position: Position) {
+  private _addTextArea({ x, y }: Position) {
     this.ctx.globalCompositeOperation = 'source-over';
     const $textArea = document.createElement('textarea');
     const fontSize = this.options.lineThickness < 12 ? 12 : this.options.lineThickness;
 
     $textArea.style.position = 'fixed';
-    $textArea.style.left = position.x + 'px';
-    $textArea.style.top = position.y + 'px';
+    $textArea.style.left = x + 'px';
+    $textArea.style.top = y + 'px';
     $textArea.style.color = this.options.color;
     $textArea.style.height = 'auto';
     $textArea.style.width = 'auto';
     $textArea.style.fontSize = fontSize + 'px';
+    $textArea.style.fontFamily = 'sans-serif';
 
     $textArea.addEventListener('focusout', () => {
       this.saveState();

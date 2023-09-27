@@ -1,4 +1,4 @@
-import './drawer.css';
+import './css/drawer.css';
 import { DrawerOptions } from './types/drawer';
 import { DrawerError } from './utils/DrawError';
 import { defaultOptionsDrawer } from './utils/constantes';
