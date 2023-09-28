@@ -36,6 +36,7 @@ export class Drawer extends History {
   dotted: boolean = false;
   // options
   options: DrawerOptions = defaultOptionsDrawer;
+  customBtn: { [key: string]: HTMLButtonElement } = {};
   // HTML Elements
   declare $canvas: HTMLCanvasElement;
   $sourceElement: HTMLElement;
@@ -107,9 +108,9 @@ export class Drawer extends History {
    */
   private _buildDrawer() {
     try {
-      this.$drawerContainer = stringToHTMLElement<HTMLDivElement>(/*html*/`<div class="drawer-container"></div>`);
-      const canvas = /*html*/`
-      <canvas tabindex="0" id="${this.options.id}" height="${this.options.height}" width="${this.options.width}" moz-opaque class="canvas-drawer"></canvas>
+      this.$drawerContainer = stringToHTMLElement<HTMLDivElement>(/*html*/ `<div class="drawer-container"></div>`);
+      const canvas = /*html*/ `
+      <canvas tabindex="0" id="${this.options.id}" height="${this.options.height}" width="${this.options.width}" class="canvas-drawer"></canvas>
       `;
       this.$canvas = stringToHTMLElement<HTMLCanvasElement>(canvas);
       this.ctx = this.$canvas.getContext('2d', { alpha: true, willReadFrequently: true }) as CanvasRenderingContext2D;
@@ -189,11 +190,8 @@ export class Drawer extends History {
         this.ctx.fillStyle = this.options.color; // passing selectedColor as fill style
 
         // Update icon color for indicate to user
-        if (this.$colorPickerLabel) {
-          const $icon = this.$colorPickerLabel.querySelector('svg');
-          if ($icon) {
-            $icon.style.color = color;
-          }
+        if (this.$colorPicker) {
+          this.$colorPicker.value = this.ctx.strokeStyle;
         }
 
         this.$canvas.dispatchEvent(DrawEvent('update.color', { color }));
@@ -282,7 +280,7 @@ export class Drawer extends History {
               $btn = this.$shapeBtn;
           }
 
-          if ($btn) this.setActiveBtn($btn);
+          this.setActiveBtn($btn);
           this.$canvas.dispatchEvent(DrawEvent('update.tool', { toolName }));
           resolve(true);
         }
@@ -378,7 +376,7 @@ export class Drawer extends History {
   addToolbar(): Promise<HTMLDivElement> {
     return new Promise((resolve, reject) => {
       try {
-        const toolbar = /*html*/`<div class="toolbar ${this.options.toolbarPosition ?? 'outerTop'}"></div>`;
+        const toolbar = /*html*/ `<div class="toolbar ${this.options.toolbarPosition ?? 'outerTop'}"></div>`;
 
         this.$toolbar = stringToHTMLElement<HTMLDivElement>(toolbar);
         this.$toolbar.style.maxWidth = this.$canvas.width + 'px';
@@ -428,7 +426,7 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$undoBtn) {
-          const undoBtn = /*html*/`<button title="${'Redo'}" class="btn" disabled>${UndoIcon}</button>`;
+          const undoBtn = /*html*/ `<button title="${'Redo'}" class="btn" disabled>${UndoIcon}</button>`;
           const $undoBtn = stringToHTMLElement<HTMLButtonElement>(undoBtn);
           this.$undoBtn = $undoBtn;
 
@@ -461,7 +459,7 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$redoBtn) {
-          const redoBtn = /*html*/`<button title="${'Redo'}" class="btn" disabled>${RedoIcon}</button>`;
+          const redoBtn = /*html*/ `<button title="${'Redo'}" class="btn" disabled>${RedoIcon}</button>`;
           const $redoBtn = stringToHTMLElement<HTMLButtonElement>(redoBtn);
           this.$redoBtn = $redoBtn;
 
@@ -495,7 +493,7 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$brushBtn) {
-          const brushBtn = /*html*/`<button title="${'Brush'}" class="btn active">${BrushIcon}</button>`;
+          const brushBtn = /*html*/ `<button title="${'Brush'}" class="btn active">${BrushIcon}</button>`;
           const $brushBtn = stringToHTMLElement<HTMLButtonElement>(brushBtn);
           this.$brushBtn = $brushBtn;
 
@@ -528,7 +526,7 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$eraserBtn) {
-          const eraserBtn = /*html*/`<button title="${'Eraser'}" class="btn">${EraserIcon}</button>`;
+          const eraserBtn = /*html*/ `<button title="${'Eraser'}" class="btn">${EraserIcon}</button>`;
           const $eraserBtn = stringToHTMLElement<HTMLButtonElement>(eraserBtn);
           this.$eraserBtn = $eraserBtn;
 
@@ -561,7 +559,7 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$clearBtn) {
-          const clearBtn = /*html*/`<button title="${'Clear draw'}" class="btn">${ClearIcon}</button>`;
+          const clearBtn = /*html*/ `<button title="${'Clear draw'}" class="btn">${ClearIcon}</button>`;
           const $clearBtn = stringToHTMLElement<HTMLButtonElement>(clearBtn);
           this.$clearBtn = $clearBtn;
 
@@ -594,9 +592,9 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$shapeBtn) {
-          const shapeBtn = /*html*/`<button title="${'Draw shape'}" class="btn btn-shape">${ShapeIcon}</button>`;
+          const shapeBtn = /*html*/ `<button title="${'Draw shape'}" class="btn btn-shape">${ShapeIcon}</button>`;
 
-          const shapeMenu = /*html*/`
+          const shapeMenu = /*html*/ `
           <ul class="shape-menu">
             <li class="shape-menu-item">
               <button data-shape="triangle" class="btn triangle">${TriangleIcon}</button>
@@ -670,6 +668,7 @@ export class Drawer extends History {
       }
     });
   }
+
   /**
    * Add text button to toolbar if exist
    * see {@link addToolbar} before use it
@@ -679,8 +678,7 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$textBtn) {
-          const textBtn = /*html*/`<button title="${'Text zone'}" class="btn">${TextIcon}</button>`;
-          const $textBtn = stringToHTMLElement<HTMLButtonElement>(textBtn);
+          const $textBtn = stringToHTMLElement<HTMLButtonElement>(this.textBtnHtml());
           this.$textBtn = $textBtn;
 
           this.$toolbar.appendChild(this.$textBtn);
@@ -712,7 +710,7 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$lineThickness) {
-          const lineThickness = /*html*/`
+          const lineThickness = /*html*/ `
           <div class="drawer-range">
             <input title="${'Thickness'}" id="${this.$canvas.id}-line-tickness" type="range" class="" min="1" value="${
               this.options.lineThickness
@@ -754,7 +752,7 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$colorPicker) {
-          const colorPicker = /*html*/`
+          const colorPicker = /*html*/ `
           <div class="container-colorpicker">
             <input class="btn" title="${'Color'}" id="${this.options.id}-colopicker" class="" type="color" value="${
               this.options.color
@@ -790,7 +788,7 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$uploadFile) {
-          const uploadFile = /*html*/`
+          const uploadFile = /*html*/ `
           <div class="container-uploadFile">
             <input id="${this.options.id}-uploadfile" title="${'Color'}" class="" type="file" />
             <label title="${'Upload file'}" accept="image/png, image/jpeg, .svg" class="btn" for="${
@@ -833,7 +831,7 @@ export class Drawer extends History {
   addDownloadBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
     return new Promise((resolve, reject) => {
       if (this.$toolbar && !this.$downloadBtn) {
-        const download = /*html*/`<button title="${'Download'}" class="btn">${DownloadIcon}</button>`;
+        const download = /*html*/ `<button title="${'Download'}" class="btn">${DownloadIcon}</button>`;
         const $downloadBtn = stringToHTMLElement<HTMLButtonElement>(download);
         this.$downloadBtn = $downloadBtn;
 
@@ -875,7 +873,7 @@ export class Drawer extends History {
   addSettingBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
     return new Promise((resolve, reject) => {
       if (this.$toolbar && !this.$settingBtn) {
-        const settingBtn = /*html*/`<button title="${'Setting'}" class="btn">${SettingIcon}</button>`;
+        const settingBtn = /*html*/ `<button title="${'Setting'}" class="btn">${SettingIcon}</button>`;
         const $settingBtn = stringToHTMLElement<HTMLButtonElement>(settingBtn);
         this.$settingBtn = $settingBtn;
 
@@ -901,6 +899,37 @@ export class Drawer extends History {
         resolve(this.$settingBtn);
       } else {
         reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
+      }
+    });
+  }
+
+  addCustomBtn(
+    name: string,
+    title: string,
+    label: string,
+    action?: action<HTMLButtonElement>
+  ): Promise<HTMLButtonElement> {
+    return new Promise((resolve, reject) => {
+      if (this.$toolbar && !this.customBtn[name]) {
+        const customBtn = /*html*/ `<button title="${title}" class="btn">${label}</button>`;
+        const $customBtn = stringToHTMLElement<HTMLButtonElement>(customBtn);
+        this.customBtn[name] = $customBtn;
+
+        this.$toolbar.appendChild(this.customBtn[name]);
+
+        this.customBtn[name].addEventListener('click', () => {
+          if (typeof action === 'function') {
+            action(this, this.customBtn[name]);
+          } else {
+            throw new DrawerError(`No action provided for custom button name '${name}`);
+          }
+        });
+
+        resolve(this.customBtn[name]);
+      } else if (!this.$toolbar) {
+        reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first.`));
+      } else {
+        reject(new DrawerError(`Custom button with name "${name}" already exist.`));
       }
     });
   }
@@ -996,14 +1025,14 @@ export class Drawer extends History {
    * Apply active state to btn
    * @param {HTMLButtonElement} $btn Button to add active class
    */
-  setActiveBtn($btn: HTMLButtonElement) {
+  setActiveBtn($btn: HTMLButtonElement | null) {
     if (this.$toolbar) {
       this.$toolbar.querySelectorAll('.btn').forEach(($b) => $b.classList.remove('active'));
 
       if (this.$shapeMenu) {
         this.$shapeMenu.querySelectorAll('.btn').forEach(($b) => $b.classList.remove('active'));
       }
-      $btn.classList.add('active');
+      $btn?.classList.add('active');
     } else {
       throw new DrawerError(`No toolbar provided`);
     }
