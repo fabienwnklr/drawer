@@ -678,7 +678,8 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$textBtn) {
-          const $textBtn = stringToHTMLElement<HTMLButtonElement>(this.textBtnHtml());
+          const textBtn = /*html*/`<button title="${'Text zone'}" class="btn">${TextIcon}</button>`;
+          const $textBtn = stringToHTMLElement<HTMLButtonElement>(textBtn);
           this.$textBtn = $textBtn;
 
           this.$toolbar.appendChild(this.$textBtn);
