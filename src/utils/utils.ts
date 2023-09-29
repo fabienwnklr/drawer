@@ -58,27 +58,27 @@ export function deepMerge<T extends object>(target: T, source: Partial<T> | T): 
   return output;
 }
 
-export function _arrayBufferToBase64( buffer: ArrayBuffer): string {
+export function _arrayBufferToBase64(buffer: ArrayBuffer): string {
   let binary = '';
-  const bytes = new Uint8Array( buffer );
+  const bytes = new Uint8Array(buffer);
   const len = bytes.byteLength;
   for (let i = 0; i < len; i++) {
-      binary += String.fromCharCode( bytes[ i ] );
+    binary += String.fromCharCode(bytes[i]);
   }
-  return window.btoa( binary );
+  return window.btoa(binary);
 }
 
 export async function blobToBase64(blob: Blob): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onloadend = () => {
-      let data = reader.result
+      let data = reader.result;
       if (data instanceof ArrayBuffer) {
-        data = _arrayBufferToBase64(data)
+        data = _arrayBufferToBase64(data);
       } else if (data === null) {
-        data = "";
+        data = '';
       }
-      resolve(data)
+      resolve(data);
     };
     reader.onerror = (err) => reject(err);
     reader.readAsDataURL(blob);
