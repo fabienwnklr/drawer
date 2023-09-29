@@ -1,3 +1,7 @@
+// Coloris JS
+import '@melloware/coloris/dist/coloris.css';
+import Coloris from '@melloware/coloris';
+
 import './css/drawer.css';
 import { stringToHTMLElement } from './utils/dom';
 import { DrawerError } from './utils/DrawError';
@@ -50,7 +54,7 @@ export class Drawer extends History {
   $textBtn!: HTMLButtonElement | null;
   $lineThickness!: HTMLDivElement;
   $downloadBtn!: HTMLButtonElement | null;
-  $colorPicker!: HTMLInputElement;
+  $colorPicker!: HTMLInputElement | null;
   $shapeBtn!: HTMLButtonElement | null;
   $shapeMenu!: HTMLUListElement;
   $uploadFile!: HTMLInputElement;
@@ -189,11 +193,11 @@ export class Drawer extends History {
         this.ctx.strokeStyle = this.options.color; // passing selectedColor as stroke style
         this.ctx.fillStyle = this.options.color; // passing selectedColor as fill style
 
-        // Update icon color for indicate to user
         if (this.$colorPicker) {
-          this.$colorPicker.value = this.ctx.strokeStyle;
+          this.$colorPicker.value = color;
+          // for update coloris component
+          this.$colorPicker.dispatchEvent(new Event('input', { bubbles: true }));
         }
-
         this.$canvas.dispatchEvent(DrawEvent('update.color', { color }));
 
         resolve(true);
@@ -434,7 +438,7 @@ export class Drawer extends History {
 
           this.$undoBtn.addEventListener('click', () => {
             if (typeof action === 'function') {
-              action(this, $undoBtn);
+              action.call(this, $undoBtn);
             } else {
               this.undo();
               this._manageUndoRedoBtn();
@@ -467,7 +471,7 @@ export class Drawer extends History {
 
           this.$redoBtn.addEventListener('click', () => {
             if (typeof action === 'function') {
-              action(this, $redoBtn);
+              action.call(this, $redoBtn);
             } else {
               this.redo();
               this._manageUndoRedoBtn();
@@ -501,7 +505,7 @@ export class Drawer extends History {
 
           this.$brushBtn.addEventListener('click', () => {
             if (typeof action === 'function') {
-              action(this, $brushBtn);
+              action.call(this, $brushBtn);
             } else {
               this.changeTool('brush');
             }
@@ -534,7 +538,7 @@ export class Drawer extends History {
 
           this.$eraserBtn.addEventListener('click', () => {
             if (typeof action === 'function') {
-              action(this, $eraserBtn);
+              action.call(this, $eraserBtn);
             } else {
               this.changeTool('eraser');
             }
@@ -567,7 +571,7 @@ export class Drawer extends History {
 
           this.$clearBtn.addEventListener('click', () => {
             if (typeof action === 'function') {
-              action(this, $clearBtn);
+              action.call(this, $clearBtn);
             } else if (confirm(`${'Voulez vous suppimer la totalité du dessin ?'}`)) {
               this.clear();
             }
@@ -627,7 +631,7 @@ export class Drawer extends History {
 
           this.$shapeBtn.addEventListener('click', () => {
             if (typeof action === 'function') {
-              action(this, $shapeBtn);
+              action.call(this, $shapeBtn);
             } else {
               const { bottom, left } = $shapeBtn.getBoundingClientRect();
               this.$shapeMenu.style.top = bottom + 3 + 'px';
@@ -678,7 +682,7 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$textBtn) {
-          const textBtn = /*html*/`<button title="${'Text zone'}" class="btn">${TextIcon}</button>`;
+          const textBtn = /*html*/ `<button title="${'Text zone'}" class="btn">${TextIcon}</button>`;
           const $textBtn = stringToHTMLElement<HTMLButtonElement>(textBtn);
           this.$textBtn = $textBtn;
 
@@ -686,7 +690,7 @@ export class Drawer extends History {
 
           this.$textBtn.addEventListener('click', () => {
             if (typeof action === 'function') {
-              action(this, $textBtn);
+              action.call(this, $textBtn);
             } else {
               this.changeTool('text');
             }
@@ -725,7 +729,7 @@ export class Drawer extends History {
 
           this.$lineThickness.addEventListener('input', () => {
             if (typeof action === 'function') {
-              action(this, this.$lineThickness.querySelector('input') as HTMLInputElement);
+              action.call(this, this.$lineThickness.querySelector('input') as HTMLInputElement);
               return;
             }
 
@@ -746,6 +750,7 @@ export class Drawer extends History {
   /**
    * Add a colorpicker button
    * see {@link addToolbar} before use it
+   * using colorisjs, for customisation please see here {@link https://github.com/mdbassit/Coloris}
    * @param action Action call after color selected
    * @returns {Promise<HTMLInputElement>}
    */
@@ -753,26 +758,34 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$colorPicker) {
-          const colorPicker = /*html*/ `
+          const colorPickerContainer = /*html*/ `
           <div class="container-colorpicker">
-            <input class="btn" title="${'Color'}" id="${this.options.id}-colopicker" class="" type="color" value="${
+            <input class="btn" title="${'Color'}" id="colopicker-${this.options.id}" class="" type="text" value="${
               this.options.color
-            }" />
+            }" data-coloris/>
           </div>
           `;
-          const $colorPicker = stringToHTMLElement<HTMLDivElement>(colorPicker);
+          const $colorPickerContainer = stringToHTMLElement<HTMLDivElement>(colorPickerContainer);
 
-          this.$toolbar.appendChild($colorPicker);
+          this.$toolbar.appendChild($colorPickerContainer);
 
-          this.$colorPicker = $colorPicker.querySelector('input') as HTMLInputElement;
-          this.$colorPickerLabel = $colorPicker.querySelector('label') as HTMLLabelElement;
+          const $colorPicker = $colorPickerContainer.querySelector('input') as HTMLInputElement;
+          this.$colorPicker = $colorPicker;
 
-          this.$colorPicker.addEventListener('change', () => {
-            if (typeof action === 'function') {
-              action(this, this.$colorPicker);
-            } else {
-              this.setColor(this.$colorPicker.value);
-            }
+          Coloris.init();
+          Coloris({
+            el: `#colopicker-${this.options.id}`,
+            theme: 'polaroid',
+            swatches: this.options.availableColor,
+            swatchesOnly: this.options.availableColorOnly,
+            formatToggle: true,
+            onChange: (color) => {
+              if (typeof action === 'function') {
+                action.call(this, $colorPicker, color);
+              } else {
+                this.setColor($colorPicker.value);
+              }
+            },
           });
 
           resolve(this.$colorPicker);
@@ -807,7 +820,7 @@ export class Drawer extends History {
 
           this.$uploadFile.addEventListener('change', () => {
             if (typeof action === 'function') {
-              action(this, this.$uploadFile);
+              action.call(this, this.$uploadFile);
             } else {
               this._uploadFile();
             }
@@ -840,7 +853,7 @@ export class Drawer extends History {
 
         this.$downloadBtn.addEventListener('click', () => {
           if (typeof action === 'function') {
-            action(this, $downloadBtn);
+            action.call(this, $downloadBtn);
           } else {
             // Download
             const original = this.getData();
@@ -882,7 +895,7 @@ export class Drawer extends History {
 
         this.$settingBtn.addEventListener('click', () => {
           if (typeof action === 'function') {
-            action(this, $settingBtn);
+            action.call(this, $settingBtn);
           } else {
             // Open setting modal
             if (!this.settingModal) {
@@ -920,7 +933,7 @@ export class Drawer extends History {
 
         this.customBtn[name].addEventListener('click', () => {
           if (typeof action === 'function') {
-            action(this, this.customBtn[name]);
+            action.call(this, this.customBtn[name]);
           } else {
             throw new DrawerError(`No action provided for custom button name '${name}`);
           }
@@ -1161,8 +1174,7 @@ export class Drawer extends History {
       this._drawArrow(position);
     } else if (this.activeTool === 'triangle') {
       const angle =
-        360 -
-        (Math.atan2(this.#dragStartLocation.y - position.y, this.#dragStartLocation.x - position.x) * 180) / Math.PI;
+        (Math.atan2(this.#dragStartLocation.y - position.y, this.#dragStartLocation.x - position.x) * 20) / Math.PI;
       this._drawPolygon(position, 3, (angle * Math.PI) / 4);
     } else if (this.activeTool === 'polygon') {
       const angle =

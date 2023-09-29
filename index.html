@@ -14,7 +14,7 @@
 
       const $el = document.querySelector("#app");
       $el.addEventListener("drawer.init", console.log)
-      window.drawer = new Drawer($el, { width: 800, height: 600, toolbarPosition: ""});
+      window.drawer = new Drawer($el, { width: window.innerWidth - 100, height: window.innerHeight - 100 });
     </script>
   </body>
 </html>

@@ -17,6 +17,8 @@ export const defaultOptionsDrawer: DrawerOptions = {
   dash: [10, 5],
   cap: 'round',
   fill: true,
+  availableColor: undefined,
+  availableColorOnly: false,
 };
 
 export const defaultOptionsModal: ModalOptions = {

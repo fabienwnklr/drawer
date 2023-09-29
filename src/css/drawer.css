@@ -130,6 +130,7 @@ body * {
 
 .toolbar .container-colorpicker {
   position: relative;
+  margin: 0.2em;
 }
 
 .toolbar input,

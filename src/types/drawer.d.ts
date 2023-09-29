@@ -13,9 +13,11 @@ export interface DrawerOptions {
   lineThickness: number;
   cap: 'round' | 'square';
   fill: boolean;
+  availableColor?: string[]
+  availableColorOnly?: boolean,
 }
 
-export type action<T> = (drawer: Drawer, $btn: T) => void;
+export type action<T> = ($btn: T, value?: any) => void;
 
 export enum DrawTools {
   brush = 'brush',
