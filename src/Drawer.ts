@@ -74,7 +74,8 @@ export class Drawer extends History {
     'triangle',
     'polygon',
   ];
-  settingModal!: SettingsModal | null;
+  settingModal!: SettingsModal;
+  gridActive!: boolean;
 
   /**
    *
@@ -90,7 +91,7 @@ export class Drawer extends History {
 
       const saved = localStorage.getItem(this.options.localStorageKey);
 
-      if (saved) {
+      if (saved && !this.isEmpty(saved)) {
         this.loadFromData(saved);
       }
 
@@ -98,6 +99,8 @@ export class Drawer extends History {
         this.addToolbar();
         this.addDefaults();
       }
+
+      this.settingModal = new SettingsModal(this);
 
       if (this.options.dotted) {
         this.setDottedLine(true, this.options.dash);
@@ -118,6 +121,7 @@ export class Drawer extends History {
       `;
       this.$canvas = stringToHTMLElement<HTMLCanvasElement>(canvas);
       this.ctx = this.$canvas.getContext('2d', { alpha: true, willReadFrequently: true }) as CanvasRenderingContext2D;
+      this.ctx.globalAlpha = this.options.opacity;
       this.$drawerContainer.appendChild(this.$canvas);
     } catch (error: any) {
       throw new DrawerError(error.message);
@@ -136,6 +140,10 @@ export class Drawer extends History {
       this._initHandlerEvents();
       this.setCanvas(this.$canvas);
       this._updateCursor();
+
+      if (this.options.grid) {
+        this.addGrid();
+      }
 
       // dispatch drawer.init event
       this.$sourceElement.dispatchEvent(DrawEvent('init'));
@@ -178,8 +186,9 @@ export class Drawer extends History {
    * Check if canvas empty
    * @returns {boolean}
    */
-  isEmpty(): boolean {
-    return document.createElement('canvas').toDataURL() === this.getData();
+  isEmpty(data?: string): boolean {
+    data = data ?? this.getData();
+    return document.createElement('canvas').toDataURL() === data;
   }
 
   /**
@@ -305,11 +314,15 @@ export class Drawer extends History {
         this.ctx.clearRect(0, 0, this.$canvas.width, this.$canvas.height);
         this.redo_list = [];
         this.undo_list = [];
-
+        this.gridActive = false;
         this._manageUndoRedoBtn();
-        // restore bg color too
         this.$canvas.dispatchEvent(DrawEvent('change', this));
 
+        // After event, else save event triggered
+        const saved = localStorage.getItem(this.options.localStorageKey);
+        if (saved) {
+          localStorage.removeItem(this.options.localStorageKey);
+        }
         resolve(this.$canvas);
       } catch (error: any) {
         reject(new DrawerError(error.message));
@@ -361,8 +374,6 @@ export class Drawer extends History {
     } else {
       throw new DrawerError(`Error saving draw, options 'localStorageKey' is wrong.`);
     }
-
-    console.debug('draw saved to localstorage');
   }
 
   /**
@@ -898,10 +909,6 @@ export class Drawer extends History {
             action.call(this, $settingBtn);
           } else {
             // Open setting modal
-            if (!this.settingModal) {
-              this.settingModal = new SettingsModal(this);
-            }
-
             if (this.settingModal.isVisible()) {
               this.settingModal.hide();
             } else {
@@ -1102,6 +1109,12 @@ export class Drawer extends History {
     this.isDrawing = true;
     this._takeSnapshot();
     this.saveState();
+
+    if (this.activeTool !== "brush" && this.activeTool !== "eraser" && this.options.guides) {
+      const position = getMousePosition(this.$canvas, event);
+      this.drawGuides(position);
+      this.drawPointerDownArc(position);
+    }
   }
   /**
    * @private _drawing
@@ -1112,7 +1125,7 @@ export class Drawer extends History {
     if (event.buttons !== 1 || this.activeTool === 'text') return; // if isDrawing is false return from here
 
     if (this.activeTool !== 'eraser') {
-      this.ctx.globalCompositeOperation = 'source-over';
+      this.ctx.globalCompositeOperation = this.settingModal.xor ? "xor" : "source-over";
     } else if (this.activeTool === 'eraser') {
       this.ctx.globalCompositeOperation = 'destination-out';
     } else {
@@ -1123,6 +1136,12 @@ export class Drawer extends History {
       this._restoreSnapshot();
     }
     const position = getMousePosition(this.$canvas, event);
+
+    if (this.activeTool !== 'brush' && this.activeTool !== 'eraser' && this.options.guides) {
+      this.drawGuides(position);
+      this.drawPointerDownArc(this.#dragStartLocation);
+      this.drawRubberBandReference(position);
+    }
 
     this._draw(position);
   }
@@ -1303,6 +1322,93 @@ export class Drawer extends History {
     this.ctx.closePath();
   }
 
+  addGrid() {
+    this.$canvas.classList.add("grid")
+  }
+
+  removeGrid() {
+    this.$canvas.classList.remove('grid');
+  }
+
+  drawGuides({ x, y }: Position) {
+    this.ctx.save();
+    this.ctx.strokeStyle = 'rgb(255, 26, 121, 0.8)';
+    this.ctx.lineWidth = 1;
+
+    this.ctx.beginPath();
+    this.ctx.moveTo(0, y);
+    this.ctx.lineTo(this.ctx.canvas.width, y);
+    this.ctx.closePath();
+    this.ctx.stroke();
+
+    this.ctx.beginPath();
+    this.ctx.moveTo(x, 0);
+    this.ctx.lineTo(x, this.ctx.canvas.height);
+    this.ctx.closePath();
+    this.ctx.stroke();
+
+    this.ctx.restore();
+  }
+
+  drawPointerDownArc({ x, y }: Position) {
+    this.ctx.save();
+    this.ctx.fillStyle = 'rgba(255,0,0,0.5)';
+    this.ctx.beginPath();
+    this.ctx.arc(x, y, 10, 0, Math.PI * 2);
+    this.ctx.fill();
+  }
+
+  drawRubberBandReference({x, y}: Position) {
+    const rubberBandRect: any = {};
+    if (this.#dragStartLocation.x < x) {
+      rubberBandRect.left = this.#dragStartLocation.x;
+    } else {
+      rubberBandRect.left = x;
+    }
+
+    if (this.#dragStartLocation.y < y) {
+      rubberBandRect.top = this.#dragStartLocation.y;
+    } else {
+      rubberBandRect.top = y;
+    }
+
+    rubberBandRect.width = Math.abs(this.#dragStartLocation.x - x);
+    rubberBandRect.height = Math.abs(this.#dragStartLocation.y - y);
+    this.ctx.save();
+    this.ctx.strokeStyle = 'black';
+    this.ctx.lineWidth = 1;
+
+    this.ctx.beginPath();
+    this.ctx.arc(rubberBandRect.left,
+            rubberBandRect.top,
+            4, 0, Math.PI * 2);
+    this.ctx.closePath();
+    this.ctx.stroke();
+
+    this.ctx.beginPath();
+    this.ctx.arc(rubberBandRect.left + rubberBandRect.width,
+            rubberBandRect.top,
+            4, 0, Math.PI * 2);
+    this.ctx.closePath();
+    this.ctx.stroke();
+
+    this.ctx.beginPath();
+    this.ctx.arc(rubberBandRect.left,
+            rubberBandRect.top + rubberBandRect.height,
+            4, 0, Math.PI * 2);
+    this.ctx.closePath();
+    this.ctx.stroke();
+
+    this.ctx.beginPath();
+    this.ctx.arc(rubberBandRect.left + rubberBandRect.width,
+            rubberBandRect.top + rubberBandRect.height,
+            4, 0, Math.PI * 2);
+    this.ctx.closePath();
+    this.ctx.stroke();
+
+    this.ctx.restore();
+  }
+
   /**
    * Update cursor style
    */
@@ -1317,7 +1423,7 @@ export class Drawer extends History {
     ctx.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
 
     if (this.options.cap === 'round') {
-      ctx.arc(rad / 2, rad / 2, rad / 2, 0, Math.PI * 2);
+      ctx.arc(rad / 2, rad / 2, (rad / 2) * 0.9, 0, Math.PI * 2, false);
     } else {
       ctx.rect(0, 0, rad, rad);
     }

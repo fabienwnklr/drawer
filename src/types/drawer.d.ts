@@ -13,8 +13,12 @@ export interface DrawerOptions {
   lineThickness: number;
   cap: 'round' | 'square';
   fill: boolean;
-  availableColor?: string[]
-  availableColorOnly?: boolean,
+  availableColor?: string[];
+  availableColorOnly: boolean;
+  grid: boolean;
+  guides: boolean;
+  opacity: number;
+  xor: boolean;
 }
 
 export type action<T> = ($btn: T, value?: any) => void;

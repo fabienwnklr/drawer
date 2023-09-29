@@ -19,6 +19,10 @@ export const defaultOptionsDrawer: DrawerOptions = {
   fill: true,
   availableColor: undefined,
   availableColorOnly: false,
+  grid: false,
+  guides: false,
+  opacity: 1,
+  xor: false,
 };
 
 export const defaultOptionsModal: ModalOptions = {
@@ -26,10 +30,8 @@ export const defaultOptionsModal: ModalOptions = {
   headerContent: undefined,
   bodyContent: undefined,
   footerContent: undefined,
-  closeOnClickOutside: false,
+  closeOnClickOutside: true,
   backdrop: true,
 };
 
-export const defaultOptionsToolbar: ToolbarOptions = {
-
-}
+export const defaultOptionsToolbar: ToolbarOptions = {};

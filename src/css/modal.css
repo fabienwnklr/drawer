@@ -20,7 +20,7 @@
   padding: 0.5rem;
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
-  background-color: var(--drawer-light);
+  border-bottom: 2px solid var(--drawer-light);
 }
 
 .drawer-modal .drawer-modal-header [data-modal="close"] {

@@ -2,7 +2,7 @@
   --drawer-primary: #646cff;
   --drawer-primary-active-color: #f8f8f8;
   --drawer-primary-active-bg: #4f57c0;
-  --drawer-light: #ebebeb;
+  --drawer-light: #f3f3f3;
   --drawer-light-btn: #d4d4d4;
   --drawer-border-radius: 5px;
 }
@@ -173,6 +173,23 @@ body * {
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
 }
 
+.drawer-container .canvas-drawer.grid,
+.drawer-container .svg-drawer.grid {
+  background-size:
+    100px 100px,
+    100px 100px,
+    20px 20px,
+    20px 20px;
+  background-position:
+    -1px -1px,
+    -1px -1px,
+    -1px -1px,
+    -1px -1px;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.3) 1px, transparent 1px),
+    linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+}
 .drawer-container .btn,
 .shape-menu .btn,
 .drawer-modal .btn {
@@ -196,8 +213,7 @@ body * {
   border-color: var(--drawer-primary);
 }
 .drawer-container .btn:disabled,
-.shape-menu .btn:disabled
-.drawer-modal .btn:disabled {
+.shape-menu .btn:disabled .drawer-modal .btn:disabled {
   cursor: not-allowed;
 }
 
