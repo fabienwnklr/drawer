@@ -33,7 +33,9 @@ export class SettingsModal extends Modal {
       <ul class="drawer-modal-body-list">
         <li class="drawer-modal-body-list-item">
           <label for="setting-opacity-${this.drawer.options.id}">Global opacity</label>
-          <input id="setting-opacity-${this.drawer.options.id}"  name="opacity-${this.drawer.options.id}" type="number" min="0.1" max="1" step="0.1" value="${this.opacity}"/>
+          <input id="setting-opacity-${this.drawer.options.id}"  name="opacity-${
+            this.drawer.options.id
+          }" type="number" min="0.1" max="1" step="0.1" value="${this.opacity}"/>
         </li>
         <li class="drawer-modal-body-list-item">
           <label for="setting-fill-${this.drawer.options.id}">Fill</label>
@@ -49,9 +51,9 @@ export class SettingsModal extends Modal {
         </li>
         <li class="drawer-modal-body-list-item">
           <label for="setting-guides-${this.drawer.options.id}">Guides</label>
-          <input id="setting-guides-${this.drawer.options.id}" type="checkbox" name="guides-${this.drawer.options.id}" ${
-            this.guides ? 'checked' : ''
-          }>
+          <input id="setting-guides-${this.drawer.options.id}" type="checkbox" name="guides-${
+            this.drawer.options.id
+          }" ${this.guides ? 'checked' : ''}>
         </li>
         <li class="drawer-modal-body-list-item">
           <label for="setting-xor-${this.drawer.options.id}">XOR</label>
@@ -62,7 +64,7 @@ export class SettingsModal extends Modal {
       </ul>
     `);
 
-    this.setFooterContent(/*html*/`<small>Version 1.0.0</small>`)
+    this.setFooterContent(/*html*/ `<small>Version 1.0.0</small>`);
   }
 
   _setupSelectors() {
@@ -82,9 +84,7 @@ export class SettingsModal extends Modal {
       `#setting-opacity-${this.drawer.options.id}`
     ) as HTMLInputElement;
 
-    this.$xorSettingInput = this.$modalBody.querySelector(
-      `#setting-xor-${this.drawer.options.id}`
-    ) as HTMLInputElement;
+    this.$xorSettingInput = this.$modalBody.querySelector(`#setting-xor-${this.drawer.options.id}`) as HTMLInputElement;
   }
 
   _initEvents() {
@@ -101,22 +101,23 @@ export class SettingsModal extends Modal {
     });
 
     this.$guidesSettingInput.addEventListener('change', () => {
-     this.drawer.options.guides = this.$guidesSettingInput.checked;
+      this.drawer.options.guides = this.$guidesSettingInput.checked;
     });
 
     this.$opacitySettingInput.addEventListener('change', () => {
       const opacity = Number(this.$opacitySettingInput.value);
       this.drawer.options.opacity = opacity;
       this.drawer.ctx.globalAlpha = opacity;
-     });
+    });
 
     this.$xorSettingInput.addEventListener('change', () => {
       this.xor = this.$xorSettingInput.checked;
+      this.drawer.options.xor = this.xor;
       if (this.$xorSettingInput.checked) {
         this.drawer.ctx.globalCompositeOperation = 'xor';
       } else {
         this.drawer.ctx.globalCompositeOperation = 'source-over';
       }
-     });
+    });
   }
 }

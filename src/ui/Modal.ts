@@ -19,6 +19,7 @@ export class Modal {
   $modalFooter!: HTMLDivElement;
   options: ModalOptions;
   drawer: Drawer;
+  $backdrop!: HTMLDivElement;
 
   constructor(drawer: Drawer, options?: Partial<ModalOptions>) {
     try {
@@ -73,14 +74,23 @@ export class Modal {
     <div class="drawer-modal"></div>`);
     this.$modalHeader = stringToHTMLElement<HTMLDivElement>(`
       <div class="drawer-modal-header"></div>`);
-    this.$modalBody = stringToHTMLElement<HTMLDivElement>(`
+      this.$modalBody = stringToHTMLElement<HTMLDivElement>(`
       <div class="drawer-modal-body"></div>`);
     this.$modalFooter = stringToHTMLElement<HTMLDivElement>(`
       <div class="drawer-modal-footer"></div>`);
 
     this.$modal.modal = this;
+
     this.$modal.append(...[this.$modalHeader, this.$modalBody, this.$modalFooter]);
-    document.body.append(this.$modal);
+
+    if (this.options.backdrop) {
+      this.$backdrop = stringToHTMLElement<HTMLDivElement>(`<div class="backdrop"></div>`);
+      this.$backdrop.append(this.$modal);
+
+      document.body.append(this.$backdrop);
+    } else {
+      document.body.append(this.$modal);
+    }
   }
 
   setHeaderContent(content: string) {
@@ -102,10 +112,16 @@ export class Modal {
   }
 
   show() {
+    if (this.$backdrop) {
+      this.$backdrop.classList.add('show');
+    }
     this.$modal.classList.add('show');
   }
 
   hide() {
+    if (this.$backdrop) {
+      this.$backdrop.classList.remove('show');
+    }
     this.$modal.classList.remove('show');
   }
 

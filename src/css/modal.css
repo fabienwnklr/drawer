@@ -1,3 +1,17 @@
+.backdrop {
+  display: none;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.backdrop.show {
+  display: flex;
+}
+
 .drawer-modal {
   display: none;
   box-sizing: border-box;

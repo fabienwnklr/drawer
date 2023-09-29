@@ -1110,7 +1110,7 @@ export class Drawer extends History {
     this._takeSnapshot();
     this.saveState();
 
-    if (this.activeTool !== "brush" && this.activeTool !== "eraser" && this.options.guides) {
+    if (this.activeTool !== 'brush' && this.activeTool !== 'eraser' && this.options.guides) {
       const position = getMousePosition(this.$canvas, event);
       this.drawGuides(position);
       this.drawPointerDownArc(position);
@@ -1125,7 +1125,7 @@ export class Drawer extends History {
     if (event.buttons !== 1 || this.activeTool === 'text') return; // if isDrawing is false return from here
 
     if (this.activeTool !== 'eraser') {
-      this.ctx.globalCompositeOperation = this.settingModal.xor ? "xor" : "source-over";
+      this.ctx.globalCompositeOperation = this.settingModal.xor ? 'xor' : 'source-over';
     } else if (this.activeTool === 'eraser') {
       this.ctx.globalCompositeOperation = 'destination-out';
     } else {
@@ -1256,10 +1256,15 @@ export class Drawer extends History {
     this.ctx.stroke();
 
     // triangle
+    let triangleWidth = this.options.lineThickness;
+    // Min size, less of 5 is not visible
+    if (triangleWidth < 5) {
+      triangleWidth = 5;
+    }
     this.ctx.beginPath();
-    this.ctx.lineTo(hyp - this.options.lineThickness, this.options.lineThickness);
+    this.ctx.lineTo(hyp - triangleWidth, triangleWidth);
     this.ctx.lineTo(hyp, 0);
-    this.ctx.lineTo(hyp - this.options.lineThickness, -this.options.lineThickness);
+    this.ctx.lineTo(hyp - triangleWidth, -triangleWidth);
     this.ctx.fill();
 
     this.ctx.restore();
@@ -1323,11 +1328,13 @@ export class Drawer extends History {
   }
 
   addGrid() {
-    this.$canvas.classList.add("grid")
+    this.$canvas.classList.add('grid');
+    this.options.grid = true;
   }
 
   removeGrid() {
     this.$canvas.classList.remove('grid');
+    this.options.grid = false;
   }
 
   drawGuides({ x, y }: Position) {
@@ -1358,7 +1365,7 @@ export class Drawer extends History {
     this.ctx.fill();
   }
 
-  drawRubberBandReference({x, y}: Position) {
+  drawRubberBandReference({ x, y }: Position) {
     const rubberBandRect: any = {};
     if (this.#dragStartLocation.x < x) {
       rubberBandRect.left = this.#dragStartLocation.x;
@@ -1379,30 +1386,28 @@ export class Drawer extends History {
     this.ctx.lineWidth = 1;
 
     this.ctx.beginPath();
-    this.ctx.arc(rubberBandRect.left,
-            rubberBandRect.top,
-            4, 0, Math.PI * 2);
+    this.ctx.arc(rubberBandRect.left, rubberBandRect.top, 4, 0, Math.PI * 2);
     this.ctx.closePath();
     this.ctx.stroke();
 
     this.ctx.beginPath();
-    this.ctx.arc(rubberBandRect.left + rubberBandRect.width,
-            rubberBandRect.top,
-            4, 0, Math.PI * 2);
+    this.ctx.arc(rubberBandRect.left + rubberBandRect.width, rubberBandRect.top, 4, 0, Math.PI * 2);
     this.ctx.closePath();
     this.ctx.stroke();
 
     this.ctx.beginPath();
-    this.ctx.arc(rubberBandRect.left,
-            rubberBandRect.top + rubberBandRect.height,
-            4, 0, Math.PI * 2);
+    this.ctx.arc(rubberBandRect.left, rubberBandRect.top + rubberBandRect.height, 4, 0, Math.PI * 2);
     this.ctx.closePath();
     this.ctx.stroke();
 
     this.ctx.beginPath();
-    this.ctx.arc(rubberBandRect.left + rubberBandRect.width,
-            rubberBandRect.top + rubberBandRect.height,
-            4, 0, Math.PI * 2);
+    this.ctx.arc(
+      rubberBandRect.left + rubberBandRect.width,
+      rubberBandRect.top + rubberBandRect.height,
+      4,
+      0,
+      Math.PI * 2
+    );
     this.ctx.closePath();
     this.ctx.stroke();
 

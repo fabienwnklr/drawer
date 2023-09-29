@@ -12,7 +12,7 @@ export const defaultOptionsDrawer: DrawerOptions = {
   toolbarPosition: 'outerTop',
   bgColor: '#fff',
   color: '#000',
-  lineThickness: 5,
+  lineThickness: 3,
   dotted: false,
   dash: [10, 5],
   cap: 'round',
