@@ -70,13 +70,13 @@ export class Modal {
   }
 
   createModal() {
-    this.$modal = stringToHTMLElement<HTMLDivElement>(`
+    this.$modal = stringToHTMLElement<HTMLDivElement>(/*html*/ `
     <div class="drawer-modal"></div>`);
-    this.$modalHeader = stringToHTMLElement<HTMLDivElement>(`
+    this.$modalHeader = stringToHTMLElement<HTMLDivElement>(/*html*/ `
       <div class="drawer-modal-header"></div>`);
-    this.$modalBody = stringToHTMLElement<HTMLDivElement>(`
+    this.$modalBody = stringToHTMLElement<HTMLDivElement>(/*html*/ `
       <div class="drawer-modal-body"></div>`);
-    this.$modalFooter = stringToHTMLElement<HTMLDivElement>(`
+    this.$modalFooter = stringToHTMLElement<HTMLDivElement>(/*html*/ `
       <div class="drawer-modal-footer"></div>`);
 
     this.$modal.modal = this;
@@ -84,7 +84,9 @@ export class Modal {
     this.$modal.append(...[this.$modalHeader, this.$modalBody, this.$modalFooter]);
 
     if (this.options.backdrop) {
-      this.$backdrop = stringToHTMLElement<HTMLDivElement>(`<div class="backdrop"></div>`);
+      this.$backdrop = stringToHTMLElement<HTMLDivElement>(/*html*/ `
+      <div class="backdrop"></div>
+      `);
       this.$backdrop.append(this.$modal);
 
       document.body.append(this.$backdrop);

@@ -441,7 +441,7 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$undoBtn) {
-          const undoBtn = /*html*/ `<button title="${'Redo'}" class="btn" disabled>${UndoIcon}</button>`;
+          const undoBtn = /*html*/`<button title="${'Redo'}" class="btn" disabled>${UndoIcon}</button>`;
           const $undoBtn = stringToHTMLElement<HTMLButtonElement>(undoBtn);
           this.$undoBtn = $undoBtn;
 
