@@ -12,7 +12,7 @@ beforeAll(() => {
   window.Blob = Blob; // use Node.js Blob instead of Jsdom's Blob
 });
 
-describe('Drawer', () => {
+describe('Basic', () => {
   document.body.innerHTML = `<div id="test"></div>`;
 
   it('Init single basic drawer', () => {

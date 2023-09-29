@@ -10,6 +10,7 @@
     "test": "npm run test:unit && npm run test:e2e",
     "test:e2e": "playwright test",
     "test:unit": "vitest run",
+    "test:unit:watch": "vitest dev",
     "format": "prettier src/**/*.ts --write",
     "lint": "npx eslint src/**"
   },
