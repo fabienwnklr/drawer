@@ -26,6 +26,7 @@ const drawer = new Drawer($el, { /** optional options */});
 #### Using iife
 
 first import file
+
 ```html
 <script src="path/to/drawer.iife.js"></script>
 ```
@@ -36,4 +37,32 @@ then init drawer
 const $el = document.getElementById("myElement");
 const drawer = new Drawer($el, { /** optional options */});
 ```
+
 ### Available options
+
+default options
+
+```js
+{
+  id: Date.now().toString(), // id for drawer
+  defaultToolbar: true, // add default sidebar bouton
+  width: 400, // width
+  height: 400, // height
+  localStorageKey: 'draw', // local storage key for save
+  autoSave: true, // save on change in localStorage
+  toolbarPosition: 'outerTop', // can be 'outerTop', 'outerEnd', 'outerBottom', 'outerStart', 'innerTop', 'innerEnd', 'innerBottom', 'innerStart'
+  bgColor: '#fff', // can be format hex, rgba, rgba, hlsa
+  color: '#000', // can be format hex, rgba, rgba, hlsa
+  lineThickness: 3, // Line thickness
+  dotted: false, // active line dotted
+  dash: [10, 5], // if dotted true
+  cap: 'round', // "butt" | "round" | "square"
+  fill: true, // fill draw
+  availableColor: undefined, // for input color
+  availableColorOnly: false, // show color only into colorpicker popover
+  grid: false, // show css grid for draw helping
+  guides: false, // show guide when drawing
+  opacity: 1, // global opacity of draw
+  xor: false, // active xor
+};
+```

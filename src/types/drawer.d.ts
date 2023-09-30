@@ -1,8 +1,8 @@
 export interface DrawerOptions {
   id: string;
+  defaultToolbar: boolean;
   height: number;
   width: number;
-  defaultToolbar: boolean;
   localStorageKey: string;
   dotted: boolean;
   dash: number[];
@@ -11,7 +11,7 @@ export interface DrawerOptions {
   color: string;
   bgColor: string;
   lineThickness: number;
-  cap: 'round' | 'square';
+  cap: CanvasLineCap;
   fill: boolean;
   availableColor?: string[];
   availableColorOnly: boolean;
@@ -46,12 +46,6 @@ export enum ToolbarPosition {
   innerEnd = 'innerEnd',
   innerBottom = 'innerBottom',
   innerStart = 'innerStart',
-  /**
-   * only available for outer position
-   * calculate where can be added, in this order outerTop -> outerRight -> outerBottom -> outerLeft
-   * if no one available, added to innerTop
-   */
-  auto = 'auto',
 }
 
 export interface Position {
