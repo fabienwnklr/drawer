@@ -761,7 +761,7 @@ export class Drawer extends History {
   /**
    * Add a colorpicker button
    * see {@link addToolbar} before use it
-   * using colorisjs, for customisation please see here {@link https://github.com/mdbassit/Coloris}
+   * using Coloris, for customisation please see here {@link https://github.com/mdbassit/Coloris}
    * @param action Action call after color selected
    * @returns {Promise<HTMLInputElement>}
    */

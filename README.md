@@ -1,5 +1,9 @@
 # Drawer
 
+## Dependencies
+
+- [Coloris](https://github.com/mdbassit/Coloris) for color input better managing
+
 ## Get started
 
 ### install
