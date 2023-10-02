@@ -1,0 +1,17 @@
+# Module: icons/shape
+
+## Table of contents
+
+### Variables
+
+- [ShapeIcon](icons_shape.md#shapeicon)
+
+## Variables
+
+### ShapeIcon
+
+• `Const` **ShapeIcon**: ``"<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\">\n<path fill=\"currentColor\" d=\"M17 15.7V13h2v4l-9 4l-7-7l4-9h4v2H8.3l-2.9 6.6l5 5l6.6-2.9M22 5v2h-3v3h-2V7h-3V5h3V2h2v3h3Z\"/>\n</svg>"``
+
+#### Defined in
+
+[src/icons/shape.ts:1](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/icons/shape.ts#L1)

@@ -58,7 +58,7 @@ export function deepMerge<T extends object>(target: T, source: Partial<T> | T): 
   return output;
 }
 
-export function _arrayBufferToBase64(buffer: ArrayBuffer): string {
+export function arrayBufferToBase64(buffer: ArrayBuffer): string {
   let binary = '';
   const bytes = new Uint8Array(buffer);
   const len = bytes.byteLength;
@@ -74,7 +74,7 @@ export async function blobToBase64(blob: Blob): Promise<string> {
     reader.onloadend = () => {
       let data = reader.result;
       if (data instanceof ArrayBuffer) {
-        data = _arrayBufferToBase64(data);
+        data = arrayBufferToBase64(data);
       } else if (data === null) {
         data = '';
       }

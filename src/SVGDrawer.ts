@@ -6,6 +6,9 @@ import { stringToHTMLElement } from './utils/dom';
 import { getMousePosition } from './utils/infos';
 import { deepMerge } from './utils/utils';
 
+/**
+ * @ignore
+ */
 export class SVGDrawer {
   // options
   options: DrawerOptions;

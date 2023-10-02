@@ -44,7 +44,7 @@ import { SettingsModal } from './ui/SettingsModal';
 import { version } from '../package.json';
 
 /**
- * Drawer (v${version})
+ * @class Drawer
  * {@link https://}
  *
  * Copyright (c) 2023 Winkler Fabien & contributors
@@ -400,7 +400,7 @@ export class Drawer extends History {
 
   /**
    * Save draw to localStorage
-   * {@see options.localStorageKey}
+   * {@link Drawer.options.localStorageKey}
    */
   saveDraw() {
     try {

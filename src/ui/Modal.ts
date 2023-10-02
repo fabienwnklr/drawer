@@ -32,8 +32,8 @@ export class Modal {
     }
   }
 
-  _init() {
-    this.createModal();
+  private _init() {
+    this._createModal();
     this.setHeaderContent(
       this.options.headerContent ?? `<button title="close" class="btn" data-modal="close">${CloseIcon}</button>`
     );
@@ -41,7 +41,7 @@ export class Modal {
     this.setFooterContent(this.options.footerContent ?? '');
   }
 
-  _setupDefaultEvents() {
+  private _setupDefaultEvents() {
     const $closeBtn = this.$modalHeader.querySelector('[data-modal=close]');
 
     if ($closeBtn) {
@@ -69,7 +69,7 @@ export class Modal {
     }
   }
 
-  createModal() {
+  private _createModal() {
     this.$modal = stringToHTMLElement<HTMLDivElement>(/*html*/ `
     <div class="drawer-modal"></div>`);
     this.$modalHeader = stringToHTMLElement<HTMLDivElement>(/*html*/ `

@@ -1,6 +1,9 @@
 import type { Drawer } from '../Drawer';
 import { Modal } from './Modal';
 
+/**
+ * @private
+ */
 export class SettingsModal extends Modal {
   filled: boolean;
   grid: boolean;
@@ -28,6 +31,9 @@ export class SettingsModal extends Modal {
     this._initEvents();
   }
 
+  /**
+   * Fill the content modal
+   */
   fill() {
     this.setBodyContent(/*html*/ `
       <ul class="drawer-modal-body-list">
@@ -67,7 +73,7 @@ export class SettingsModal extends Modal {
     this.setFooterContent(/*html*/ `<small>Version ${this.drawer.VERSION}</small>`);
   }
 
-  _setupSelectors() {
+  private _setupSelectors() {
     this.$fillSettingInput = this.$modalBody.querySelector(
       `#setting-fill-${this.drawer.options.id}`
     ) as HTMLInputElement;
@@ -87,7 +93,7 @@ export class SettingsModal extends Modal {
     this.$xorSettingInput = this.$modalBody.querySelector(`#setting-xor-${this.drawer.options.id}`) as HTMLInputElement;
   }
 
-  _initEvents() {
+  private _initEvents() {
     this.$fillSettingInput.addEventListener('change', () => {
       this.drawer.options.fill = this.$fillSettingInput.checked;
     });
