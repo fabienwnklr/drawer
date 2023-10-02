@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.2](https://github.com/fabwcie/drawer/compare/v1.1.1...v1.1.2) (2023-10-02)
+
+
+### Bug Fixes
+
+* z-index drawer-menu ([9c3a66d](https://github.com/fabwcie/drawer/commits/9c3a66d44f6362a42bec8dd6e5ec190c0f228258))
+
 ### [1.1.1](https://github.com/fabwcie/drawer/compare/v1.1.0...v1.1.1) (2023-10-02)
 
 
