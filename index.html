@@ -12,9 +12,9 @@
       import { SVGDrawer } from './src/SVGDrawer.ts'
       import { Drawer } from './src/Drawer.ts'
 
+      // !!! Edit this can break e2e test !!!
       const $el = document.querySelector("#app");
-      $el.addEventListener("drawer.init", console.log)
-      window.drawer = new Drawer($el, { width: window.innerWidth - 100, height: window.innerHeight - 100, defaultToolbar: true });
+      window.drawer = new Drawer($el, { width: window.innerWidth - 100, height: window.innerHeight - 100, defaultToolbar: true, toolbarPosition: 'outerTop' });
       drawer.addToolbar();
       drawer.addDrawGroupBtn();
     </script>

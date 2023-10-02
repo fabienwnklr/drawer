@@ -3,7 +3,7 @@ import '@melloware/coloris/dist/coloris.css';
 import Coloris from '@melloware/coloris';
 
 import './css/drawer.css';
-import { stringToHTMLElement } from './utils/dom';
+import { getScrollbarWidth, stringToHTMLElement } from './utils/dom';
 import { DrawerError } from './utils/DrawError';
 import { BrushIcon } from './icons/brush';
 import { EraserIcon } from './icons/eraser';
@@ -13,8 +13,12 @@ import { defaultOptionsDrawer } from './utils/constantes';
 import { DrawEvent } from './utils/DrawEvent';
 
 // Type import
-import { DrawTools, DrawerOptions, Position, action } from './types/drawer';
+import type { DrawTools, DrawerOptions, Position, action } from './types/drawer';
+
+// History
 import { History } from './utils/History';
+
+// icons
 import { UndoIcon } from './icons/undo';
 import { RedoIcon } from './icons/redo';
 import { ClearIcon } from './icons/clear';
@@ -25,13 +29,17 @@ import { LineIcon } from './icons/line';
 import { StarIcon } from './icons/star';
 import { UploadIcon } from './icons/upload';
 import { SettingIcon } from './icons/setting';
-import { throttle } from './utils/perf';
-import { getMousePosition } from './utils/infos';
 import { CircleIcon } from './icons/circle';
 import { RectIcon } from './icons/rect';
 import { ArrowIcon } from './icons/arrow';
-import { SettingsModal } from './ui/SettingsModal';
+
+// Utils
+import { throttle, debounce } from './utils/perf';
+import { getMousePosition } from './utils/infos';
 import { deepMerge } from './utils/utils';
+
+// UI
+import { SettingsModal } from './ui/SettingsModal';
 
 export class Drawer extends History {
   declare ctx: CanvasRenderingContext2D;
@@ -625,15 +633,18 @@ export class Drawer extends History {
       try {
         if (this.$toolbar && !this.$drawGroupBtn && !this.$brushBtn && !this.$eraserBtn && !this.$textBtn) {
           let icon = BrushIcon;
+          let title = 'Brush';
 
           if (this.activeTool === 'eraser') {
             icon = EraserIcon;
+            title = 'Eraser';
           } else if (this.activeTool === 'text') {
             icon = TextIcon;
+            title = 'Text zone';
           }
 
           const active = ['brush', 'eraser', 'text'].includes(this.activeTool) ? ' active' : '';
-          const drawGroupBtn = /*html*/ `<button title="${this.activeTool}" class="btn${active}">${icon}</button>`;
+          const drawGroupBtn = /*html*/ `<button title="${title}" class="btn${active}">${icon}</button>`;
 
           const drawGroupMenu = /*html*/ `
           <ul class="drawer-menu">
@@ -787,7 +798,16 @@ export class Drawer extends History {
             if (typeof action === 'function') {
               action.call(this, $shapeBtn);
             } else {
-              const { bottom, left } = $shapeBtn.getBoundingClientRect();
+              // eslint-disable-next-line prefer-const
+              let { bottom, left, top } = $shapeBtn.getBoundingClientRect();
+              const { width, height } = $shapeMenu.getBoundingClientRect();
+              if (left + width > window.innerWidth) {
+                left = left - (left + width - window.innerWidth) - getScrollbarWidth();
+              }
+
+              if (bottom + height > window.innerHeight) {
+                bottom = top - height - 5;
+              }
               $shapeMenu.style.top = bottom + 3 + 'px';
               $shapeMenu.style.left = left + 'px';
               $shapeMenu.classList.toggle('show');
@@ -850,15 +870,18 @@ export class Drawer extends History {
 
           this.$toolbar.appendChild(this.$lineThickness);
 
-          this.$lineThickness.addEventListener('input', () => {
-            if (typeof action === 'function') {
-              action.call(this, this.$lineThickness.querySelector('input') as HTMLInputElement);
-              return;
-            }
+          this.$lineThickness.addEventListener(
+            'input',
+            debounce(() => {
+              if (typeof action === 'function') {
+                action.call(this, this.$lineThickness.querySelector('input') as HTMLInputElement);
+                return;
+              }
 
-            const lineThickness = parseInt(this.$lineThickness.querySelector('input')?.value as string);
-            this.setLineWidth(lineThickness);
-          });
+              const lineThickness = parseInt(this.$lineThickness.querySelector('input')?.value as string);
+              this.setLineWidth(lineThickness);
+            })
+          );
 
           resolve(this.$lineThickness.querySelector('input') as HTMLInputElement);
         } else if (!this.$toolbar) {
@@ -1182,14 +1205,18 @@ export class Drawer extends History {
         this.$drawGroupMenu.querySelectorAll('.btn').forEach(($b) => $b.classList.remove('active'));
         $btn = this.$drawGroupBtn;
         let icon = BrushIcon;
+        let title = 'Brush';
 
         if (this.activeTool === 'eraser') {
           icon = EraserIcon;
+          title = 'Eraser';
         } else if (this.activeTool === 'text') {
           icon = TextIcon;
+          title = 'Text zone';
         }
 
         $btn!.innerHTML = icon;
+        $btn!.title = title;
       }
 
       if (this.$shapeMenu) {
@@ -1252,7 +1279,7 @@ export class Drawer extends History {
     this._takeSnapshot();
     this.saveState();
 
-    if (this.activeTool !== "brush" && this.activeTool !== "eraser" && this.options.guides) {
+    if (this.activeTool !== 'brush' && this.activeTool !== 'eraser' && this.options.guides) {
       const position = getMousePosition(this.$canvas, event);
       this.drawGuides(position);
       this.drawPointerDownArc(position);
@@ -1346,7 +1373,12 @@ export class Drawer extends History {
       this._drawCircle(position);
     }
 
-    if (this.options.fill && this.activeTool !== 'eraser' && this.activeTool !== 'brush' && this.activeTool !== 'text') {
+    if (
+      this.options.fill &&
+      this.activeTool !== 'eraser' &&
+      this.activeTool !== 'brush' &&
+      this.activeTool !== 'text'
+    ) {
       this.ctx.fill();
     } else {
       this.ctx.stroke();
