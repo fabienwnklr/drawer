@@ -1,7 +1,7 @@
 {
   "name": "@fabwcie/drawer",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
   "engines": {
     "node": ">=16.0.0",
@@ -20,8 +20,8 @@
     "prebuild": "npm test && npm run lint",
     "prepare": "husky install",
     "release": "standard-version",
-    "release:minor": "standard-version --release-as minor",
     "release:patch": "standard-version --release-as patch",
+    "release:minor": "standard-version --release-as minor",
     "release:major": "standard-version --release-as major"
   },
   "devDependencies": {
