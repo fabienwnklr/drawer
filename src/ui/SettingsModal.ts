@@ -1,6 +1,8 @@
 import type { Drawer } from '../Drawer';
 import { Modal } from './Modal';
 
+import { version } from '../../package.json'
+
 export class SettingsModal extends Modal {
   filled: boolean;
   grid: boolean;
@@ -64,7 +66,7 @@ export class SettingsModal extends Modal {
       </ul>
     `);
 
-    this.setFooterContent(/*html*/ `<small>Version 1.0.0</small>`);
+    this.setFooterContent(/*html*/ `<small>Version ${version}</small>`);
   }
 
   _setupSelectors() {

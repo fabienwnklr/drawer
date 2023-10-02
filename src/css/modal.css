@@ -59,8 +59,8 @@
   border-bottom: 1px solid #d4d4d4;
 }
 
-.drawer-modal .drawer-modal-body .drawer-modal-body-list-item:first-of-type {
-  border-top: 1px solid #d4d4d4;
+.drawer-modal .drawer-modal-body .drawer-modal-body-list-item:last-of-type {
+  border-bottom: none;
 }
 
 .drawer-modal .drawer-modal-footer {

@@ -17,9 +17,12 @@
     "test:unit:watch": "vitest dev",
     "format": "prettier src/**/*.ts --write",
     "lint": "npx eslint src/**",
-    "prebuild": "npm test && npm run lint"
+    "prebuild": "npm test && npm run lint",
+    "prepare": "husky install"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.7.2",
+    "@commitlint/config-conventional": "^17.7.0",
     "@playwright/test": "^1.37.1",
     "@typescript-eslint/eslint-plugin": "^6.7.2",
     "@typescript-eslint/parser": "^6.7.2",
@@ -29,7 +32,8 @@
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
     "vitest": "^0.34.3",
-    "vitest-canvas-mock": "^0.3.3"
+    "vitest-canvas-mock": "^0.3.3",
+    "husky": "^8.0.0"
   },
   "dependencies": {
     "@melloware/coloris": "^0.21.1"
