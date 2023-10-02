@@ -23,6 +23,7 @@ describe('Drawer event', () => {
       init = true;
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const drawer = new Drawer($el);
     expect(init).toBe(true);
   });
