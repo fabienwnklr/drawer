@@ -393,23 +393,27 @@ export class Drawer extends History {
   addToolbar(): Promise<HTMLDivElement> {
     return new Promise((resolve, reject) => {
       try {
-        const toolbar = /*html*/ `<div class="toolbar ${this.options.toolbarPosition ?? 'outerTop'}"></div>`;
+        if (!this.$toolbar) {
+          const toolbar = /*html*/ `<div class="toolbar ${this.options.toolbarPosition ?? 'outerTop'}"></div>`;
 
-        this.$toolbar = stringToHTMLElement<HTMLDivElement>(toolbar);
-        this.$toolbar.style.maxWidth = this.$canvas.width + 'px';
-        this.$toolbar.style.maxHeight = this.$canvas.height + 'px';
+          this.$toolbar = stringToHTMLElement<HTMLDivElement>(toolbar);
+          this.$toolbar.style.maxWidth = this.$canvas.width + 'px';
+          this.$toolbar.style.maxHeight = this.$canvas.height + 'px';
 
-        if (this.options.toolbarPosition === 'outerTop' || this.options.toolbarPosition === 'outerStart') {
-          this.$canvas.before(this.$toolbar);
+          if (this.options.toolbarPosition === 'outerTop' || this.options.toolbarPosition === 'outerStart') {
+            this.$canvas.before(this.$toolbar);
+          } else {
+            this.$drawerContainer.appendChild(this.$toolbar);
+          }
+
+          if (this.options.toolbarPosition === 'outerStart' || this.options.toolbarPosition === 'outerEnd') {
+            this.$drawerContainer.style.display = 'flex';
+          }
+
+          resolve(this.$toolbar);
         } else {
-          this.$drawerContainer.appendChild(this.$toolbar);
+          reject(new DrawerError(`Toolbar already added.`));
         }
-
-        if (this.options.toolbarPosition === 'outerStart' || this.options.toolbarPosition === 'outerEnd') {
-          this.$drawerContainer.style.display = 'flex';
-        }
-
-        resolve(this.$toolbar);
       } catch (error: any) {
         reject(new DrawerError(error.message));
       }

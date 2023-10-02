@@ -14,7 +14,7 @@
 
       const $el = document.querySelector("#app");
       $el.addEventListener("drawer.init", console.log)
-      window.drawer = new Drawer($el, { width: window.innerWidth - 100, height: window.innerHeight - 100, defaultToolbar: false });
+      window.drawer = new Drawer($el, { width: window.innerWidth - 100, height: window.innerHeight - 100, defaultToolbar: true });
       drawer.addToolbar();
       drawer.addDrawGroupBtn();
     </script>
