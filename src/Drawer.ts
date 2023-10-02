@@ -931,7 +931,7 @@ export class Drawer extends History {
               if (typeof action === 'function') {
                 action.call(this, $colorPicker, color);
               } else {
-                this.setColor($colorPicker.value);
+                this.setColor(color);
               }
             },
           });
