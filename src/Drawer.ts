@@ -224,6 +224,7 @@ export class Drawer extends History {
   /**
    * Change drawing color
    * @param {String} color Color to apply to draw
+   * @returns {Promise<boolean>}
    */
   setColor(color: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
@@ -249,6 +250,7 @@ export class Drawer extends History {
   /**
    * Change css canvas background color (ignored on export)
    * @param bgColor canvas css background color
+   * @returns {Promise<boolean>}
    */
   setBgColor(bgColor?: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
@@ -295,8 +297,9 @@ export class Drawer extends History {
   /**
    * Change tool
    * @param {keyof typeof DrawTools} toolName Tool name to set
+   * @returns {Promise<boolean>}
    */
-  changeTool(toolName: keyof typeof DrawTools) {
+  changeTool(toolName: keyof typeof DrawTools): Promise<boolean> {
     return new Promise((resolve, reject) => {
       try {
         this.activeTool = toolName;
@@ -336,7 +339,7 @@ export class Drawer extends History {
   /**
    * Clear all canvas
    *
-   * @returns {HTMLCanvasElement}
+   * @returns {Promise<HTMLCanvasElement>}
    */
   clear(): Promise<HTMLCanvasElement> {
     return new Promise((resolve, reject) => {
@@ -361,7 +364,7 @@ export class Drawer extends History {
   }
 
   /**
-   * Inject date to canvas
+   * Inject data to canvas
    * @param data
    * @returns {Promise<Drawer>}
    */
@@ -397,12 +400,17 @@ export class Drawer extends History {
 
   /**
    * Save draw to localStorage
+   * {@see options.localStorageKey}
    */
   saveDraw() {
-    if (this.options.localStorageKey) {
-      localStorage.setItem(this.options.localStorageKey, this.getData());
-    } else {
-      throw new DrawerError(`Error saving draw, options 'localStorageKey' is wrong.`);
+    try {
+      if (this.options.localStorageKey) {
+        localStorage.setItem(this.options.localStorageKey, this.getData());
+      } else {
+        throw new DrawerError(`Error saving draw, options 'localStorageKey' is wrong.`);
+      }
+    } catch (error: any) {
+      throw new DrawerError(error.message);
     }
   }
 
@@ -450,7 +458,8 @@ export class Drawer extends History {
 
   /**
    * Add default button to toolbar,
-   * List of defaults buttons : undo, redo, brush, eraser, clear, text, line thickness, color picker, upload, download, setting
+   * List of defaults buttons :
+   * undo, redo, brush, eraser, text, clear, line thickness, colorpicker, upload, download, setting
    */
   addDefaults() {
     this.addUndoBtn();
@@ -470,6 +479,8 @@ export class Drawer extends History {
   /**
    * Add undo button to toolbar if exist
    * see {@link addToolbar} before use it
+   * @param {action<HTMLButtonElement>?} action method to call onclick
+   * @returns {Promise<HTMLButtonElement>}
    */
   addUndoBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
     return new Promise((resolve, reject) => {
@@ -505,6 +516,8 @@ export class Drawer extends History {
   /**
    * Add brush button to toolbar if exist
    * see {@link addToolbar} before use it
+   * @param {action<HTMLButtonElement>?} action method to call onclick
+   * @returns {Promise<HTMLButtonElement>}
    */
   addRedoBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
     return new Promise((resolve, reject) => {
@@ -540,6 +553,7 @@ export class Drawer extends History {
   /**
    * Add brush button to toolbar if exist
    * see {@link addToolbar} before use it
+   * @param {action<HTMLButtonElement>?} action method to call onclick
    * @returns {Promise<HTMLButtonElement>}
    */
   addBrushBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
@@ -575,7 +589,8 @@ export class Drawer extends History {
   /**
    * Add eraser button to toolbar if exist
    * see {@link addToolbar} before use it
-   * @returns {Promise<HTMLButtonElement>} return eraser html button
+   * @param {action<HTMLButtonElement>?} action method to call onclick
+   * @returns {Promise<HTMLButtonElement>}
    */
   addEraserBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
     return new Promise((resolve, reject) => {
@@ -610,7 +625,8 @@ export class Drawer extends History {
   /**
    * Add text button to toolbar if exist
    * see {@link addToolbar} before use it
-   * @returns {Promise<HTMLButtonElement>} HTML button text element
+   * @param {action<HTMLButtonElement>?} action method to call onclick
+   * @returns {Promise<HTMLButtonElement>}
    */
   addTextBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
     return new Promise((resolve, reject) => {
@@ -643,12 +659,12 @@ export class Drawer extends History {
   }
 
   /**
-   *
-   * @param name Button group name (must be unique)
-   * @param buttons Buttons list (ex: addBrushBtn, addEraserBtn, etc)
-   * @returns
+   * Add draw group button (contain brush, eraser and text zone)
+   * see {@link addToolbar} before use it
+   * @param {action<HTMLButtonElement>?} action method to call onclick
+   * @returns {Promise<HTMLButtonElement>}
    */
-  addDrawGroupBtn(action?: action<HTMLButtonElement>) {
+  addDrawGroupBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$drawGroupBtn && !this.$brushBtn && !this.$eraserBtn && !this.$textBtn) {
@@ -740,6 +756,7 @@ export class Drawer extends History {
   /**
    * Add clear button to toolbar if exist
    * see {@link addToolbar} before use it
+   * @param {action<HTMLButtonElement>?} action method to call onclick
    * @returns {Promise<HTMLButtonElement>}
    */
   addClearBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
@@ -775,7 +792,8 @@ export class Drawer extends History {
   /**
    * Add text button to toolbar if exist
    * see {@link addToolbar} before use it
-   * @returns {Promise<HTMLButtonElement>} HTML button text element
+   * @param {action<HTMLButtonElement>?} action method to call onclick
+   * @returns {Promise<HTMLButtonElement>}
    */
   addShapeBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
     return new Promise((resolve, reject) => {
@@ -872,6 +890,7 @@ export class Drawer extends History {
   /**
    * Add line thickness input range to toolbar if exist
    * see {@link addToolbar} before use it
+   * @param {action<HTMLButtonElement>?} action method to call onclick
    * @returns {Promise<HTMLInputElement>} HTML input range element
    */
   addLineThicknessBtn(action?: action<HTMLInputElement>): Promise<HTMLInputElement> {
@@ -919,7 +938,7 @@ export class Drawer extends History {
    * Add a colorpicker button
    * see {@link addToolbar} before use it
    * using Coloris, for customisation please see here {@link https://github.com/mdbassit/Coloris}
-   * @param action Action call after color selected
+   * @param {action<HTMLInputElement>?} action Action call after color selected
    * @returns {Promise<HTMLInputElement>}
    */
   addColorPickerBtn(action?: action<HTMLInputElement>): Promise<HTMLInputElement> {
@@ -969,6 +988,12 @@ export class Drawer extends History {
     });
   }
 
+  /**
+   * Add upload file button
+   * see {@link addToolbar} before use it
+   * @param {action<HTMLButtonElement>?} action method to call onclick
+   * @returns {Promise<HTMLInputElement>} HTML input range element
+   */
   addUploadFileBtn(action?: action<HTMLInputElement>): Promise<HTMLInputElement> {
     return new Promise((resolve, reject) => {
       try {
@@ -1013,7 +1038,7 @@ export class Drawer extends History {
   /**
    * Add a download button
    * see {@link addToolbar} before use it
-   * @param action Method to call on click
+   * @param {action<HTMLButtonElement>?} action method to call onclick
    * @returns {Promise<HTMLButtonElement>}
    */
   addDownloadBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
@@ -1057,7 +1082,7 @@ export class Drawer extends History {
   /**
    * Add a params button
    * see {@link addToolbar} before use it
-   * @param action Method to call on click
+   * @param {action<HTMLButtonElement>?} action method to call onclick
    * @returns {Promise<HTMLButtonElement>}
    */
   addSettingBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
@@ -1089,18 +1114,19 @@ export class Drawer extends History {
   }
 
   /**
-   *
-   * @param name Button name (must be unique)
-   * @param title Title for button
-   * @param label Label or icon
-   * @param action Action to do on click
+   * Add a custom button to toolbar
+   * see {@link addToolbar} before use it
+   * @param {String} name Button name (must be unique)
+   * @param {String} title Title for button
+   * @param {String} label Label or icon
+   * @param {action<HTMLButtonElement>} action Action to do onclick
    * @returns {Promise<HTMLButtonElement>}
    */
   addCustomBtn(
     name: string,
     title: string,
     label: string,
-    action?: action<HTMLButtonElement>
+    action: action<HTMLButtonElement>
   ): Promise<HTMLButtonElement> {
     return new Promise((resolve, reject) => {
       if (this.$toolbar && !this.customBtn[name]) {
@@ -1144,7 +1170,7 @@ export class Drawer extends History {
 
   /**
    * Change drawing shape
-   * @param shape
+   * @param {"rect" | "circle" | "square" | "arrow" | "line" | "star" | "triangle" | "polygon"} shape
    */
   setShape(shape: keyof typeof DrawTools) {
     return new Promise((resolve, reject) => {
@@ -1192,10 +1218,11 @@ export class Drawer extends History {
 
   /**
    * Set line style dotted
-   * @param active
+   * @param {Boolean} active state
    * @param {number[]} [dash=[10, 5]] Line dash format [width, spacing]
+   * @returns {Promise<boolean>}
    */
-  setDottedLine(active: boolean, dash: number[] = [10, 5]) {
+  setDottedLine(active: boolean, dash: number[] = [10, 5]): Promise<boolean> {
     return new Promise((resolve, reject) => {
       try {
         this.options.dash = dash;
@@ -1219,54 +1246,66 @@ export class Drawer extends History {
    * @param {HTMLButtonElement} $btn Button to add active class
    */
   setActiveBtn($btn: HTMLButtonElement | null) {
-    if (this.$toolbar) {
-      this.$toolbar.querySelectorAll('.btn').forEach(($b) => $b.classList.remove('active'));
+    try {
+      if (this.$toolbar) {
+        this.$toolbar.querySelectorAll('.btn').forEach(($b) => $b.classList.remove('active'));
 
-      if (this.$drawGroupMenu) {
-        this.$drawGroupMenu.querySelectorAll('.btn').forEach(($b) => $b.classList.remove('active'));
-        $btn = this.$drawGroupBtn;
-        let icon = BrushIcon;
-        let title = 'Brush';
+        if (this.$drawGroupMenu) {
+          this.$drawGroupMenu.querySelectorAll('.btn').forEach(($b) => $b.classList.remove('active'));
+          $btn = this.$drawGroupBtn;
+          let icon = BrushIcon;
+          let title = 'Brush';
 
-        if (this.activeTool === 'eraser') {
-          icon = EraserIcon;
-          title = 'Eraser';
-        } else if (this.activeTool === 'text') {
-          icon = TextIcon;
-          title = 'Text zone';
+          if (this.activeTool === 'eraser') {
+            icon = EraserIcon;
+            title = 'Eraser';
+          } else if (this.activeTool === 'text') {
+            icon = TextIcon;
+            title = 'Text zone';
+          }
+
+          $btn!.innerHTML = icon;
+          $btn!.title = title;
         }
 
-        $btn!.innerHTML = icon;
-        $btn!.title = title;
+        if (this.$shapeMenu) {
+          this.$shapeMenu.querySelectorAll('.btn').forEach(($b) => $b.classList.remove('active'));
+        }
+        $btn?.classList.add('active');
+      } else {
+        throw new DrawerError(`No toolbar provided`);
       }
-
-      if (this.$shapeMenu) {
-        this.$shapeMenu.querySelectorAll('.btn').forEach(($b) => $b.classList.remove('active'));
-      }
-      $btn?.classList.add('active');
-    } else {
-      throw new DrawerError(`No toolbar provided`);
+    } catch (error: any) {
+      throw new DrawerError(error.message);
     }
   }
 
   /**
    * Set the line width
-   * @param width Line width
+   * @param {number} width Line width
    */
   setLineWidth(width: number) {
-    this.options.lineThickness = width;
-    this.ctx.lineWidth = width;
+    try {
+      this.options.lineThickness = width;
+      this.ctx.lineWidth = width;
 
-    if (this.$lineThickness) {
-      const $counter = this.$lineThickness.querySelector('.counter');
-      if ($counter) {
-        $counter.innerHTML = String(this.options.lineThickness);
+      if (this.$lineThickness) {
+        const $counter = this.$lineThickness.querySelector('.counter');
+        if ($counter) {
+          $counter.innerHTML = String(this.options.lineThickness);
+        }
       }
-    }
 
-    this.$canvas.dispatchEvent(DrawEvent('update.lineThickness', { lineThickness: width }));
+      this.$canvas.dispatchEvent(DrawEvent('update.lineThickness', { lineThickness: width }));
+    } catch (error: any) {
+      throw new DrawerError(error.message);
+    }
   }
 
+  /**
+   * Check if active tool is shape
+   * @returns {Boolean}
+   */
   isShape(): boolean {
     return this.#availableShape.includes(this.activeTool);
   }
@@ -1302,8 +1341,8 @@ export class Drawer extends History {
 
     if (this.activeTool !== 'brush' && this.activeTool !== 'eraser' && this.options.guides) {
       const position = getMousePosition(this.$canvas, event);
-      this.drawGuides(position);
-      this.drawPointerDownArc(position);
+      this._drawGuides(position);
+      this._drawPointerDownArc(position);
     }
   }
   /**
@@ -1328,9 +1367,9 @@ export class Drawer extends History {
     const position = getMousePosition(this.$canvas, event);
 
     if (this.activeTool !== 'brush' && this.activeTool !== 'eraser' && this.options.guides) {
-      this.drawGuides(position);
-      this.drawPointerDownArc(this.#dragStartLocation);
-      this.drawRubberBandReference(position);
+      this._drawGuides(position);
+      this._drawPointerDownArc(this.#dragStartLocation);
+      this._drawRubberBandReference(position);
     }
 
     this._draw(position);
@@ -1522,17 +1561,26 @@ export class Drawer extends History {
     this.ctx.closePath();
   }
 
+  /**
+   * Add a css grid for draw helping
+   */
   addGrid() {
     this.$canvas.classList.add('grid');
     this.options.grid = true;
   }
 
+  /**
+   * Remove a css grid for draw helping
+   */
   removeGrid() {
     this.$canvas.classList.remove('grid');
     this.options.grid = false;
   }
 
-  drawGuides({ x, y }: Position) {
+  /**
+   * Add a guide when drawing for draw helping
+   */
+  private _drawGuides({ x, y }: Position) {
     this.ctx.save();
     this.ctx.strokeStyle = 'rgb(255, 26, 121, 0.8)';
     this.ctx.lineWidth = 1;
@@ -1552,7 +1600,10 @@ export class Drawer extends History {
     this.ctx.restore();
   }
 
-  drawPointerDownArc({ x, y }: Position) {
+  /**
+   * Draw start point references
+   */
+  private _drawPointerDownArc({ x, y }: Position) {
     this.ctx.save();
     this.ctx.fillStyle = 'rgba(255,0,0,0.5)';
     this.ctx.beginPath();
@@ -1560,7 +1611,11 @@ export class Drawer extends History {
     this.ctx.fill();
   }
 
-  drawRubberBandReference({ x, y }: Position) {
+  /**
+   * Draw x/y point references
+   * @param param0
+   */
+  private _drawRubberBandReference({ x, y }: Position) {
     const rubberBandRect: any = {};
     if (this.#dragStartLocation.x < x) {
       rubberBandRect.left = this.#dragStartLocation.x;
