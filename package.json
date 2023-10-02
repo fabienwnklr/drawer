@@ -16,7 +16,8 @@
     "test:unit": "vitest run",
     "test:unit:watch": "vitest dev",
     "format": "prettier src/**/*.ts --write",
-    "lint": "npx eslint src/**"
+    "lint": "npx eslint src/**",
+    "prebuild": "npm test && npm run lint"
   },
   "devDependencies": {
     "@playwright/test": "^1.37.1",

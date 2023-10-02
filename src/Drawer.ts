@@ -50,14 +50,16 @@ export class Drawer extends History {
   $redoBtn!: HTMLButtonElement | null;
   $brushBtn!: HTMLButtonElement | null;
   $eraserBtn!: HTMLButtonElement | null;
-  $clearBtn!: HTMLButtonElement | null;
   $textBtn!: HTMLButtonElement | null;
+  $drawGroupBtn!: HTMLButtonElement | null;
+  $drawGroupMenu!: HTMLUListElement | null;
+  $clearBtn!: HTMLButtonElement | null;
   $lineThickness!: HTMLDivElement;
   $downloadBtn!: HTMLButtonElement | null;
   $colorPicker!: HTMLInputElement | null;
   $shapeBtn!: HTMLButtonElement | null;
-  $shapeMenu!: HTMLUListElement;
-  $uploadFile!: HTMLInputElement;
+  $shapeMenu!: HTMLUListElement | null;
+  $uploadFile!: HTMLInputElement | null;
   $settingBtn!: HTMLButtonElement | null;
   $colorPickerLabel!: HTMLLabelElement;
   #dragStartLocation!: Position;
@@ -423,8 +425,8 @@ export class Drawer extends History {
     this.addRedoBtn();
     this.addBrushBtn();
     this.addEraserBtn();
-    this.addClearBtn();
     this.addTextBtn();
+    this.addClearBtn();
     this.addShapeBtn();
     this.addLineThicknessBtn();
     this.addColorPickerBtn();
@@ -441,7 +443,7 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$undoBtn) {
-          const undoBtn = /*html*/`<button title="${'Redo'}" class="btn" disabled>${UndoIcon}</button>`;
+          const undoBtn = /*html*/ `<button title="${'Redo'}" class="btn" disabled>${UndoIcon}</button>`;
           const $undoBtn = stringToHTMLElement<HTMLButtonElement>(undoBtn);
           this.$undoBtn = $undoBtn;
 
@@ -457,8 +459,10 @@ export class Drawer extends History {
           });
 
           resolve(this.$undoBtn);
-        } else {
+        } else if (!this.$toolbar) {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
+        } else {
+          reject(new DrawerError(`Undo button already added, you cannot add it again.`));
         }
       } catch (error: any) {
         reject(new DrawerError(error.message));
@@ -490,8 +494,10 @@ export class Drawer extends History {
           });
 
           resolve(this.$redoBtn);
-        } else {
+        } else if (!this.$toolbar) {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
+        } else {
+          reject(new DrawerError(`Redo button already added, you cannot add it again.`));
         }
       } catch (error: any) {
         reject(new DrawerError(error.message));
@@ -523,8 +529,10 @@ export class Drawer extends History {
           });
 
           resolve(this.$brushBtn);
-        } else {
+        } else if (!this.$toolbar) {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
+        } else {
+          reject(new DrawerError(`Brush button already added, you cannot add it again.`));
         }
       } catch (error: any) {
         reject(new DrawerError(error.message));
@@ -556,127 +564,10 @@ export class Drawer extends History {
           });
 
           resolve(this.$eraserBtn);
-        } else {
+        } else if (!this.$toolbar) {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
-        }
-      } catch (error: any) {
-        reject(new DrawerError(error.message));
-      }
-    });
-  }
-
-  /**
-   * Add clear button to toolbar if exist
-   * see {@link addToolbar} before use it
-   * @returns {Promise<HTMLButtonElement>}
-   */
-  addClearBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
-    return new Promise((resolve, reject) => {
-      try {
-        if (this.$toolbar && !this.$clearBtn) {
-          const clearBtn = /*html*/ `<button title="${'Clear draw'}" class="btn">${ClearIcon}</button>`;
-          const $clearBtn = stringToHTMLElement<HTMLButtonElement>(clearBtn);
-          this.$clearBtn = $clearBtn;
-
-          this.$toolbar.appendChild(this.$clearBtn);
-
-          this.$clearBtn.addEventListener('click', () => {
-            if (typeof action === 'function') {
-              action.call(this, $clearBtn);
-            } else if (confirm(`${'Voulez vous suppimer la totalité du dessin ?'}`)) {
-              this.clear();
-            }
-          });
-
-          resolve(this.$clearBtn);
         } else {
-          reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
-        }
-      } catch (error: any) {
-        reject(new DrawerError(error.message));
-      }
-    });
-  }
-
-  /**
-   * Add text button to toolbar if exist
-   * see {@link addToolbar} before use it
-   * @returns {Promise<HTMLButtonElement>} HTML button text element
-   */
-  addShapeBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
-    return new Promise((resolve, reject) => {
-      try {
-        if (this.$toolbar && !this.$shapeBtn) {
-          const shapeBtn = /*html*/ `<button title="${'Draw shape'}" class="btn btn-shape">${ShapeIcon}</button>`;
-
-          const shapeMenu = /*html*/ `
-          <ul class="shape-menu">
-            <li class="shape-menu-item">
-              <button data-shape="triangle" class="btn triangle">${TriangleIcon}</button>
-            </li>
-            <li class="shape-menu-item">
-              <button data-shape="rect" class="btn rect">${RectIcon}</button>
-            </li>
-            <li class="shape-menu-item">
-              <button data-shape="square" class="btn square">${SquareIcon}</button>
-            </li>
-            <li class="shape-menu-item">
-              <button data-shape="line" class="btn line">${LineIcon}</button>
-            </li>
-            <li class="shape-menu-item">
-              <button data-shape="arrow" class="btn arrow">${ArrowIcon}</button>
-            </li>
-            <li class="shape-menu-item">
-              <button data-shape="circle" class="btn circle">${CircleIcon}</button>
-            </li>
-          </ul>`;
-
-          const $shapeMenu = stringToHTMLElement<HTMLUListElement>(shapeMenu);
-          const $shapeBtn = stringToHTMLElement<HTMLButtonElement>(shapeBtn);
-
-          this.$shapeBtn = $shapeBtn;
-          this.$shapeMenu = $shapeMenu;
-
-          this.$toolbar.appendChild(this.$shapeBtn);
-          document.querySelector('body')?.appendChild(this.$shapeMenu);
-
-          this.$shapeBtn.addEventListener('click', () => {
-            if (typeof action === 'function') {
-              action.call(this, $shapeBtn);
-            } else {
-              const { bottom, left } = $shapeBtn.getBoundingClientRect();
-              this.$shapeMenu.style.top = bottom + 3 + 'px';
-              this.$shapeMenu.style.left = left + 'px';
-              this.$shapeMenu.classList.toggle('show');
-            }
-          });
-
-          this.$shapeMenu.querySelectorAll('button').forEach(($btn) => {
-            $btn.addEventListener('click', () => {
-              const shape = $btn.dataset.shape as keyof typeof DrawTools;
-              this.setShape(shape);
-            });
-          });
-
-          // Manage click outside menu or button
-          document.addEventListener(
-            'click',
-            (event) => {
-              if (event.target) {
-                const outsideClick =
-                  !$shapeBtn.contains(event.target as Node) && !this.$shapeMenu.contains(event.target as Node);
-
-                if (outsideClick) {
-                  this.$shapeMenu.classList.remove('show');
-                }
-              }
-            },
-            false
-          );
-
-          resolve($shapeBtn);
-        } else {
-          reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
+          reject(new DrawerError(`Eraser button already added, you cannot add it again.`));
         }
       } catch (error: any) {
         reject(new DrawerError(error.message));
@@ -708,8 +599,225 @@ export class Drawer extends History {
           });
 
           resolve(this.$textBtn);
-        } else {
+        } else if (!this.$toolbar) {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
+        } else {
+          reject(new DrawerError(`Text button already added, you cannot add it again.`));
+        }
+      } catch (error: any) {
+        reject(new DrawerError(error.message));
+      }
+    });
+  }
+
+  /**
+   *
+   * @param name Button group name (must be unique)
+   * @param buttons Buttons list (ex: addBrushBtn, addEraserBtn, etc)
+   * @returns
+   */
+  addDrawGroupBtn(action?: action<HTMLButtonElement>) {
+    return new Promise((resolve, reject) => {
+      try {
+        if (this.$toolbar && !this.$drawGroupBtn && !this.$brushBtn && !this.$eraserBtn && !this.$textBtn) {
+          let icon = BrushIcon;
+
+          if (this.activeTool === 'eraser') {
+            icon = EraserIcon;
+          } else if (this.activeTool === 'text') {
+            icon = TextIcon;
+          }
+
+          const active = ['brush', 'eraser', 'text'].includes(this.activeTool) ? ' active' : '';
+          const drawGroupBtn = /*html*/ `<button title="${this.activeTool}" class="btn${active}">${icon}</button>`;
+
+          const drawGroupMenu = /*html*/ `
+          <ul class="drawer-menu">
+            <li class="drawer-menu-item">
+              <button data-tool="brush" title=${'Brush'} class="btn">${BrushIcon}</button>
+            </li>
+            <li class="drawer-menu-item">
+              <button data-tool="eraser" title=${'Eraser'} class="btn">${EraserIcon}</button>
+            </li>
+            <li class="drawer-menu-item">
+              <button data-tool="text" title=${'Text zone'} class="btn">${TextIcon}</button>
+            </li>
+          </ul>`;
+
+          const $drawGroupBtn = stringToHTMLElement<HTMLButtonElement>(drawGroupBtn);
+          const $drawGroupMenu = stringToHTMLElement<HTMLUListElement>(drawGroupMenu);
+
+          this.$drawGroupBtn = $drawGroupBtn;
+          this.$drawGroupMenu = $drawGroupMenu;
+
+          this.$toolbar.appendChild($drawGroupBtn);
+          document.querySelector('body')?.appendChild($drawGroupMenu);
+
+          $drawGroupBtn.addEventListener('click', () => {
+            if (typeof action === 'function') {
+              action.call(this, $drawGroupBtn);
+            } else {
+              const { bottom, left } = $drawGroupBtn.getBoundingClientRect();
+              $drawGroupMenu.style.top = bottom + 3 + 'px';
+              $drawGroupMenu.style.left = left + 'px';
+              $drawGroupMenu.classList.toggle('show');
+            }
+          });
+
+          $drawGroupMenu.querySelectorAll('button').forEach(($btn) => {
+            $btn.addEventListener('click', () => {
+              const tool = $btn.dataset.tool as keyof typeof DrawTools;
+              this.changeTool(tool);
+              $drawGroupMenu.classList.remove('show');
+            });
+          });
+
+          // Manage click outside menu or button
+          document.addEventListener(
+            'click',
+            (event) => {
+              if (event.target) {
+                const outsideClick =
+                  !$drawGroupBtn.contains(event.target as Node) && !$drawGroupMenu.contains(event.target as Node);
+
+                if (outsideClick) {
+                  $drawGroupMenu.classList.remove('show');
+                }
+              }
+            },
+            false
+          );
+
+          resolve($drawGroupBtn);
+        } else if (!this.$toolbar) {
+          reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
+        } else {
+          reject(
+            new DrawerError(`A draw button already added, you cannot add it again, please remove add method before.`)
+          );
+        }
+      } catch (error: any) {
+        reject(new DrawerError(error.message));
+      }
+    });
+  }
+
+  /**
+   * Add clear button to toolbar if exist
+   * see {@link addToolbar} before use it
+   * @returns {Promise<HTMLButtonElement>}
+   */
+  addClearBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
+    return new Promise((resolve, reject) => {
+      try {
+        if (this.$toolbar && !this.$clearBtn) {
+          const clearBtn = /*html*/ `<button title="${'Clear draw'}" class="btn">${ClearIcon}</button>`;
+          const $clearBtn = stringToHTMLElement<HTMLButtonElement>(clearBtn);
+          this.$clearBtn = $clearBtn;
+
+          this.$toolbar.appendChild(this.$clearBtn);
+
+          this.$clearBtn.addEventListener('click', () => {
+            if (typeof action === 'function') {
+              action.call(this, $clearBtn);
+            } else if (confirm(`${'Voulez vous suppimer la totalité du dessin ?'}`)) {
+              this.clear();
+            }
+          });
+
+          resolve(this.$clearBtn);
+        } else if (!this.$toolbar) {
+          reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
+        } else {
+          reject(new DrawerError(`Clear button already added, you cannot add it again.`));
+        }
+      } catch (error: any) {
+        reject(new DrawerError(error.message));
+      }
+    });
+  }
+
+  /**
+   * Add text button to toolbar if exist
+   * see {@link addToolbar} before use it
+   * @returns {Promise<HTMLButtonElement>} HTML button text element
+   */
+  addShapeBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
+    return new Promise((resolve, reject) => {
+      try {
+        if (this.$toolbar && !this.$shapeBtn) {
+          const shapeBtn = /*html*/ `<button title="${'Draw shape'}" class="btn btn-shape">${ShapeIcon}</button>`;
+
+          const shapeMenu = /*html*/ `
+          <ul class="drawer-menu">
+            <li class="drawer-menu-item">
+              <button data-shape="triangle" class="btn triangle">${TriangleIcon}</button>
+            </li>
+            <li class="drawer-menu-item">
+              <button data-shape="rect" class="btn rect">${RectIcon}</button>
+            </li>
+            <li class="drawer-menu-item">
+              <button data-shape="square" class="btn square">${SquareIcon}</button>
+            </li>
+            <li class="drawer-menu-item">
+              <button data-shape="line" class="btn line">${LineIcon}</button>
+            </li>
+            <li class="drawer-menu-item">
+              <button data-shape="arrow" class="btn arrow">${ArrowIcon}</button>
+            </li>
+            <li class="drawer-menu-item">
+              <button data-shape="circle" class="btn circle">${CircleIcon}</button>
+            </li>
+          </ul>`;
+
+          const $shapeMenu = stringToHTMLElement<HTMLUListElement>(shapeMenu);
+          const $shapeBtn = stringToHTMLElement<HTMLButtonElement>(shapeBtn);
+
+          this.$shapeBtn = $shapeBtn;
+          this.$shapeMenu = $shapeMenu;
+
+          this.$toolbar.appendChild(this.$shapeBtn);
+          document.querySelector('body')?.appendChild(this.$shapeMenu);
+
+          this.$shapeBtn.addEventListener('click', () => {
+            if (typeof action === 'function') {
+              action.call(this, $shapeBtn);
+            } else {
+              const { bottom, left } = $shapeBtn.getBoundingClientRect();
+              $shapeMenu.style.top = bottom + 3 + 'px';
+              $shapeMenu.style.left = left + 'px';
+              $shapeMenu.classList.toggle('show');
+            }
+          });
+
+          this.$shapeMenu.querySelectorAll('button').forEach(($btn) => {
+            $btn.addEventListener('click', () => {
+              const shape = $btn.dataset.shape as keyof typeof DrawTools;
+              this.setShape(shape);
+            });
+          });
+
+          // Manage click outside menu or button
+          document.addEventListener(
+            'click',
+            (event) => {
+              if (event.target) {
+                const outsideClick =
+                  !$shapeBtn.contains(event.target as Node) && !$shapeMenu.contains(event.target as Node);
+
+                if (outsideClick) {
+                  $shapeMenu.classList.remove('show');
+                }
+              }
+            },
+            false
+          );
+
+          resolve($shapeBtn);
+        } else if (!this.$toolbar) {
+          reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
+        } else {
+          reject(new DrawerError(`Shape button already added, you cannot add it again.`));
         }
       } catch (error: any) {
         reject(new DrawerError(error.message));
@@ -749,8 +857,10 @@ export class Drawer extends History {
           });
 
           resolve(this.$lineThickness.querySelector('input') as HTMLInputElement);
-        } else {
+        } else if (!this.$toolbar) {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
+        } else {
+          reject(new DrawerError(`Line tickness button already added, you cannot add it again.`));
         }
       } catch (error: any) {
         reject(new DrawerError(error.message));
@@ -789,7 +899,7 @@ export class Drawer extends History {
             theme: 'polaroid',
             swatches: this.options.availableColor,
             swatchesOnly: this.options.availableColorOnly,
-            formatToggle: true,
+            formatToggle: !this.options.availableColorOnly,
             onChange: (color) => {
               if (typeof action === 'function') {
                 action.call(this, $colorPicker, color);
@@ -800,8 +910,10 @@ export class Drawer extends History {
           });
 
           resolve(this.$colorPicker);
-        } else {
+        } else if (!this.$toolbar) {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
+        } else {
+          reject(new DrawerError(`Colorpicker button already added, you cannot add it again.`));
         }
       } catch (error: any) {
         reject(new DrawerError(error.message));
@@ -823,23 +935,26 @@ export class Drawer extends History {
             </label>
           </div>
           `;
-          const $uploadFile = stringToHTMLElement<HTMLDivElement>(uploadFile);
+          const $uploadFileContainer = stringToHTMLElement<HTMLDivElement>(uploadFile);
 
-          this.$toolbar.appendChild($uploadFile);
+          this.$toolbar.appendChild($uploadFileContainer);
 
-          this.$uploadFile = $uploadFile.querySelector('input') as HTMLInputElement;
+          const $uploadFile = $uploadFileContainer.querySelector('input') as HTMLInputElement;
+          this.$uploadFile = $uploadFile;
 
           this.$uploadFile.addEventListener('change', () => {
             if (typeof action === 'function') {
-              action.call(this, this.$uploadFile);
+              action.call(this, $uploadFile);
             } else {
               this._uploadFile();
             }
           });
 
           resolve(this.$uploadFile);
-        } else {
+        } else if (!this.$toolbar) {
           reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
+        } else {
+          reject(new DrawerError(`Upload file button already added, you cannot add it again.`));
         }
       } catch (error: any) {
         reject(new DrawerError(error.message));
@@ -883,8 +998,10 @@ export class Drawer extends History {
         });
 
         resolve(this.$downloadBtn);
-      } else {
+      } else if (!this.$toolbar) {
         reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
+      } else {
+        reject(new DrawerError(`Download button already added, you cannot add it again.`));
       }
     });
   }
@@ -907,23 +1024,30 @@ export class Drawer extends History {
         this.$settingBtn.addEventListener('click', () => {
           if (typeof action === 'function') {
             action.call(this, $settingBtn);
+          } else if (this.settingModal.isVisible()) {
+            this.settingModal.hide();
           } else {
-            // Open setting modal
-            if (this.settingModal.isVisible()) {
-              this.settingModal.hide();
-            } else {
-              this.settingModal.show();
-            }
+            this.settingModal.show();
           }
         });
 
         resolve(this.$settingBtn);
-      } else {
+      } else if (!this.$toolbar) {
         reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
+      } else {
+        reject(new DrawerError(`Setting button already added, you cannot add it again.`));
       }
     });
   }
 
+  /**
+   *
+   * @param name Button name (must be unique)
+   * @param title Title for button
+   * @param label Label or icon
+   * @param action Action to do on click
+   * @returns {Promise<HTMLButtonElement>}
+   */
   addCustomBtn(
     name: string,
     title: string,
@@ -959,7 +1083,7 @@ export class Drawer extends History {
    * Upload file from input file
    */
   private _uploadFile() {
-    if (this.$uploadFile.files) {
+    if (this.$uploadFile?.files) {
       const file = this.$uploadFile.files[0];
 
       if (file) {
@@ -1007,7 +1131,7 @@ export class Drawer extends History {
               break;
           }
           this.$shapeBtn.innerHTML = icon;
-          this.$shapeMenu.classList.remove('show');
+          this.$shapeMenu?.classList.remove('show');
           this.changeTool(shape);
           this.$canvas.dispatchEvent(DrawEvent('update.shape', { shape }));
           resolve(true);
@@ -1049,6 +1173,20 @@ export class Drawer extends History {
   setActiveBtn($btn: HTMLButtonElement | null) {
     if (this.$toolbar) {
       this.$toolbar.querySelectorAll('.btn').forEach(($b) => $b.classList.remove('active'));
+
+      if (this.$drawGroupMenu) {
+        this.$drawGroupMenu.querySelectorAll('.btn').forEach(($b) => $b.classList.remove('active'));
+        $btn = this.$drawGroupBtn;
+        let icon = BrushIcon;
+
+        if (this.activeTool === 'eraser') {
+          icon = EraserIcon;
+        } else if (this.activeTool === 'text') {
+          icon = TextIcon;
+        }
+
+        $btn!.innerHTML = icon;
+      }
 
       if (this.$shapeMenu) {
         this.$shapeMenu.querySelectorAll('.btn').forEach(($b) => $b.classList.remove('active'));
@@ -1110,7 +1248,7 @@ export class Drawer extends History {
     this._takeSnapshot();
     this.saveState();
 
-    if (this.activeTool !== 'brush' && this.activeTool !== 'eraser' && this.options.guides) {
+    if (this.activeTool !== "brush" && this.activeTool !== "eraser" && this.options.guides) {
       const position = getMousePosition(this.$canvas, event);
       this.drawGuides(position);
       this.drawPointerDownArc(position);
@@ -1204,7 +1342,7 @@ export class Drawer extends History {
       this._drawCircle(position);
     }
 
-    if (this.options.fill && this.activeTool !== 'eraser' && this.activeTool !== 'brush') {
+    if (this.options.fill && this.activeTool !== 'eraser' && this.activeTool !== 'brush' && this.activeTool !== 'text') {
       this.ctx.fill();
     } else {
       this.ctx.stroke();
@@ -1487,7 +1625,7 @@ export class Drawer extends History {
       this.$canvas.addEventListener('drawer.change', this.saveDraw.bind(this));
     }
 
-    // this.$canvas.addEventListener('drawer.change', () => this.saveState());
+    this.$canvas.addEventListener('drawer.change', () => this.saveState());
   }
 
   /**

@@ -85,15 +85,11 @@ body * {
   border-bottom-right-radius: var(--drawer-border-radius);
 }
 
-.toolbar.innerBottom {
-  border-bottom-left-radius: var(--drawer-border-radius);
-  border-bottom-right-radius: var(--drawer-border-radius);
-}
-
 .toolbar.outerBottom ~ .canvas-drawer {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
+
 .toolbar[class*='inner'] {
   position: absolute;
   z-index: 2;
@@ -126,6 +122,8 @@ body * {
   right: 0;
   bottom: 0;
   width: 100%;
+  border-bottom-left-radius: var(--drawer-border-radius);
+  border-bottom-right-radius: var(--drawer-border-radius);
 }
 
 .toolbar .container-colorpicker {
@@ -191,7 +189,7 @@ body * {
     linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
 }
 .drawer-container .btn,
-.shape-menu .btn,
+.drawer-menu .btn,
 .drawer-modal .btn {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -208,17 +206,17 @@ body * {
 }
 
 .drawer-container .btn:not(:disabled):hover,
-.shape-menu .btn:not(:disabled):hover,
+.drawer-menu .btn:not(:disabled):hover,
 .drawer-modal .btn:not(:disabled):hover {
   border-color: var(--drawer-primary);
 }
 .drawer-container .btn:disabled,
-.shape-menu .btn:disabled .drawer-modal .btn:disabled {
+.drawer-menu .btn:disabled .drawer-modal .btn:disabled {
   cursor: not-allowed;
 }
 
 .drawer-container .btn.active,
-.shape-menu .btn.active,
+.drawer-menu .btn.active,
 .drawer-modal .btn.active {
   background-color: var(--drawer-primary-active-bg);
   color: var(--drawer-primary-active-color);
@@ -226,8 +224,8 @@ body * {
 
 .drawer-container .btn:focus,
 .drawer-container .btn:focus-visible,
-.shape-menu .btn:focus,
-.shape-menu .btn:focus-visible {
+.drawer-menu .btn:focus,
+.drawer-menu .btn:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
@@ -238,7 +236,7 @@ body * {
   width: fit-content;
 }
 
-.shape-menu {
+.drawer-menu {
   display: none;
   position: absolute;
   list-style: none;
@@ -251,14 +249,11 @@ body * {
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 
-.shape-menu .shape-menu-item {
+.drawer-menu .drawer-menu-item {
   margin: 0.1rem;
 }
 
-.shape-menu .shape-menu-item button {
-}
-
-.shape-menu.show {
+.drawer-menu.show {
   display: flex;
   justify-content: center;
   align-items: center;
