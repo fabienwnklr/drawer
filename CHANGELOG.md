@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/fabwcie/drawer/compare/v1.1.0...v1.1.1) (2023-10-02)
+
+
+### Bug Fixes
+
+* **color:** change color ignored ([95aa93e](https://github.com/fabwcie/drawer/commits/95aa93e28d45f844005043ef2577627c734e9e7b))
+* **color:** update color with multiple drawer instances ([52288a0](https://github.com/fabwcie/drawer/commits/52288a0b1af0eca73f43d0f424b7dde6320ee479))
+
 ## [1.1.0](https://github.com/fabwcie/drawer/compare/v1.0.0...v1.1.0) (2023-10-02)
 
 
