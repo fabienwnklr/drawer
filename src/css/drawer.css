@@ -21,7 +21,7 @@ body * {
 
 .drawer-container {
   position: relative;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family: helvetica, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 .toolbar {
@@ -191,7 +191,7 @@ body * {
 .drawer-container .btn,
 .drawer-menu .btn,
 .drawer-modal .btn {
-  border-radius: 8px;
+  border-radius: var(--drawer-border-radius);
   border: 1px solid transparent;
   padding: 0.2em 0.4em;
   font-size: 1em;
@@ -237,12 +237,13 @@ body * {
 }
 
 .drawer-menu {
-  display: none;
+  display: flex;
+  visibility: hidden;
   position: absolute;
   list-style: none;
   margin: 0;
   padding: 0.5rem;
-  border-radius: 5px;
+  border-radius: var(--drawer-border-radius);
   background-color: #fff;
   box-shadow:
     rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
@@ -254,7 +255,7 @@ body * {
 }
 
 .drawer-menu.show {
-  display: flex;
+  visibility: visible;
   justify-content: center;
   align-items: center;
 }
