@@ -926,14 +926,15 @@ export class Drawer extends History {
             theme: 'polaroid',
             swatches: this.options.availableColor,
             swatchesOnly: this.options.availableColorOnly,
-            formatToggle: !this.options.availableColorOnly,
-            onChange: (color) => {
-              if (typeof action === 'function') {
-                action.call(this, $colorPicker, color);
-              } else {
-                this.setColor(color);
-              }
-            },
+            formatToggle: !this.options.availableColorOnly
+          });
+
+          $colorPicker.addEventListener('change', () => {
+            if (typeof action === 'function') {
+              action.bind(this, $colorPicker, $colorPicker.value);
+            } else {
+              this.setColor($colorPicker.value);
+            }
           });
 
           resolve(this.$colorPicker);
