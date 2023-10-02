@@ -1,12 +1,29 @@
 {
   "name": "@fabwcie/drawer",
-  "private": false,
+  "description": "Canvas drawer for free hand drawing and more utility tools.",
+  "author": "Winkler Fabien <fabienwinkler@outlook.fr>",
+  "contributors": [],
   "version": "1.1.0",
   "type": "module",
   "engines": {
     "node": ">=16.0.0",
     "npm": ">=5.7.1"
   },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/fabwcie/drawer.git"
+  },
+  "browser": "dist/drawer.js",
+  "keywords": [
+    "ui",
+    "canvas",
+    "draw",
+    "typescript"
+  ],
+  "files": [
+    "dist/*"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -20,9 +37,10 @@
     "prebuild": "npm test && npm run lint",
     "prepare": "husky install",
     "release": "standard-version",
-    "release:patch": "standard-version --release-as patch",
-    "release:minor": "standard-version --release-as minor",
-    "release:major": "standard-version --release-as major"
+    "release:patch": "standard-version --release-as patch && npm run publish",
+    "release:minor": "standard-version --release-as minor && npm run publish",
+    "release:major": "standard-version --release-as major && npm run publish",
+    "publish": "git push --follow-tags origin master && npm publish"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.2",
