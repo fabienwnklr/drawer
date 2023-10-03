@@ -13,13 +13,18 @@ function HomepageHeader() {
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
         <h1 className="hero__title">{siteConfig.title}</h1>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
+        <p className="hero__subtitle text--primary">{siteConfig.tagline}</p>
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/intro">
-            Docusaurus Tutorial - 5min ⏱️
+            to="/docs/api#get-started">
+            Get Started
           </Link>
+          <a
+            className="button button--secondary button--lg margin-left--sm"
+            href="https://github.com/fabwcie/drawer" target="_blank">
+            View on GitHub
+          </a>
         </div>
       </div>
     </header>

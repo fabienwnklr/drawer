@@ -3,12 +3,17 @@
  * and scoped locally.
  */
 
+:root {
+  --ifm-color-primary: #646cff;
+  --ifm-code-font-size: 95%;
+}
+
 .heroBanner {
   padding: 4rem 0;
   text-align: center;
   position: relative;
   overflow: hidden;
-  background: url("@site/static/img/illustration_blank_canvas.svg") no-repeat #646cff;
+  background: url('@site/static/img/illustration_blank_canvas.svg') no-repeat;
 }
 
 @media screen and (max-width: 996px) {
