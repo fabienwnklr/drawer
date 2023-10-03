@@ -1,40 +1,26 @@
-// Coloris JS
-import '@melloware/coloris/dist/coloris.css';
-import Coloris from '@melloware/coloris';
-
 import './css/drawer.css';
-import { getScrollbarWidth, stringToHTMLElement } from './utils/dom';
+import { stringToHTMLElement } from './utils/dom';
 import { DrawerError } from './utils/DrawError';
-import { BrushIcon } from './icons/brush';
-import { EraserIcon } from './icons/eraser';
-import { TextIcon } from './icons/text';
-import { DownloadIcon } from './icons/download';
 import { defaultOptionsDrawer } from './utils/constantes';
 import { DrawEvent } from './utils/DrawEvent';
 
 // Type import
-import type { DrawTools, DrawerOptions, Position, action } from './types/drawer';
+import type { DrawTools, DrawerOptions, Position } from './types/drawer';
 
 // History
 import { History } from './utils/History';
 
 // icons
-import { UndoIcon } from './icons/undo';
-import { RedoIcon } from './icons/redo';
-import { ClearIcon } from './icons/clear';
-import { ShapeIcon } from './icons/shape';
 import { TriangleIcon } from './icons/triangle';
 import { SquareIcon } from './icons/square';
 import { LineIcon } from './icons/line';
 import { StarIcon } from './icons/star';
-import { UploadIcon } from './icons/upload';
-import { SettingIcon } from './icons/setting';
 import { CircleIcon } from './icons/circle';
 import { RectIcon } from './icons/rect';
 import { ArrowIcon } from './icons/arrow';
 
 // Utils
-import { throttle, debounce } from './utils/perf';
+import { throttle } from './utils/perf';
 import { getMousePosition } from './utils/infos';
 import { deepMerge } from './utils/utils';
 
@@ -42,6 +28,7 @@ import { deepMerge } from './utils/utils';
 import { SettingsModal } from './ui/SettingsModal';
 
 import { version } from '../package.json';
+import { Toolbar } from './ui/Toolbar';
 
 /**
  * @class Drawer
@@ -67,28 +54,10 @@ export class Drawer extends History {
   dotted: boolean = false;
   // options
   options: DrawerOptions = defaultOptionsDrawer;
-  customBtn: { [key: string]: HTMLButtonElement } = {};
   // HTML Elements
   declare $canvas: HTMLCanvasElement;
   $sourceElement: HTMLElement;
   $drawerContainer!: HTMLDivElement;
-  $toolbar!: HTMLDivElement;
-  $undoBtn!: HTMLButtonElement | null;
-  $redoBtn!: HTMLButtonElement | null;
-  $brushBtn!: HTMLButtonElement | null;
-  $eraserBtn!: HTMLButtonElement | null;
-  $textBtn!: HTMLButtonElement | null;
-  $drawGroupBtn!: HTMLButtonElement | null;
-  $drawGroupMenu!: HTMLUListElement | null;
-  $clearBtn!: HTMLButtonElement | null;
-  $lineThickness!: HTMLDivElement;
-  $downloadBtn!: HTMLButtonElement | null;
-  $colorPicker!: HTMLInputElement | null;
-  $shapeBtn!: HTMLButtonElement | null;
-  $shapeMenu!: HTMLUListElement | null;
-  $uploadFile!: HTMLInputElement | null;
-  $settingBtn!: HTMLButtonElement | null;
-  $colorPickerLabel!: HTMLLabelElement;
   #dragStartLocation!: Position;
   #snapshot!: ImageData;
   #availableShape: Array<keyof typeof DrawTools> = [
@@ -106,6 +75,7 @@ export class Drawer extends History {
   settingModal!: SettingsModal;
   gridActive!: boolean;
   VERSION = version;
+  toolbar: Toolbar;
 
   /**
    *
@@ -118,6 +88,7 @@ export class Drawer extends History {
       this.$sourceElement = $el;
       this.options = deepMerge<DrawerOptions>(defaultOptionsDrawer, options);
       this._init();
+      this.toolbar = new Toolbar(this, { toolbarPosition: this.options.toolbarPosition });
 
       const saved = localStorage.getItem(this.options.localStorageKey);
 
@@ -126,8 +97,8 @@ export class Drawer extends History {
       }
 
       if (this.options.defaultToolbar) {
-        this.addToolbar();
-        this.addDefaults();
+        this.toolbar.addToolbar();
+        this.toolbar.addDefaults();
       }
 
       this.settingModal = new SettingsModal(this);
@@ -198,9 +169,9 @@ export class Drawer extends History {
         // Apply data if not empty for prevent error
         if (!this.isEmpty()) this.loadFromData(data);
 
-        if (this.$toolbar) {
-          this.$toolbar.style.maxWidth = this.$canvas.width + 'px';
-          this.$toolbar.style.maxHeight = this.$canvas.height + 'px';
+        if (this.toolbar.$toolbar) {
+          this.toolbar.$toolbar.style.maxWidth = this.$canvas.width + 'px';
+          this.toolbar.$toolbar.style.maxHeight = this.$canvas.height + 'px';
         }
 
         this.$canvas.dispatchEvent(DrawEvent('update.size', { setSize: { w: width, h: height } }));
@@ -233,10 +204,10 @@ export class Drawer extends History {
         this.ctx.strokeStyle = this.options.color; // passing selectedColor as stroke style
         this.ctx.fillStyle = this.options.color; // passing selectedColor as fill style
 
-        if (this.$colorPicker) {
-          this.$colorPicker.value = color;
+        if (this.toolbar.$colorPicker) {
+          this.toolbar.$colorPicker.value = color;
           // for update coloris component
-          this.$colorPicker.dispatchEvent(new Event('input', { bubbles: true }));
+          this.toolbar.$colorPicker.dispatchEvent(new Event('input', { bubbles: true }));
         }
         this.$canvas.dispatchEvent(DrawEvent('update.color', { color }));
 
@@ -267,34 +238,6 @@ export class Drawer extends History {
   }
 
   /**
-   * @private
-   * Change background color of canvas for print only
-   * be carefull, all drawing are removed
-   * @param bgColor Background color
-   * @returns {Promise<Drawer>}
-   */
-  private _setBgColor(bgColor: string): Promise<Drawer> {
-    return new Promise((resolve, reject) => {
-      try {
-        if (!bgColor) {
-          reject(new DrawerError(`Missing param bgColor in method '_setBgColor'`));
-        }
-        // store data
-        const data = this.getData();
-        this.options.bgColor = bgColor;
-        this.ctx.fillStyle = bgColor;
-        this.ctx.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
-        // rewrite data after updating bgcolor
-        this.loadFromData(data).then(() => {
-          resolve(this);
-        });
-      } catch (error: any) {
-        reject(new DrawerError(error.message));
-      }
-    });
-  }
-
-  /**
    * Change tool
    * @param {keyof typeof DrawTools} toolName Tool name to set
    * @returns {Promise<boolean>}
@@ -305,16 +248,16 @@ export class Drawer extends History {
         this.activeTool = toolName;
 
         let $btn: HTMLButtonElement | null = null;
-        if (this.$toolbar) {
+        if (this.toolbar.$toolbar) {
           switch (toolName) {
             case 'brush':
-              $btn = this.$brushBtn;
+              $btn = this.toolbar.$brushBtn;
               break;
             case 'text':
-              $btn = this.$textBtn;
+              $btn = this.toolbar.$textBtn;
               break;
             case 'eraser':
-              $btn = this.$eraserBtn;
+              $btn = this.toolbar.$eraserBtn;
               break;
             case 'square':
             case 'star':
@@ -323,10 +266,10 @@ export class Drawer extends History {
             case 'line':
             case 'rect':
             case 'triangle':
-              $btn = this.$shapeBtn;
+              $btn = this.toolbar.$shapeBtn;
           }
 
-          this.setActiveBtn($btn);
+          this.toolbar.setActiveBtn($btn);
           this.$canvas.dispatchEvent(DrawEvent('update.tool', { toolName }));
           resolve(true);
         }
@@ -348,7 +291,7 @@ export class Drawer extends History {
         this.redo_list = [];
         this.undo_list = [];
         this.gridActive = false;
-        this._manageUndoRedoBtn();
+        this.toolbar._manageUndoRedoBtn();
         this.$canvas.dispatchEvent(DrawEvent('change', this));
 
         // After event, else save event triggered
@@ -423,770 +366,13 @@ export class Drawer extends History {
   }
 
   /**
-   * Adding an empty toolbar element
-   * @returns {Promise<HTMLDivElement>} HTML toolbar element
-   */
-  addToolbar(): Promise<HTMLDivElement> {
-    return new Promise((resolve, reject) => {
-      try {
-        if (!this.$toolbar) {
-          const toolbar = /*html*/ `<div class="toolbar ${this.options.toolbarPosition ?? 'outerTop'}"></div>`;
-
-          this.$toolbar = stringToHTMLElement<HTMLDivElement>(toolbar);
-          this.$toolbar.style.maxWidth = this.$canvas.width + 'px';
-          this.$toolbar.style.maxHeight = this.$canvas.height + 'px';
-
-          if (this.options.toolbarPosition === 'outerTop' || this.options.toolbarPosition === 'outerStart') {
-            this.$canvas.before(this.$toolbar);
-          } else {
-            this.$drawerContainer.appendChild(this.$toolbar);
-          }
-
-          if (this.options.toolbarPosition === 'outerStart' || this.options.toolbarPosition === 'outerEnd') {
-            this.$drawerContainer.style.display = 'flex';
-          }
-
-          resolve(this.$toolbar);
-        } else {
-          reject(new DrawerError(`Toolbar already added.`));
-        }
-      } catch (error: any) {
-        reject(new DrawerError(error.message));
-      }
-    });
-  }
-
-  /**
-   * Add default button to toolbar,
-   * List of defaults buttons :
-   * undo, redo, brush, eraser, text, clear, line thickness, colorpicker, upload, download, setting
-   */
-  addDefaults() {
-    this.addUndoBtn();
-    this.addRedoBtn();
-    this.addBrushBtn();
-    this.addEraserBtn();
-    this.addTextBtn();
-    this.addClearBtn();
-    this.addShapeBtn();
-    this.addLineThicknessBtn();
-    this.addColorPickerBtn();
-    this.addUploadFileBtn();
-    this.addDownloadBtn();
-    this.addSettingBtn();
-  }
-
-  /**
-   * Add undo button to toolbar if exist
-   * see {@link addToolbar} before use it
-   * @param {action<HTMLButtonElement>?} action method to call onclick
-   * @returns {Promise<HTMLButtonElement>}
-   */
-  addUndoBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
-    return new Promise((resolve, reject) => {
-      try {
-        if (this.$toolbar && !this.$undoBtn) {
-          const undoBtn = /*html*/ `<button title="${'Redo'}" class="btn" disabled>${UndoIcon}</button>`;
-          const $undoBtn = stringToHTMLElement<HTMLButtonElement>(undoBtn);
-          this.$undoBtn = $undoBtn;
-
-          this.$toolbar.appendChild(this.$undoBtn);
-
-          this.$undoBtn.addEventListener('click', () => {
-            if (typeof action === 'function') {
-              action.call(this, $undoBtn);
-            } else {
-              this.undo();
-              this._manageUndoRedoBtn();
-            }
-          });
-
-          resolve(this.$undoBtn);
-        } else if (!this.$toolbar) {
-          reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
-        } else {
-          reject(new DrawerError(`Undo button already added, you cannot add it again.`));
-        }
-      } catch (error: any) {
-        reject(new DrawerError(error.message));
-      }
-    });
-  }
-
-  /**
-   * Add brush button to toolbar if exist
-   * see {@link addToolbar} before use it
-   * @param {action<HTMLButtonElement>?} action method to call onclick
-   * @returns {Promise<HTMLButtonElement>}
-   */
-  addRedoBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
-    return new Promise((resolve, reject) => {
-      try {
-        if (this.$toolbar && !this.$redoBtn) {
-          const redoBtn = /*html*/ `<button title="${'Redo'}" class="btn" disabled>${RedoIcon}</button>`;
-          const $redoBtn = stringToHTMLElement<HTMLButtonElement>(redoBtn);
-          this.$redoBtn = $redoBtn;
-
-          this.$toolbar.appendChild(this.$redoBtn);
-
-          this.$redoBtn.addEventListener('click', () => {
-            if (typeof action === 'function') {
-              action.call(this, $redoBtn);
-            } else {
-              this.redo();
-              this._manageUndoRedoBtn();
-            }
-          });
-
-          resolve(this.$redoBtn);
-        } else if (!this.$toolbar) {
-          reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
-        } else {
-          reject(new DrawerError(`Redo button already added, you cannot add it again.`));
-        }
-      } catch (error: any) {
-        reject(new DrawerError(error.message));
-      }
-    });
-  }
-
-  /**
-   * Add brush button to toolbar if exist
-   * see {@link addToolbar} before use it
-   * @param {action<HTMLButtonElement>?} action method to call onclick
-   * @returns {Promise<HTMLButtonElement>}
-   */
-  addBrushBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
-    return new Promise((resolve, reject) => {
-      try {
-        if (this.$toolbar && !this.$brushBtn) {
-          const brushBtn = /*html*/ `<button title="${'Brush'}" class="btn active">${BrushIcon}</button>`;
-          const $brushBtn = stringToHTMLElement<HTMLButtonElement>(brushBtn);
-          this.$brushBtn = $brushBtn;
-
-          this.$toolbar.appendChild(this.$brushBtn);
-
-          this.$brushBtn.addEventListener('click', () => {
-            if (typeof action === 'function') {
-              action.call(this, $brushBtn);
-            } else {
-              this.changeTool('brush');
-            }
-          });
-
-          resolve(this.$brushBtn);
-        } else if (!this.$toolbar) {
-          reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
-        } else {
-          reject(new DrawerError(`Brush button already added, you cannot add it again.`));
-        }
-      } catch (error: any) {
-        reject(new DrawerError(error.message));
-      }
-    });
-  }
-
-  /**
-   * Add eraser button to toolbar if exist
-   * see {@link addToolbar} before use it
-   * @param {action<HTMLButtonElement>?} action method to call onclick
-   * @returns {Promise<HTMLButtonElement>}
-   */
-  addEraserBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
-    return new Promise((resolve, reject) => {
-      try {
-        if (this.$toolbar && !this.$eraserBtn) {
-          const eraserBtn = /*html*/ `<button title="${'Eraser'}" class="btn">${EraserIcon}</button>`;
-          const $eraserBtn = stringToHTMLElement<HTMLButtonElement>(eraserBtn);
-          this.$eraserBtn = $eraserBtn;
-
-          this.$toolbar.appendChild(this.$eraserBtn);
-
-          this.$eraserBtn.addEventListener('click', () => {
-            if (typeof action === 'function') {
-              action.call(this, $eraserBtn);
-            } else {
-              this.changeTool('eraser');
-            }
-          });
-
-          resolve(this.$eraserBtn);
-        } else if (!this.$toolbar) {
-          reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
-        } else {
-          reject(new DrawerError(`Eraser button already added, you cannot add it again.`));
-        }
-      } catch (error: any) {
-        reject(new DrawerError(error.message));
-      }
-    });
-  }
-
-  /**
-   * Add text button to toolbar if exist
-   * see {@link addToolbar} before use it
-   * @param {action<HTMLButtonElement>?} action method to call onclick
-   * @returns {Promise<HTMLButtonElement>}
-   */
-  addTextBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
-    return new Promise((resolve, reject) => {
-      try {
-        if (this.$toolbar && !this.$textBtn) {
-          const textBtn = /*html*/ `<button title="${'Text zone'}" class="btn">${TextIcon}</button>`;
-          const $textBtn = stringToHTMLElement<HTMLButtonElement>(textBtn);
-          this.$textBtn = $textBtn;
-
-          this.$toolbar.appendChild(this.$textBtn);
-
-          this.$textBtn.addEventListener('click', () => {
-            if (typeof action === 'function') {
-              action.call(this, $textBtn);
-            } else {
-              this.changeTool('text');
-            }
-          });
-
-          resolve(this.$textBtn);
-        } else if (!this.$toolbar) {
-          reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
-        } else {
-          reject(new DrawerError(`Text button already added, you cannot add it again.`));
-        }
-      } catch (error: any) {
-        reject(new DrawerError(error.message));
-      }
-    });
-  }
-
-  /**
-   * Add draw group button (contain brush, eraser and text zone)
-   * see {@link addToolbar} before use it
-   * @param {action<HTMLButtonElement>?} action method to call onclick
-   * @returns {Promise<HTMLButtonElement>}
-   */
-  addDrawGroupBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
-    return new Promise((resolve, reject) => {
-      try {
-        if (this.$toolbar && !this.$drawGroupBtn && !this.$brushBtn && !this.$eraserBtn && !this.$textBtn) {
-          let icon = BrushIcon;
-          let title = 'Brush';
-
-          if (this.activeTool === 'eraser') {
-            icon = EraserIcon;
-            title = 'Eraser';
-          } else if (this.activeTool === 'text') {
-            icon = TextIcon;
-            title = 'Text zone';
-          }
-
-          const active = ['brush', 'eraser', 'text'].includes(this.activeTool) ? ' active' : '';
-          const drawGroupBtn = /*html*/ `<button title="${title}" class="btn${active}">${icon}</button>`;
-
-          const drawGroupMenu = /*html*/ `
-          <ul class="drawer-menu">
-            <li class="drawer-menu-item">
-              <button data-tool="brush" title=${'Brush'} class="btn">${BrushIcon}</button>
-            </li>
-            <li class="drawer-menu-item">
-              <button data-tool="eraser" title=${'Eraser'} class="btn">${EraserIcon}</button>
-            </li>
-            <li class="drawer-menu-item">
-              <button data-tool="text" title=${'Text zone'} class="btn">${TextIcon}</button>
-            </li>
-          </ul>`;
-
-          const $drawGroupBtn = stringToHTMLElement<HTMLButtonElement>(drawGroupBtn);
-          const $drawGroupMenu = stringToHTMLElement<HTMLUListElement>(drawGroupMenu);
-
-          this.$drawGroupBtn = $drawGroupBtn;
-          this.$drawGroupMenu = $drawGroupMenu;
-
-          this.$toolbar.appendChild($drawGroupBtn);
-          document.querySelector('body')?.appendChild($drawGroupMenu);
-
-          $drawGroupBtn.addEventListener('click', () => {
-            if (typeof action === 'function') {
-              action.call(this, $drawGroupBtn);
-            } else {
-              // eslint-disable-next-line prefer-const
-              let { bottom, left, top } = $drawGroupBtn.getBoundingClientRect();
-              const { width, height } = $drawGroupMenu.getBoundingClientRect();
-
-              if (left + width > window.innerWidth) {
-                left = left - (left + width - window.innerWidth) - getScrollbarWidth();
-              }
-
-              if (bottom + height > window.innerHeight) {
-                bottom = top - height - 5;
-              }
-
-              $drawGroupMenu.style.top = bottom + 3 + 'px';
-              $drawGroupMenu.style.left = left + 'px';
-              $drawGroupMenu.classList.toggle('show');
-            }
-          });
-
-          $drawGroupMenu.querySelectorAll('button').forEach(($btn) => {
-            $btn.addEventListener('click', () => {
-              const tool = $btn.dataset.tool as keyof typeof DrawTools;
-              this.changeTool(tool);
-              $drawGroupMenu.classList.remove('show');
-            });
-          });
-
-          // Manage click outside menu or button
-          document.addEventListener(
-            'click',
-            (event) => {
-              if (event.target) {
-                const outsideClick =
-                  !$drawGroupBtn.contains(event.target as Node) && !$drawGroupMenu.contains(event.target as Node);
-
-                if (outsideClick) {
-                  $drawGroupMenu.classList.remove('show');
-                }
-              }
-            },
-            false
-          );
-
-          resolve($drawGroupBtn);
-        } else if (!this.$toolbar) {
-          reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
-        } else {
-          reject(
-            new DrawerError(`A draw button already added, you cannot add it again, please remove add method before.`)
-          );
-        }
-      } catch (error: any) {
-        reject(new DrawerError(error.message));
-      }
-    });
-  }
-
-  /**
-   * Add clear button to toolbar if exist
-   * see {@link addToolbar} before use it
-   * @param {action<HTMLButtonElement>?} action method to call onclick
-   * @returns {Promise<HTMLButtonElement>}
-   */
-  addClearBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
-    return new Promise((resolve, reject) => {
-      try {
-        if (this.$toolbar && !this.$clearBtn) {
-          const clearBtn = /*html*/ `<button title="${'Clear draw'}" class="btn">${ClearIcon}</button>`;
-          const $clearBtn = stringToHTMLElement<HTMLButtonElement>(clearBtn);
-          this.$clearBtn = $clearBtn;
-
-          this.$toolbar.appendChild(this.$clearBtn);
-
-          this.$clearBtn.addEventListener('click', () => {
-            if (typeof action === 'function') {
-              action.call(this, $clearBtn);
-            } else if (confirm(`${'Voulez vous suppimer la totalité du dessin ?'}`)) {
-              this.clear();
-            }
-          });
-
-          resolve(this.$clearBtn);
-        } else if (!this.$toolbar) {
-          reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
-        } else {
-          reject(new DrawerError(`Clear button already added, you cannot add it again.`));
-        }
-      } catch (error: any) {
-        reject(new DrawerError(error.message));
-      }
-    });
-  }
-
-  /**
-   * Add text button to toolbar if exist
-   * see {@link addToolbar} before use it
-   * @param {action<HTMLButtonElement>?} action method to call onclick
-   * @returns {Promise<HTMLButtonElement>}
-   */
-  addShapeBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
-    return new Promise((resolve, reject) => {
-      try {
-        if (this.$toolbar && !this.$shapeBtn) {
-          const shapeBtn = /*html*/ `<button title="${'Draw shape'}" class="btn btn-shape">${ShapeIcon}</button>`;
-
-          const shapeMenu = /*html*/ `
-          <ul class="drawer-menu">
-            <li class="drawer-menu-item">
-              <button data-shape="triangle" class="btn triangle">${TriangleIcon}</button>
-            </li>
-            <li class="drawer-menu-item">
-              <button data-shape="rect" class="btn rect">${RectIcon}</button>
-            </li>
-            <li class="drawer-menu-item">
-              <button data-shape="square" class="btn square">${SquareIcon}</button>
-            </li>
-            <li class="drawer-menu-item">
-              <button data-shape="line" class="btn line">${LineIcon}</button>
-            </li>
-            <li class="drawer-menu-item">
-              <button data-shape="arrow" class="btn arrow">${ArrowIcon}</button>
-            </li>
-            <li class="drawer-menu-item">
-              <button data-shape="circle" class="btn circle">${CircleIcon}</button>
-            </li>
-          </ul>`;
-
-          const $shapeMenu = stringToHTMLElement<HTMLUListElement>(shapeMenu);
-          const $shapeBtn = stringToHTMLElement<HTMLButtonElement>(shapeBtn);
-
-          this.$shapeBtn = $shapeBtn;
-          this.$shapeMenu = $shapeMenu;
-
-          this.$toolbar.appendChild(this.$shapeBtn);
-          document.querySelector('body')?.appendChild(this.$shapeMenu);
-
-          this.$shapeBtn.addEventListener('click', () => {
-            if (typeof action === 'function') {
-              action.call(this, $shapeBtn);
-            } else {
-              // eslint-disable-next-line prefer-const
-              let { bottom, left, top } = $shapeBtn.getBoundingClientRect();
-              const { width, height } = $shapeMenu.getBoundingClientRect();
-              if (left + width > window.innerWidth) {
-                left = left - (left + width - window.innerWidth) - getScrollbarWidth();
-              }
-
-              if (bottom + height > window.innerHeight) {
-                bottom = top - height - 5;
-              }
-              $shapeMenu.style.top = bottom + 3 + 'px';
-              $shapeMenu.style.left = left + 'px';
-              $shapeMenu.classList.toggle('show');
-            }
-          });
-
-          this.$shapeMenu.querySelectorAll('button').forEach(($btn) => {
-            $btn.addEventListener('click', () => {
-              const shape = $btn.dataset.shape as keyof typeof DrawTools;
-              this.setShape(shape);
-            });
-          });
-
-          // Manage click outside menu or button
-          document.addEventListener(
-            'click',
-            (event) => {
-              if (event.target) {
-                const outsideClick =
-                  !$shapeBtn.contains(event.target as Node) && !$shapeMenu.contains(event.target as Node);
-
-                if (outsideClick) {
-                  $shapeMenu.classList.remove('show');
-                }
-              }
-            },
-            false
-          );
-
-          resolve($shapeBtn);
-        } else if (!this.$toolbar) {
-          reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
-        } else {
-          reject(new DrawerError(`Shape button already added, you cannot add it again.`));
-        }
-      } catch (error: any) {
-        reject(new DrawerError(error.message));
-      }
-    });
-  }
-
-  /**
-   * Add line thickness input range to toolbar if exist
-   * see {@link addToolbar} before use it
-   * @param {action<HTMLButtonElement>?} action method to call onclick
-   * @returns {Promise<HTMLInputElement>} HTML input range element
-   */
-  addLineThicknessBtn(action?: action<HTMLInputElement>): Promise<HTMLInputElement> {
-    return new Promise((resolve, reject) => {
-      try {
-        if (this.$toolbar && !this.$lineThickness) {
-          const lineThickness = /*html*/ `
-          <div class="drawer-range">
-            <input title="${'Thickness'}" id="${this.$canvas.id}-line-tickness" type="range" class="" min="1" value="${
-              this.options.lineThickness
-            }" max="30" />
-            <span class="counter">${this.options.lineThickness}</span>
-          </div>`;
-          const $lineThickness = stringToHTMLElement<HTMLDivElement>(lineThickness);
-          this.$lineThickness = $lineThickness;
-
-          this.$toolbar.appendChild(this.$lineThickness);
-
-          this.$lineThickness.addEventListener(
-            'input',
-            debounce(() => {
-              if (typeof action === 'function') {
-                action.call(this, this.$lineThickness.querySelector('input') as HTMLInputElement);
-                return;
-              }
-
-              const lineThickness = parseInt(this.$lineThickness.querySelector('input')?.value as string);
-              this.setLineWidth(lineThickness);
-            })
-          );
-
-          resolve(this.$lineThickness.querySelector('input') as HTMLInputElement);
-        } else if (!this.$toolbar) {
-          reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
-        } else {
-          reject(new DrawerError(`Line tickness button already added, you cannot add it again.`));
-        }
-      } catch (error: any) {
-        reject(new DrawerError(error.message));
-      }
-    });
-  }
-
-  /**
-   * Add a colorpicker button
-   * see {@link addToolbar} before use it
-   * using Coloris, for customisation please see here {@link https://github.com/mdbassit/Coloris}
-   * @param {action<HTMLInputElement>?} action Action call after color selected
-   * @returns {Promise<HTMLInputElement>}
-   */
-  addColorPickerBtn(action?: action<HTMLInputElement>): Promise<HTMLInputElement> {
-    return new Promise((resolve, reject) => {
-      try {
-        if (this.$toolbar && !this.$colorPicker) {
-          const colorPickerContainer = /*html*/ `
-          <div class="container-colorpicker">
-            <input class="btn" title="${'Color'}" id="colopicker-${this.options.id}" class="" type="text" value="${
-              this.options.color
-            }" data-coloris/>
-          </div>
-          `;
-          const $colorPickerContainer = stringToHTMLElement<HTMLDivElement>(colorPickerContainer);
-
-          this.$toolbar.appendChild($colorPickerContainer);
-
-          const $colorPicker = $colorPickerContainer.querySelector('input') as HTMLInputElement;
-          this.$colorPicker = $colorPicker;
-
-          Coloris.init();
-          Coloris({
-            el: `#colopicker-${this.options.id}`,
-            theme: 'polaroid',
-            swatches: this.options.availableColor,
-            swatchesOnly: this.options.availableColorOnly,
-            formatToggle: !this.options.availableColorOnly,
-          });
-
-          $colorPicker.addEventListener('change', () => {
-            if (typeof action === 'function') {
-              action.bind(this, $colorPicker, $colorPicker.value);
-            } else {
-              this.setColor($colorPicker.value);
-            }
-          });
-
-          resolve(this.$colorPicker);
-        } else if (!this.$toolbar) {
-          reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
-        } else {
-          reject(new DrawerError(`Colorpicker button already added, you cannot add it again.`));
-        }
-      } catch (error: any) {
-        reject(new DrawerError(error.message));
-      }
-    });
-  }
-
-  /**
-   * Add upload file button
-   * see {@link addToolbar} before use it
-   * @param {action<HTMLButtonElement>?} action method to call onclick
-   * @returns {Promise<HTMLInputElement>} HTML input range element
-   */
-  addUploadFileBtn(action?: action<HTMLInputElement>): Promise<HTMLInputElement> {
-    return new Promise((resolve, reject) => {
-      try {
-        if (this.$toolbar && !this.$uploadFile) {
-          const uploadFile = /*html*/ `
-          <div class="container-uploadFile">
-            <input id="${this.options.id}-uploadfile" title="${'Color'}" class="" type="file" />
-            <label title="${'Upload file'}" accept="image/png, image/jpeg, .svg" class="btn" for="${
-              this.options.id
-            }-uploadfile">
-              ${UploadIcon}
-            </label>
-          </div>
-          `;
-          const $uploadFileContainer = stringToHTMLElement<HTMLDivElement>(uploadFile);
-
-          this.$toolbar.appendChild($uploadFileContainer);
-
-          const $uploadFile = $uploadFileContainer.querySelector('input') as HTMLInputElement;
-          this.$uploadFile = $uploadFile;
-
-          this.$uploadFile.addEventListener('change', () => {
-            if (typeof action === 'function') {
-              action.call(this, $uploadFile);
-            } else {
-              this._uploadFile();
-            }
-          });
-
-          resolve(this.$uploadFile);
-        } else if (!this.$toolbar) {
-          reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
-        } else {
-          reject(new DrawerError(`Upload file button already added, you cannot add it again.`));
-        }
-      } catch (error: any) {
-        reject(new DrawerError(error.message));
-      }
-    });
-  }
-
-  /**
-   * Add a download button
-   * see {@link addToolbar} before use it
-   * @param {action<HTMLButtonElement>?} action method to call onclick
-   * @returns {Promise<HTMLButtonElement>}
-   */
-  addDownloadBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
-    return new Promise((resolve, reject) => {
-      if (this.$toolbar && !this.$downloadBtn) {
-        const download = /*html*/ `<button title="${'Download'}" class="btn">${DownloadIcon}</button>`;
-        const $downloadBtn = stringToHTMLElement<HTMLButtonElement>(download);
-        this.$downloadBtn = $downloadBtn;
-
-        this.$toolbar.appendChild(this.$downloadBtn);
-
-        this.$downloadBtn.addEventListener('click', () => {
-          if (typeof action === 'function') {
-            action.call(this, $downloadBtn);
-          } else {
-            // Download
-            const original = this.getData();
-            this._setBgColor('#fff').then(() => {
-              const data = this.$canvas.toDataURL('image/png');
-              const $link = document.createElement('a');
-
-              $link.download = this.$canvas.id || 'draw' + '.png';
-              $link.href = data;
-              document.body.appendChild($link);
-              $link.click();
-              document.body.removeChild($link);
-              this.loadFromData(original);
-            });
-          }
-        });
-
-        resolve(this.$downloadBtn);
-      } else if (!this.$toolbar) {
-        reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
-      } else {
-        reject(new DrawerError(`Download button already added, you cannot add it again.`));
-      }
-    });
-  }
-
-  /**
-   * Add a params button
-   * see {@link addToolbar} before use it
-   * @param {action<HTMLButtonElement>?} action method to call onclick
-   * @returns {Promise<HTMLButtonElement>}
-   */
-  addSettingBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
-    return new Promise((resolve, reject) => {
-      if (this.$toolbar && !this.$settingBtn) {
-        const settingBtn = /*html*/ `<button title="${'Setting'}" class="btn">${SettingIcon}</button>`;
-        const $settingBtn = stringToHTMLElement<HTMLButtonElement>(settingBtn);
-        this.$settingBtn = $settingBtn;
-
-        this.$toolbar.appendChild(this.$settingBtn);
-
-        this.$settingBtn.addEventListener('click', () => {
-          if (typeof action === 'function') {
-            action.call(this, $settingBtn);
-          } else if (this.settingModal.isVisible()) {
-            this.settingModal.hide();
-          } else {
-            this.settingModal.show();
-          }
-        });
-
-        resolve(this.$settingBtn);
-      } else if (!this.$toolbar) {
-        reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
-      } else {
-        reject(new DrawerError(`Setting button already added, you cannot add it again.`));
-      }
-    });
-  }
-
-  /**
-   * Add a custom button to toolbar
-   * see {@link addToolbar} before use it
-   * @param {String} name Button name (must be unique)
-   * @param {String} title Title for button
-   * @param {String} label Label or icon
-   * @param {action<HTMLButtonElement>} action Action to do onclick
-   * @returns {Promise<HTMLButtonElement>}
-   */
-  addCustomBtn(
-    name: string,
-    title: string,
-    label: string,
-    action: action<HTMLButtonElement>
-  ): Promise<HTMLButtonElement> {
-    return new Promise((resolve, reject) => {
-      if (this.$toolbar && !this.customBtn[name]) {
-        const customBtn = /*html*/ `<button title="${title}" class="btn">${label}</button>`;
-        const $customBtn = stringToHTMLElement<HTMLButtonElement>(customBtn);
-        this.customBtn[name] = $customBtn;
-
-        this.$toolbar.appendChild(this.customBtn[name]);
-
-        this.customBtn[name].addEventListener('click', () => {
-          if (typeof action === 'function') {
-            action.call(this, this.customBtn[name]);
-          } else {
-            throw new DrawerError(`No action provided for custom button name '${name}`);
-          }
-        });
-
-        resolve(this.customBtn[name]);
-      } else if (!this.$toolbar) {
-        reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first.`));
-      } else {
-        reject(new DrawerError(`Custom button with name "${name}" already exist.`));
-      }
-    });
-  }
-
-  /**
-   * Upload file from input file
-   */
-  private _uploadFile() {
-    if (this.$uploadFile?.files) {
-      const file = this.$uploadFile.files[0];
-
-      if (file) {
-        this.loadFromData(URL.createObjectURL(file)).then(() => {
-          this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
-        });
-      }
-    }
-  }
-
-  /**
    * Change drawing shape
    * @param {"rect" | "circle" | "square" | "arrow" | "line" | "star" | "triangle" | "polygon"} shape
    */
   setShape(shape: keyof typeof DrawTools) {
     return new Promise((resolve, reject) => {
       try {
-        if (this.$shapeBtn) {
+        if (this.toolbar.$shapeBtn) {
           let icon = '';
 
           switch (shape) {
@@ -1215,8 +401,8 @@ export class Drawer extends History {
             default:
               break;
           }
-          this.$shapeBtn.innerHTML = icon;
-          this.$shapeMenu?.classList.remove('show');
+          this.toolbar.$shapeBtn.innerHTML = icon;
+          this.toolbar.$shapeMenu?.classList.remove('show');
           this.changeTool(shape);
           this.$canvas.dispatchEvent(DrawEvent('update.shape', { shape }));
           resolve(true);
@@ -1253,45 +439,6 @@ export class Drawer extends History {
   }
 
   /**
-   * Apply active state to btn
-   * @param {HTMLButtonElement} $btn Button to add active class
-   */
-  setActiveBtn($btn: HTMLButtonElement | null) {
-    try {
-      if (this.$toolbar) {
-        this.$toolbar.querySelectorAll('.btn').forEach(($b) => $b.classList.remove('active'));
-
-        if (this.$drawGroupMenu) {
-          this.$drawGroupMenu.querySelectorAll('.btn').forEach(($b) => $b.classList.remove('active'));
-          $btn = this.$drawGroupBtn;
-          let icon = BrushIcon;
-          let title = 'Brush';
-
-          if (this.activeTool === 'eraser') {
-            icon = EraserIcon;
-            title = 'Eraser';
-          } else if (this.activeTool === 'text') {
-            icon = TextIcon;
-            title = 'Text zone';
-          }
-
-          $btn!.innerHTML = icon;
-          $btn!.title = title;
-        }
-
-        if (this.$shapeMenu) {
-          this.$shapeMenu.querySelectorAll('.btn').forEach(($b) => $b.classList.remove('active'));
-        }
-        $btn?.classList.add('active');
-      } else {
-        throw new DrawerError(`No toolbar provided`);
-      }
-    } catch (error: any) {
-      throw new DrawerError(error.message);
-    }
-  }
-
-  /**
    * Set the line width
    * @param {number} width Line width
    */
@@ -1300,8 +447,8 @@ export class Drawer extends History {
       this.options.lineThickness = width;
       this.ctx.lineWidth = width;
 
-      if (this.$lineThickness) {
-        const $counter = this.$lineThickness.querySelector('.counter');
+      if (this.toolbar.$lineThickness) {
+        const $counter = this.toolbar.$lineThickness.querySelector('.counter');
         if ($counter) {
           $counter.innerHTML = String(this.options.lineThickness);
         }
@@ -1319,20 +466,6 @@ export class Drawer extends History {
    */
   isShape(): boolean {
     return this.#availableShape.includes(this.activeTool);
-  }
-
-  private _manageUndoRedoBtn() {
-    if (!this.undo_list.length && this.$undoBtn) {
-      this.$undoBtn.disabled = true;
-    } else if (this.$undoBtn) {
-      this.$undoBtn.disabled = false;
-    }
-
-    if (!this.redo_list.length && this.$redoBtn) {
-      this.$redoBtn.disabled = true;
-    } else if (this.$redoBtn) {
-      this.$redoBtn.disabled = false;
-    }
   }
 
   /**
@@ -1399,7 +532,7 @@ export class Drawer extends History {
       const position =
         this.activeTool === 'text' ? { x: event.clientX, y: event.clientY } : getMousePosition(this.$canvas, event);
 
-      this._manageUndoRedoBtn();
+      this.toolbar._manageUndoRedoBtn();
       this._draw(position);
       this.isDrawing = false;
     }

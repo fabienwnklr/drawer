@@ -19,7 +19,7 @@ describe('Settings', () => {
   it('Open settings modal', () => {
     const drawer = new Drawer(document.body.querySelector('#test') as HTMLDivElement);
 
-    drawer.$settingBtn?.dispatchEvent(new Event('click'));
+    drawer.toolbar.$settingBtn?.dispatchEvent(new Event('click'));
 
     expect(drawer.settingModal.isVisible()).toBe(true);
   });
@@ -27,7 +27,7 @@ describe('Settings', () => {
   it('change globalAlpha (opacity)', () => {
     const drawer = new Drawer(document.body.querySelector('#test') as HTMLDivElement);
 
-    drawer.$settingBtn?.dispatchEvent(new Event('click'));
+    drawer.toolbar.$settingBtn?.dispatchEvent(new Event('click'));
 
     expect(drawer.settingModal.$opacitySettingInput).toBeInstanceOf(HTMLInputElement);
     // Default value
@@ -41,7 +41,7 @@ describe('Settings', () => {
   it('change fill option', () => {
     const drawer = new Drawer(document.body.querySelector('#test') as HTMLDivElement);
 
-    drawer.$settingBtn?.dispatchEvent(new Event('click'));
+    drawer.toolbar.$settingBtn?.dispatchEvent(new Event('click'));
 
     expect(drawer.settingModal.$fillSettingInput).toBeInstanceOf(HTMLInputElement);
     expect(drawer.settingModal.$fillSettingInput.checked).eq(defaultOptionsDrawer.fill);
@@ -53,7 +53,7 @@ describe('Settings', () => {
   it('change grid option', () => {
     const drawer = new Drawer(document.body.querySelector('#test') as HTMLDivElement);
 
-    drawer.$settingBtn?.dispatchEvent(new Event('click'));
+    drawer.toolbar.$settingBtn?.dispatchEvent(new Event('click'));
 
     expect(drawer.settingModal.$gridSettingInput).toBeInstanceOf(HTMLInputElement);
     expect(drawer.settingModal.$gridSettingInput.checked).eq(defaultOptionsDrawer.grid);
@@ -65,7 +65,7 @@ describe('Settings', () => {
   it('change guides option', () => {
     const drawer = new Drawer(document.body.querySelector('#test') as HTMLDivElement);
 
-    drawer.$settingBtn?.dispatchEvent(new Event('click'));
+    drawer.toolbar.$settingBtn?.dispatchEvent(new Event('click'));
 
     expect(drawer.settingModal.$guidesSettingInput).toBeInstanceOf(HTMLInputElement);
     expect(drawer.settingModal.$guidesSettingInput.checked).eq(defaultOptionsDrawer.guides);
@@ -77,7 +77,7 @@ describe('Settings', () => {
   it('change xor option', () => {
     const drawer = new Drawer(document.body.querySelector('#test') as HTMLDivElement);
 
-    drawer.$settingBtn?.dispatchEvent(new Event('click'));
+    drawer.toolbar.$settingBtn?.dispatchEvent(new Event('click'));
 
     expect(drawer.settingModal.$xorSettingInput).toBeInstanceOf(HTMLInputElement);
     expect(drawer.settingModal.$xorSettingInput.checked).eq(defaultOptionsDrawer.xor);

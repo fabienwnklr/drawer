@@ -19,9 +19,9 @@ describe('Basic', () => {
     const drawer = new Drawer(document.body.querySelector('#test') as HTMLDivElement);
 
     expect(drawer).toBeInstanceOf(Drawer);
-    expect(drawer.$toolbar).toBeInstanceOf(HTMLDivElement);
-    expect(drawer.$toolbar.querySelectorAll('button, input').length).not.toEqual(0);
-    expect(drawer.$brushBtn?.classList.contains('active')).toEqual(true);
+    expect(drawer.toolbar.$toolbar).toBeInstanceOf(HTMLDivElement);
+    expect(drawer.toolbar.$toolbar.querySelectorAll('button, input').length).not.toEqual(0);
+    expect(drawer.toolbar.$brushBtn?.classList.contains('active')).toEqual(true);
   });
 
   it('Init drawer without toolbar', () => {
@@ -30,14 +30,14 @@ describe('Basic', () => {
       autoSave: false,
     });
 
-    expect(drawer.$toolbar).toBeUndefined();
+    expect(drawer.toolbar.$toolbar).toBeUndefined();
   });
 
   it('Init drawer with default toolbar', () => {
     const drawer = new Drawer(document.body.querySelector('#test') as HTMLDivElement);
 
-    expect(drawer.$toolbar).toBeInstanceOf(HTMLDivElement);
-    expect(drawer.$toolbar.childElementCount).toEqual(12);
+    expect(drawer.toolbar.$toolbar).toBeInstanceOf(HTMLDivElement);
+    expect(drawer.toolbar.$toolbar.childElementCount).toEqual(12);
   });
 
   it('Init drawer with custom size', () => {
@@ -55,39 +55,39 @@ describe('Basic', () => {
     const drawer = new Drawer(document.body.querySelector('#test') as HTMLDivElement, {
       defaultToolbar: false,
     });
-    drawer.addToolbar();
-    drawer.addDrawGroupBtn();
+    drawer.toolbar.addToolbar();
+    drawer.toolbar.addDrawGroupBtn();
 
-    expect(drawer.$drawGroupBtn).toBeInstanceOf(HTMLButtonElement);
-    expect(drawer.$drawGroupBtn?.classList.contains('active')).toBe(true);
+    expect(drawer.toolbar.$drawGroupBtn).toBeInstanceOf(HTMLButtonElement);
+    expect(drawer.toolbar.$drawGroupBtn?.classList.contains('active')).toBe(true);
     expect(drawer.activeTool).toBe('brush'); // default tool
     drawer.changeTool('eraser');
     expect(drawer.activeTool).toBe('eraser');
-    expect(drawer.$drawGroupBtn?.classList.contains('active')).toBe(true);
-    expect(drawer.$drawGroupBtn?.title).toBe('Eraser');
+    expect(drawer.toolbar.$drawGroupBtn?.classList.contains('active')).toBe(true);
+    expect(drawer.toolbar.$drawGroupBtn?.title).toBe('Eraser');
 
     // Show menu
-    drawer.$drawGroupBtn?.click();
-    expect(drawer.$drawGroupMenu?.classList.contains('show')).toBe(true);
+    drawer.toolbar.$drawGroupBtn?.click();
+    expect(drawer.toolbar.$drawGroupMenu?.classList.contains('show')).toBe(true);
 
     // Hide menu on click on button inside
-    drawer.$drawGroupMenu?.querySelector('button')?.dispatchEvent(new Event('click'));
-    expect(drawer.$drawGroupMenu?.classList.contains('show')).toBe(false);
+    drawer.toolbar.$drawGroupMenu?.querySelector('button')?.dispatchEvent(new Event('click'));
+    expect(drawer.toolbar.$drawGroupMenu?.classList.contains('show')).toBe(false);
 
     // Show again
-    drawer.$drawGroupBtn?.click();
-    expect(drawer.$drawGroupMenu?.classList.contains('show')).toBe(true);
+    drawer.toolbar.$drawGroupBtn?.click();
+    expect(drawer.toolbar.$drawGroupMenu?.classList.contains('show')).toBe(true);
 
     // close on click outside menu
-    drawer.$toolbar.click();
-    expect(drawer.$drawGroupMenu?.classList.contains('show')).toBe(false);
+    drawer.toolbar.$toolbar.click();
+    expect(drawer.toolbar.$drawGroupMenu?.classList.contains('show')).toBe(false);
 
     // Show again
-    drawer.$drawGroupBtn?.click();
-    expect(drawer.$drawGroupMenu?.classList.contains('show')).toBe(true);
+    drawer.toolbar.$drawGroupBtn?.click();
+    expect(drawer.toolbar.$drawGroupMenu?.classList.contains('show')).toBe(true);
 
     // close on click on button menu
-    drawer.$drawGroupBtn?.click();
-    expect(drawer.$drawGroupMenu?.classList.contains('show')).toBe(false);
+    drawer.toolbar.$drawGroupBtn?.click();
+    expect(drawer.toolbar.$drawGroupMenu?.classList.contains('show')).toBe(false);
   });
 });

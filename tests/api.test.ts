@@ -20,14 +20,14 @@ describe('API', () => {
       defaultToolbar: false,
       autoSave: false,
     });
-    drawer.addToolbar();
-    drawer.addUndoBtn();
-    drawer.addRedoBtn();
-    drawer.addBrushBtn();
-    drawer.addEraserBtn();
+    drawer.toolbar.addToolbar();
+    drawer.toolbar.addUndoBtn();
+    drawer.toolbar.addRedoBtn();
+    drawer.toolbar.addBrushBtn();
+    drawer.toolbar.addEraserBtn();
 
-    expect(drawer.$toolbar).toBeInstanceOf(HTMLDivElement);
-    expect(drawer.$toolbar.querySelectorAll('button').length).toEqual(4);
+    expect(drawer.toolbar.$toolbar).toBeInstanceOf(HTMLDivElement);
+    expect(drawer.toolbar.$toolbar.querySelectorAll('button').length).toEqual(4);
   });
 
   it('setSize', () => {
@@ -37,7 +37,7 @@ describe('API', () => {
     expect(drawer.$canvas.width).toEqual(500);
     expect(drawer.$canvas.height).toEqual(600);
     // check max-width update of toolbar
-    expect(drawer.$toolbar.style.maxWidth).toEqual('500px');
+    expect(drawer.toolbar.$toolbar.style.maxWidth).toEqual('500px');
   });
 
   it('setLineWidth', () => {
@@ -52,7 +52,7 @@ describe('API', () => {
 
     drawer.changeTool('eraser');
     expect(drawer.activeTool).toEqual('eraser');
-    expect(drawer.$eraserBtn?.classList.contains('active')).toEqual(true);
+    expect(drawer.toolbar.$eraserBtn?.classList.contains('active')).toEqual(true);
   });
 
   it('setColor', async () => {
@@ -60,25 +60,25 @@ describe('API', () => {
 
     await drawer.setColor('#3e3e3e');
     expect(drawer.options.color).toEqual('#3e3e3e');
-    expect(drawer.$colorPicker?.value).toEqual('#3e3e3e');
+    expect(drawer.toolbar.$colorPicker?.value).toEqual('#3e3e3e');
     expect(drawer.ctx.fillStyle).toEqual('#3e3e3e');
 
     // With keyword, converted to hex
     await drawer.setColor('red');
     expect(drawer.options.color).toEqual('red');
-    expect(drawer.$colorPicker?.value).toEqual('red');
+    expect(drawer.toolbar.$colorPicker?.value).toEqual('red');
     expect(drawer.ctx.fillStyle).toEqual('#ff0000');
 
     // With rgb
     drawer.setColor('rgb(0, 0, 152)');
     expect(drawer.options.color).toEqual('rgb(0, 0, 152)');
-    expect(drawer.$colorPicker?.value).toEqual('rgb(0, 0, 152)');
+    expect(drawer.toolbar.$colorPicker?.value).toEqual('rgb(0, 0, 152)');
     expect(drawer.ctx.fillStyle).toEqual('#000098');
 
     // With rgba
     drawer.setColor('rgba(0, 0, 152, 0.5)');
     expect(drawer.options.color).toEqual('rgba(0, 0, 152, 0.5)');
-    expect(drawer.$colorPicker?.value).toEqual('rgba(0, 0, 152, 0.5)');
+    expect(drawer.toolbar.$colorPicker?.value).toEqual('rgba(0, 0, 152, 0.5)');
     expect(drawer.ctx.fillStyle).toEqual('rgba(0, 0, 152, 0.5)');
   });
 });
