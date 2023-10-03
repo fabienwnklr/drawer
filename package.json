@@ -24,6 +24,12 @@
   "files": [
     "dist/*"
   ],
+  "exports": {
+    ".": {
+      "import": "./dist/drawer.js",
+      "require": "./dist/drawer.umd.cjs"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
