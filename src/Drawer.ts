@@ -30,6 +30,12 @@ import { SettingsModal } from './ui/SettingsModal';
 import { version } from '../package.json';
 import { Toolbar } from './ui/Toolbar';
 
+declare global {
+  interface HTMLCanvasElement {
+    drawer: Drawer;
+  }
+}
+
 /**
  * @class Drawer
  * {@link https://}
@@ -146,6 +152,7 @@ export class Drawer extends History {
         this.addGrid();
       }
 
+      this.$canvas.drawer = this;
       // dispatch drawer.init event
       this.$sourceElement.dispatchEvent(DrawEvent('init'));
     } catch (error: any) {

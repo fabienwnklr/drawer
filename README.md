@@ -38,6 +38,18 @@ const $el = document.getElementById("myElement");
 const drawer = new Drawer($el, { /** optional options */});
 ```
 
+### Get Drawer instance of canvas
+
+Drawer instance stored into $canvas object directly, for example:
+
+```js
+const $canvas = document.getElementById('canvas');
+const drawer = $canvas.drawer;
+
+drawer.changeTool('eraser');
+// ...
+```
+
 ### Available options
 
 default options
