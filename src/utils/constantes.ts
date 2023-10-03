@@ -34,4 +34,6 @@ export const defaultOptionsModal: ModalOptions = {
   backdrop: true,
 };
 
-export const defaultOptionsToolbar: ToolbarOptions = {};
+export const defaultOptionsToolbar: ToolbarOptions = {
+  toolbarPosition: 'outerTop',
+};
