@@ -1,3 +1,5 @@
+[@fabwcie/drawer](../README.md) / [Exports](../modules.md) / icons/rect
+
 # Module: icons/rect
 
 ## Table of contents
@@ -14,4 +16,4 @@
 
 #### Defined in
 
-[src/icons/rect.ts:1](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/icons/rect.ts#L1)
+[src/icons/rect.ts:1](https://github.com/fabwcie/drawer/blob/850d9ed/src/icons/rect.ts#L1)

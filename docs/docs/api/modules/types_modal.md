@@ -1,3 +1,5 @@
+[@fabwcie/drawer](../README.md) / [Exports](../modules.md) / types/modal
+
 # Module: types/modal
 
 ## Table of contents

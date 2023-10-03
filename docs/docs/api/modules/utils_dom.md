@@ -1,3 +1,5 @@
+[@fabwcie/drawer](../README.md) / [Exports](../modules.md) / utils/dom
+
 # Module: utils/dom
 
 ## Table of contents
@@ -19,7 +21,7 @@
 
 #### Defined in
 
-[src/utils/dom.ts:5](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/utils/dom.ts#L5)
+[src/utils/dom.ts:5](https://github.com/fabwcie/drawer/blob/850d9ed/src/utils/dom.ts#L5)
 
 ___
 
@@ -45,4 +47,4 @@ ___
 
 #### Defined in
 
-[src/utils/dom.ts:1](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/utils/dom.ts#L1)
+[src/utils/dom.ts:1](https://github.com/fabwcie/drawer/blob/850d9ed/src/utils/dom.ts#L1)

@@ -1,3 +1,5 @@
+[@fabwcie/drawer](../README.md) / [Exports](../modules.md) / icons/shape
+
 # Module: icons/shape
 
 ## Table of contents
@@ -14,4 +16,4 @@
 
 #### Defined in
 
-[src/icons/shape.ts:1](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/icons/shape.ts#L1)
+[src/icons/shape.ts:1](https://github.com/fabwcie/drawer/blob/850d9ed/src/icons/shape.ts#L1)

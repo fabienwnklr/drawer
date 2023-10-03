@@ -1,3 +1,5 @@
+[@fabwcie/drawer](../README.md) / [Exports](../modules.md) / icons/clear
+
 # Module: icons/clear
 
 ## Table of contents
@@ -14,4 +16,4 @@
 
 #### Defined in
 
-[src/icons/clear.ts:1](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/icons/clear.ts#L1)
+[src/icons/clear.ts:1](https://github.com/fabwcie/drawer/blob/850d9ed/src/icons/clear.ts#L1)

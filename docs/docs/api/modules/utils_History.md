@@ -1,3 +1,5 @@
+[@fabwcie/drawer](../README.md) / [Exports](../modules.md) / utils/History
+
 # Module: utils/History
 
 ## Table of contents

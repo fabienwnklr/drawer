@@ -1,3 +1,5 @@
+[@fabwcie/drawer](../README.md) / [Exports](../modules.md) / utils/constantes
+
 # Module: utils/constantes
 
 ## Table of contents
@@ -16,7 +18,7 @@
 
 #### Defined in
 
-[src/utils/constantes.ts:5](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/utils/constantes.ts#L5)
+[src/utils/constantes.ts:5](https://github.com/fabwcie/drawer/blob/850d9ed/src/utils/constantes.ts#L5)
 
 ___
 
@@ -26,14 +28,14 @@ ___
 
 #### Defined in
 
-[src/utils/constantes.ts:28](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/utils/constantes.ts#L28)
+[src/utils/constantes.ts:28](https://github.com/fabwcie/drawer/blob/850d9ed/src/utils/constantes.ts#L28)
 
 ___
 
 ### defaultOptionsToolbar
 
-• `Const` **defaultOptionsToolbar**: [`ToolbarOptions`](../interfaces/types_toolbar.ToolbarOptions.md) = `{}`
+• `Const` **defaultOptionsToolbar**: [`ToolbarOptions`](../interfaces/types_toolbar.ToolbarOptions.md)
 
 #### Defined in
 
-[src/utils/constantes.ts:37](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/utils/constantes.ts#L37)
+[src/utils/constantes.ts:37](https://github.com/fabwcie/drawer/blob/850d9ed/src/utils/constantes.ts#L37)

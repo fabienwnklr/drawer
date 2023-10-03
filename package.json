@@ -41,7 +41,7 @@
     "format": "prettier src/**/*.ts --write",
     "lint": "npx eslint src/**",
     "prebuild": "npm test && npm run lint",
-    "build:docs": "npx typedoc --excludePrivate --plugin typedoc-plugin-markdown --hideBreadcrumbs --out docs/docs/api src/**/*.ts",
+    "build:docs": "npx typedoc --excludePrivate --plugin typedoc-plugin-markdown --out docs/docs/api src/**/*.ts",
     "prepare": "husky install",
     "release": "standard-version",
     "release:patch": "standard-version --release-as patch && git push --follow-tags origin master && npm publish --access public",

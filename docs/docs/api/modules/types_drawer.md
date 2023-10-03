@@ -1,3 +1,5 @@
+[@fabwcie/drawer](../README.md) / [Exports](../modules.md) / types/drawer
+
 # Module: types/drawer
 
 ## Table of contents
@@ -45,4 +47,4 @@
 
 #### Defined in
 
-[src/types/drawer.d.ts:24](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/types/drawer.d.ts#L24)
+[src/types/drawer.d.ts:24](https://github.com/fabwcie/drawer/blob/850d9ed/src/types/drawer.d.ts#L24)

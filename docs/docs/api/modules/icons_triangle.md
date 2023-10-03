@@ -1,3 +1,5 @@
+[@fabwcie/drawer](../README.md) / [Exports](../modules.md) / icons/triangle
+
 # Module: icons/triangle
 
 ## Table of contents
@@ -14,4 +16,4 @@
 
 #### Defined in
 
-[src/icons/triangle.ts:1](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/icons/triangle.ts#L1)
+[src/icons/triangle.ts:1](https://github.com/fabwcie/drawer/blob/850d9ed/src/icons/triangle.ts#L1)

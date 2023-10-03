@@ -1,3 +1,5 @@
+[@fabwcie/drawer](../README.md) / [Exports](../modules.md) / [types/modal](../modules/types_modal.md) / ModalOptions
+
 # Interface: ModalOptions
 
 [types/modal](../modules/types_modal.md).ModalOptions
@@ -21,7 +23,7 @@
 
 #### Defined in
 
-[src/types/modal.d.ts:7](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/types/modal.d.ts#L7)
+[src/types/modal.d.ts:7](https://github.com/fabwcie/drawer/blob/850d9ed/src/types/modal.d.ts#L7)
 
 ___
 
@@ -31,7 +33,7 @@ ___
 
 #### Defined in
 
-[src/types/modal.d.ts:4](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/types/modal.d.ts#L4)
+[src/types/modal.d.ts:4](https://github.com/fabwcie/drawer/blob/850d9ed/src/types/modal.d.ts#L4)
 
 ___
 
@@ -41,7 +43,7 @@ ___
 
 #### Defined in
 
-[src/types/modal.d.ts:6](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/types/modal.d.ts#L6)
+[src/types/modal.d.ts:6](https://github.com/fabwcie/drawer/blob/850d9ed/src/types/modal.d.ts#L6)
 
 ___
 
@@ -51,7 +53,7 @@ ___
 
 #### Defined in
 
-[src/types/modal.d.ts:5](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/types/modal.d.ts#L5)
+[src/types/modal.d.ts:5](https://github.com/fabwcie/drawer/blob/850d9ed/src/types/modal.d.ts#L5)
 
 ___
 
@@ -61,7 +63,7 @@ ___
 
 #### Defined in
 
-[src/types/modal.d.ts:3](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/types/modal.d.ts#L3)
+[src/types/modal.d.ts:3](https://github.com/fabwcie/drawer/blob/850d9ed/src/types/modal.d.ts#L3)
 
 ___
 
@@ -71,4 +73,4 @@ ___
 
 #### Defined in
 
-[src/types/modal.d.ts:2](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/types/modal.d.ts#L2)
+[src/types/modal.d.ts:2](https://github.com/fabwcie/drawer/blob/850d9ed/src/types/modal.d.ts#L2)

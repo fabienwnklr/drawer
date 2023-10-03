@@ -1,3 +1,5 @@
+[@fabwcie/drawer](../README.md) / [Exports](../modules.md) / utils/perf
+
 # Module: utils/perf
 
 ## Table of contents
@@ -62,7 +64,7 @@ window.addEventListener("resize", debouncedUpdateLayout);
 
 #### Defined in
 
-[src/utils/perf.ts:22](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/utils/perf.ts#L22)
+[src/utils/perf.ts:22](https://github.com/fabwcie/drawer/blob/850d9ed/src/utils/perf.ts#L22)
 
 ___
 
@@ -91,7 +93,7 @@ Measure time executing function
 
 #### Defined in
 
-[src/utils/perf.ts:81](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/utils/perf.ts#L81)
+[src/utils/perf.ts:81](https://github.com/fabwcie/drawer/blob/850d9ed/src/utils/perf.ts#L81)
 
 ___
 
@@ -137,4 +139,4 @@ window.addEventListener("scroll", throttledUpdateLayout);
 
 #### Defined in
 
-[src/utils/perf.ts:58](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/utils/perf.ts#L58)
+[src/utils/perf.ts:58](https://github.com/fabwcie/drawer/blob/850d9ed/src/utils/perf.ts#L58)

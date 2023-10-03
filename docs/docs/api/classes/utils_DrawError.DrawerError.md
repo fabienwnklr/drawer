@@ -1,3 +1,5 @@
+[@fabwcie/drawer](../README.md) / [Exports](../modules.md) / [utils/DrawError](../modules/utils_DrawError.md) / DrawerError
+
 # Class: DrawerError
 
 [utils/DrawError](../modules/utils_DrawError.md).DrawerError
@@ -45,7 +47,7 @@ Error.constructor
 
 #### Defined in
 
-[src/utils/DrawError.ts:2](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/utils/DrawError.ts#L2)
+[src/utils/DrawError.ts:2](https://github.com/fabwcie/drawer/blob/850d9ed/src/utils/DrawError.ts#L2)
 
 ## Properties
 

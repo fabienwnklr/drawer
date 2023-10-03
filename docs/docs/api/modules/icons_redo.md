@@ -1,3 +1,5 @@
+[@fabwcie/drawer](../README.md) / [Exports](../modules.md) / icons/redo
+
 # Module: icons/redo
 
 ## Table of contents
@@ -14,4 +16,4 @@
 
 #### Defined in
 
-[src/icons/redo.ts:1](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/icons/redo.ts#L1)
+[src/icons/redo.ts:1](https://github.com/fabwcie/drawer/blob/850d9ed/src/icons/redo.ts#L1)

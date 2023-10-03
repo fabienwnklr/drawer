@@ -1,3 +1,5 @@
+[@fabwcie/drawer](../README.md) / [Exports](../modules.md) / [types/drawer](../modules/types_drawer.md) / Position
+
 # Interface: Position
 
 [types/drawer](../modules/types_drawer.md).Position
@@ -17,7 +19,7 @@
 
 #### Defined in
 
-[src/types/drawer.d.ts:52](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/types/drawer.d.ts#L52)
+[src/types/drawer.d.ts:52](https://github.com/fabwcie/drawer/blob/850d9ed/src/types/drawer.d.ts#L52)
 
 ___
 
@@ -27,4 +29,4 @@ ___
 
 #### Defined in
 
-[src/types/drawer.d.ts:53](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/types/drawer.d.ts#L53)
+[src/types/drawer.d.ts:53](https://github.com/fabwcie/drawer/blob/850d9ed/src/types/drawer.d.ts#L53)

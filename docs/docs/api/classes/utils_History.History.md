@@ -1,3 +1,5 @@
+[@fabwcie/drawer](../README.md) / [Exports](../modules.md) / [utils/History](../modules/utils_History.md) / History
+
 # Class: History
 
 [utils/History](../modules/utils_History.md).History
@@ -43,7 +45,7 @@
 
 #### Defined in
 
-[src/utils/History.ts:4](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/utils/History.ts#L4)
+[src/utils/History.ts:6](https://github.com/fabwcie/drawer/blob/850d9ed/src/utils/History.ts#L6)
 
 ___
 
@@ -53,7 +55,7 @@ ___
 
 #### Defined in
 
-[src/utils/History.ts:5](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/utils/History.ts#L5)
+[src/utils/History.ts:7](https://github.com/fabwcie/drawer/blob/850d9ed/src/utils/History.ts#L7)
 
 ___
 
@@ -63,7 +65,7 @@ ___
 
 #### Defined in
 
-[src/utils/History.ts:2](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/utils/History.ts#L2)
+[src/utils/History.ts:4](https://github.com/fabwcie/drawer/blob/850d9ed/src/utils/History.ts#L4)
 
 ___
 
@@ -73,27 +75,27 @@ ___
 
 #### Defined in
 
-[src/utils/History.ts:3](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/utils/History.ts#L3)
+[src/utils/History.ts:5](https://github.com/fabwcie/drawer/blob/850d9ed/src/utils/History.ts#L5)
 
 ## Methods
 
 ### redo
 
-▸ **redo**(): `void`
+▸ **redo**(): `Promise`<`unknown`\>
 
 #### Returns
 
-`void`
+`Promise`<`unknown`\>
 
 #### Defined in
 
-[src/utils/History.ts:20](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/utils/History.ts#L20)
+[src/utils/History.ts:28](https://github.com/fabwcie/drawer/blob/850d9ed/src/utils/History.ts#L28)
 
 ___
 
 ### restoreState
 
-▸ **restoreState**(`pop`, `push`): `void`
+▸ **restoreState**(`pop`, `push`, `cb?`): `void`
 
 #### Parameters
 
@@ -101,6 +103,7 @@ ___
 | :------ | :------ |
 | `pop` | `string`[] |
 | `push` | `string`[] |
+| `cb?` | (`v`: `boolean`) => `void` |
 
 #### Returns
 
@@ -108,7 +111,7 @@ ___
 
 #### Defined in
 
-[src/utils/History.ts:24](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/utils/History.ts#L24)
+[src/utils/History.ts:38](https://github.com/fabwcie/drawer/blob/850d9ed/src/utils/History.ts#L38)
 
 ___
 
@@ -129,7 +132,7 @@ ___
 
 #### Defined in
 
-[src/utils/History.ts:7](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/utils/History.ts#L7)
+[src/utils/History.ts:9](https://github.com/fabwcie/drawer/blob/850d9ed/src/utils/History.ts#L9)
 
 ___
 
@@ -149,18 +152,18 @@ ___
 
 #### Defined in
 
-[src/utils/History.ts:50](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/utils/History.ts#L50)
+[src/utils/History.ts:66](https://github.com/fabwcie/drawer/blob/850d9ed/src/utils/History.ts#L66)
 
 ___
 
 ### undo
 
-▸ **undo**(): `void`
+▸ **undo**(): `Promise`<`unknown`\>
 
 #### Returns
 
-`void`
+`Promise`<`unknown`\>
 
 #### Defined in
 
-[src/utils/History.ts:16](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/utils/History.ts#L16)
+[src/utils/History.ts:18](https://github.com/fabwcie/drawer/blob/850d9ed/src/utils/History.ts#L18)

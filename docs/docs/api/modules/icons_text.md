@@ -1,3 +1,5 @@
+[@fabwcie/drawer](../README.md) / [Exports](../modules.md) / icons/text
+
 # Module: icons/text
 
 ## Table of contents
@@ -14,4 +16,4 @@
 
 #### Defined in
 
-[src/icons/text.ts:1](https://github.com/fabwcie/drawer/blob/6f6bdfc/src/icons/text.ts#L1)
+[src/icons/text.ts:1](https://github.com/fabwcie/drawer/blob/850d9ed/src/icons/text.ts#L1)

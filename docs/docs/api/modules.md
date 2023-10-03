@@ -1,3 +1,5 @@
+[@fabwcie/drawer](README.md) / Exports
+
 # @fabwcie/drawer
 
 ## Table of contents
@@ -5,7 +7,6 @@
 ### Modules
 
 - [Drawer](modules/Drawer.md)
-- [SVGDrawer](modules/SVGDrawer.md)
 - [icons/arrow](modules/icons_arrow.md)
 - [icons/brush](modules/icons_brush.md)
 - [icons/circle](modules/icons_circle.md)
@@ -25,8 +26,6 @@
 - [icons/triangle](modules/icons_triangle.md)
 - [icons/undo](modules/icons_undo.md)
 - [icons/upload](modules/icons_upload.md)
-- [tools/Toolbar](modules/tools_Toolbar.md)
-- [tools/Undo](modules/tools_Undo.md)
 - [types/drawer](modules/types_drawer.md)
 - [types/modal](modules/types_modal.md)
 - [types/toolbar](modules/types_toolbar.md)
