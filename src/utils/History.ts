@@ -1,3 +1,5 @@
+import { DrawerError } from './DrawError';
+
 export class History {
   redo_list: string[] = [];
   undo_list: string[] = [];
@@ -14,14 +16,26 @@ export class History {
   }
 
   undo() {
-    this.restoreState(this.undo_list, this.redo_list);
+    return new Promise((resolve, reject) => {
+      try {
+        this.restoreState(this.undo_list, this.redo_list, resolve);
+      } catch (error: any) {
+        reject(new DrawerError(error.message));
+      }
+    });
   }
 
   redo() {
-    this.restoreState(this.redo_list, this.undo_list);
+    return new Promise((resolve, reject) => {
+      try {
+        this.restoreState(this.redo_list, this.undo_list, resolve);
+      } catch (error: any) {
+        reject(new DrawerError(error.message));
+      }
+    });
   }
 
-  restoreState(pop: string[], push: string[]) {
+  restoreState(pop: string[], push: string[], cb?: (v: boolean) => void) {
     if (pop.length) {
       this.saveState(push, true);
       const restore_state = pop.pop();
@@ -42,6 +56,8 @@ export class History {
             this.$canvas.width,
             this.$canvas.height
           );
+
+          if (typeof cb === 'function') cb(true);
         };
       }
     }

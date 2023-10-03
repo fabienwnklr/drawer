@@ -535,6 +535,7 @@ export class Drawer extends History {
       this.toolbar._manageUndoRedoBtn();
       this._draw(position);
       this.isDrawing = false;
+      this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
     }
   }
 
@@ -587,8 +588,6 @@ export class Drawer extends History {
     } else {
       this.ctx.stroke();
     }
-
-    this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
   }
 
   private _drawHand({ x, y }: Position) {
@@ -870,18 +869,21 @@ export class Drawer extends History {
     this.$canvas.addEventListener('keypress', (event: KeyboardEvent) => {
       if (event.ctrlKey) {
         if (event.code === 'KeyW') {
-          this.undo();
+          this.undo().then(() => {
+            this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
+          });
         } else if (event.code === 'KeyY') {
-          this.redo();
+          this.redo().then(() => {
+            this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
+          });
         }
+        this.toolbar._manageUndoRedoBtn();
       }
     });
 
     if (this.options.autoSave) {
       this.$canvas.addEventListener('drawer.change', this.saveDraw.bind(this));
     }
-
-    this.$canvas.addEventListener('drawer.change', () => this.saveState());
   }
 
   /**
