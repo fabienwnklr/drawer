@@ -129,7 +129,7 @@ export class Drawer extends History {
       `;
       this.$canvas = stringToHTMLElement<HTMLCanvasElement>(canvas);
       this.#cloneCanvas = this.$canvas.cloneNode() as HTMLCanvasElement;
-      this.ctx = this.$canvas.getContext('2d', { alpha: true, willReadFrequently: true }) as CanvasRenderingContext2D;
+      this.ctx = this.$canvas.getContext('2d', { willReadFrequently: true }) as CanvasRenderingContext2D;
       this.ctx.globalAlpha = this.options.opacity;
       this.$drawerContainer.appendChild(this.$canvas);
     } catch (error: any) {
