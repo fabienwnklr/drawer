@@ -708,7 +708,18 @@ export class Drawer extends History {
             if (typeof action === 'function') {
               action.call(this, $drawGroupBtn);
             } else {
-              const { bottom, left } = $drawGroupBtn.getBoundingClientRect();
+              // eslint-disable-next-line prefer-const
+              let { bottom, left, top } = $drawGroupBtn.getBoundingClientRect();
+              const { width, height } = $drawGroupMenu.getBoundingClientRect();
+
+              if (left + width > window.innerWidth) {
+                left = left - (left + width - window.innerWidth) - getScrollbarWidth();
+              }
+
+              if (bottom + height > window.innerHeight) {
+                bottom = top - height - 5;
+              }
+
               $drawGroupMenu.style.top = bottom + 3 + 'px';
               $drawGroupMenu.style.left = left + 'px';
               $drawGroupMenu.classList.toggle('show');
