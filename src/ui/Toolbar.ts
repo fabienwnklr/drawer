@@ -396,8 +396,10 @@ export class Toolbar {
           this.$clearBtn.addEventListener('click', () => {
             if (typeof action === 'function') {
               action.call(this, $clearBtn);
-            } else if (confirm(`${'Voulez vous suppimer la totalité du dessin ?'}`)) {
-              this.drawer.clear();
+            } else if (!this.drawer.isEmpty()) {
+              if (confirm(`${'Voulez vous suppimer la totalité du dessin ?'}`)) {
+                this.drawer.clear();
+              }
             }
           });
 

@@ -82,6 +82,7 @@ export class Drawer extends History {
   gridActive!: boolean;
   VERSION = version;
   toolbar: Toolbar;
+  #cloneCanvas!: HTMLCanvasElement;
 
   /**
    *
@@ -127,6 +128,7 @@ export class Drawer extends History {
       <canvas tabindex="0" id="${this.options.id}" height="${this.options.height}" width="${this.options.width}" class="canvas-drawer"></canvas>
       `;
       this.$canvas = stringToHTMLElement<HTMLCanvasElement>(canvas);
+      this.#cloneCanvas = this.$canvas.cloneNode() as HTMLCanvasElement;
       this.ctx = this.$canvas.getContext('2d', { alpha: true, willReadFrequently: true }) as CanvasRenderingContext2D;
       this.ctx.globalAlpha = this.options.opacity;
       this.$drawerContainer.appendChild(this.$canvas);
@@ -196,7 +198,7 @@ export class Drawer extends History {
    */
   isEmpty(data?: string): boolean {
     data = data ?? this.getData();
-    return document.createElement('canvas').toDataURL() === data;
+    return this.#cloneCanvas.toDataURL() === data;
   }
 
   /**
