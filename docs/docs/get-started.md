@@ -18,12 +18,23 @@ npm i @fabwcie/drawer
 
 ### usage
 
+:::warning
+
+You don't need to create `<canvas>` html element, `Drawer` instance do it for you when you call `new Drawer(...)`.
+
+so you'r html look like this :
+
+```html
+<div id="drawer-container"></div>
+```
+:::
+
 #### Using module
 
 ```js
 import { Drawer } from '@fabwcie/drawer';
 
-const $el = document.getElementById('myElement');
+const $el = document.getElementById('drawer-container');
 const drawer = new Drawer($el, {
   /** optional options */
 });
@@ -40,7 +51,7 @@ first import file
 then init drawer
 
 ```js
-const $el = document.getElementById('myElement');
+const $el = document.getElementById('drawer-container');
 const drawer = new Drawer($el, {
   /** optional options */
 });
