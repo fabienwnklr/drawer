@@ -57,7 +57,8 @@ export class Modal {
         (event) => {
           if (event.target) {
             const outsideClick =
-              !this.drawer.toolbar?.$settingBtn?.contains(event.target as Node) && !this.$modal.contains(event.target as Node);
+              !this.drawer.toolbar?.$settingBtn?.contains(event.target as Node) &&
+              !this.$modal.contains(event.target as Node);
 
             if (outsideClick) {
               this.hide();
