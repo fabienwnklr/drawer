@@ -107,6 +107,8 @@ remove `prebuild` script into `package.json` __(DON'T COMMIT THIS CHANGE)__
 
 ## Commit Messages
 
+__We use [commitlint](https://github.com/conventional-changelog/commitlint) as commit linter.__
+
 Commit messages should be concise and descriptive and reference the issue they are addressing whenever possible. In addition, they should follow the [Conventional Commits specification](https://www.conventionalcommits.org/en/v1.0.0/).
 
 ## Improving The Documentation
