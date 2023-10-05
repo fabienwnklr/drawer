@@ -15,6 +15,22 @@
 const sidebars = {
   // By default, Docusaurus generates a sidebar from the docs folder structure
   getStartedSidebar: [ 'get-started', 'constants', 'events', 'contribute'],
+  examplesSidebar: [
+    {
+      type: 'category',
+      label: 'Drawer samples',
+      link: {
+        type: 'generated-index',
+        title: 'Examples',
+        description: 'Some samples for Drawer use',
+        slug: 'examples',
+        keywords: ['examples', 'drawer'],
+      },
+      items: [
+        "examples/basic"
+      ]
+    }
+  ],
   apiSidebar: [
     'api',
     {

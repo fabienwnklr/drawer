@@ -92,26 +92,30 @@ export class Drawer extends History {
   constructor($el: HTMLElement, options: Partial<DrawerOptions> = {}) {
     super();
     try {
-      this.$sourceElement = $el;
-      this.options = deepMerge<DrawerOptions>(defaultOptionsDrawer, options);
-      this._init();
-      this.toolbar = new Toolbar(this, { toolbarPosition: this.options.toolbarPosition });
+      if ($el instanceof HTMLElement) {
+        this.$sourceElement = $el;
+        this.options = deepMerge<DrawerOptions>(defaultOptionsDrawer, options);
+        this._init();
+        this.toolbar = new Toolbar(this, { toolbarPosition: this.options.toolbarPosition });
 
-      const saved = localStorage.getItem(this.options.localStorageKey);
+        const saved = localStorage.getItem(this.options.localStorageKey);
 
-      if (saved && !this.isEmpty(saved)) {
-        this.loadFromData(saved);
-      }
+        if (saved && !this.isEmpty(saved)) {
+          this.loadFromData(saved);
+        }
 
-      if (this.options.defaultToolbar) {
-        this.toolbar.addToolbar();
-        this.toolbar.addDefaults();
-      }
+        if (this.options.defaultToolbar) {
+          this.toolbar.addToolbar();
+          this.toolbar.addDefaults();
+        }
 
-      this.settingModal = new SettingsModal(this);
+        this.settingModal = new SettingsModal(this);
 
-      if (this.options.dotted) {
-        this.setDottedLine(true, this.options.dash);
+        if (this.options.dotted) {
+          this.setDottedLine(true, this.options.dash);
+        }
+      } else {
+        throw new DrawerError(`element must be an instance of HTMLElement`);
       }
     } catch (error: any) {
       throw new DrawerError(error.message);
