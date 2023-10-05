@@ -1,7 +1,7 @@
 import { describe, expect, it, beforeAll } from 'vitest';
 import { Drawer } from '../src/Drawer';
 import { Blob } from 'node:buffer';
-import { defaultOptionsDrawer } from '../src/utils/constantes';
+import { defaultOptionsDrawer } from '../src/constants';
 
 declare global {
   interface Window {
