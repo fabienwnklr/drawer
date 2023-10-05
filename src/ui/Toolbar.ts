@@ -23,7 +23,7 @@ import { DrawTools } from '../types/drawer';
 import { ToolbarOptions } from '../types/toolbar';
 import { DrawerError } from '../utils/DrawError';
 import { DrawEvent } from '../utils/DrawEvent';
-import { defaultOptionsToolbar } from '../utils/constantes';
+import { defaultOptionsToolbar } from '../constants';
 import { getScrollbarWidth, stringToHTMLElement } from '../utils/dom';
 import { debounce } from '../utils/perf';
 import { deepMerge } from '../utils/utils';

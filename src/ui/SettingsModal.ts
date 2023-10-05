@@ -1,9 +1,6 @@
 import type { Drawer } from '../Drawer';
 import { Modal } from './Modal';
 
-/**
- * @private
- */
 export class SettingsModal extends Modal {
   filled: boolean;
   grid: boolean;

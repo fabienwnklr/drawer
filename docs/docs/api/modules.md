@@ -7,6 +7,7 @@
 ### Modules
 
 - [Drawer](modules/Drawer.md)
+- [constants](modules/constants.md)
 - [icons/arrow](modules/icons_arrow.md)
 - [icons/brush](modules/icons_brush.md)
 - [icons/circle](modules/icons_circle.md)
@@ -37,7 +38,6 @@
 - [utils/DrawError](modules/utils_DrawError.md)
 - [utils/DrawEvent](modules/utils_DrawEvent.md)
 - [utils/History](modules/utils_History.md)
-- [utils/constantes](modules/utils_constantes.md)
 - [utils/dom](modules/utils_dom.md)
 - [utils/infos](modules/utils_infos.md)
 - [utils/perf](modules/utils_perf.md)

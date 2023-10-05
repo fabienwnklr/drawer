@@ -1,7 +1,7 @@
 import '../css/modal.css';
 import { ModalOptions } from '../types/modal';
 import { DrawerError } from '../utils/DrawError';
-import { defaultOptionsModal } from '../utils/constantes';
+import { defaultOptionsModal } from '../constants';
 import { stringToHTMLElement } from '../utils/dom';
 import type { Drawer } from '../Drawer';
 import { CloseIcon } from '../icons/close';

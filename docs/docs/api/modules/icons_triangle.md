@@ -16,4 +16,4 @@
 
 #### Defined in
 
-[src/icons/triangle.ts:1](https://github.com/fabwcie/drawer/blob/850d9ed/src/icons/triangle.ts#L1)
+[src/icons/triangle.ts:1](https://github.com/fabwcie/drawer/blob/21e6e28/src/icons/triangle.ts#L1)

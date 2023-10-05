@@ -31,7 +31,7 @@
 
 #### Defined in
 
-[src/utils/utils.ts:61](https://github.com/fabwcie/drawer/blob/850d9ed/src/utils/utils.ts#L61)
+[src/utils/utils.ts:61](https://github.com/fabwcie/drawer/blob/21e6e28/src/utils/utils.ts#L61)
 
 ___
 
@@ -51,7 +51,7 @@ ___
 
 #### Defined in
 
-[src/utils/utils.ts:71](https://github.com/fabwcie/drawer/blob/850d9ed/src/utils/utils.ts#L71)
+[src/utils/utils.ts:71](https://github.com/fabwcie/drawer/blob/21e6e28/src/utils/utils.ts#L71)
 
 ___
 
@@ -78,7 +78,7 @@ ___
 
 #### Defined in
 
-[src/utils/utils.ts:42](https://github.com/fabwcie/drawer/blob/850d9ed/src/utils/utils.ts#L42)
+[src/utils/utils.ts:42](https://github.com/fabwcie/drawer/blob/21e6e28/src/utils/utils.ts#L42)
 
 ___
 
@@ -101,7 +101,7 @@ Convert hex to rgba
 
 #### Defined in
 
-[src/utils/utils.ts:7](https://github.com/fabwcie/drawer/blob/850d9ed/src/utils/utils.ts#L7)
+[src/utils/utils.ts:7](https://github.com/fabwcie/drawer/blob/21e6e28/src/utils/utils.ts#L7)
 
 ___
 
@@ -132,7 +132,7 @@ is an object
 
 #### Defined in
 
-[src/utils/utils.ts:26](https://github.com/fabwcie/drawer/blob/850d9ed/src/utils/utils.ts#L26)
+[src/utils/utils.ts:26](https://github.com/fabwcie/drawer/blob/21e6e28/src/utils/utils.ts#L26)
 
 ___
 
@@ -152,4 +152,4 @@ ___
 
 #### Defined in
 
-[src/utils/utils.ts:38](https://github.com/fabwcie/drawer/blob/850d9ed/src/utils/utils.ts#L38)
+[src/utils/utils.ts:38](https://github.com/fabwcie/drawer/blob/21e6e28/src/utils/utils.ts#L38)

@@ -7,7 +7,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Drawer',
-  tagline: 'Drawer made for can draw easily and fast where you want in web interface. Using canvas, multiple things is possibl, your mind is the only limit !',
+  tagline:
+    'Drawer made for can draw easily and fast where you want in web interface. Using canvas, multiple things is possibl, your mind is the only limit !',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -41,15 +42,13 @@ const config = {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          editUrl: 'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          editUrl: 'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -72,13 +71,24 @@ const config = {
         items: [
           {
             type: 'docSidebar',
-            sidebarId: 'tutorialSidebar',
+            sidebarId: 'getStartedSidebar',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Get started',
           },
-          {to: '/docs/examples', label: 'Examples', position: 'left'},
+          { to: '/docs/examples', label: 'Examples', position: 'left' },
           {
-            href: 'https://github.com/facebook/docusaurus',
+            type: 'docSidebar',
+            sidebarId: 'apiSidebar',
+            position: 'left',
+            label: 'API',
+          },
+          {
+            href: 'https://github.com/fabwcie/drawer/discussions',
+            label: 'Community',
+            position: 'right',
+          },
+          {
+            href: 'https://github.com/fabwcie/drawer/',
             label: 'GitHub',
             position: 'right',
           },
@@ -91,7 +101,7 @@ const config = {
             title: 'Docs',
             items: [
               {
-                label: 'Tutorial',
+                label: 'Get started',
                 to: '/docs/intro',
               },
             ],

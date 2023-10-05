@@ -1,7 +1,7 @@
 import './css/drawer.css';
 import { stringToHTMLElement } from './utils/dom';
 import { DrawerError } from './utils/DrawError';
-import { defaultOptionsDrawer } from './utils/constantes';
+import { defaultOptionsDrawer } from './constants';
 import { DrawEvent } from './utils/DrawEvent';
 
 // Type import
@@ -156,7 +156,8 @@ export class Drawer extends History {
 
       this.$canvas.drawer = this;
       // dispatch drawer.init event
-      this.$sourceElement.dispatchEvent(DrawEvent('init'));
+
+      this.$sourceElement.dispatchEvent(DrawEvent('init', this));
     } catch (error: any) {
       throw new DrawerError(error.message);
     }
@@ -352,7 +353,7 @@ export class Drawer extends History {
 
   /**
    * Save draw to localStorage
-   * {@link Drawer.options.localStorageKey}
+   * {@link DrawerOptions.localStorageKey}
    */
   saveDraw() {
     try {

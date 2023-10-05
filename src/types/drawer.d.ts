@@ -1,3 +1,5 @@
+import type { ToolbarPosition } from './toolbar';
+
 export interface DrawerOptions {
   id: string;
   defaultToolbar: boolean;
@@ -35,17 +37,6 @@ export enum DrawTools {
   star = 'star',
   triangle = 'triangle',
   polygon = 'polygon',
-}
-
-export enum ToolbarPosition {
-  outerTop = 'outerTop',
-  outerEnd = 'outerEnd',
-  outerBottom = 'outerBottom',
-  outerStart = 'outerStart',
-  innerTop = 'innerTop',
-  innerEnd = 'innerEnd',
-  innerBottom = 'innerBottom',
-  innerStart = 'innerStart',
 }
 
 export interface Position {

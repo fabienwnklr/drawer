@@ -1,7 +1,10 @@
-import { DrawerOptions } from '../types/drawer';
-import { ModalOptions } from '../types/modal';
-import { ToolbarOptions } from '../types/toolbar';
+import { DrawerOptions } from './types/drawer';
+import { ModalOptions } from './types/modal';
+import { ToolbarOptions } from './types/toolbar';
 
+/**
+ * @private
+ */
 export const defaultOptionsDrawer: DrawerOptions = {
   id: Date.now().toString(),
   defaultToolbar: true,
@@ -25,6 +28,9 @@ export const defaultOptionsDrawer: DrawerOptions = {
   xor: false,
 };
 
+/**
+ * @private
+ */
 export const defaultOptionsModal: ModalOptions = {
   id: Date.now().toString(),
   headerContent: undefined,
@@ -34,6 +40,9 @@ export const defaultOptionsModal: ModalOptions = {
   backdrop: true,
 };
 
+/**
+ * @private
+ */
 export const defaultOptionsToolbar: ToolbarOptions = {
   toolbarPosition: 'outerTop',
 };
