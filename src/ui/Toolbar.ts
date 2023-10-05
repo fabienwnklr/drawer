@@ -210,7 +210,7 @@ export class Toolbar {
             if (typeof action === 'function') {
               action.call(this, $brushBtn);
             } else {
-              this.drawer.changeTool('brush');
+              this.drawer.setTool('brush');
             }
           });
 
@@ -246,7 +246,7 @@ export class Toolbar {
             if (typeof action === 'function') {
               action.call(this, $eraserBtn);
             } else {
-              this.drawer.changeTool('eraser');
+              this.drawer.setTool('eraser');
             }
           });
 
@@ -282,7 +282,7 @@ export class Toolbar {
             if (typeof action === 'function') {
               action.call(this, $textBtn);
             } else {
-              this.drawer.changeTool('text');
+              this.drawer.setTool('text');
             }
           });
 
@@ -355,7 +355,7 @@ export class Toolbar {
           $drawGroupMenu.querySelectorAll('button').forEach(($btn) => {
             $btn.addEventListener('click', () => {
               const tool = $btn.dataset.tool as keyof typeof DrawTools;
-              this.drawer.changeTool(tool);
+              this.drawer.setTool(tool);
               $drawGroupMenu.classList.remove('show');
             });
           });

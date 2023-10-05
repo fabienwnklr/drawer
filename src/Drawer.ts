@@ -248,11 +248,11 @@ export class Drawer extends History {
   }
 
   /**
-   * Change tool
+   * set active tool
    * @param {keyof typeof DrawTools} toolName Tool name to set
    * @returns {Promise<boolean>}
    */
-  changeTool(toolName: keyof typeof DrawTools): Promise<boolean> {
+  setTool(toolName: keyof typeof DrawTools): Promise<boolean> {
     return new Promise((resolve, reject) => {
       try {
         this.activeTool = toolName;
@@ -413,7 +413,7 @@ export class Drawer extends History {
           }
           this.toolbar.$shapeBtn.innerHTML = icon;
           this.toolbar.$shapeMenu?.classList.remove('show');
-          this.changeTool(shape);
+          this.setTool(shape);
           this.$canvas.dispatchEvent(DrawEvent('update.shape', { shape }));
           resolve(true);
         }
