@@ -1,6 +1,7 @@
 /// <reference types="vitest" />
 import { defineConfig } from 'vite';
-import path from 'node:path';
+import { resolve } from 'node:path';
+import dts from 'vite-plugin-dts';
 
 export default defineConfig({
   build: {
@@ -8,17 +9,23 @@ export default defineConfig({
     minify: false,
     lib: {
       // Could also be a dictionary or array of multiple entry points
-      entry: path.resolve(__dirname, 'src/Drawer.ts'),
+      entry: resolve(__dirname, 'src/Drawer.ts'),
       name: 'Drawer',
       // the proper extensions will be added
       fileName: 'drawer',
       formats: ['iife', 'cjs', 'es', 'umd'],
     },
   },
+  plugins: [
+    dts({
+      insertTypesEntry: true,
+      rollupTypes: true
+    }),
+  ],
   resolve: {
     alias: {
       find: '~',
-      replacement: path.resolve(__dirname, 'src'),
+      replacement: resolve(__dirname, 'src'),
     },
   },
   test: {

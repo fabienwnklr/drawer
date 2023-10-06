@@ -1,1 +1,2 @@
 - backdrop et menu dans le container et non dans le body
+- le canvas prends la largeur de son container (hauteur toujours à minimum 400px)

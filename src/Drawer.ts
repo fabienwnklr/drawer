@@ -5,7 +5,7 @@ import { defaultOptionsDrawer } from './constants';
 import { DrawEvent } from './utils/DrawEvent';
 
 // Type import
-import type { DrawTools, DrawerOptions, Position } from './types/drawer';
+import type { DrawTools, DrawerOptions, Position } from './types/index';
 
 // History
 import { History } from './utils/History';

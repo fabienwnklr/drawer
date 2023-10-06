@@ -1,9 +1,9 @@
 import '../css/modal.css';
-import { ModalOptions } from '../types/modal';
 import { DrawerError } from '../utils/DrawError';
 import { defaultOptionsModal } from '../constants';
 import { stringToHTMLElement } from '../utils/dom';
 import type { Drawer } from '../Drawer';
+import type { ModalOptions } from '../types/index';
 import { CloseIcon } from '../icons/close';
 
 declare global {

@@ -1,4 +1,4 @@
-import type { ToolbarPosition } from './toolbar';
+/** Drawer */
 
 export interface DrawerOptions {
   id: string;
@@ -43,3 +43,35 @@ export interface Position {
   x: number;
   y: number;
 }
+
+/** Toolbar */
+
+export interface ToolbarOptions {
+  toolbarPosition: keyof typeof ToolbarPosition;
+}
+
+export enum ToolbarPosition {
+  outerTop = 'outerTop',
+  outerEnd = 'outerEnd',
+  outerBottom = 'outerBottom',
+  outerStart = 'outerStart',
+  innerTop = 'innerTop',
+  innerEnd = 'innerEnd',
+  innerBottom = 'innerBottom',
+  innerStart = 'innerStart',
+}
+
+/** Modal */
+
+export interface ModalOptions {
+  id?: string;
+  headerContent?: string;
+  bodyContent?: string;
+  footerContent?: string;
+  closeOnClickOutside?: boolean;
+  backdrop?: boolean;
+}
+
+/** Utils */
+
+export type ThrottledFunction<T extends (...args: any) => any> = (...args: Parameters<T>) => ReturnType<T>;

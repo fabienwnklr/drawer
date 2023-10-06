@@ -1,6 +1,4 @@
-import { DrawerOptions } from './types/drawer';
-import { ModalOptions } from './types/modal';
-import { ToolbarOptions } from './types/toolbar';
+import type { DrawerOptions, ModalOptions, ToolbarOptions } from './types/index';
 
 /**
  * @private
