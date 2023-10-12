@@ -43,10 +43,10 @@
     "lint": "npx eslint src/**",
     "build:docs": "npx typedoc --excludePrivate --plugin typedoc-plugin-markdown --out docs/docs/api src/**/*.ts && cp dist/* docs/static",
     "prepare": "husky install",
-    "release": "standard-version",
-    "release:patch": "standard-version --release-as patch && git push --follow-tags origin master && npm publish --access public",
-    "release:minor": "standard-version --release-as minor && git push --follow-tags origin master && npm publish --access public",
-    "release:major": "standard-version --release-as major && git push --follow-tags origin master && npm publish --access public"
+    "release": "npm run build && standard-version",
+    "release:patch": "npm run build && standard-version --release-as patch && git push --follow-tags origin master && npm publish --access public",
+    "release:minor": "npm run build && standard-version --release-as minor && git push --follow-tags origin master && npm publish --access public",
+    "release:major": "npm run build && standard-version --release-as major && git push --follow-tags origin master && npm publish --access public"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.2",
