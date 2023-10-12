@@ -67,8 +67,6 @@ export class Drawer extends History {
   #dragStartLocation!: Position;
   #snapshot!: ImageData;
   #availableShape: Array<keyof typeof DrawTools> = [
-    'brush',
-    'eraser',
     'rect',
     'circle',
     'square',
