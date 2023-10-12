@@ -3,7 +3,7 @@
   "description": "Canvas drawer for free hand drawing and more utility tools.",
   "author": "Winkler Fabien <fabienwinkler@outlook.fr>",
   "contributors": [],
-  "version": "1.1.5",
+  "version": "1.1.6",
   "type": "module",
   "types": "./dist/index.d.ts",
   "engines": {
