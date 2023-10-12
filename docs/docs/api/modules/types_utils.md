@@ -36,4 +36,4 @@
 
 #### Defined in
 
-[src/types/utils.d.ts:1](https://github.com/fabwcie/drawer/blob/850d9ed/src/types/utils.d.ts#L1)
+[src/types/utils.d.ts:1](https://github.com/fabwcie/drawer/blob/21e6e28/src/types/utils.d.ts#L1)

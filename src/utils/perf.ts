@@ -1,4 +1,4 @@
-import type { ThrottledFunction } from '../types/utils';
+import type { ThrottledFunction } from '../types/index';
 
 /**
  * permet de déclencher l'appel à une fonction après un certain délai (un peu comme la fonction setTimeout())

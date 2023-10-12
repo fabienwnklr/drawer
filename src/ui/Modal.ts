@@ -1,9 +1,9 @@
 import '../css/modal.css';
-import { ModalOptions } from '../types/modal';
 import { DrawerError } from '../utils/DrawError';
-import { defaultOptionsModal } from '../utils/constantes';
+import { defaultOptionsModal } from '../constants';
 import { stringToHTMLElement } from '../utils/dom';
 import type { Drawer } from '../Drawer';
+import type { ModalOptions } from '../types/index';
 import { CloseIcon } from '../icons/close';
 
 declare global {
@@ -57,7 +57,8 @@ export class Modal {
         (event) => {
           if (event.target) {
             const outsideClick =
-              !this.drawer.toolbar?.$settingBtn?.contains(event.target as Node) && !this.$modal.contains(event.target as Node);
+              !this.drawer.toolbar?.$settingBtn?.contains(event.target as Node) &&
+              !this.$modal.contains(event.target as Node);
 
             if (outsideClick) {
               this.hide();

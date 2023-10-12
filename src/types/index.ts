@@ -1,3 +1,5 @@
+/** Drawer */
+
 export interface DrawerOptions {
   id: string;
   defaultToolbar: boolean;
@@ -37,6 +39,17 @@ export enum DrawTools {
   polygon = 'polygon',
 }
 
+export interface Position {
+  x: number;
+  y: number;
+}
+
+/** Toolbar */
+
+export interface ToolbarOptions {
+  toolbarPosition: keyof typeof ToolbarPosition;
+}
+
 export enum ToolbarPosition {
   outerTop = 'outerTop',
   outerEnd = 'outerEnd',
@@ -48,7 +61,17 @@ export enum ToolbarPosition {
   innerStart = 'innerStart',
 }
 
-export interface Position {
-  x: number;
-  y: number;
+/** Modal */
+
+export interface ModalOptions {
+  id?: string;
+  headerContent?: string;
+  bodyContent?: string;
+  footerContent?: string;
+  closeOnClickOutside?: boolean;
+  backdrop?: boolean;
 }
+
+/** Utils */
+
+export type ThrottledFunction<T extends (...args: any) => any> = (...args: Parameters<T>) => ReturnType<T>;

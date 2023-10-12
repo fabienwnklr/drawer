@@ -61,7 +61,7 @@ describe('Basic', () => {
     expect(drawer.toolbar.$drawGroupBtn).toBeInstanceOf(HTMLButtonElement);
     expect(drawer.toolbar.$drawGroupBtn?.classList.contains('active')).toBe(true);
     expect(drawer.activeTool).toBe('brush'); // default tool
-    drawer.changeTool('eraser');
+    drawer.setTool('eraser');
     expect(drawer.activeTool).toBe('eraser');
     expect(drawer.toolbar.$drawGroupBtn?.classList.contains('active')).toBe(true);
     expect(drawer.toolbar.$drawGroupBtn?.title).toBe('Eraser');

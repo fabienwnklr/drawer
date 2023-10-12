@@ -35,7 +35,7 @@ returns the xy point where the mouse event was occured inside an element.
 
 #### Defined in
 
-[src/utils/infos.ts:13](https://github.com/fabwcie/drawer/blob/850d9ed/src/utils/infos.ts#L13)
+[src/utils/infos.ts:13](https://github.com/fabwcie/drawer/blob/21e6e28/src/utils/infos.ts#L13)
 
 ___
 
@@ -51,4 +51,4 @@ Check if is tactil
 
 #### Defined in
 
-[src/utils/infos.ts:4](https://github.com/fabwcie/drawer/blob/850d9ed/src/utils/infos.ts#L4)
+[src/utils/infos.ts:4](https://github.com/fabwcie/drawer/blob/21e6e28/src/utils/infos.ts#L4)

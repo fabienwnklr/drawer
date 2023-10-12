@@ -1,7 +1,11 @@
-import { DrawerOptions } from '../types/drawer';
-import { ModalOptions } from '../types/modal';
-import { ToolbarOptions } from '../types/toolbar';
+# Constants
 
+
+## defaultOptionsDrawer
+
+__default value for [DrawerOptions](api/interfaces/types_drawer.DrawerOptions)__
+
+```ts
 export const defaultOptionsDrawer: DrawerOptions = {
   id: Date.now().toString(),
   defaultToolbar: true,
@@ -24,6 +28,13 @@ export const defaultOptionsDrawer: DrawerOptions = {
   opacity: 1,
   xor: false,
 };
+```
+
+## defaultOptionsModal
+
+__default value for [ModalOptions](api/interfaces/types_modal.ModalOptions)__
+
+```ts
 
 export const defaultOptionsModal: ModalOptions = {
   id: Date.now().toString(),
@@ -33,7 +44,14 @@ export const defaultOptionsModal: ModalOptions = {
   closeOnClickOutside: true,
   backdrop: true,
 };
+```
 
+## defaultOptionsToolbar
+
+__default value for [ToolbarOptions](api/interfaces/types_toolbar.ToolbarOptions)__
+
+```ts
 export const defaultOptionsToolbar: ToolbarOptions = {
   toolbarPosition: 'outerTop',
 };
+```

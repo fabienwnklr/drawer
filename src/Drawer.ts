@@ -1,11 +1,11 @@
 import './css/drawer.css';
 import { stringToHTMLElement } from './utils/dom';
 import { DrawerError } from './utils/DrawError';
-import { defaultOptionsDrawer } from './utils/constantes';
+import { defaultOptionsDrawer } from './constants';
 import { DrawEvent } from './utils/DrawEvent';
 
 // Type import
-import type { DrawTools, DrawerOptions, Position } from './types/drawer';
+import type { DrawTools, DrawerOptions, Position } from './types/index';
 
 // History
 import { History } from './utils/History';
@@ -90,26 +90,30 @@ export class Drawer extends History {
   constructor($el: HTMLElement, options: Partial<DrawerOptions> = {}) {
     super();
     try {
-      this.$sourceElement = $el;
-      this.options = deepMerge<DrawerOptions>(defaultOptionsDrawer, options);
-      this._init();
-      this.toolbar = new Toolbar(this, { toolbarPosition: this.options.toolbarPosition });
+      if ($el instanceof HTMLElement) {
+        this.$sourceElement = $el;
+        this.options = deepMerge<DrawerOptions>(defaultOptionsDrawer, options);
+        this._init();
+        this.toolbar = new Toolbar(this, { toolbarPosition: this.options.toolbarPosition });
 
-      const saved = localStorage.getItem(this.options.localStorageKey);
+        const saved = localStorage.getItem(this.options.localStorageKey);
 
-      if (saved && !this.isEmpty(saved)) {
-        this.loadFromData(saved);
-      }
+        if (saved && !this.isEmpty(saved)) {
+          this.loadFromData(saved);
+        }
 
-      if (this.options.defaultToolbar) {
-        this.toolbar.addToolbar();
-        this.toolbar.addDefaults();
-      }
+        if (this.options.defaultToolbar) {
+          this.toolbar.addToolbar();
+          this.toolbar.addDefaults();
+        }
 
-      this.settingModal = new SettingsModal(this);
+        this.settingModal = new SettingsModal(this);
 
-      if (this.options.dotted) {
-        this.setDottedLine(true, this.options.dash);
+        if (this.options.dotted) {
+          this.setDottedLine(true, this.options.dash);
+        }
+      } else {
+        throw new DrawerError(`element must be an instance of HTMLElement`);
       }
     } catch (error: any) {
       throw new DrawerError(error.message);
@@ -154,7 +158,8 @@ export class Drawer extends History {
 
       this.$canvas.drawer = this;
       // dispatch drawer.init event
-      this.$sourceElement.dispatchEvent(DrawEvent('init'));
+
+      this.$sourceElement.dispatchEvent(DrawEvent('init', this));
     } catch (error: any) {
       throw new DrawerError(error.message);
     }
@@ -245,11 +250,11 @@ export class Drawer extends History {
   }
 
   /**
-   * Change tool
+   * set active tool
    * @param {keyof typeof DrawTools} toolName Tool name to set
    * @returns {Promise<boolean>}
    */
-  changeTool(toolName: keyof typeof DrawTools): Promise<boolean> {
+  setTool(toolName: keyof typeof DrawTools): Promise<boolean> {
     return new Promise((resolve, reject) => {
       try {
         this.activeTool = toolName;
@@ -350,7 +355,7 @@ export class Drawer extends History {
 
   /**
    * Save draw to localStorage
-   * {@link Drawer.options.localStorageKey}
+   * {@link DrawerOptions.localStorageKey}
    */
   saveDraw() {
     try {
@@ -410,7 +415,7 @@ export class Drawer extends History {
           }
           this.toolbar.$shapeBtn.innerHTML = icon;
           this.toolbar.$shapeMenu?.classList.remove('show');
-          this.changeTool(shape);
+          this.setTool(shape);
           this.$canvas.dispatchEvent(DrawEvent('update.shape', { shape }));
           resolve(true);
         }

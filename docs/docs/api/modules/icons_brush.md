@@ -16,4 +16,4 @@
 
 #### Defined in
 
-[src/icons/brush.ts:1](https://github.com/fabwcie/drawer/blob/850d9ed/src/icons/brush.ts#L1)
+[src/icons/brush.ts:1](https://github.com/fabwcie/drawer/blob/21e6e28/src/icons/brush.ts#L1)

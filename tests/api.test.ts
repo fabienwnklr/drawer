@@ -47,10 +47,10 @@ describe('API', () => {
     expect(drawer.ctx.lineWidth).toEqual(10);
   });
 
-  it('changeTool', () => {
+  it('setTool', () => {
     const drawer = new Drawer(document.body.querySelector('#test') as HTMLDivElement);
 
-    drawer.changeTool('eraser');
+    drawer.setTool('eraser');
     expect(drawer.activeTool).toEqual('eraser');
     expect(drawer.toolbar.$eraserBtn?.classList.contains('active')).toEqual(true);
   });

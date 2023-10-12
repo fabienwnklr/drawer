@@ -18,4 +18,4 @@
 
 #### Defined in
 
-[src/types/toolbar.d.ts:4](https://github.com/fabwcie/drawer/blob/850d9ed/src/types/toolbar.d.ts#L4)
+[src/types/toolbar.d.ts:3](https://github.com/fabwcie/drawer/blob/21e6e28/src/types/toolbar.d.ts#L3)

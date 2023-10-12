@@ -7,7 +7,6 @@
 ### Enumerations
 
 - [DrawTools](../enums/types_drawer.DrawTools.md)
-- [ToolbarPosition](../enums/types_drawer.ToolbarPosition.md)
 
 ### Interfaces
 
@@ -47,4 +46,4 @@
 
 #### Defined in
 
-[src/types/drawer.d.ts:24](https://github.com/fabwcie/drawer/blob/850d9ed/src/types/drawer.d.ts#L24)
+[src/types/drawer.d.ts:26](https://github.com/fabwcie/drawer/blob/21e6e28/src/types/drawer.d.ts#L26)

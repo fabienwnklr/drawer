@@ -28,7 +28,7 @@
 
 #### Defined in
 
-[src/types/drawer.d.ts:33](https://github.com/fabwcie/drawer/blob/850d9ed/src/types/drawer.d.ts#L33)
+[src/types/drawer.d.ts:35](https://github.com/fabwcie/drawer/blob/21e6e28/src/types/drawer.d.ts#L35)
 
 ___
 
@@ -38,7 +38,7 @@ ___
 
 #### Defined in
 
-[src/types/drawer.d.ts:27](https://github.com/fabwcie/drawer/blob/850d9ed/src/types/drawer.d.ts#L27)
+[src/types/drawer.d.ts:29](https://github.com/fabwcie/drawer/blob/21e6e28/src/types/drawer.d.ts#L29)
 
 ___
 
@@ -48,7 +48,7 @@ ___
 
 #### Defined in
 
-[src/types/drawer.d.ts:31](https://github.com/fabwcie/drawer/blob/850d9ed/src/types/drawer.d.ts#L31)
+[src/types/drawer.d.ts:33](https://github.com/fabwcie/drawer/blob/21e6e28/src/types/drawer.d.ts#L33)
 
 ___
 
@@ -58,7 +58,7 @@ ___
 
 #### Defined in
 
-[src/types/drawer.d.ts:28](https://github.com/fabwcie/drawer/blob/850d9ed/src/types/drawer.d.ts#L28)
+[src/types/drawer.d.ts:30](https://github.com/fabwcie/drawer/blob/21e6e28/src/types/drawer.d.ts#L30)
 
 ___
 
@@ -68,7 +68,7 @@ ___
 
 #### Defined in
 
-[src/types/drawer.d.ts:34](https://github.com/fabwcie/drawer/blob/850d9ed/src/types/drawer.d.ts#L34)
+[src/types/drawer.d.ts:36](https://github.com/fabwcie/drawer/blob/21e6e28/src/types/drawer.d.ts#L36)
 
 ___
 
@@ -78,7 +78,7 @@ ___
 
 #### Defined in
 
-[src/types/drawer.d.ts:37](https://github.com/fabwcie/drawer/blob/850d9ed/src/types/drawer.d.ts#L37)
+[src/types/drawer.d.ts:39](https://github.com/fabwcie/drawer/blob/21e6e28/src/types/drawer.d.ts#L39)
 
 ___
 
@@ -88,7 +88,7 @@ ___
 
 #### Defined in
 
-[src/types/drawer.d.ts:30](https://github.com/fabwcie/drawer/blob/850d9ed/src/types/drawer.d.ts#L30)
+[src/types/drawer.d.ts:32](https://github.com/fabwcie/drawer/blob/21e6e28/src/types/drawer.d.ts#L32)
 
 ___
 
@@ -98,7 +98,7 @@ ___
 
 #### Defined in
 
-[src/types/drawer.d.ts:32](https://github.com/fabwcie/drawer/blob/850d9ed/src/types/drawer.d.ts#L32)
+[src/types/drawer.d.ts:34](https://github.com/fabwcie/drawer/blob/21e6e28/src/types/drawer.d.ts#L34)
 
 ___
 
@@ -108,7 +108,7 @@ ___
 
 #### Defined in
 
-[src/types/drawer.d.ts:35](https://github.com/fabwcie/drawer/blob/850d9ed/src/types/drawer.d.ts#L35)
+[src/types/drawer.d.ts:37](https://github.com/fabwcie/drawer/blob/21e6e28/src/types/drawer.d.ts#L37)
 
 ___
 
@@ -118,7 +118,7 @@ ___
 
 #### Defined in
 
-[src/types/drawer.d.ts:29](https://github.com/fabwcie/drawer/blob/850d9ed/src/types/drawer.d.ts#L29)
+[src/types/drawer.d.ts:31](https://github.com/fabwcie/drawer/blob/21e6e28/src/types/drawer.d.ts#L31)
 
 ___
 
@@ -128,4 +128,4 @@ ___
 
 #### Defined in
 
-[src/types/drawer.d.ts:36](https://github.com/fabwcie/drawer/blob/850d9ed/src/types/drawer.d.ts#L36)
+[src/types/drawer.d.ts:38](https://github.com/fabwcie/drawer/blob/21e6e28/src/types/drawer.d.ts#L38)

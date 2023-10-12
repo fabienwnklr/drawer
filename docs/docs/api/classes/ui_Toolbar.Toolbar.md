@@ -71,7 +71,7 @@
 
 #### Defined in
 
-[src/ui/Toolbar.ts:56](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L56)
+[src/ui/Toolbar.ts:56](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L56)
 
 ## Properties
 
@@ -81,7 +81,7 @@
 
 #### Defined in
 
-[src/ui/Toolbar.ts:39](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L39)
+[src/ui/Toolbar.ts:39](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L39)
 
 ___
 
@@ -91,7 +91,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:44](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L44)
+[src/ui/Toolbar.ts:44](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L44)
 
 ___
 
@@ -101,7 +101,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:47](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L47)
+[src/ui/Toolbar.ts:47](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L47)
 
 ___
 
@@ -111,7 +111,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:52](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L52)
+[src/ui/Toolbar.ts:52](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L52)
 
 ___
 
@@ -121,7 +121,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:46](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L46)
+[src/ui/Toolbar.ts:46](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L46)
 
 ___
 
@@ -131,7 +131,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:42](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L42)
+[src/ui/Toolbar.ts:42](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L42)
 
 ___
 
@@ -141,7 +141,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:43](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L43)
+[src/ui/Toolbar.ts:43](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L43)
 
 ___
 
@@ -151,7 +151,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:40](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L40)
+[src/ui/Toolbar.ts:40](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L40)
 
 ___
 
@@ -161,7 +161,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:45](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L45)
+[src/ui/Toolbar.ts:45](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L45)
 
 ___
 
@@ -171,7 +171,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:38](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L38)
+[src/ui/Toolbar.ts:38](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L38)
 
 ___
 
@@ -181,7 +181,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:51](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L51)
+[src/ui/Toolbar.ts:51](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L51)
 
 ___
 
@@ -191,7 +191,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:48](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L48)
+[src/ui/Toolbar.ts:48](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L48)
 
 ___
 
@@ -201,7 +201,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:49](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L49)
+[src/ui/Toolbar.ts:49](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L49)
 
 ___
 
@@ -211,7 +211,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:41](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L41)
+[src/ui/Toolbar.ts:41](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L41)
 
 ___
 
@@ -221,7 +221,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:36](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L36)
+[src/ui/Toolbar.ts:36](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L36)
 
 ___
 
@@ -231,7 +231,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:37](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L37)
+[src/ui/Toolbar.ts:37](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L37)
 
 ___
 
@@ -241,7 +241,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:50](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L50)
+[src/ui/Toolbar.ts:50](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L50)
 
 ___
 
@@ -255,7 +255,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:54](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L54)
+[src/ui/Toolbar.ts:54](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L54)
 
 ___
 
@@ -265,7 +265,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:33](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L33)
+[src/ui/Toolbar.ts:33](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L33)
 
 ___
 
@@ -275,7 +275,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:34](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L34)
+[src/ui/Toolbar.ts:34](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L34)
 
 ## Methods
 
@@ -298,7 +298,7 @@ event for close menu on click outside
 
 #### Defined in
 
-[src/ui/Toolbar.ts:854](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L854)
+[src/ui/Toolbar.ts:854](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L854)
 
 ___
 
@@ -312,7 +312,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:807](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L807)
+[src/ui/Toolbar.ts:807](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L807)
 
 ___
 
@@ -335,7 +335,7 @@ Toggle show/hide menu
 
 #### Defined in
 
-[src/ui/Toolbar.ts:827](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L827)
+[src/ui/Toolbar.ts:827](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L827)
 
 ___
 
@@ -358,7 +358,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:199](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L199)
+[src/ui/Toolbar.ts:199](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L199)
 
 ___
 
@@ -381,7 +381,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:386](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L386)
+[src/ui/Toolbar.ts:386](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L386)
 
 ___
 
@@ -405,7 +405,7 @@ using Coloris, for customisation please see here [https://github.com/mdbassit/Co
 
 #### Defined in
 
-[src/ui/Toolbar.ts:545](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L545)
+[src/ui/Toolbar.ts:545](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L545)
 
 ___
 
@@ -431,7 +431,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:722](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L722)
+[src/ui/Toolbar.ts:722](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L722)
 
 ___
 
@@ -449,7 +449,7 @@ undo, redo, brush, eraser, text, clear, line thickness, colorpicker, upload, dow
 
 #### Defined in
 
-[src/ui/Toolbar.ts:100](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L100)
+[src/ui/Toolbar.ts:100](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L100)
 
 ___
 
@@ -472,7 +472,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:645](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L645)
+[src/ui/Toolbar.ts:645](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L645)
 
 ___
 
@@ -495,7 +495,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:307](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L307)
+[src/ui/Toolbar.ts:307](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L307)
 
 ___
 
@@ -518,7 +518,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:235](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L235)
+[src/ui/Toolbar.ts:235](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L235)
 
 ___
 
@@ -543,7 +543,7 @@ HTML input range element
 
 #### Defined in
 
-[src/ui/Toolbar.ts:497](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L497)
+[src/ui/Toolbar.ts:497](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L497)
 
 ___
 
@@ -566,7 +566,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:160](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L160)
+[src/ui/Toolbar.ts:160](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L160)
 
 ___
 
@@ -589,7 +589,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:685](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L685)
+[src/ui/Toolbar.ts:685](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L685)
 
 ___
 
@@ -612,7 +612,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:424](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L424)
+[src/ui/Toolbar.ts:424](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L424)
 
 ___
 
@@ -635,7 +635,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:271](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L271)
+[src/ui/Toolbar.ts:271](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L271)
 
 ___
 
@@ -653,7 +653,7 @@ HTML toolbar element
 
 #### Defined in
 
-[src/ui/Toolbar.ts:65](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L65)
+[src/ui/Toolbar.ts:65](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L65)
 
 ___
 
@@ -676,7 +676,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:121](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L121)
+[src/ui/Toolbar.ts:121](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L121)
 
 ___
 
@@ -701,7 +701,7 @@ HTML input range element
 
 #### Defined in
 
-[src/ui/Toolbar.ts:598](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L598)
+[src/ui/Toolbar.ts:598](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L598)
 
 ___
 
@@ -723,4 +723,4 @@ Apply active state to btn
 
 #### Defined in
 
-[src/ui/Toolbar.ts:757](https://github.com/fabwcie/drawer/blob/850d9ed/src/ui/Toolbar.ts#L757)
+[src/ui/Toolbar.ts:757](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L757)
