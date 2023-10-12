@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.4](https://github.com/fabwcie/drawer/compare/v1.1.3...v1.1.4) (2023-10-12)
+
+
+### Bug Fixes
+
+* opaque bg firefox ([e326f5b](https://github.com/fabwcie/drawer/commits/e326f5ba9782fe126035823a8af07433a6eb4802))
+* remove brush/eraser from availableShape (lag on big screen) ([4bd8ccc](https://github.com/fabwcie/drawer/commits/4bd8ccc35905f85776db1dbe9760d55cc0d5e8cd))
+
 ### [1.1.3](https://github.com/fabwcie/drawer/compare/v1.1.2...v1.1.3) (2023-10-03)
 
 
