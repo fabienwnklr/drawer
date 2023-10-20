@@ -97,7 +97,7 @@ export class Drawer extends History {
         this.options = deepMerge<DrawerOptions>(defaultOptionsDrawer, options);
         this._buildDrawer();
         this.$sourceElement.appendChild(this.$drawerContainer);
-        this.setBgColor();
+        this.setBgColor(this.options.bgColor);
         this._initHandlerEvents();
         this.setCanvas(this.$canvas);
         this._updateCursor();
@@ -221,17 +221,19 @@ export class Drawer extends History {
   }
 
   /**
-   * Change css canvas background color (ignored on export)
+   * Change canvas background color
    * @param bgColor canvas css background color
    * @returns {Promise<boolean>}
    */
-  setBgColor(bgColor?: string): Promise<boolean> {
+  setBgColor(bgColor: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       try {
-        this.$canvas.style.backgroundColor = bgColor ?? this.options.bgColor;
+        this.options.bgColor = bgColor;
+        this.ctx.fillStyle = bgColor;
+        this.ctx.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
 
         this.$canvas.dispatchEvent(DrawEvent('update.bgColor', { bgColor }));
-
+        this.$canvas.dispatchEvent(DrawEvent('change'));
         resolve(true);
       } catch (error: any) {
         reject(new DrawerError(error.message));
@@ -290,7 +292,9 @@ export class Drawer extends History {
   clear(): Promise<HTMLCanvasElement> {
     return new Promise((resolve, reject) => {
       try {
-        this.ctx.clearRect(0, 0, this.$canvas.width, this.$canvas.height);
+        // Conserve current bgcolor ?
+        // this.ctx.fillStyle = this.options.bgColor;
+        this.ctx.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
         this.redo_list = [];
         this.undo_list = [];
         this.gridActive = false;
