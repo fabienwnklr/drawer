@@ -607,8 +607,8 @@ export class Toolbar {
         if (this.$toolbar && !this.$uploadFile) {
           const uploadFile = /*html*/ `
             <div class="container-uploadFile">
-              <input id="${this.drawer.options.id}-uploadfile" title="${'Color'}" class="" type="file" />
-              <label title="${'Upload file'}" accept="image/png, image/jpeg, .svg" class="btn" for="${
+              <input tabindex="-1" id="${this.drawer.options.id}-uploadfile" title="${'Color'}" class="" type="file" />
+              <label tabindex="0" title="${'Upload file'}" accept="image/png, image/jpeg, .svg" class="btn" for="${
                 this.drawer.options.id
               }-uploadfile">
                 ${UploadIcon}
