@@ -15,7 +15,7 @@ export interface DrawerOptions {
   lineThickness: number;
   cap: CanvasLineCap;
   fill: boolean;
-  availableColor?: string[];
+  availableColor: string[];
   availableColorOnly: boolean;
   grid: boolean;
   guides: boolean;
@@ -65,6 +65,7 @@ export enum ToolbarPosition {
 
 export interface ModalOptions {
   id?: string;
+  title?: string;
   headerContent?: string;
   bodyContent?: string;
   footerContent?: string;
