@@ -481,9 +481,7 @@ export class Drawer extends History {
    */
   private _startDraw(event: PointerEvent) {
     if (this.activeTool === 'text') return;
-    if (this.isShape()) {
-      this.#dragStartLocation = getMousePosition(this.$canvas, event);
-    }
+    this.#dragStartLocation = getMousePosition(this.$canvas, event);
     this.ctx.beginPath();
     this.isDrawing = true;
     this._takeSnapshot();
