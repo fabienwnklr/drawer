@@ -18,7 +18,7 @@ export const defaultOptionsDrawer: DrawerOptions = {
   dash: [10, 5],
   cap: 'round',
   fill: true,
-  availableColor: undefined,
+  availableColor: [],
   availableColorOnly: false,
   grid: false,
   guides: false,
