@@ -340,7 +340,7 @@ export class Toolbar {
           this.$drawGroupMenu = $drawGroupMenu;
 
           this.$toolbar.appendChild($drawGroupBtn);
-          document.querySelector('body')?.appendChild($drawGroupMenu);
+          this.drawer.$drawerContainer.appendChild($drawGroupMenu);
 
           $drawGroupBtn.addEventListener('click', () => {
             if (typeof action === 'function') {
@@ -428,22 +428,22 @@ export class Toolbar {
           const shapeMenu = /*html*/ `
             <ul class="drawer-menu">
               <li class="drawer-menu-item">
-                <button data-shape="triangle" class="btn triangle">${TriangleIcon}</button>
+                <button data-shape="triangle" class="btn triangle" title="${"Triangle"}">${TriangleIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="rect" class="btn rect">${RectIcon}</button>
+                <button data-shape="rect" class="btn rect" title="${"Rectangle"}">${RectIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="square" class="btn square">${SquareIcon}</button>
+                <button data-shape="square" class="btn square" title="${"Square"}">${SquareIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="line" class="btn line">${LineIcon}</button>
+                <button data-shape="line" class="btn line" title="${"Line"}">${LineIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="arrow" class="btn arrow">${ArrowIcon}</button>
+                <button data-shape="arrow" class="btn arrow" title="${"Arrow"}">${ArrowIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="circle" class="btn circle">${CircleIcon}</button>
+                <button data-shape="circle" class="btn circle" title="${"Circle"}">${CircleIcon}</button>
               </li>
             </ul>`;
 
@@ -454,7 +454,7 @@ export class Toolbar {
           this.$shapeMenu = $shapeMenu;
 
           this.$toolbar.appendChild(this.$shapeBtn);
-          document.querySelector('body')?.appendChild(this.$shapeMenu);
+          this.drawer.$drawerContainer.appendChild(this.$shapeMenu);
 
           this.$shapeBtn.addEventListener('click', () => {
             if (typeof action === 'function') {
@@ -497,8 +497,8 @@ export class Toolbar {
       try {
         if (this.$toolbar && !this.$lineThickness) {
           const lineThickness = /*html*/ `
-            <div class="drawer-range">
-              <input title="${'Thickness'}" id="${
+            <div class="drawer-range" title="${'Thickness'}">
+              <input id="${
                 this.drawer.$canvas.id
               }-line-tickness" type="range" class="" min="1" value="${this.drawer.options.lineThickness}" max="30" />
               <span class="counter">${this.drawer.options.lineThickness}</span>
@@ -545,8 +545,8 @@ export class Toolbar {
       try {
         if (this.$toolbar && !this.$colorPicker) {
           const colorPickerContainer = /*html*/ `
-            <div class="container-colorpicker">
-              <input class="btn" title="${'Color'}" id="colopicker-${
+            <div class="container-colorpicker" title="${'Color'}">
+              <input class="btn" id="colopicker-${
                 this.drawer.options.id
               }" class="" type="text" value="${this.drawer.options.color}" data-coloris/>
             </div>
@@ -557,6 +557,10 @@ export class Toolbar {
 
           const $colorPicker = $colorPickerContainer.querySelector('input') as HTMLInputElement;
           this.$colorPicker = $colorPicker;
+
+          if (this.drawer.options.availableColorOnly && !this.drawer.options.availableColor.length) {
+            console.warn(`Option 'availableColorOnly' used with an empty 'availableColor' array.`);
+          }
 
           Coloris.init();
           Coloris({
@@ -683,7 +687,7 @@ export class Toolbar {
   addSettingBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
     return new Promise((resolve, reject) => {
       if (this.$toolbar && !this.$settingBtn) {
-        const settingBtn = /*html*/ `<button title="${'Setting'}" class="btn">${SettingIcon}</button>`;
+        const settingBtn = /*html*/ `<button title="${'Settings'}" class="btn">${SettingIcon}</button>`;
         const $settingBtn = stringToHTMLElement<HTMLButtonElement>(settingBtn);
         this.$settingBtn = $settingBtn;
 
@@ -827,20 +831,29 @@ export class Toolbar {
       $menu.classList.remove('show');
       return;
     }
+
     // eslint-disable-next-line prefer-const
-    let { bottom, left, top } = $btn.getBoundingClientRect();
-    const { width, height } = $menu.getBoundingClientRect();
+    let x = $btn.offsetLeft;
+    let y = $btn.offsetTop + $btn.offsetHeight;
+    const width = $menu.offsetWidth;
+    const height = $menu.offsetHeight;
 
-    if (left + width > window.innerWidth) {
-      left = left - (left + width - window.innerWidth) - getScrollbarWidth();
+    if (x + width > window.innerWidth) {
+      x = x - (x + width - window.innerWidth) - getScrollbarWidth();
     }
 
-    if (bottom + height > window.innerHeight) {
-      bottom = top - height - 5;
+    if (y + height > window.innerHeight) {
+      y = y - height - 5;
     }
 
-    $menu.style.top = bottom + 3 + 'px';
-    $menu.style.left = left + 'px';
+    $menu.style.top = y + 5 + 'px';
+
+    if (this.options.toolbarPosition === "innerEnd") {
+      $menu.style.left = '';
+      $menu.style.right = x + 'px';
+    } else {
+      $menu.style.left = x + 'px';
+    }
     $menu.classList.add('show');
   }
 
