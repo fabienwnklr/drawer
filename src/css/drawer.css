@@ -1,5 +1,6 @@
 :root {
   --drawer-primary: #646cff;
+  --drawer-primary-light: rgb(100, 108, 255, 0.4);
   --drawer-primary-active-color: #f8f8f8;
   --drawer-primary-active-bg: #4f57c0;
   --drawer-light: #f3f3f3;
@@ -118,30 +119,15 @@
   position: relative;
   margin: 0.2em;
 }
+.toolbar .container-colorpicker .clr-field button {
+  border-top-right-radius: var(--drawer-border-radius);
+  border-bottom-right-radius: var(--drawer-border-radius);
+}
 
 .toolbar input,
 .toolbar button,
 .toolbar label {
   margin: 0.2em;
-}
-
-.toolbar input[type='color'] {
-  border: none;
-  background-color: transparent;
-  appearance: none;
-  height: 1.5em;
-  width: 1.5em;
-  padding: 0;
-  border-radius: 100%;
-}
-
-.toolbar input[type='color']::-webkit-color-swatch-wrapper {
-  padding: 0;
-}
-
-.toolbar input[type='color']::-webkit-color-swatch {
-  border-radius: 100%;
-  border: none;
 }
 
 .toolbar input[type='file'] {
@@ -224,11 +210,38 @@
   width: fit-content;
 }
 
+[title]:not(input) {
+  position: relative;
+}
+
+[title]:after {
+  display: flex;
+  opacity: 0;
+  justify-content: center;
+  background: #444;
+  border-radius: 8px;
+  color: #fff;
+  content: attr(title);
+  padding: 0.4em;
+  position: fixed;
+  transform: translateY(-100%);
+  transition: opacity .3s ease;
+}
+
+[title].container-colorpicker:after {
+  transform: translateY(-200%);
+}
+
+[title]:hover:after {
+  opacity: 1;
+}
+
 .drawer-menu {
   display: flex;
   visibility: hidden;
   position: absolute;
   list-style: none;
+  top: 0;
   margin: 0;
   padding: 0.5rem;
   border-radius: var(--drawer-border-radius);
