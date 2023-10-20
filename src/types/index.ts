@@ -31,6 +31,7 @@ export enum DrawTools {
   text = 'text',
   rect = 'rect',
   circle = 'circle',
+  ellipse = 'ellipse',
   square = 'square',
   arrow = 'arrow',
   line = 'line',

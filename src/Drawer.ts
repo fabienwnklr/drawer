@@ -93,7 +93,18 @@ export class Drawer extends History {
       if ($el instanceof HTMLElement) {
         this.$sourceElement = $el;
         this.options = deepMerge<DrawerOptions>(defaultOptionsDrawer, options);
-        this._init();
+        this._buildDrawer();
+        this.$sourceElement.appendChild(this.$drawerContainer);
+        this.setBgColor();
+        this._initHandlerEvents();
+        this.setCanvas(this.$canvas);
+        this._updateCursor();
+
+        if (this.options.grid) {
+          this.addGrid();
+        }
+
+        this.$canvas.drawer = this;
         this.toolbar = new Toolbar(this, { toolbarPosition: this.options.toolbarPosition });
 
         const saved = localStorage.getItem(this.options.localStorageKey);
@@ -112,6 +123,9 @@ export class Drawer extends History {
         if (this.options.dotted) {
           this.setDottedLine(true, this.options.dash);
         }
+
+        // dispatch drawer.init event
+        this.$sourceElement.dispatchEvent(DrawEvent('init', this));
       } else {
         throw new DrawerError(`element must be an instance of HTMLElement`);
       }
@@ -134,32 +148,6 @@ export class Drawer extends History {
       this.ctx = this.$canvas.getContext('2d', { willReadFrequently: true }) as CanvasRenderingContext2D;
       this.ctx.globalAlpha = this.options.opacity;
       this.$drawerContainer.appendChild(this.$canvas);
-    } catch (error: any) {
-      throw new DrawerError(error.message);
-    }
-  }
-
-  /**
-   * @private
-   * initialize canvas and event listener
-   */
-  private _init() {
-    try {
-      this._buildDrawer();
-      this.$sourceElement.appendChild(this.$drawerContainer);
-      this.setBgColor();
-      this._initHandlerEvents();
-      this.setCanvas(this.$canvas);
-      this._updateCursor();
-
-      if (this.options.grid) {
-        this.addGrid();
-      }
-
-      this.$canvas.drawer = this;
-      // dispatch drawer.init event
-
-      this.$sourceElement.dispatchEvent(DrawEvent('init', this));
     } catch (error: any) {
       throw new DrawerError(error.message);
     }
@@ -564,30 +552,44 @@ export class Drawer extends History {
     this.ctx.strokeStyle = this.options.color; // passing selectedColor as stroke style
     this.ctx.fillStyle = this.options.color; // passing selectedColor as fill style
     this.ctx.lineCap = this.options.cap;
+    const angle =
+      (Math.atan2(this.#dragStartLocation.y - position.y, this.#dragStartLocation.x - position.x) * 20) / Math.PI;
 
-    if (this.activeTool === 'brush' || this.activeTool === 'eraser') {
-      this._drawHand(position);
-    } else if (this.activeTool === 'text') {
-      this._addTextArea(position);
-    } else if (this.activeTool === 'line') {
-      this._drawLine(position);
-    } else if (this.activeTool === 'rect') {
-      this._drawRect(position);
-    } else if (this.activeTool === 'square') {
-      this._drawPolygon(position, 4, Math.PI / 4);
-    } else if (this.activeTool === 'arrow') {
-      this._drawArrow(position);
-    } else if (this.activeTool === 'triangle') {
-      const angle =
-        (Math.atan2(this.#dragStartLocation.y - position.y, this.#dragStartLocation.x - position.x) * 20) / Math.PI;
-      this._drawPolygon(position, 3, (angle * Math.PI) / 4);
-    } else if (this.activeTool === 'polygon') {
-      const angle =
-        360 -
-        (Math.atan2(this.#dragStartLocation.y - position.y, this.#dragStartLocation.x - position.x) * 180) / Math.PI;
-      this._drawPolygon(position, 5, angle * (Math.PI / 180));
-    } else if (this.activeTool === 'circle') {
-      this._drawCircle(position);
+    switch (this.activeTool) {
+      case 'brush':
+      case 'eraser':
+        this._drawHand(position);
+        break;
+      case 'text':
+        this._addTextArea(position);
+        break;
+      case 'line':
+        this._drawLine(position);
+        break;
+      case 'rect':
+        this._drawRect(position);
+        break;
+      case 'square':
+        this._drawPolygon(position, 4, Math.PI / 4);
+        break;
+      case 'triangle':
+        this._drawPolygon(position, 3, (angle * Math.PI) / 4);
+        break;
+      case 'arrow':
+        this._drawArrow(position);
+        break;
+      case 'polygon':
+        this._drawPolygon(position, 5, angle * (Math.PI / 180));
+        break;
+      case 'circle':
+        this._drawCircle(position);
+        break;
+      case 'ellipse':
+        this._drawEllipse(position);
+        break;
+      case 'star':
+        console.log('Not implemented');
+        break;
     }
 
     if (
@@ -659,25 +661,22 @@ export class Drawer extends History {
     this.ctx.restore();
   }
 
-  // private _drawEllipse({x, y }: Position) {
-  //   const w = position.x - this.#dragStartLocation.x;
-  //   const h = position.y - this.#dragStartLocation.y;
-  //   const radius = Math.sqrt(
-  //     Math.pow(this.#dragStartLocation.x - position.x, 2) + Math.pow(this.#dragStartLocation.y - position.y, 2)
-  //   );
-  //   this.ctx.beginPath();
+  private _drawEllipse({ x, y }: Position) {
+    const w = x - this.#dragStartLocation.x;
+    const h = y - this.#dragStartLocation.y;
+    const angle = Math.atan2(y - 100, x - 100);
+    this.ctx.beginPath();
 
-  //   this.ctx.ellipse(
-  //     this.#dragStartLocation.x,
-  //     this.#dragStartLocation.y,
-  //     Math.abs(w),
-  //     Math.abs(h),
-  //     radius,
-  //     radius,
-  //     2 * Math.PI,
-  //     false
-  //   );
-  // }
+    this.ctx.ellipse(
+      this.#dragStartLocation.x,
+      this.#dragStartLocation.y,
+      Math.abs(w),
+      Math.abs(h),
+      angle,
+      0,
+      2 * Math.PI
+    );
+  }
 
   // private _drawStar(centerX: number, centerY: number, points: number, outer: number, inner: number) {
   //   // define the star
