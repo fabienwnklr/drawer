@@ -5,7 +5,7 @@
   --drawer-primary-active-bg: #4f57c0;
   --drawer-light: #f3f3f3;
   --drawer-light-btn: #d4d4d4;
-  --drawer-border-radius: 5px;
+  --drawer-border-radius: 0.5rem;
 }
 
 .drawer-container {
@@ -119,9 +119,14 @@
   position: relative;
   margin: 0.2em;
 }
-.toolbar .container-colorpicker .clr-field button {
-  border-top-right-radius: var(--drawer-border-radius);
-  border-bottom-right-radius: var(--drawer-border-radius);
+
+.clr-field input {
+  width: 30px;
+  height: 24px;
+  border-radius: var(--drawer-border-radius);
+}
+.clr-field button {
+  border-radius: var(--drawer-border-radius);
 }
 
 .toolbar input,
@@ -162,6 +167,16 @@
     linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
 }
+
+.drawer-container .link {
+  color: currentColor;
+  transition: .2s color ease;
+}
+
+.drawer-container .link:hover {
+  color: var(--drawer-primary);
+}
+
 .drawer-container .btn,
 .drawer-menu .btn,
 .drawer-modal .btn {
@@ -200,7 +215,7 @@
 .drawer-container .btn:focus-visible,
 .drawer-menu .btn:focus,
 .drawer-menu .btn:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: var(--drawer-primary) solid 2px;
 }
 
 .toolbar .drawer-range {

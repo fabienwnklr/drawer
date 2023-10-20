@@ -8,7 +8,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  transition: opacity .2s ease;
+  transition: opacity 0.2s ease;
   opacity: 0;
   visibility: hidden;
 }
@@ -31,7 +31,7 @@
   border-radius: 0.5rem;
   flex-direction: column;
   justify-content: space-between;
-  transition: opacity .2s ease;
+  transition: opacity 0.2s ease;
   opacity: 0;
 }
 
@@ -42,8 +42,8 @@
 
 .drawer-modal .drawer-modal-header {
   padding: 0.5rem;
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
+  border-top-left-radius: var(--drawer-border-radius);
+  border-top-right-radius: var(--drawer-border-radius);
   border-bottom: 2px solid var(--drawer-light);
 }
 
@@ -101,14 +101,14 @@
   border-bottom: none;
 }
 
-.drawer-modal .drawer-modal-body input[type="number"] {
+.drawer-modal .drawer-modal-body input[type='number'] {
   border: 1px solid var(--drawer-primary);
-  padding: .2em;
+  padding: 0.2em;
   border-radius: var(--drawer-border-radius);
   outline-color: var(--drawer-primary);
 }
 
-.drawer-modal .drawer-modal-body input[type="checkbox"] {
+.drawer-modal .drawer-modal-body input[type='checkbox'] {
   position: relative;
   appearance: none;
   width: 28px;
@@ -117,16 +117,20 @@
   border-radius: var(--drawer-border-radius);
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  transition: 0.4s;
+  transition: 0.4s background;
 }
 
-.drawer-modal .drawer-modal-body input:checked[type="checkbox"] {
+.drawer-modal .drawer-modal-body input[type='checkbox']:hover {
+  box-shadow: 0px 5px 15px var(--drawer-primary-light);
+}
+
+.drawer-modal .drawer-modal-body input:checked[type='checkbox'] {
   background: var(--drawer-primary);
 }
 
-.drawer-modal .drawer-modal-body input[type="checkbox"]::after {
+.drawer-modal .drawer-modal-body input[type='checkbox']::after {
   position: absolute;
-  content: "";
+  content: '';
   width: 13px;
   height: 13px;
   top: 0;
@@ -138,13 +142,17 @@
   transition: 0.4s;
 }
 
-.drawer-modal .drawer-modal-body input:checked[type="checkbox"]::after {
+.drawer-modal .drawer-modal-body input:checked[type='checkbox']::after {
   left: 60%;
 }
 
 .drawer-modal .drawer-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
   padding: 0.5rem;
-  border-bottom-left-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: var(--drawer-border-radius);
+  border-bottom-right-radius: var(--drawer-border-radius);
   background-color: var(--drawer-light);
 }
