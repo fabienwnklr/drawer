@@ -35,7 +35,8 @@ export class Modal {
   private _init() {
     this._createModal();
     this.setHeaderContent(
-      this.options.headerContent ?? `<button title="close" class="btn" data-modal="close">${CloseIcon}</button>`
+      this.options.headerContent ??
+        `<h2 class="drawer-modal-title">${this.options.title ?? "Modal"}</h2><button title="Close" class="btn-close" data-modal="close">${CloseIcon}</button>`
     );
     this.setBodyContent(this.options.bodyContent ?? '');
     this.setFooterContent(this.options.footerContent ?? '');
@@ -90,9 +91,9 @@ export class Modal {
       `);
       this.$backdrop.append(this.$modal);
 
-      document.body.append(this.$backdrop);
+      this.drawer.$drawerContainer.append(this.$backdrop);
     } else {
-      document.body.append(this.$modal);
+      this.drawer.$drawerContainer.append(this.$modal);
     }
   }
 

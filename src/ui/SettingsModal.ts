@@ -16,7 +16,7 @@ export class SettingsModal extends Modal {
   $xorSettingInput!: HTMLInputElement;
 
   constructor(drawer: Drawer) {
-    super(drawer);
+    super(drawer, { title: "Settings" });
     this.drawer = drawer;
     this.filled = drawer.options.fill;
     this.grid = drawer.options.grid;
@@ -35,7 +35,7 @@ export class SettingsModal extends Modal {
     this.setBodyContent(/*html*/ `
       <ul class="drawer-modal-body-list">
         <li class="drawer-modal-body-list-item">
-          <label for="setting-opacity-${this.drawer.options.id}">Global opacity</label>
+          <label for="setting-opacity-${this.drawer.options.id}">Global opacity (0.1 / 1)</label>
           <input id="setting-opacity-${this.drawer.options.id}"  name="opacity-${
             this.drawer.options.id
           }" type="number" min="0.1" max="1" step="0.1" value="${this.opacity}"/>
@@ -53,13 +53,13 @@ export class SettingsModal extends Modal {
           }>
         </li>
         <li class="drawer-modal-body-list-item">
-          <label for="setting-guides-${this.drawer.options.id}">Guides</label>
+          <label for="setting-guides-${this.drawer.options.id}">Guides (shape's only)</label>
           <input id="setting-guides-${this.drawer.options.id}" type="checkbox" name="guides-${
             this.drawer.options.id
           }" ${this.guides ? 'checked' : ''}>
         </li>
         <li class="drawer-modal-body-list-item">
-          <label for="setting-xor-${this.drawer.options.id}">XOR</label>
+          <label for="setting-xor-${this.drawer.options.id}">XOR (<a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation" target="_blank" />example</a>)</label>
           <input id="setting-xor-${this.drawer.options.id}" type="checkbox" name="xor-${this.drawer.options.id}" ${
             this.xor ? 'checked' : ''
           }>
@@ -109,6 +109,12 @@ export class SettingsModal extends Modal {
 
     this.$opacitySettingInput.addEventListener('change', () => {
       const opacity = Number(this.$opacitySettingInput.value);
+
+      if (opacity < 0 || opacity > 1) {
+        this.$opacitySettingInput.value = this.drawer.options.opacity.toString();
+
+        return;
+      }
       this.drawer.options.opacity = opacity;
       this.drawer.ctx.globalAlpha = opacity;
     });
