@@ -19,6 +19,7 @@ import { TextIcon } from '../icons/text';
 import { TriangleIcon } from '../icons/triangle';
 import { UndoIcon } from '../icons/undo';
 import { UploadIcon } from '../icons/upload';
+import { EllipseIcon } from '../icons/ellipse';
 import { DrawerError } from '../utils/DrawError';
 import { DrawEvent } from '../utils/DrawEvent';
 import { defaultOptionsToolbar } from '../constants';
@@ -445,6 +446,9 @@ export class Toolbar {
               <li class="drawer-menu-item">
                 <button data-shape="circle" class="btn circle" title="${"Circle"}">${CircleIcon}</button>
               </li>
+              <li class="drawer-menu-item">
+                <button data-shape="ellipse" class="btn circle" title="${"Ellipse"}">${EllipseIcon}</button>
+              </li>
             </ul>`;
 
           const $shapeMenu = stringToHTMLElement<HTMLUListElement>(shapeMenu);
@@ -497,8 +501,8 @@ export class Toolbar {
       try {
         if (this.$toolbar && !this.$lineThickness) {
           const lineThickness = /*html*/ `
-            <div class="drawer-range" title="${'Thickness'}">
-              <input id="${
+            <div class="drawer-range">
+              <input title="${'Thickness'}" id="${
                 this.drawer.$canvas.id
               }-line-tickness" type="range" class="" min="1" value="${this.drawer.options.lineThickness}" max="30" />
               <span class="counter">${this.drawer.options.lineThickness}</span>
@@ -545,10 +549,10 @@ export class Toolbar {
       try {
         if (this.$toolbar && !this.$colorPicker) {
           const colorPickerContainer = /*html*/ `
-            <div class="container-colorpicker" title="${'Color'}">
+            <div class="container-colorpicker">
               <input class="btn" id="colopicker-${
                 this.drawer.options.id
-              }" class="" type="text" value="${this.drawer.options.color}" data-coloris/>
+              }" class="" type="text" title="${'Color'}" value="${this.drawer.options.color}" data-coloris/>
             </div>
             `;
           const $colorPickerContainer = stringToHTMLElement<HTMLDivElement>(colorPickerContainer);

@@ -29,6 +29,7 @@ import { SettingsModal } from './ui/SettingsModal';
 
 import { version } from '../package.json';
 import { Toolbar } from './ui/Toolbar';
+import { EllipseIcon } from './icons/ellipse';
 
 declare global {
   interface HTMLCanvasElement {
@@ -69,6 +70,7 @@ export class Drawer extends History {
   #availableShape: Array<keyof typeof DrawTools> = [
     'rect',
     'circle',
+    'ellipse',
     'square',
     'arrow',
     'line',
@@ -263,6 +265,7 @@ export class Drawer extends History {
             case 'star':
             case 'arrow':
             case 'circle':
+            case 'ellipse':
             case 'line':
             case 'rect':
             case 'triangle':
@@ -367,9 +370,9 @@ export class Drawer extends History {
 
   /**
    * Change drawing shape
-   * @param {"rect" | "circle" | "square" | "arrow" | "line" | "star" | "triangle" | "polygon"} shape
+   * @param {keyof typeof DrawTools} shape
    */
-  setShape(shape: keyof typeof DrawTools) {
+  setShape(shape: keyof typeof DrawTools): Promise<boolean> {
     return new Promise((resolve, reject) => {
       try {
         if (this.toolbar.$shapeBtn) {
@@ -393,6 +396,9 @@ export class Drawer extends History {
               break;
             case 'circle':
               icon = CircleIcon;
+              break;
+            case 'ellipse':
+              icon = EllipseIcon;
               break;
             case 'arrow':
               icon = ArrowIcon;
