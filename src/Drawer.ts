@@ -939,13 +939,6 @@ export class Drawer extends History {
       this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
     });
 
-    $textArea.addEventListener('input', function () {
-      this.style.height = 'auto';
-      this.style.height = this.scrollHeight + 'px';
-      this.style.width = 'auto';
-      this.style.width = this.scrollWidth + 'px';
-    });
-
     this.$drawerContainer.appendChild($textArea);
 
     $textArea.focus();
