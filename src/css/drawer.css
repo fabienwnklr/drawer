@@ -210,7 +210,7 @@
   width: fit-content;
 }
 
-[title]:not(input) {
+/* [title]:not(input) {
   position: relative;
 }
 
@@ -223,7 +223,9 @@
   color: #fff;
   content: attr(title);
   padding: 0.4em;
-  position: fixed;
+  position: absolute;
+  top: 0;
+  left: 0;
   transform: translateY(-100%);
   transition: opacity .3s ease;
 }
@@ -234,7 +236,7 @@
 
 [title]:hover:after {
   opacity: 1;
-}
+} */
 
 .drawer-menu {
   display: flex;
