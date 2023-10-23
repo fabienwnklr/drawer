@@ -6,6 +6,7 @@ export interface DrawerOptions {
   height: number;
   width: number;
   localStorageKey: string;
+  tool: keyof typeof DrawTools;
   dotted: boolean;
   dash: number[];
   autoSave: boolean;

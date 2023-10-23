@@ -796,6 +796,7 @@ export class Toolbar {
   }
 
   /**
+   * @private
    * Upload file from input file
    */
   private _uploadFile() {
@@ -810,7 +811,10 @@ export class Toolbar {
     }
   }
 
-  _manageUndoRedoBtn() {
+  /**
+   * Manage undo / redo button state
+   */
+  private _manageUndoRedoBtn() {
     if (!this.drawer.undo_list.length && this.$undoBtn) {
       this.$undoBtn.disabled = true;
     } else if (this.$undoBtn) {
@@ -830,7 +834,7 @@ export class Toolbar {
    * @param $menu
    * @returns
    */
-  _toggleMenu($btn: HTMLButtonElement, $menu: HTMLUListElement) {
+  private _toggleMenu($btn: HTMLButtonElement, $menu: HTMLUListElement) {
     if ($menu.classList.contains('show')) {
       $menu.classList.remove('show');
       return;
@@ -866,7 +870,7 @@ export class Toolbar {
    * @param $btn
    * @param $menu
    */
-  _initClickOutsideMenuEvent($btn: HTMLButtonElement, $menu: HTMLUListElement) {
+  private _initClickOutsideMenuEvent($btn: HTMLButtonElement, $menu: HTMLUListElement) {
     document.addEventListener(
       'click',
       (event) => {

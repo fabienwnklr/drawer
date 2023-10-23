@@ -23,7 +23,7 @@
   visibility: hidden;
   box-sizing: border-box;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  position: fixed;
+  position: absolute;
   background-color: #fff;
   min-width: 200px;
   min-height: 300px;

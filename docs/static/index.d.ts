@@ -144,11 +144,14 @@ export declare class Drawer extends History_2 {
     private _drawEllipse;
     private _drawPolygon;
     /**
-     * Add a css grid for draw helping
+     * Add a grid for draw helping
+     * /!\ This is drawing into canvas, so it remove all draw and it's visible on export /!\
+     *
      */
-    addGrid(): void;
+    addGrid(): Promise<unknown>;
     /**
-     * Remove a css grid for draw helping
+     * Remove grid for draw helping
+     * /!\ This is drawing into canvas, so it remove all draw and it's visible on export /!\
      */
     removeGrid(): void;
     /**
@@ -186,6 +189,7 @@ declare interface DrawerOptions {
     height: number;
     width: number;
     localStorageKey: string;
+    tool: string;
     dotted: boolean;
     dash: number[];
     autoSave: boolean;
@@ -429,23 +433,27 @@ declare class Toolbar {
      */
     setActiveBtn($btn: HTMLButtonElement | null): void;
     /**
+     * @private
      * Upload file from input file
      */
     private _uploadFile;
-    _manageUndoRedoBtn(): void;
+    /**
+     * Manage undo / redo button state
+     */
+    private _manageUndoRedoBtn;
     /**
      * Toggle show/hide menu
      * @param $btn
      * @param $menu
      * @returns
      */
-    _toggleMenu($btn: HTMLButtonElement, $menu: HTMLUListElement): void;
+    private _toggleMenu;
     /**
      * event for close menu on click outside
      * @param $btn
      * @param $menu
      */
-    _initClickOutsideMenuEvent($btn: HTMLButtonElement, $menu: HTMLUListElement): void;
+    private _initClickOutsideMenuEvent;
 }
 
 /** Toolbar */

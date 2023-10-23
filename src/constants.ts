@@ -9,6 +9,7 @@ export const defaultOptionsDrawer: DrawerOptions = {
   width: 400,
   height: 400,
   localStorageKey: 'draw',
+  tool: 'brush',
   autoSave: true,
   toolbarPosition: 'outerTop',
   bgColor: '#fff',

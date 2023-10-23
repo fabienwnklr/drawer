@@ -94,6 +94,11 @@ export class Drawer extends History {
     try {
       if ($el instanceof HTMLElement) {
         this.$sourceElement = $el;
+
+        // if no width, and container larger than default width
+        if (!options.width && $el.offsetWidth > defaultOptionsDrawer.width) {
+          options.width = $el.offsetWidth;
+        }
         this.options = deepMerge<DrawerOptions>(defaultOptionsDrawer, options);
         this._buildDrawer();
         this.$sourceElement.appendChild(this.$drawerContainer);
@@ -125,6 +130,8 @@ export class Drawer extends History {
         if (this.options.dotted) {
           this.setDottedLine(true, this.options.dash);
         }
+
+        this.setTool(this.options.tool);
 
         // dispatch drawer.init event
         this.$sourceElement.dispatchEvent(DrawEvent('init', this));
@@ -294,7 +301,9 @@ export class Drawer extends History {
       try {
         // Conserve current bgcolor ?
         // this.ctx.fillStyle = this.options.bgColor;
-        this.ctx.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
+        // this.ctx.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
+        this.ctx.clearRect(0, 0, this.$canvas.width, this.$canvas.height);
+        this.options.bgColor = defaultOptionsDrawer.bgColor;
         this.redo_list = [];
         this.undo_list = [];
         this.gridActive = false;
@@ -724,19 +733,54 @@ export class Drawer extends History {
   }
 
   /**
-   * Add a css grid for draw helping
+   * Add a grid for draw helping
+   * /!\ This is drawing into canvas, so it remove all draw and it's visible on export /!\
+   *
    */
   addGrid() {
-    this.$canvas.classList.add('grid');
-    this.options.grid = true;
+    return new Promise((resolve, reject) => {
+      try {
+        this.clear();
+        this.options.grid = true;
+        const gridCellSize = 40;
+        const width = this.$canvas.width;
+        const height = this.$canvas.height;
+        const lineWidth = 1;
+        const x = 0;
+        const y = 0;
+
+        this.ctx.save();
+        this.ctx.beginPath();
+        this.ctx.lineWidth = lineWidth;
+        this.ctx.strokeStyle = '#d4d4d4';
+
+        for (let lx = x; lx <= x + width; lx += gridCellSize) {
+          this.ctx.moveTo(lx, y);
+          this.ctx.lineTo(lx, y + height);
+        }
+
+        for (let ly = y; ly <= y + height; ly += gridCellSize) {
+          this.ctx.moveTo(x, ly);
+          this.ctx.lineTo(x + width, ly);
+        }
+
+        this.ctx.stroke();
+        this.ctx.closePath();
+        this.ctx.restore();
+        resolve(true);
+      } catch (error: any) {
+        reject(new DrawerError(error.message));
+      }
+    });
   }
 
   /**
-   * Remove a css grid for draw helping
+   * Remove grid for draw helping
+   * /!\ This is drawing into canvas, so it remove all draw and it's visible on export /!\
    */
   removeGrid() {
-    this.$canvas.classList.remove('grid');
     this.options.grid = false;
+    this.clear();
   }
 
   /**

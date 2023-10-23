@@ -2,7 +2,7 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'node:path';
 import dts from 'vite-plugin-dts';
-import watchAndRun from 'vite-plugin-watch-and-run'
+import { execSync } from "child_process";
 
 export default defineConfig({
   build: {
@@ -22,16 +22,14 @@ export default defineConfig({
       insertTypesEntry: true,
       rollupTypes: true
     }),
-    watchAndRun([
-      {
-        name: 'gen',
-        watchKind: ['add', 'change', 'unlink'],
-        watch: resolve("src/Drawer.ts"),
-        run: 'npm run build && npm run build:docs',
-        delay: 300,
-      },
-    ]),
-
+    {
+      name: 'postbuild-commands', // the name of your custom plugin. Could be anything.
+      closeBundle: async () => {
+        console.log('Build docs...')
+        execSync("npm run build:docs") // run during closeBundle hook. https://rollupjs.org/guide/en/#closebundle
+        console.log('Docs build !')
+      }
+    },
   ],
   resolve: {
     alias: {

@@ -51,6 +51,14 @@ describe('Basic', () => {
     expect(drawer.$canvas.height).toEqual(200);
   });
 
+  it('Init drawer with custom tool', () => {
+    const drawer = new Drawer(document.body.querySelector('#test') as HTMLDivElement, {
+      tool: 'eraser'
+    });
+    expect(drawer.$canvas).toBeInstanceOf(HTMLCanvasElement);
+    expect(drawer.activeTool).toEqual('eraser');
+  });
+
   it('Init with draw button group', () => {
     const drawer = new Drawer(document.body.querySelector('#test') as HTMLDivElement, {
       defaultToolbar: false,

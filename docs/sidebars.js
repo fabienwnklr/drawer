@@ -27,7 +27,8 @@ const sidebars = {
         keywords: ['examples', 'drawer'],
       },
       items: [
-        "examples/basic"
+        "examples/basic",
+        "examples/custom-toolbar",
       ]
     }
   ],
@@ -52,12 +53,12 @@ const sidebars = {
         'api/classes/ui_SettingsModal.SettingsModal',
         'api/classes/utils_DrawError.DrawerError',
         'api/classes/utils_History.History',
-        'api/enums/types_drawer.DrawTools',
-        'api/enums/types_toolbar.ToolbarPosition',
-        'api/interfaces/types_drawer.DrawerOptions',
-        'api/interfaces/types_drawer.Position',
-        'api/interfaces/types_modal.ModalOptions',
-        'api/interfaces/types_toolbar.ToolbarOptions',
+        'api/enums/types.DrawTools',
+        'api/enums/types.ToolbarPosition',
+        'api/interfaces/types.DrawerOptions',
+        'api/interfaces/types.Position',
+        'api/interfaces/types.ModalOptions',
+        'api/interfaces/types.ToolbarOptions',
         'api/modules/icons_arrow',
         'api/modules/icons_brush',
         'api/modules/icons_circle',
