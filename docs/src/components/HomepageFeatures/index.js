@@ -8,8 +8,7 @@ const FeatureList = [
     Svg: require('@site/static/img/easy.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Drawer was designed from the ground up to be easily instancied and used.
       </>
     ),
   },
