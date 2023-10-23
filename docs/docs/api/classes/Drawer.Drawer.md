@@ -252,7 +252,7 @@ Add a grid for draw helping
 
 #### Defined in
 
-[src/Drawer.ts:740](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L740)
+[src/Drawer.ts:741](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L741)
 
 ___
 
@@ -268,7 +268,7 @@ Clear all canvas
 
 #### Defined in
 
-[src/Drawer.ts:299](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L299)
+[src/Drawer.ts:300](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L300)
 
 ___
 
@@ -286,7 +286,7 @@ canvas png data
 
 #### Defined in
 
-[src/Drawer.ts:380](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L380)
+[src/Drawer.ts:381](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L381)
 
 ___
 
@@ -324,7 +324,7 @@ Check if active tool is shape
 
 #### Defined in
 
-[src/Drawer.ts:486](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L486)
+[src/Drawer.ts:487](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L487)
 
 ___
 
@@ -346,7 +346,7 @@ Inject data to canvas
 
 #### Defined in
 
-[src/Drawer.ts:330](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L330)
+[src/Drawer.ts:331](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L331)
 
 ___
 
@@ -381,7 +381,7 @@ Remove grid for draw helping
 
 #### Defined in
 
-[src/Drawer.ts:781](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L781)
+[src/Drawer.ts:782](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L782)
 
 ___
 
@@ -424,7 +424,7 @@ Save draw to localStorage
 
 #### Defined in
 
-[src/Drawer.ts:364](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L364)
+[src/Drawer.ts:365](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L365)
 
 ___
 
@@ -540,7 +540,7 @@ Set line style dotted
 
 #### Defined in
 
-[src/Drawer.ts:441](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L441)
+[src/Drawer.ts:442](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L442)
 
 ___
 
@@ -562,7 +562,7 @@ Set the line width
 
 #### Defined in
 
-[src/Drawer.ts:464](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L464)
+[src/Drawer.ts:465](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L465)
 
 ___
 
@@ -584,7 +584,7 @@ Change drawing shape
 
 #### Defined in
 
-[src/Drawer.ts:388](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L388)
+[src/Drawer.ts:389](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L389)
 
 ___
 

@@ -652,7 +652,7 @@ Apply active state to btn
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `$btn` | ``null`` \| `HTMLButtonElement` | Button to add active class |
+| `$btn` | `HTMLButtonElement` | Button to add active class |
 
 #### Returns
 
