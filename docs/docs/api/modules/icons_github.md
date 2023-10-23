@@ -16,4 +16,4 @@
 
 #### Defined in
 
-[src/icons/github.ts:1](https://github.com/fabwcie/drawer/blob/e245821/src/icons/github.ts#L1)
+[src/icons/github.ts:1](https://github.com/fabwcie/drawer/blob/master/src/icons/github.ts#L1)

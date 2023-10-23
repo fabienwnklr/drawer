@@ -16,4 +16,4 @@
 
 #### Defined in
 
-[src/icons/clear.ts:1](https://github.com/fabwcie/drawer/blob/e245821/src/icons/clear.ts#L1)
+[src/icons/clear.ts:1](https://github.com/fabwcie/drawer/blob/master/src/icons/clear.ts#L1)

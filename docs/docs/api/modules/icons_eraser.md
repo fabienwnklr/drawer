@@ -16,4 +16,4 @@
 
 #### Defined in
 
-[src/icons/eraser.ts:1](https://github.com/fabwcie/drawer/blob/e245821/src/icons/eraser.ts#L1)
+[src/icons/eraser.ts:1](https://github.com/fabwcie/drawer/blob/master/src/icons/eraser.ts#L1)

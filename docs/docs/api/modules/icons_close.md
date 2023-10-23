@@ -20,7 +20,7 @@
 
 #### Defined in
 
-[src/icons/close.ts:1](https://github.com/fabwcie/drawer/blob/e245821/src/icons/close.ts#L1)
+[src/icons/close.ts:1](https://github.com/fabwcie/drawer/blob/master/src/icons/close.ts#L1)
 
 ## Functions
 
@@ -41,4 +41,4 @@
 
 #### Defined in
 
-[src/icons/close.ts:3](https://github.com/fabwcie/drawer/blob/e245821/src/icons/close.ts#L3)
+[src/icons/close.ts:3](https://github.com/fabwcie/drawer/blob/master/src/icons/close.ts#L3)

@@ -26,7 +26,7 @@ Modal
 
 #### Defined in
 
-[src/types/index.ts:74](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L74)
+[src/types/index.ts:75](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L75)
 
 ___
 
@@ -36,7 +36,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:71](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L71)
+[src/types/index.ts:72](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L72)
 
 ___
 
@@ -46,7 +46,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:73](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L73)
+[src/types/index.ts:74](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L74)
 
 ___
 
@@ -56,7 +56,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:72](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L72)
+[src/types/index.ts:73](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L73)
 
 ___
 
@@ -66,7 +66,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:70](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L70)
+[src/types/index.ts:71](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L71)
 
 ___
 
@@ -76,7 +76,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:68](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L68)
+[src/types/index.ts:69](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L69)
 
 ___
 
@@ -86,4 +86,4 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:69](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L69)
+[src/types/index.ts:70](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L70)

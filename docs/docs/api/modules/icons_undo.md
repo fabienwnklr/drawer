@@ -16,4 +16,4 @@
 
 #### Defined in
 
-[src/icons/undo.ts:1](https://github.com/fabwcie/drawer/blob/e245821/src/icons/undo.ts#L1)
+[src/icons/undo.ts:1](https://github.com/fabwcie/drawer/blob/master/src/icons/undo.ts#L1)

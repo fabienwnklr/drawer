@@ -20,4 +20,4 @@ Toolbar
 
 #### Defined in
 
-[src/types/index.ts:51](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L51)
+[src/types/index.ts:52](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L52)

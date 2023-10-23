@@ -51,7 +51,7 @@ Utils
 
 #### Defined in
 
-[src/types/index.ts:79](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L79)
+[src/types/index.ts:80](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L80)
 
 ___
 
@@ -82,4 +82,4 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:26](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L26)
+[src/types/index.ts:27](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L27)

@@ -812,9 +812,10 @@ export class Toolbar {
   }
 
   /**
+   * @private
    * Manage undo / redo button state
    */
-  private _manageUndoRedoBtn() {
+  _manageUndoRedoBtn() {
     if (!this.drawer.undo_list.length && this.$undoBtn) {
       this.$undoBtn.disabled = true;
     } else if (this.$undoBtn) {

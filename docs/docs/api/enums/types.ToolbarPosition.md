@@ -25,7 +25,7 @@
 
 #### Defined in
 
-[src/types/index.ts:61](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L61)
+[src/types/index.ts:62](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L62)
 
 ___
 
@@ -35,7 +35,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:60](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L60)
+[src/types/index.ts:61](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L61)
 
 ___
 
@@ -45,7 +45,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:62](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L62)
+[src/types/index.ts:63](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L63)
 
 ___
 
@@ -55,7 +55,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:59](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L59)
+[src/types/index.ts:60](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L60)
 
 ___
 
@@ -65,7 +65,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:57](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L57)
+[src/types/index.ts:58](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L58)
 
 ___
 
@@ -75,7 +75,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:56](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L56)
+[src/types/index.ts:57](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L57)
 
 ___
 
@@ -85,7 +85,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:58](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L58)
+[src/types/index.ts:59](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L59)
 
 ___
 
@@ -95,4 +95,4 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:55](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L55)
+[src/types/index.ts:56](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L56)

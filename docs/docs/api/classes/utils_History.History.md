@@ -45,7 +45,7 @@
 
 #### Defined in
 
-[src/utils/History.ts:6](https://github.com/fabwcie/drawer/blob/e245821/src/utils/History.ts#L6)
+[src/utils/History.ts:6](https://github.com/fabwcie/drawer/blob/master/src/utils/History.ts#L6)
 
 ___
 
@@ -55,7 +55,7 @@ ___
 
 #### Defined in
 
-[src/utils/History.ts:7](https://github.com/fabwcie/drawer/blob/e245821/src/utils/History.ts#L7)
+[src/utils/History.ts:7](https://github.com/fabwcie/drawer/blob/master/src/utils/History.ts#L7)
 
 ___
 
@@ -65,7 +65,7 @@ ___
 
 #### Defined in
 
-[src/utils/History.ts:4](https://github.com/fabwcie/drawer/blob/e245821/src/utils/History.ts#L4)
+[src/utils/History.ts:4](https://github.com/fabwcie/drawer/blob/master/src/utils/History.ts#L4)
 
 ___
 
@@ -75,7 +75,7 @@ ___
 
 #### Defined in
 
-[src/utils/History.ts:5](https://github.com/fabwcie/drawer/blob/e245821/src/utils/History.ts#L5)
+[src/utils/History.ts:5](https://github.com/fabwcie/drawer/blob/master/src/utils/History.ts#L5)
 
 ## Methods
 
@@ -89,7 +89,7 @@ ___
 
 #### Defined in
 
-[src/utils/History.ts:28](https://github.com/fabwcie/drawer/blob/e245821/src/utils/History.ts#L28)
+[src/utils/History.ts:28](https://github.com/fabwcie/drawer/blob/master/src/utils/History.ts#L28)
 
 ___
 
@@ -111,7 +111,7 @@ ___
 
 #### Defined in
 
-[src/utils/History.ts:38](https://github.com/fabwcie/drawer/blob/e245821/src/utils/History.ts#L38)
+[src/utils/History.ts:38](https://github.com/fabwcie/drawer/blob/master/src/utils/History.ts#L38)
 
 ___
 
@@ -132,7 +132,7 @@ ___
 
 #### Defined in
 
-[src/utils/History.ts:9](https://github.com/fabwcie/drawer/blob/e245821/src/utils/History.ts#L9)
+[src/utils/History.ts:9](https://github.com/fabwcie/drawer/blob/master/src/utils/History.ts#L9)
 
 ___
 
@@ -152,7 +152,7 @@ ___
 
 #### Defined in
 
-[src/utils/History.ts:66](https://github.com/fabwcie/drawer/blob/e245821/src/utils/History.ts#L66)
+[src/utils/History.ts:66](https://github.com/fabwcie/drawer/blob/master/src/utils/History.ts#L66)
 
 ___
 
@@ -166,4 +166,4 @@ ___
 
 #### Defined in
 
-[src/utils/History.ts:18](https://github.com/fabwcie/drawer/blob/e245821/src/utils/History.ts#L18)
+[src/utils/History.ts:18](https://github.com/fabwcie/drawer/blob/master/src/utils/History.ts#L18)

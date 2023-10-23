@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[src/types/index.ts:44](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L44)
+[src/types/index.ts:45](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L45)
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:45](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L45)
+[src/types/index.ts:46](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L46)

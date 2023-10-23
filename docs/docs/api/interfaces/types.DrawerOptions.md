@@ -27,6 +27,7 @@ Drawer
 - [lineThickness](types.DrawerOptions.md#linethickness)
 - [localStorageKey](types.DrawerOptions.md#localstoragekey)
 - [opacity](types.DrawerOptions.md#opacity)
+- [tool](types.DrawerOptions.md#tool)
 - [toolbarPosition](types.DrawerOptions.md#toolbarposition)
 - [width](types.DrawerOptions.md#width)
 - [xor](types.DrawerOptions.md#xor)
@@ -39,7 +40,7 @@ Drawer
 
 #### Defined in
 
-[src/types/index.ts:11](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L11)
+[src/types/index.ts:12](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L12)
 
 ___
 
@@ -49,7 +50,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:18](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L18)
+[src/types/index.ts:19](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L19)
 
 ___
 
@@ -59,7 +60,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:19](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L19)
+[src/types/index.ts:20](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L20)
 
 ___
 
@@ -69,7 +70,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:14](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L14)
+[src/types/index.ts:15](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L15)
 
 ___
 
@@ -79,7 +80,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:16](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L16)
+[src/types/index.ts:17](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L17)
 
 ___
 
@@ -89,7 +90,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:13](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L13)
+[src/types/index.ts:14](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L14)
 
 ___
 
@@ -99,7 +100,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:10](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L10)
+[src/types/index.ts:11](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L11)
 
 ___
 
@@ -109,7 +110,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:5](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L5)
+[src/types/index.ts:5](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L5)
 
 ___
 
@@ -119,7 +120,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:9](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L9)
+[src/types/index.ts:10](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L10)
 
 ___
 
@@ -129,7 +130,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:17](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L17)
+[src/types/index.ts:18](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L18)
 
 ___
 
@@ -139,7 +140,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:20](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L20)
+[src/types/index.ts:21](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L21)
 
 ___
 
@@ -149,7 +150,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:21](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L21)
+[src/types/index.ts:22](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L22)
 
 ___
 
@@ -159,7 +160,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:6](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L6)
+[src/types/index.ts:6](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L6)
 
 ___
 
@@ -169,7 +170,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:4](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L4)
+[src/types/index.ts:4](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L4)
 
 ___
 
@@ -179,7 +180,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:15](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L15)
+[src/types/index.ts:16](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L16)
 
 ___
 
@@ -189,7 +190,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:8](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L8)
+[src/types/index.ts:8](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L8)
 
 ___
 
@@ -199,7 +200,17 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:22](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L22)
+[src/types/index.ts:23](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L23)
+
+___
+
+### tool
+
+• **tool**: ``"brush"`` \| ``"eraser"`` \| ``"text"`` \| ``"rect"`` \| ``"circle"`` \| ``"ellipse"`` \| ``"square"`` \| ``"arrow"`` \| ``"line"`` \| ``"star"`` \| ``"triangle"`` \| ``"polygon"``
+
+#### Defined in
+
+[src/types/index.ts:9](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L9)
 
 ___
 
@@ -209,7 +220,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:12](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L12)
+[src/types/index.ts:13](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L13)
 
 ___
 
@@ -219,7 +230,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:7](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L7)
+[src/types/index.ts:7](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L7)
 
 ___
 
@@ -229,4 +240,4 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:23](https://github.com/fabwcie/drawer/blob/e245821/src/types/index.ts#L23)
+[src/types/index.ts:24](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L24)
