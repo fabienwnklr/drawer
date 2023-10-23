@@ -21,7 +21,7 @@
 
 #### Defined in
 
-[src/utils/dom.ts:5](https://github.com/fabwcie/drawer/blob/21e6e28/src/utils/dom.ts#L5)
+[src/utils/dom.ts:5](https://github.com/fabwcie/drawer/blob/e245821/src/utils/dom.ts#L5)
 
 ___
 
@@ -47,4 +47,4 @@ ___
 
 #### Defined in
 
-[src/utils/dom.ts:1](https://github.com/fabwcie/drawer/blob/21e6e28/src/utils/dom.ts#L1)
+[src/utils/dom.ts:1](https://github.com/fabwcie/drawer/blob/e245821/src/utils/dom.ts#L1)

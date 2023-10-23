@@ -16,4 +16,4 @@
 
 #### Defined in
 
-[src/icons/setting.ts:1](https://github.com/fabwcie/drawer/blob/21e6e28/src/icons/setting.ts#L1)
+[src/icons/setting.ts:1](https://github.com/fabwcie/drawer/blob/e245821/src/icons/setting.ts#L1)

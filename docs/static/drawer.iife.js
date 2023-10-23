@@ -53,7 +53,7 @@ var Drawer = function(exports) {
     dash: [10, 5],
     cap: "round",
     fill: true,
-    availableColor: void 0,
+    availableColor: [],
     availableColorOnly: false,
     grid: false,
     guides: false,
@@ -211,236 +211,6 @@ var Drawer = function(exports) {
     }
     return output;
   }
-  const modal = "";
-  const CloseIcon = `<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="m7 7l10 10M7 17L17 7"/>
-</svg>`;
-  class Modal {
-    constructor(drawer2, options) {
-      __publicField(this, "$modal");
-      __publicField(this, "$modalHeader");
-      __publicField(this, "$modalBody");
-      __publicField(this, "$modalFooter");
-      __publicField(this, "options");
-      __publicField(this, "drawer");
-      __publicField(this, "$backdrop");
-      try {
-        this.drawer = drawer2;
-        this.options = { ...defaultOptionsModal, ...options };
-        this._init();
-        this._setupDefaultEvents();
-      } catch (error) {
-        throw new DrawerError(error.message);
-      }
-    }
-    _init() {
-      this._createModal();
-      this.setHeaderContent(
-        this.options.headerContent ?? `<button title="close" class="btn" data-modal="close">${CloseIcon}</button>`
-      );
-      this.setBodyContent(this.options.bodyContent ?? "");
-      this.setFooterContent(this.options.footerContent ?? "");
-    }
-    _setupDefaultEvents() {
-      const $closeBtn = this.$modalHeader.querySelector("[data-modal=close]");
-      if ($closeBtn) {
-        $closeBtn.addEventListener("click", () => {
-          this.hide();
-        });
-      }
-      if (this.options.closeOnClickOutside) {
-        document.addEventListener(
-          "click",
-          (event) => {
-            var _a, _b;
-            if (event.target) {
-              const outsideClick = !((_b = (_a = this.drawer.toolbar) == null ? void 0 : _a.$settingBtn) == null ? void 0 : _b.contains(event.target)) && !this.$modal.contains(event.target);
-              if (outsideClick) {
-                this.hide();
-              }
-            }
-          },
-          false
-        );
-      }
-    }
-    _createModal() {
-      this.$modal = stringToHTMLElement(
-        /*html*/
-        `
-    <div class="drawer-modal"></div>`
-      );
-      this.$modalHeader = stringToHTMLElement(
-        /*html*/
-        `
-      <div class="drawer-modal-header"></div>`
-      );
-      this.$modalBody = stringToHTMLElement(
-        /*html*/
-        `
-      <div class="drawer-modal-body"></div>`
-      );
-      this.$modalFooter = stringToHTMLElement(
-        /*html*/
-        `
-      <div class="drawer-modal-footer"></div>`
-      );
-      this.$modal.modal = this;
-      this.$modal.append(...[this.$modalHeader, this.$modalBody, this.$modalFooter]);
-      if (this.options.backdrop) {
-        this.$backdrop = stringToHTMLElement(
-          /*html*/
-          `
-      <div class="backdrop"></div>
-      `
-        );
-        this.$backdrop.append(this.$modal);
-        document.body.append(this.$backdrop);
-      } else {
-        document.body.append(this.$modal);
-      }
-    }
-    setHeaderContent(content) {
-      if (content) {
-        this.$modalHeader.innerHTML = content;
-      }
-    }
-    setBodyContent(content) {
-      this.$modalBody.innerHTML = content;
-    }
-    appendBodyContent(content) {
-      this.$modalBody.append(content);
-    }
-    setFooterContent(content) {
-      this.$modalFooter.innerHTML = content;
-    }
-    show() {
-      if (this.$backdrop) {
-        this.$backdrop.classList.add("show");
-      }
-      this.$modal.classList.add("show");
-    }
-    hide() {
-      if (this.$backdrop) {
-        this.$backdrop.classList.remove("show");
-      }
-      this.$modal.classList.remove("show");
-    }
-    isVisible() {
-      return this.$modal.classList.contains("show");
-    }
-    destroy() {
-      this.hide();
-      this.$modal.remove();
-    }
-  }
-  class SettingsModal extends Modal {
-    constructor(drawer2) {
-      super(drawer2);
-      __publicField(this, "filled");
-      __publicField(this, "grid");
-      __publicField(this, "guides");
-      __publicField(this, "opacity");
-      __publicField(this, "xor");
-      __publicField(this, "drawer");
-      __publicField(this, "$fillSettingInput");
-      __publicField(this, "$gridSettingInput");
-      __publicField(this, "$guidesSettingInput");
-      __publicField(this, "$opacitySettingInput");
-      __publicField(this, "$xorSettingInput");
-      this.drawer = drawer2;
-      this.filled = drawer2.options.fill;
-      this.grid = drawer2.options.grid;
-      this.guides = drawer2.options.guides;
-      this.opacity = drawer2.options.opacity;
-      this.xor = drawer2.options.xor;
-      this.fill();
-      this._setupSelectors();
-      this._initEvents();
-    }
-    /**
-     * Fill the content modal
-     */
-    fill() {
-      this.setBodyContent(
-        /*html*/
-        `
-      <ul class="drawer-modal-body-list">
-        <li class="drawer-modal-body-list-item">
-          <label for="setting-opacity-${this.drawer.options.id}">Global opacity</label>
-          <input id="setting-opacity-${this.drawer.options.id}"  name="opacity-${this.drawer.options.id}" type="number" min="0.1" max="1" step="0.1" value="${this.opacity}"/>
-        </li>
-        <li class="drawer-modal-body-list-item">
-          <label for="setting-fill-${this.drawer.options.id}">Fill</label>
-          <input id="setting-fill-${this.drawer.options.id}" type="checkbox" name="fill-${this.drawer.options.id}" ${this.filled ? "checked" : ""}>
-        </li>
-        <li class="drawer-modal-body-list-item">
-          <label for="setting-grid-${this.drawer.options.id}">Grid (css only)</label>
-          <input id="setting-grid-${this.drawer.options.id}" type="checkbox" name="grid-${this.drawer.options.id}" ${this.grid ? "checked" : ""}>
-        </li>
-        <li class="drawer-modal-body-list-item">
-          <label for="setting-guides-${this.drawer.options.id}">Guides</label>
-          <input id="setting-guides-${this.drawer.options.id}" type="checkbox" name="guides-${this.drawer.options.id}" ${this.guides ? "checked" : ""}>
-        </li>
-        <li class="drawer-modal-body-list-item">
-          <label for="setting-xor-${this.drawer.options.id}">XOR</label>
-          <input id="setting-xor-${this.drawer.options.id}" type="checkbox" name="xor-${this.drawer.options.id}" ${this.xor ? "checked" : ""}>
-        </li>
-      </ul>
-    `
-      );
-      this.setFooterContent(
-        /*html*/
-        `<small>Version ${this.drawer.VERSION}</small>`
-      );
-    }
-    _setupSelectors() {
-      this.$fillSettingInput = this.$modalBody.querySelector(
-        `#setting-fill-${this.drawer.options.id}`
-      );
-      this.$gridSettingInput = this.$modalBody.querySelector(
-        `#setting-grid-${this.drawer.options.id}`
-      );
-      this.$guidesSettingInput = this.$modalBody.querySelector(
-        `#setting-guides-${this.drawer.options.id}`
-      );
-      this.$opacitySettingInput = this.$modalBody.querySelector(
-        `#setting-opacity-${this.drawer.options.id}`
-      );
-      this.$xorSettingInput = this.$modalBody.querySelector(`#setting-xor-${this.drawer.options.id}`);
-    }
-    _initEvents() {
-      this.$fillSettingInput.addEventListener("change", () => {
-        this.drawer.options.fill = this.$fillSettingInput.checked;
-      });
-      this.$gridSettingInput.addEventListener("change", () => {
-        if (this.$gridSettingInput.checked) {
-          this.drawer.addGrid();
-        } else {
-          this.drawer.removeGrid();
-        }
-      });
-      this.$guidesSettingInput.addEventListener("change", () => {
-        this.drawer.options.guides = this.$guidesSettingInput.checked;
-      });
-      this.$opacitySettingInput.addEventListener("change", () => {
-        const opacity = Number(this.$opacitySettingInput.value);
-        this.drawer.options.opacity = opacity;
-        this.drawer.ctx.globalAlpha = opacity;
-      });
-      this.$xorSettingInput.addEventListener("change", () => {
-        this.xor = this.$xorSettingInput.checked;
-        this.drawer.options.xor = this.xor;
-        if (this.$xorSettingInput.checked) {
-          this.drawer.ctx.globalCompositeOperation = "xor";
-        } else {
-          this.drawer.ctx.globalCompositeOperation = "source-over";
-        }
-      });
-    }
-  }
-  const version = "1.1.3";
-  const coloris = "";
   var Coloris = function() {
     /*!
     * Copyright (c) 2021-2023 Momo Bassit.
@@ -1315,6 +1085,266 @@ var Drawer = function(exports) {
   Coloris.setInstance;
   Coloris.removeInstance;
   Coloris.updatePosition;
+  const modal = "";
+  function IconClose(w = 16, h = 16) {
+    return `<svg width="${w}" height="${h}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="m7 7l10 10M7 17L17 7"/>
+    </svg>`;
+  }
+  class Modal {
+    constructor(drawer2, options) {
+      __publicField(this, "$modal");
+      __publicField(this, "$modalHeader");
+      __publicField(this, "$modalBody");
+      __publicField(this, "$modalFooter");
+      __publicField(this, "options");
+      __publicField(this, "drawer");
+      __publicField(this, "$backdrop");
+      try {
+        this.drawer = drawer2;
+        this.options = { ...defaultOptionsModal, ...options };
+        this._init();
+        this._setupDefaultEvents();
+      } catch (error) {
+        throw new DrawerError(error.message);
+      }
+    }
+    _init() {
+      this._createModal();
+      this.setHeaderContent(
+        this.options.headerContent ?? `<h2 class="drawer-modal-title">${this.options.title ?? "Modal"}</h2><button title="Close" class="btn-close" data-modal="close">${IconClose(20, 20)}</button>`
+      );
+      this.setBodyContent(this.options.bodyContent ?? "");
+      this.setFooterContent(this.options.footerContent ?? "");
+    }
+    _setupDefaultEvents() {
+      const $closeBtn = this.$modalHeader.querySelector("[data-modal=close]");
+      if ($closeBtn) {
+        $closeBtn.addEventListener("click", () => {
+          this.hide();
+        });
+      }
+      if (this.options.closeOnClickOutside) {
+        document.addEventListener(
+          "click",
+          (event) => {
+            var _a, _b;
+            if (event.target) {
+              const outsideClick = !((_b = (_a = this.drawer.toolbar) == null ? void 0 : _a.$settingBtn) == null ? void 0 : _b.contains(event.target)) && !this.$modal.contains(event.target);
+              if (outsideClick) {
+                this.hide();
+              }
+            }
+          },
+          false
+        );
+      }
+    }
+    _createModal() {
+      this.$modal = stringToHTMLElement(
+        /*html*/
+        `
+    <div class="drawer-modal"></div>`
+      );
+      this.$modalHeader = stringToHTMLElement(
+        /*html*/
+        `
+      <div class="drawer-modal-header"></div>`
+      );
+      this.$modalBody = stringToHTMLElement(
+        /*html*/
+        `
+      <div class="drawer-modal-body"></div>`
+      );
+      this.$modalFooter = stringToHTMLElement(
+        /*html*/
+        `
+      <div class="drawer-modal-footer"></div>`
+      );
+      this.$modal.modal = this;
+      this.$modal.append(...[this.$modalHeader, this.$modalBody, this.$modalFooter]);
+      if (this.options.backdrop) {
+        this.$backdrop = stringToHTMLElement(
+          /*html*/
+          `
+      <div class="backdrop"></div>
+      `
+        );
+        this.$backdrop.append(this.$modal);
+        this.drawer.$drawerContainer.append(this.$backdrop);
+      } else {
+        this.drawer.$drawerContainer.append(this.$modal);
+      }
+    }
+    setHeaderContent(content) {
+      if (content) {
+        this.$modalHeader.innerHTML = content;
+      }
+    }
+    setBodyContent(content) {
+      this.$modalBody.innerHTML = content;
+    }
+    appendBodyContent(content) {
+      this.$modalBody.append(content);
+    }
+    setFooterContent(content) {
+      this.$modalFooter.innerHTML = content;
+    }
+    show() {
+      if (this.$backdrop) {
+        this.$backdrop.classList.add("show");
+      }
+      this.$modal.classList.add("show");
+    }
+    hide() {
+      if (this.$backdrop) {
+        this.$backdrop.classList.remove("show");
+      }
+      this.$modal.classList.remove("show");
+    }
+    isVisible() {
+      return this.$modal.classList.contains("show");
+    }
+    destroy() {
+      this.hide();
+      this.$modal.remove();
+    }
+  }
+  const GithubIcon = `<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path fill="currentColor" d="M12 2.247a10 10 0 0 0-3.162 19.487c.5.088.687-.212.687-.475c0-.237-.012-1.025-.012-1.862c-2.513.462-3.163-.613-3.363-1.175a3.636 3.636 0 0 0-1.025-1.413c-.35-.187-.85-.65-.013-.662a2.001 2.001 0 0 1 1.538 1.025a2.137 2.137 0 0 0 2.912.825a2.104 2.104 0 0 1 .638-1.338c-2.225-.25-4.55-1.112-4.55-4.937a3.892 3.892 0 0 1 1.025-2.688a3.594 3.594 0 0 1 .1-2.65s.837-.262 2.75 1.025a9.427 9.427 0 0 1 5 0c1.912-1.3 2.75-1.025 2.75-1.025a3.593 3.593 0 0 1 .1 2.65a3.869 3.869 0 0 1 1.025 2.688c0 3.837-2.338 4.687-4.563 4.937a2.368 2.368 0 0 1 .675 1.85c0 1.338-.012 2.413-.012 2.75c0 .263.187.575.687.475A10.005 10.005 0 0 0 12 2.247Z"/>
+</svg>`;
+  class SettingsModal extends Modal {
+    constructor(drawer2) {
+      super(drawer2, { title: "Settings" });
+      __publicField(this, "filled");
+      __publicField(this, "grid");
+      __publicField(this, "guides");
+      __publicField(this, "opacity");
+      __publicField(this, "xor");
+      __publicField(this, "bgColor");
+      __publicField(this, "drawer");
+      __publicField(this, "$fillSettingInput");
+      __publicField(this, "$gridSettingInput");
+      __publicField(this, "$guidesSettingInput");
+      __publicField(this, "$opacitySettingInput");
+      __publicField(this, "$xorSettingInput");
+      __publicField(this, "$bgCologSettingInput");
+      this.drawer = drawer2;
+      this.filled = drawer2.options.fill;
+      this.grid = drawer2.options.grid;
+      this.guides = drawer2.options.guides;
+      this.opacity = drawer2.options.opacity;
+      this.xor = drawer2.options.xor;
+      this.bgColor = drawer2.options.bgColor;
+      this.fill();
+      this._setupSelectors();
+      this._initEvents();
+    }
+    /**
+     * Fill the content modal
+     */
+    fill() {
+      this.setBodyContent(
+        /*html*/
+        `
+      <ul class="drawer-modal-body-list">
+        <li class="drawer-modal-body-list-item">
+          <label for="setting-bgcolor-${this.drawer.options.id}">Background color (🚨 this removing all draw)</label>
+          <input tabindex="-1" class="btn" id="setting-bgcolor-${this.drawer.options.id}"  name="bgcolor-${this.drawer.options.id}" type="texr" data-coloris value="${this.bgColor}"/>
+        </li>
+        <li class="drawer-modal-body-list-item">
+          <label for="setting-opacity-${this.drawer.options.id}">Global opacity (0.1 / 1)</label>
+          <input id="setting-opacity-${this.drawer.options.id}"  name="opacity-${this.drawer.options.id}" type="number" min="0.1" max="1" step="0.1" value="${this.opacity}"/>
+        </li>
+        <li class="drawer-modal-body-list-item">
+          <label for="setting-fill-${this.drawer.options.id}">Fill</label>
+          <input id="setting-fill-${this.drawer.options.id}" type="checkbox" name="fill-${this.drawer.options.id}" ${this.filled ? "checked" : ""}>
+        </li>
+        <li class="drawer-modal-body-list-item">
+          <label for="setting-grid-${this.drawer.options.id}">Grid (css only)</label>
+          <input id="setting-grid-${this.drawer.options.id}" type="checkbox" name="grid-${this.drawer.options.id}" ${this.grid ? "checked" : ""}>
+        </li>
+        <li class="drawer-modal-body-list-item">
+          <label for="setting-guides-${this.drawer.options.id}">Guides (shape's only)</label>
+          <input id="setting-guides-${this.drawer.options.id}" type="checkbox" name="guides-${this.drawer.options.id}" ${this.guides ? "checked" : ""}>
+        </li>
+        <li class="drawer-modal-body-list-item">
+          <label for="setting-xor-${this.drawer.options.id}">XOR (<a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation" target="_blank" />example</a>)</label>
+          <input id="setting-xor-${this.drawer.options.id}" type="checkbox" name="xor-${this.drawer.options.id}" ${this.xor ? "checked" : ""}>
+        </li>
+      </ul>
+    `
+      );
+      this.setFooterContent(
+        /*html*/
+        `<div class="drawer-modal-footer"><small>Version ${this.drawer.VERSION}</small><a class="link" target="_blank" title="Visit code source" href="https://github.com/fabwcie/drawer">${GithubIcon}</a></div>`
+      );
+      Coloris.init();
+      Coloris({
+        el: `#setting-bgcolor-${this.drawer.options.id}`,
+        theme: "polaroid",
+        swatches: this.drawer.options.availableColor,
+        swatchesOnly: this.drawer.options.availableColorOnly,
+        formatToggle: !this.drawer.options.availableColorOnly
+      });
+    }
+    _setupSelectors() {
+      this.$bgCologSettingInput = this.$modalBody.querySelector(
+        `#setting-bgcolor-${this.drawer.options.id}`
+      );
+      this.$fillSettingInput = this.$modalBody.querySelector(
+        `#setting-fill-${this.drawer.options.id}`
+      );
+      this.$gridSettingInput = this.$modalBody.querySelector(
+        `#setting-grid-${this.drawer.options.id}`
+      );
+      this.$guidesSettingInput = this.$modalBody.querySelector(
+        `#setting-guides-${this.drawer.options.id}`
+      );
+      this.$opacitySettingInput = this.$modalBody.querySelector(
+        `#setting-opacity-${this.drawer.options.id}`
+      );
+      this.$xorSettingInput = this.$modalBody.querySelector(`#setting-xor-${this.drawer.options.id}`);
+    }
+    _initEvents() {
+      this.$bgCologSettingInput.addEventListener("change", () => {
+        this.drawer.setBgColor(this.$bgCologSettingInput.value);
+      });
+      this.$fillSettingInput.addEventListener("change", () => {
+        this.drawer.options.fill = this.$fillSettingInput.checked;
+      });
+      this.$gridSettingInput.addEventListener("change", () => {
+        if (this.$gridSettingInput.checked) {
+          this.drawer.addGrid();
+        } else {
+          this.drawer.removeGrid();
+        }
+      });
+      this.$guidesSettingInput.addEventListener("change", () => {
+        this.drawer.options.guides = this.$guidesSettingInput.checked;
+      });
+      this.$opacitySettingInput.addEventListener("change", () => {
+        const opacity = Number(this.$opacitySettingInput.value);
+        if (opacity < 0 || opacity > 1) {
+          this.$opacitySettingInput.value = this.drawer.options.opacity.toString();
+          return;
+        }
+        this.drawer.options.opacity = opacity;
+        this.drawer.ctx.globalAlpha = opacity;
+      });
+      this.$xorSettingInput.addEventListener("change", () => {
+        this.xor = this.$xorSettingInput.checked;
+        this.drawer.options.xor = this.xor;
+        if (this.$xorSettingInput.checked) {
+          this.drawer.ctx.globalCompositeOperation = "xor";
+        } else {
+          this.drawer.ctx.globalCompositeOperation = "source-over";
+        }
+      });
+    }
+  }
+  const version = "1.1.6";
+  const coloris = "";
   const BrushIcon = `<svg width="16" height="16" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
 <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
     stroke-width="32"
@@ -1349,6 +1379,9 @@ var Drawer = function(exports) {
 </svg>`;
   const UploadIcon = `<svg width="16" height="16" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
 <path fill="currentColor" d="M238 136v64a14 14 0 0 1-14 14H32a14 14 0 0 1-14-14v-64a14 14 0 0 1 14-14h48a6 6 0 0 1 0 12H32a2 2 0 0 0-2 2v64a2 2 0 0 0 2 2h192a2 2 0 0 0 2-2v-64a2 2 0 0 0-2-2h-48a6 6 0 0 1 0-12h48a14 14 0 0 1 14 14ZM84.24 76.24L122 38.49V128a6 6 0 0 0 12 0V38.49l37.76 37.75a6 6 0 0 0 8.48-8.48l-48-48a6 6 0 0 0-8.48 0l-48 48a6 6 0 0 0 8.48 8.48ZM198 168a10 10 0 1 0-10 10a10 10 0 0 0 10-10Z"/>
+</svg>`;
+  const EllipseIcon = `<svg width="16" height="16" viewBox="0 0 2048 2048" xmlns="http://www.w3.org/2000/svg">
+<path fill="currentColor" d="M1024 256q131 0 268 27t264 85t233 144t175 206q41 71 62 147t22 159q0 82-21 158t-63 148q-68 119-174 206t-233 144t-264 84t-269 28q-131 0-268-27t-264-85t-233-144t-175-206q-41-71-62-147T0 1024q0-82 21-158t63-148q68-119 174-206t233-144t264-84t269-28zm0 1408q84 0 169-11t167-36t159-60t146-87q54-40 101-88t81-105t53-120t20-133q0-70-19-133t-54-119t-81-105t-101-89q-68-50-145-86t-160-61t-167-35t-169-12q-84 0-169 11t-167 36t-159 60t-146 87q-54 40-101 88t-81 105t-53 120t-20 133q0 70 19 133t54 119t81 105t101 89q68 50 145 86t160 61t167 35t169 12z"/>
 </svg>`;
   class Toolbar {
     constructor(drawer2, options) {
@@ -1615,7 +1648,6 @@ var Drawer = function(exports) {
      */
     addDrawGroupBtn(action) {
       return new Promise((resolve, reject) => {
-        var _a;
         try {
           if (this.$toolbar && !this.$drawGroupBtn && !this.$brushBtn && !this.$eraserBtn && !this.$textBtn) {
             let icon = BrushIcon;
@@ -1652,7 +1684,7 @@ var Drawer = function(exports) {
             this.$drawGroupBtn = $drawGroupBtn;
             this.$drawGroupMenu = $drawGroupMenu;
             this.$toolbar.appendChild($drawGroupBtn);
-            (_a = document.querySelector("body")) == null ? void 0 : _a.appendChild($drawGroupMenu);
+            this.drawer.$drawerContainer.appendChild($drawGroupMenu);
             $drawGroupBtn.addEventListener("click", () => {
               if (typeof action === "function") {
                 action.call(this, $drawGroupBtn);
@@ -1726,7 +1758,6 @@ var Drawer = function(exports) {
      */
     addShapeBtn(action) {
       return new Promise((resolve, reject) => {
-        var _a;
         try {
           if (this.$toolbar && !this.$shapeBtn) {
             const shapeBtn = (
@@ -1738,22 +1769,25 @@ var Drawer = function(exports) {
               `
             <ul class="drawer-menu">
               <li class="drawer-menu-item">
-                <button data-shape="triangle" class="btn triangle">${TriangleIcon}</button>
+                <button data-shape="triangle" class="btn triangle" title="${"Triangle"}">${TriangleIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="rect" class="btn rect">${RectIcon}</button>
+                <button data-shape="rect" class="btn rect" title="${"Rectangle"}">${RectIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="square" class="btn square">${SquareIcon}</button>
+                <button data-shape="square" class="btn square" title="${"Square"}">${SquareIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="line" class="btn line">${LineIcon}</button>
+                <button data-shape="line" class="btn line" title="${"Line"}">${LineIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="arrow" class="btn arrow">${ArrowIcon}</button>
+                <button data-shape="arrow" class="btn arrow" title="${"Arrow"}">${ArrowIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="circle" class="btn circle">${CircleIcon}</button>
+                <button data-shape="circle" class="btn circle" title="${"Circle"}">${CircleIcon}</button>
+              </li>
+              <li class="drawer-menu-item">
+                <button data-shape="ellipse" class="btn circle" title="${"Ellipse"}">${EllipseIcon}</button>
               </li>
             </ul>`
             );
@@ -1762,7 +1796,7 @@ var Drawer = function(exports) {
             this.$shapeBtn = $shapeBtn;
             this.$shapeMenu = $shapeMenu;
             this.$toolbar.appendChild(this.$shapeBtn);
-            (_a = document.querySelector("body")) == null ? void 0 : _a.appendChild(this.$shapeMenu);
+            this.drawer.$drawerContainer.appendChild(this.$shapeMenu);
             this.$shapeBtn.addEventListener("click", () => {
               if (typeof action === "function") {
                 action.call(this, $shapeBtn);
@@ -1847,7 +1881,7 @@ var Drawer = function(exports) {
               /*html*/
               `
             <div class="container-colorpicker">
-              <input class="btn" title="${"Color"}" id="colopicker-${this.drawer.options.id}" class="" type="text" value="${this.drawer.options.color}" data-coloris/>
+              <input class="btn" id="colopicker-${this.drawer.options.id}" class="" type="text" title="${"Color"}" value="${this.drawer.options.color}" data-coloris/>
             </div>
             `
             );
@@ -1855,6 +1889,9 @@ var Drawer = function(exports) {
             this.$toolbar.appendChild($colorPickerContainer);
             const $colorPicker = $colorPickerContainer.querySelector("input");
             this.$colorPicker = $colorPicker;
+            if (this.drawer.options.availableColorOnly && !this.drawer.options.availableColor.length) {
+              console.warn(`Option 'availableColorOnly' used with an empty 'availableColor' array.`);
+            }
             Coloris.init();
             Coloris({
               el: `#colopicker-${this.drawer.options.id}`,
@@ -1895,8 +1932,8 @@ var Drawer = function(exports) {
               /*html*/
               `
             <div class="container-uploadFile">
-              <input id="${this.drawer.options.id}-uploadfile" title="${"Color"}" class="" type="file" />
-              <label title="${"Upload file"}" accept="image/png, image/jpeg, .svg" class="btn" for="${this.drawer.options.id}-uploadfile">
+              <input tabindex="-1" id="${this.drawer.options.id}-uploadfile" title="${"Color"}" class="" type="file" />
+              <label tabindex="0" title="${"Upload file"}" accept="image/png, image/jpeg, .svg" class="btn" for="${this.drawer.options.id}-uploadfile">
                 ${UploadIcon}
               </label>
             </div>
@@ -1972,7 +2009,7 @@ var Drawer = function(exports) {
         if (this.$toolbar && !this.$settingBtn) {
           const settingBtn = (
             /*html*/
-            `<button title="${"Setting"}" class="btn">${SettingIcon}</button>`
+            `<button title="${"Settings"}" class="btn">${SettingIcon}</button>`
           );
           const $settingBtn = stringToHTMLElement(settingBtn);
           this.$settingBtn = $settingBtn;
@@ -2099,16 +2136,23 @@ var Drawer = function(exports) {
         $menu.classList.remove("show");
         return;
       }
-      let { bottom, left, top } = $btn.getBoundingClientRect();
-      const { width, height } = $menu.getBoundingClientRect();
-      if (left + width > window.innerWidth) {
-        left = left - (left + width - window.innerWidth) - getScrollbarWidth();
+      let x = $btn.offsetLeft;
+      let y = $btn.offsetTop + $btn.offsetHeight;
+      const width = $menu.offsetWidth;
+      const height = $menu.offsetHeight;
+      if (x + width > window.innerWidth) {
+        x = x - (x + width - window.innerWidth) - getScrollbarWidth();
       }
-      if (bottom + height > window.innerHeight) {
-        bottom = top - height - 5;
+      if (y + height > window.innerHeight) {
+        y = y - height - 5;
       }
-      $menu.style.top = bottom + 3 + "px";
-      $menu.style.left = left + "px";
+      $menu.style.top = y + 5 + "px";
+      if (this.options.toolbarPosition === "innerEnd") {
+        $menu.style.left = "";
+        $menu.style.right = x + "px";
+      } else {
+        $menu.style.left = x + "px";
+      }
       $menu.classList.add("show");
     }
     /**
@@ -2149,10 +2193,9 @@ var Drawer = function(exports) {
       __privateAdd(this, _dragStartLocation, void 0);
       __privateAdd(this, _snapshot, void 0);
       __privateAdd(this, _availableShape, [
-        "brush",
-        "eraser",
         "rect",
         "circle",
+        "ellipse",
         "square",
         "arrow",
         "line",
@@ -2169,7 +2212,16 @@ var Drawer = function(exports) {
         if ($el instanceof HTMLElement) {
           this.$sourceElement = $el;
           this.options = deepMerge(defaultOptionsDrawer, options);
-          this._init();
+          this._buildDrawer();
+          this.$sourceElement.appendChild(this.$drawerContainer);
+          this.setBgColor(this.options.bgColor);
+          this._initHandlerEvents();
+          this.setCanvas(this.$canvas);
+          this._updateCursor();
+          if (this.options.grid) {
+            this.addGrid();
+          }
+          this.$canvas.drawer = this;
           this.toolbar = new Toolbar(this, { toolbarPosition: this.options.toolbarPosition });
           const saved = localStorage.getItem(this.options.localStorageKey);
           if (saved && !this.isEmpty(saved)) {
@@ -2183,6 +2235,7 @@ var Drawer = function(exports) {
           if (this.options.dotted) {
             this.setDottedLine(true, this.options.dash);
           }
+          this.$sourceElement.dispatchEvent(DrawEvent("init", this));
         } else {
           throw new DrawerError(`element must be an instance of HTMLElement`);
         }
@@ -2210,27 +2263,6 @@ var Drawer = function(exports) {
         this.ctx = this.$canvas.getContext("2d", { willReadFrequently: true });
         this.ctx.globalAlpha = this.options.opacity;
         this.$drawerContainer.appendChild(this.$canvas);
-      } catch (error) {
-        throw new DrawerError(error.message);
-      }
-    }
-    /**
-     * @private
-     * initialize canvas and event listener
-     */
-    _init() {
-      try {
-        this._buildDrawer();
-        this.$sourceElement.appendChild(this.$drawerContainer);
-        this.setBgColor();
-        this._initHandlerEvents();
-        this.setCanvas(this.$canvas);
-        this._updateCursor();
-        if (this.options.grid) {
-          this.addGrid();
-        }
-        this.$canvas.drawer = this;
-        this.$sourceElement.dispatchEvent(DrawEvent("init", this));
       } catch (error) {
         throw new DrawerError(error.message);
       }
@@ -2291,15 +2323,18 @@ var Drawer = function(exports) {
       });
     }
     /**
-     * Change css canvas background color (ignored on export)
+     * Change canvas background color
      * @param bgColor canvas css background color
      * @returns {Promise<boolean>}
      */
     setBgColor(bgColor) {
       return new Promise((resolve, reject) => {
         try {
-          this.$canvas.style.backgroundColor = bgColor ?? this.options.bgColor;
+          this.options.bgColor = bgColor;
+          this.ctx.fillStyle = bgColor;
+          this.ctx.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
           this.$canvas.dispatchEvent(DrawEvent("update.bgColor", { bgColor }));
+          this.$canvas.dispatchEvent(DrawEvent("change"));
           resolve(true);
         } catch (error) {
           reject(new DrawerError(error.message));
@@ -2331,6 +2366,7 @@ var Drawer = function(exports) {
               case "star":
               case "arrow":
               case "circle":
+              case "ellipse":
               case "line":
               case "rect":
               case "triangle":
@@ -2353,7 +2389,7 @@ var Drawer = function(exports) {
     clear() {
       return new Promise((resolve, reject) => {
         try {
-          this.ctx.clearRect(0, 0, this.$canvas.width, this.$canvas.height);
+          this.ctx.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
           this.redo_list = [];
           this.undo_list = [];
           this.gridActive = false;
@@ -2427,7 +2463,7 @@ var Drawer = function(exports) {
     }
     /**
      * Change drawing shape
-     * @param {"rect" | "circle" | "square" | "arrow" | "line" | "star" | "triangle" | "polygon"} shape
+     * @param {keyof typeof DrawTools} shape
      */
     setShape(shape) {
       return new Promise((resolve, reject) => {
@@ -2453,6 +2489,9 @@ var Drawer = function(exports) {
                 break;
               case "circle":
                 icon = CircleIcon;
+                break;
+              case "ellipse":
+                icon = EllipseIcon;
                 break;
               case "arrow":
                 icon = ArrowIcon;
@@ -2528,9 +2567,7 @@ var Drawer = function(exports) {
     _startDraw(event) {
       if (this.activeTool === "text")
         return;
-      if (this.isShape()) {
-        __privateSet(this, _dragStartLocation, getMousePosition(this.$canvas, event));
-      }
+      __privateSet(this, _dragStartLocation, getMousePosition(this.$canvas, event));
       this.ctx.beginPath();
       this.isDrawing = true;
       this._takeSnapshot();
@@ -2554,7 +2591,7 @@ var Drawer = function(exports) {
       } else if (this.activeTool === "eraser") {
         this.ctx.globalCompositeOperation = "destination-out";
       } else {
-        throw new Error(`Drawerror : unknown active draw tool "${this.activeTool}"`);
+        throw new DrawerError(`unknown active draw tool "${this.activeTool}"`);
       }
       if (this.isShape()) {
         this._restoreSnapshot();
@@ -2595,26 +2632,42 @@ var Drawer = function(exports) {
       this.ctx.strokeStyle = this.options.color;
       this.ctx.fillStyle = this.options.color;
       this.ctx.lineCap = this.options.cap;
-      if (this.activeTool === "brush" || this.activeTool === "eraser") {
-        this._drawHand(position);
-      } else if (this.activeTool === "text") {
-        this._addTextArea(position);
-      } else if (this.activeTool === "line") {
-        this._drawLine(position);
-      } else if (this.activeTool === "rect") {
-        this._drawRect(position);
-      } else if (this.activeTool === "square") {
-        this._drawPolygon(position, 4, Math.PI / 4);
-      } else if (this.activeTool === "arrow") {
-        this._drawArrow(position);
-      } else if (this.activeTool === "triangle") {
-        const angle = Math.atan2(__privateGet(this, _dragStartLocation).y - position.y, __privateGet(this, _dragStartLocation).x - position.x) * 20 / Math.PI;
-        this._drawPolygon(position, 3, angle * Math.PI / 4);
-      } else if (this.activeTool === "polygon") {
-        const angle = 360 - Math.atan2(__privateGet(this, _dragStartLocation).y - position.y, __privateGet(this, _dragStartLocation).x - position.x) * 180 / Math.PI;
-        this._drawPolygon(position, 5, angle * (Math.PI / 180));
-      } else if (this.activeTool === "circle") {
-        this._drawCircle(position);
+      const angle = Math.atan2(__privateGet(this, _dragStartLocation).y - position.y, __privateGet(this, _dragStartLocation).x - position.x) * 20 / Math.PI;
+      switch (this.activeTool) {
+        case "brush":
+        case "eraser":
+          this._drawHand(position);
+          break;
+        case "text":
+          this._addTextArea(position);
+          break;
+        case "line":
+          this._drawLine(position);
+          break;
+        case "rect":
+          this._drawRect(position);
+          break;
+        case "square":
+          this._drawPolygon(position, 4, Math.PI / 4);
+          break;
+        case "triangle":
+          this._drawPolygon(position, 3, angle * Math.PI / 4);
+          break;
+        case "arrow":
+          this._drawArrow(position);
+          break;
+        case "polygon":
+          this._drawPolygon(position, 5, angle * (Math.PI / 180));
+          break;
+        case "circle":
+          this._drawCircle(position);
+          break;
+        case "ellipse":
+          this._drawEllipse(position);
+          break;
+        case "star":
+          console.log("Not implemented");
+          break;
       }
       if (this.options.fill && this.activeTool !== "eraser" && this.activeTool !== "brush" && this.activeTool !== "text") {
         this.ctx.fill();
@@ -2666,24 +2719,21 @@ var Drawer = function(exports) {
       this.ctx.fill();
       this.ctx.restore();
     }
-    // private _drawEllipse({x, y }: Position) {
-    //   const w = position.x - this.#dragStartLocation.x;
-    //   const h = position.y - this.#dragStartLocation.y;
-    //   const radius = Math.sqrt(
-    //     Math.pow(this.#dragStartLocation.x - position.x, 2) + Math.pow(this.#dragStartLocation.y - position.y, 2)
-    //   );
-    //   this.ctx.beginPath();
-    //   this.ctx.ellipse(
-    //     this.#dragStartLocation.x,
-    //     this.#dragStartLocation.y,
-    //     Math.abs(w),
-    //     Math.abs(h),
-    //     radius,
-    //     radius,
-    //     2 * Math.PI,
-    //     false
-    //   );
-    // }
+    _drawEllipse({ x, y }) {
+      const w = x - __privateGet(this, _dragStartLocation).x;
+      const h = y - __privateGet(this, _dragStartLocation).y;
+      const angle = Math.atan2(y - 100, x - 100);
+      this.ctx.beginPath();
+      this.ctx.ellipse(
+        __privateGet(this, _dragStartLocation).x,
+        __privateGet(this, _dragStartLocation).y,
+        Math.abs(w),
+        Math.abs(h),
+        angle,
+        0,
+        2 * Math.PI
+      );
+    }
     // private _drawStar(centerX: number, centerY: number, points: number, outer: number, inner: number) {
     //   // define the star
     //   this.ctx.beginPath();
@@ -2905,12 +2955,6 @@ var Drawer = function(exports) {
         }
         $textArea.remove();
         this.$canvas.dispatchEvent(DrawEvent("change", this.getData()));
-      });
-      $textArea.addEventListener("input", function() {
-        this.style.height = "auto";
-        this.style.height = this.scrollHeight + "px";
-        this.style.width = "auto";
-        this.style.width = this.scrollWidth + "px";
       });
       this.$drawerContainer.appendChild($textArea);
       $textArea.focus();

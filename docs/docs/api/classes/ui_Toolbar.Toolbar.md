@@ -67,11 +67,11 @@
 | Name | Type |
 | :------ | :------ |
 | `drawer` | [`Drawer`](Drawer.Drawer.md) |
-| `options` | [`ToolbarOptions`](../interfaces/types_toolbar.ToolbarOptions.md) |
+| `options` | [`ToolbarOptions`](../interfaces/types.ToolbarOptions.md) |
 
 #### Defined in
 
-[src/ui/Toolbar.ts:56](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L56)
+[src/ui/Toolbar.ts:55](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L55)
 
 ## Properties
 
@@ -81,7 +81,7 @@
 
 #### Defined in
 
-[src/ui/Toolbar.ts:39](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L39)
+[src/ui/Toolbar.ts:38](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L38)
 
 ___
 
@@ -91,7 +91,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:44](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L44)
+[src/ui/Toolbar.ts:43](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L43)
 
 ___
 
@@ -101,7 +101,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:47](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L47)
+[src/ui/Toolbar.ts:46](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L46)
 
 ___
 
@@ -111,7 +111,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:52](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L52)
+[src/ui/Toolbar.ts:51](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L51)
 
 ___
 
@@ -121,7 +121,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:46](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L46)
+[src/ui/Toolbar.ts:45](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L45)
 
 ___
 
@@ -131,7 +131,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:42](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L42)
+[src/ui/Toolbar.ts:41](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L41)
 
 ___
 
@@ -141,7 +141,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:43](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L43)
+[src/ui/Toolbar.ts:42](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L42)
 
 ___
 
@@ -151,7 +151,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:40](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L40)
+[src/ui/Toolbar.ts:39](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L39)
 
 ___
 
@@ -161,7 +161,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:45](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L45)
+[src/ui/Toolbar.ts:44](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L44)
 
 ___
 
@@ -171,7 +171,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:38](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L38)
+[src/ui/Toolbar.ts:37](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L37)
 
 ___
 
@@ -181,7 +181,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:51](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L51)
+[src/ui/Toolbar.ts:50](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L50)
 
 ___
 
@@ -191,7 +191,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:48](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L48)
+[src/ui/Toolbar.ts:47](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L47)
 
 ___
 
@@ -201,7 +201,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:49](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L49)
+[src/ui/Toolbar.ts:48](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L48)
 
 ___
 
@@ -211,7 +211,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:41](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L41)
+[src/ui/Toolbar.ts:40](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L40)
 
 ___
 
@@ -221,7 +221,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:36](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L36)
+[src/ui/Toolbar.ts:35](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L35)
 
 ___
 
@@ -231,7 +231,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:37](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L37)
+[src/ui/Toolbar.ts:36](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L36)
 
 ___
 
@@ -241,7 +241,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:50](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L50)
+[src/ui/Toolbar.ts:49](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L49)
 
 ___
 
@@ -255,7 +255,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:54](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L54)
+[src/ui/Toolbar.ts:53](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L53)
 
 ___
 
@@ -265,17 +265,17 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:33](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L33)
+[src/ui/Toolbar.ts:32](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L32)
 
 ___
 
 ### options
 
-• **options**: [`ToolbarOptions`](../interfaces/types_toolbar.ToolbarOptions.md)
+• **options**: [`ToolbarOptions`](../interfaces/types.ToolbarOptions.md)
 
 #### Defined in
 
-[src/ui/Toolbar.ts:34](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L34)
+[src/ui/Toolbar.ts:33](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L33)
 
 ## Methods
 
@@ -298,7 +298,7 @@ event for close menu on click outside
 
 #### Defined in
 
-[src/ui/Toolbar.ts:854](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L854)
+[src/ui/Toolbar.ts:869](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L869)
 
 ___
 
@@ -312,7 +312,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:807](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L807)
+[src/ui/Toolbar.ts:813](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L813)
 
 ___
 
@@ -335,7 +335,7 @@ Toggle show/hide menu
 
 #### Defined in
 
-[src/ui/Toolbar.ts:827](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L827)
+[src/ui/Toolbar.ts:833](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L833)
 
 ___
 
@@ -350,7 +350,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `action?` | [`action`](../modules/types_drawer.md#action)<`HTMLButtonElement`\> | method to call onclick |
+| `action?` | [`action`](../modules/types.md#action)<`HTMLButtonElement`\> | method to call onclick |
 
 #### Returns
 
@@ -358,7 +358,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:199](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L199)
+[src/ui/Toolbar.ts:198](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L198)
 
 ___
 
@@ -373,7 +373,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `action?` | [`action`](../modules/types_drawer.md#action)<`HTMLButtonElement`\> | method to call onclick |
+| `action?` | [`action`](../modules/types.md#action)<`HTMLButtonElement`\> | method to call onclick |
 
 #### Returns
 
@@ -381,7 +381,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:386](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L386)
+[src/ui/Toolbar.ts:385](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L385)
 
 ___
 
@@ -397,7 +397,7 @@ using Coloris, for customisation please see here [https://github.com/mdbassit/Co
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `action?` | [`action`](../modules/types_drawer.md#action)<`HTMLInputElement`\> | Action call after color selected |
+| `action?` | [`action`](../modules/types.md#action)<`HTMLInputElement`\> | Action call after color selected |
 
 #### Returns
 
@@ -405,7 +405,7 @@ using Coloris, for customisation please see here [https://github.com/mdbassit/Co
 
 #### Defined in
 
-[src/ui/Toolbar.ts:545](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L545)
+[src/ui/Toolbar.ts:547](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L547)
 
 ___
 
@@ -423,7 +423,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 | `name` | `string` | Button name (must be unique) |
 | `title` | `string` | Title for button |
 | `label` | `string` | Label or icon |
-| `action` | [`action`](../modules/types_drawer.md#action)<`HTMLButtonElement`\> | Action to do onclick |
+| `action` | [`action`](../modules/types.md#action)<`HTMLButtonElement`\> | Action to do onclick |
 
 #### Returns
 
@@ -431,7 +431,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:722](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L722)
+[src/ui/Toolbar.ts:728](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L728)
 
 ___
 
@@ -449,7 +449,7 @@ undo, redo, brush, eraser, text, clear, line thickness, colorpicker, upload, dow
 
 #### Defined in
 
-[src/ui/Toolbar.ts:100](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L100)
+[src/ui/Toolbar.ts:99](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L99)
 
 ___
 
@@ -464,7 +464,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `action?` | [`action`](../modules/types_drawer.md#action)<`HTMLButtonElement`\> | method to call onclick |
+| `action?` | [`action`](../modules/types.md#action)<`HTMLButtonElement`\> | method to call onclick |
 
 #### Returns
 
@@ -472,7 +472,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:645](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L645)
+[src/ui/Toolbar.ts:651](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L651)
 
 ___
 
@@ -487,7 +487,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `action?` | [`action`](../modules/types_drawer.md#action)<`HTMLButtonElement`\> | method to call onclick |
+| `action?` | [`action`](../modules/types.md#action)<`HTMLButtonElement`\> | method to call onclick |
 
 #### Returns
 
@@ -495,7 +495,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:307](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L307)
+[src/ui/Toolbar.ts:306](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L306)
 
 ___
 
@@ -510,7 +510,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `action?` | [`action`](../modules/types_drawer.md#action)<`HTMLButtonElement`\> | method to call onclick |
+| `action?` | [`action`](../modules/types.md#action)<`HTMLButtonElement`\> | method to call onclick |
 
 #### Returns
 
@@ -518,7 +518,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:235](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L235)
+[src/ui/Toolbar.ts:234](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L234)
 
 ___
 
@@ -533,7 +533,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `action?` | [`action`](../modules/types_drawer.md#action)<`HTMLInputElement`\> | method to call onclick |
+| `action?` | [`action`](../modules/types.md#action)<`HTMLInputElement`\> | method to call onclick |
 
 #### Returns
 
@@ -543,7 +543,7 @@ HTML input range element
 
 #### Defined in
 
-[src/ui/Toolbar.ts:497](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L497)
+[src/ui/Toolbar.ts:499](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L499)
 
 ___
 
@@ -558,7 +558,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `action?` | [`action`](../modules/types_drawer.md#action)<`HTMLButtonElement`\> | method to call onclick |
+| `action?` | [`action`](../modules/types.md#action)<`HTMLButtonElement`\> | method to call onclick |
 
 #### Returns
 
@@ -566,7 +566,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:160](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L160)
+[src/ui/Toolbar.ts:159](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L159)
 
 ___
 
@@ -581,7 +581,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `action?` | [`action`](../modules/types_drawer.md#action)<`HTMLButtonElement`\> | method to call onclick |
+| `action?` | [`action`](../modules/types.md#action)<`HTMLButtonElement`\> | method to call onclick |
 
 #### Returns
 
@@ -589,7 +589,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:685](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L685)
+[src/ui/Toolbar.ts:691](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L691)
 
 ___
 
@@ -604,7 +604,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `action?` | [`action`](../modules/types_drawer.md#action)<`HTMLButtonElement`\> | method to call onclick |
+| `action?` | [`action`](../modules/types.md#action)<`HTMLButtonElement`\> | method to call onclick |
 
 #### Returns
 
@@ -612,7 +612,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:424](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L424)
+[src/ui/Toolbar.ts:423](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L423)
 
 ___
 
@@ -627,7 +627,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `action?` | [`action`](../modules/types_drawer.md#action)<`HTMLButtonElement`\> | method to call onclick |
+| `action?` | [`action`](../modules/types.md#action)<`HTMLButtonElement`\> | method to call onclick |
 
 #### Returns
 
@@ -635,7 +635,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:271](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L271)
+[src/ui/Toolbar.ts:270](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L270)
 
 ___
 
@@ -653,7 +653,7 @@ HTML toolbar element
 
 #### Defined in
 
-[src/ui/Toolbar.ts:65](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L65)
+[src/ui/Toolbar.ts:64](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L64)
 
 ___
 
@@ -668,7 +668,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `action?` | [`action`](../modules/types_drawer.md#action)<`HTMLButtonElement`\> | method to call onclick |
+| `action?` | [`action`](../modules/types.md#action)<`HTMLButtonElement`\> | method to call onclick |
 
 #### Returns
 
@@ -676,7 +676,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:121](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L121)
+[src/ui/Toolbar.ts:120](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L120)
 
 ___
 
@@ -691,7 +691,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `action?` | [`action`](../modules/types_drawer.md#action)<`HTMLInputElement`\> | method to call onclick |
+| `action?` | [`action`](../modules/types.md#action)<`HTMLInputElement`\> | method to call onclick |
 
 #### Returns
 
@@ -701,7 +701,7 @@ HTML input range element
 
 #### Defined in
 
-[src/ui/Toolbar.ts:598](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L598)
+[src/ui/Toolbar.ts:604](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L604)
 
 ___
 
@@ -723,4 +723,4 @@ Apply active state to btn
 
 #### Defined in
 
-[src/ui/Toolbar.ts:757](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Toolbar.ts#L757)
+[src/ui/Toolbar.ts:763](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Toolbar.ts#L763)

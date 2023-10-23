@@ -48,11 +48,11 @@
 | Name | Type |
 | :------ | :------ |
 | `drawer` | [`Drawer`](Drawer.Drawer.md) |
-| `options?` | `Partial`<[`ModalOptions`](../interfaces/types_modal.ModalOptions.md)\> |
+| `options?` | `Partial`<[`ModalOptions`](../interfaces/types.ModalOptions.md)\> |
 
 #### Defined in
 
-[src/ui/Modal.ts:24](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Modal.ts#L24)
+[src/ui/Modal.ts:24](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Modal.ts#L24)
 
 ## Properties
 
@@ -62,7 +62,7 @@
 
 #### Defined in
 
-[src/ui/Modal.ts:22](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Modal.ts#L22)
+[src/ui/Modal.ts:22](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Modal.ts#L22)
 
 ___
 
@@ -72,7 +72,7 @@ ___
 
 #### Defined in
 
-[src/ui/Modal.ts:16](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Modal.ts#L16)
+[src/ui/Modal.ts:16](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Modal.ts#L16)
 
 ___
 
@@ -82,7 +82,7 @@ ___
 
 #### Defined in
 
-[src/ui/Modal.ts:18](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Modal.ts#L18)
+[src/ui/Modal.ts:18](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Modal.ts#L18)
 
 ___
 
@@ -92,7 +92,7 @@ ___
 
 #### Defined in
 
-[src/ui/Modal.ts:19](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Modal.ts#L19)
+[src/ui/Modal.ts:19](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Modal.ts#L19)
 
 ___
 
@@ -102,7 +102,7 @@ ___
 
 #### Defined in
 
-[src/ui/Modal.ts:17](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Modal.ts#L17)
+[src/ui/Modal.ts:17](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Modal.ts#L17)
 
 ___
 
@@ -112,17 +112,17 @@ ___
 
 #### Defined in
 
-[src/ui/Modal.ts:21](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Modal.ts#L21)
+[src/ui/Modal.ts:21](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Modal.ts#L21)
 
 ___
 
 ### options
 
-• **options**: [`ModalOptions`](../interfaces/types_modal.ModalOptions.md)
+• **options**: [`ModalOptions`](../interfaces/types.ModalOptions.md)
 
 #### Defined in
 
-[src/ui/Modal.ts:20](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Modal.ts#L20)
+[src/ui/Modal.ts:20](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Modal.ts#L20)
 
 ## Methods
 
@@ -142,7 +142,7 @@ ___
 
 #### Defined in
 
-[src/ui/Modal.ts:108](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Modal.ts#L108)
+[src/ui/Modal.ts:110](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Modal.ts#L110)
 
 ___
 
@@ -156,7 +156,7 @@ ___
 
 #### Defined in
 
-[src/ui/Modal.ts:134](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Modal.ts#L134)
+[src/ui/Modal.ts:136](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Modal.ts#L136)
 
 ___
 
@@ -170,7 +170,7 @@ ___
 
 #### Defined in
 
-[src/ui/Modal.ts:123](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Modal.ts#L123)
+[src/ui/Modal.ts:125](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Modal.ts#L125)
 
 ___
 
@@ -184,7 +184,7 @@ ___
 
 #### Defined in
 
-[src/ui/Modal.ts:130](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Modal.ts#L130)
+[src/ui/Modal.ts:132](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Modal.ts#L132)
 
 ___
 
@@ -204,7 +204,7 @@ ___
 
 #### Defined in
 
-[src/ui/Modal.ts:104](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Modal.ts#L104)
+[src/ui/Modal.ts:106](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Modal.ts#L106)
 
 ___
 
@@ -224,7 +224,7 @@ ___
 
 #### Defined in
 
-[src/ui/Modal.ts:112](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Modal.ts#L112)
+[src/ui/Modal.ts:114](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Modal.ts#L114)
 
 ___
 
@@ -244,7 +244,7 @@ ___
 
 #### Defined in
 
-[src/ui/Modal.ts:98](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Modal.ts#L98)
+[src/ui/Modal.ts:100](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Modal.ts#L100)
 
 ___
 
@@ -258,4 +258,4 @@ ___
 
 #### Defined in
 
-[src/ui/Modal.ts:116](https://github.com/fabwcie/drawer/blob/21e6e28/src/ui/Modal.ts#L116)
+[src/ui/Modal.ts:118](https://github.com/fabwcie/drawer/blob/e245821/src/ui/Modal.ts#L118)

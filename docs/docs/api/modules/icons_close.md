@@ -8,12 +8,37 @@
 
 - [CloseIcon](icons_close.md#closeicon)
 
+### Functions
+
+- [IconClose](icons_close.md#iconclose)
+
 ## Variables
 
 ### CloseIcon
 
-• `Const` **CloseIcon**: ``"<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\">\n<path fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"m7 7l10 10M7 17L17 7\"/>\n</svg>"``
+• `Const` **CloseIcon**: `string`
 
 #### Defined in
 
-[src/icons/close.ts:1](https://github.com/fabwcie/drawer/blob/21e6e28/src/icons/close.ts#L1)
+[src/icons/close.ts:1](https://github.com/fabwcie/drawer/blob/e245821/src/icons/close.ts#L1)
+
+## Functions
+
+### IconClose
+
+▸ **IconClose**(`w?`, `h?`): `string`
+
+#### Parameters
+
+| Name | Type | Default value |
+| :------ | :------ | :------ |
+| `w` | `number` | `16` |
+| `h` | `number` | `16` |
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+[src/icons/close.ts:3](https://github.com/fabwcie/drawer/blob/e245821/src/icons/close.ts#L3)

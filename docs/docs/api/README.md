@@ -48,7 +48,7 @@ Drawer instance stored into $canvas object directly, for example:
 const $canvas = document.getElementById('canvas');
 const drawer = $canvas.drawer;
 
-drawer.changeTool('eraser');
+drawer.setTool('eraser');
 // ...
 ```
 

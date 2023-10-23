@@ -64,7 +64,7 @@ window.addEventListener("resize", debouncedUpdateLayout);
 
 #### Defined in
 
-[src/utils/perf.ts:22](https://github.com/fabwcie/drawer/blob/21e6e28/src/utils/perf.ts#L22)
+[src/utils/perf.ts:22](https://github.com/fabwcie/drawer/blob/e245821/src/utils/perf.ts#L22)
 
 ___
 
@@ -93,13 +93,13 @@ Measure time executing function
 
 #### Defined in
 
-[src/utils/perf.ts:81](https://github.com/fabwcie/drawer/blob/21e6e28/src/utils/perf.ts#L81)
+[src/utils/perf.ts:81](https://github.com/fabwcie/drawer/blob/e245821/src/utils/perf.ts#L81)
 
 ___
 
 ### throttle
 
-▸ **throttle**<`T`\>(`func`, `limit?`): [`ThrottledFunction`](types_utils.md#throttledfunction)<`T`\>
+▸ **throttle**<`T`\>(`func`, `limit?`): [`ThrottledFunction`](types.md#throttledfunction)<`T`\>
 
 La fonction throttle permet d'éviter des appels consécutifs en introduisant un délai.
 Elle servira surtout lorsque l'on écoutera des évènements pouvant se produire un très
@@ -120,7 +120,7 @@ grand nombre de fois dans un intervalle de temps très court (scroll, resize, mo
 
 #### Returns
 
-[`ThrottledFunction`](types_utils.md#throttledfunction)<`T`\>
+[`ThrottledFunction`](types.md#throttledfunction)<`T`\>
 
 **`Example`**
 
@@ -139,4 +139,4 @@ window.addEventListener("scroll", throttledUpdateLayout);
 
 #### Defined in
 
-[src/utils/perf.ts:58](https://github.com/fabwcie/drawer/blob/21e6e28/src/utils/perf.ts#L58)
+[src/utils/perf.ts:58](https://github.com/fabwcie/drawer/blob/e245821/src/utils/perf.ts#L58)
