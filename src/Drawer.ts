@@ -510,7 +510,7 @@ export class Drawer extends History {
     } else if (this.activeTool === 'eraser') {
       this.ctx.globalCompositeOperation = 'destination-out';
     } else {
-      throw new Error(`Drawerror : unknown active draw tool "${this.activeTool}"`);
+      throw new DrawerError(`unknown active draw tool "${this.activeTool}"`);
     }
 
     if (this.isShape()) {
