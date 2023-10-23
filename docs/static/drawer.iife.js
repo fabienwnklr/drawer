@@ -2374,6 +2374,8 @@ var Drawer = function(exports) {
               case "eraser":
                 if (this.toolbar.$eraserBtn)
                   $btn = this.toolbar.$eraserBtn;
+                if (this.toolbar.$drawGroupMenu)
+                  $btn = this.toolbar.$drawGroupMenu.querySelector("[data-tool=eraser]");
                 break;
               case "square":
               case "star":
