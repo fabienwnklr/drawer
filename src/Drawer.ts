@@ -258,17 +258,17 @@ export class Drawer extends History {
       try {
         this.activeTool = toolName;
 
-        let $btn: HTMLButtonElement | null = null;
         if (this.toolbar.$toolbar) {
+          let $btn: HTMLButtonElement | null = null;
           switch (toolName) {
             case 'brush':
-              $btn = this.toolbar.$brushBtn;
+              if (this.toolbar.$brushBtn) $btn = this.toolbar.$brushBtn;
               break;
             case 'text':
-              $btn = this.toolbar.$textBtn;
+              if (this.toolbar.$textBtn) $btn = this.toolbar.$textBtn;
               break;
             case 'eraser':
-              $btn = this.toolbar.$eraserBtn;
+              if (this.toolbar.$eraserBtn)  $btn = this.toolbar.$eraserBtn;
               break;
             case 'square':
             case 'star':
@@ -278,10 +278,11 @@ export class Drawer extends History {
             case 'line':
             case 'rect':
             case 'triangle':
-              $btn = this.toolbar.$shapeBtn;
+              if (this.toolbar.$shapeBtn) $btn = this.toolbar.$shapeBtn;
+              break;
           }
 
-          this.toolbar.setActiveBtn($btn);
+          if ($btn) this.toolbar.setActiveBtn($btn);
           this.$canvas.dispatchEvent(DrawEvent('update.tool', { toolName }));
           resolve(true);
         }

@@ -760,12 +760,12 @@ export class Toolbar {
    * Apply active state to btn
    * @param {HTMLButtonElement} $btn Button to add active class
    */
-  setActiveBtn($btn: HTMLButtonElement | null) {
+  setActiveBtn($btn: HTMLButtonElement) {
     try {
       if (this.$toolbar) {
         this.$toolbar.querySelectorAll('.btn').forEach(($b) => $b.classList.remove('active'));
 
-        if (this.$drawGroupMenu) {
+        if (this.$drawGroupMenu && this.$drawGroupBtn) {
           this.$drawGroupMenu.querySelectorAll('.btn').forEach(($b) => $b.classList.remove('active'));
           $btn = this.$drawGroupBtn;
           let icon = BrushIcon;
@@ -779,8 +779,8 @@ export class Toolbar {
             title = 'Text zone';
           }
 
-          $btn!.innerHTML = icon;
-          $btn!.title = title;
+          $btn.innerHTML = icon;
+          $btn.title = title;
         }
 
         if (this.$shapeMenu) {
