@@ -1,4 +1,4 @@
 - ~~backdrop and menu in drawer container instead body~~
 - enhance icon gestion (class , function, other ?) see `icons/close.ts` for example
 - split toolbar tools into plugins / tools folder with file for each ? with abstract baseTool class cf https://github.com/personalizedrefrigerator/js-draw/blob/main/packages/js-draw/src/tools/Eraser.ts
--
+- add option 'tool' for init with custom tool
