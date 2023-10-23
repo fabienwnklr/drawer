@@ -2072,7 +2072,7 @@ class Toolbar {
     try {
       if (this.$toolbar) {
         this.$toolbar.querySelectorAll(".btn").forEach(($b) => $b.classList.remove("active"));
-        if (this.$drawGroupMenu) {
+        if (this.$drawGroupMenu && this.$drawGroupBtn) {
           this.$drawGroupMenu.querySelectorAll(".btn").forEach(($b) => $b.classList.remove("active"));
           $btn = this.$drawGroupBtn;
           let icon = BrushIcon;
@@ -2114,6 +2114,7 @@ class Toolbar {
     }
   }
   /**
+   * @private
    * Manage undo / redo button state
    */
   _manageUndoRedoBtn() {
@@ -2357,17 +2358,20 @@ class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         this.activeTool = toolName;
-        let $btn = null;
         if (this.toolbar.$toolbar) {
+          let $btn = null;
           switch (toolName) {
             case "brush":
-              $btn = this.toolbar.$brushBtn;
+              if (this.toolbar.$brushBtn)
+                $btn = this.toolbar.$brushBtn;
               break;
             case "text":
-              $btn = this.toolbar.$textBtn;
+              if (this.toolbar.$textBtn)
+                $btn = this.toolbar.$textBtn;
               break;
             case "eraser":
-              $btn = this.toolbar.$eraserBtn;
+              if (this.toolbar.$eraserBtn)
+                $btn = this.toolbar.$eraserBtn;
               break;
             case "square":
             case "star":
@@ -2377,9 +2381,12 @@ class Drawer extends History {
             case "line":
             case "rect":
             case "triangle":
-              $btn = this.toolbar.$shapeBtn;
+              if (this.toolbar.$shapeBtn)
+                $btn = this.toolbar.$shapeBtn;
+              break;
           }
-          this.toolbar.setActiveBtn($btn);
+          if ($btn)
+            this.toolbar.setActiveBtn($btn);
           this.$canvas.dispatchEvent(DrawEvent("update.tool", { toolName }));
           resolve(true);
         }
