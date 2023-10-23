@@ -2,6 +2,7 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'node:path';
 import dts from 'vite-plugin-dts';
+import watchAndRun from 'vite-plugin-watch-and-run'
 
 export default defineConfig({
   build: {
@@ -21,6 +22,16 @@ export default defineConfig({
       insertTypesEntry: true,
       rollupTypes: true
     }),
+    watchAndRun([
+      {
+        name: 'gen',
+        watchKind: ['add', 'change', 'unlink'],
+        watch: resolve("src/Drawer.ts"),
+        run: 'npm run build && npm run build:docs',
+        delay: 300,
+      },
+    ]),
+
   ],
   resolve: {
     alias: {
