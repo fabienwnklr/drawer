@@ -27,6 +27,7 @@ export interface DrawerOptions {
 export type action<T> = ($btn: T, value?: any) => void;
 
 export enum DrawTools {
+  select = 'select',
   brush = 'brush',
   eraser = 'eraser',
   text = 'text',

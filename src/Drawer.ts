@@ -1,8 +1,8 @@
 import './css/drawer.css';
-import { stringToHTMLElement } from './utils/dom';
 import { DrawerError } from './utils/DrawError';
 import { defaultOptionsDrawer } from './constants';
 import { DrawEvent } from './utils/DrawEvent';
+import Konva from 'konva';
 
 // Type import
 import type { DrawTools, DrawerOptions, Position } from './types/index';
@@ -21,7 +21,7 @@ import { ArrowIcon } from './icons/arrow';
 
 // Utils
 import { throttle } from './utils/perf';
-import { getMousePosition } from './utils/infos';
+// import { getMousePosition } from "./utils/infos";
 import { deepMerge } from './utils/utils';
 
 // UI
@@ -30,6 +30,8 @@ import { SettingsModal } from './ui/SettingsModal';
 import { version } from '../package.json';
 import { Toolbar } from './ui/Toolbar';
 import { EllipseIcon } from './icons/ellipse';
+import { KonvaEventObject } from 'konva/lib/Node';
+import { Vector2d } from 'konva/lib/types';
 
 declare global {
   interface HTMLCanvasElement {
@@ -57,14 +59,13 @@ declare global {
 export class Drawer extends History {
   declare ctx: CanvasRenderingContext2D;
   isDrawing: boolean = false;
-  activeTool: keyof typeof DrawTools = 'brush';
+  activeTool: keyof typeof DrawTools = defaultOptionsDrawer.tool;
   dotted: boolean = false;
   // options
   options: DrawerOptions = defaultOptionsDrawer;
   // HTML Elements
   declare $canvas: HTMLCanvasElement;
-  $sourceElement: HTMLElement;
-  $drawerContainer!: HTMLDivElement;
+  $sourceElement: HTMLDivElement;
   #dragStartLocation!: Position;
   #snapshot!: ImageData;
   #availableShape: Array<keyof typeof DrawTools> = [
@@ -82,17 +83,25 @@ export class Drawer extends History {
   gridActive!: boolean;
   VERSION = version;
   toolbar: Toolbar;
-  #cloneCanvas!: HTMLCanvasElement;
+  stage: Konva.Stage;
+  layer: Konva.Layer;
+  #lastPointerPosition!: Vector2d | null;
+  lastLine: any = null;
+  pos: any;
+  tr: Konva.Transformer;
+  selectionRange: Konva.Rect;
+  background!: Konva.Rect | null;
+  gridLines!: any[];
 
   /**
    *
-   * @param {HTMLElement} $el Container for drawer
+   * @param {HTMLDivElement} $el Div container for drawer
    * @param {Partial<DrawerOptions>} options options for drawer
    */
-  constructor($el: HTMLElement, options: Partial<DrawerOptions> = {}) {
+  constructor($el: HTMLDivElement, options: Partial<DrawerOptions> = {}) {
     super();
     try {
-      if ($el instanceof HTMLElement) {
+      if ($el instanceof HTMLDivElement) {
         this.$sourceElement = $el;
 
         // if no width, and container larger than default width
@@ -100,24 +109,42 @@ export class Drawer extends History {
           options.width = $el.offsetWidth;
         }
         this.options = deepMerge<DrawerOptions>(defaultOptionsDrawer, options);
-        this._buildDrawer();
-        this.$sourceElement.appendChild(this.$drawerContainer);
+        this.stage = new Konva.Stage({
+          container: this.$sourceElement,
+          width: this.options.width,
+          height: this.options.height,
+        });
+        this.$canvas = this.stage.toCanvas();
+        this.$sourceElement.tabIndex = 1;
+        this.layer = new Konva.Layer();
+        this.stage.add(this.layer);
+        this.tr = new Konva.Transformer();
+        this.selectionRange = new Konva.Rect({
+          fill: 'rgb(100, 108, 255, 0.4)',
+          visible: false,
+          name: 'selection',
+        });
+
         this.setBgColor(this.options.bgColor);
+        // Add layer after bg color, considere z-index auto incremtented in order to add()
+        this.layer.add(this.selectionRange);
+        this.layer.add(this.tr);
         this._initHandlerEvents();
-        this.setCanvas(this.$canvas);
-        this._updateCursor();
+        // this.setCanvas(this.$canvas);
 
         if (this.options.grid) {
           this.addGrid();
         }
 
         this.$canvas.drawer = this;
-        this.toolbar = new Toolbar(this, { toolbarPosition: this.options.toolbarPosition });
+        this.toolbar = new Toolbar(this, {
+          toolbarPosition: this.options.toolbarPosition,
+        });
 
         const saved = localStorage.getItem(this.options.localStorageKey);
 
         if (saved && !this.isEmpty(saved)) {
-          this.loadFromData(saved);
+          // this.loadFromData(saved);
         }
 
         if (this.options.defaultToolbar) {
@@ -139,29 +166,9 @@ export class Drawer extends History {
         throw new DrawerError(`element must be an instance of HTMLElement`);
       }
     } catch (error: any) {
-      throw new DrawerError(error.message);
+      throw new DrawerError(error);
     }
   }
-
-  /**
-   * Draw html drawer
-   */
-  private _buildDrawer() {
-    try {
-      this.$drawerContainer = stringToHTMLElement<HTMLDivElement>(/*html*/ `<div class="drawer-container"></div>`);
-      const canvas = /*html*/ `
-      <canvas tabindex="0" id="${this.options.id}" height="${this.options.height}" width="${this.options.width}" class="canvas-drawer"></canvas>
-      `;
-      this.$canvas = stringToHTMLElement<HTMLCanvasElement>(canvas);
-      this.#cloneCanvas = this.$canvas.cloneNode() as HTMLCanvasElement;
-      this.ctx = this.$canvas.getContext('2d', { willReadFrequently: true }) as CanvasRenderingContext2D;
-      this.ctx.globalAlpha = this.options.opacity;
-      this.$drawerContainer.appendChild(this.$canvas);
-    } catch (error: any) {
-      throw new DrawerError(error.message);
-    }
-  }
-
   /**
    * Set canvas sizing
    * @param {number} width Width
@@ -183,7 +190,7 @@ export class Drawer extends History {
           this.toolbar.$toolbar.style.maxHeight = this.$canvas.height + 'px';
         }
 
-        this.$canvas.dispatchEvent(DrawEvent('update.size', { setSize: { w: width, h: height } }));
+        this.$sourceElement.dispatchEvent(DrawEvent('update.size', { setSize: { w: width, h: height } }));
 
         resolve(true);
       } catch (error: any) {
@@ -198,7 +205,7 @@ export class Drawer extends History {
    */
   isEmpty(data?: string): boolean {
     data = data ?? this.getData();
-    return this.#cloneCanvas.toDataURL() === data;
+    return data ? true : false;
   }
 
   /**
@@ -218,7 +225,7 @@ export class Drawer extends History {
           // for update coloris component
           this.toolbar.$colorPicker.dispatchEvent(new Event('input', { bubbles: true }));
         }
-        this.$canvas.dispatchEvent(DrawEvent('update.color', { color }));
+        this.$sourceElement.dispatchEvent(DrawEvent('update.color', { color }));
 
         resolve(true);
       } catch (error: any) {
@@ -229,21 +236,37 @@ export class Drawer extends History {
 
   /**
    * Change canvas background color
-   * @param bgColor canvas css background color
+   * @param bgColor background color (hex, rgb, rgba, hsl, hsla)
    * @returns {Promise<boolean>}
    */
   setBgColor(bgColor: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       try {
-        this.options.bgColor = bgColor;
-        this.ctx.fillStyle = bgColor;
-        this.ctx.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
+        if (bgColor) {
+          if (this.background) {
+            this.background.fill(bgColor);
+          } else {
+            this.background = new Konva.Rect({
+              x: 0,
+              y: 0,
+              width: this.stage.width(),
+              height: this.stage.height(),
+              fill: this.options.bgColor,
+              // remove background from hit graph for better perf
+              // because we don't need any events on the background
+              listening: false,
+              draggable: false,
+              name: 'background',
+            });
+            this.layer.add(this.background);
+          }
+        }
 
-        this.$canvas.dispatchEvent(DrawEvent('update.bgColor', { bgColor }));
-        this.$canvas.dispatchEvent(DrawEvent('change'));
+        this.$sourceElement.dispatchEvent(DrawEvent('update.bgColor', { bgColor }));
+        this.$sourceElement.dispatchEvent(DrawEvent('change'));
         resolve(true);
       } catch (error: any) {
-        reject(new DrawerError(error.message));
+        reject(new DrawerError(error));
       }
     });
   }
@@ -268,8 +291,11 @@ export class Drawer extends History {
               if (this.toolbar.$textBtn) $btn = this.toolbar.$textBtn;
               break;
             case 'eraser':
-              if (this.toolbar.$eraserBtn)  $btn = this.toolbar.$eraserBtn;
+              if (this.toolbar.$eraserBtn) $btn = this.toolbar.$eraserBtn;
               if (this.toolbar.$drawGroupMenu) $btn = this.toolbar.$drawGroupMenu.querySelector('[data-tool=eraser]');
+              break;
+            case 'select':
+              if (this.toolbar.$selectBtn) $btn = this.toolbar.$selectBtn;
               break;
             case 'square':
             case 'star':
@@ -284,7 +310,7 @@ export class Drawer extends History {
           }
 
           if ($btn) this.toolbar.setActiveBtn($btn);
-          this.$canvas.dispatchEvent(DrawEvent('update.tool', { toolName }));
+          this.$sourceElement.dispatchEvent(DrawEvent('update.tool', { toolName }));
           resolve(true);
         }
       } catch (error: any) {
@@ -304,13 +330,15 @@ export class Drawer extends History {
         // Conserve current bgcolor ?
         // this.ctx.fillStyle = this.options.bgColor;
         // this.ctx.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
-        this.ctx.clearRect(0, 0, this.$canvas.width, this.$canvas.height);
+        this.layer.find('.rect, .line').forEach((sh) => {
+          sh.destroy();
+        });
         this.options.bgColor = defaultOptionsDrawer.bgColor;
         this.redo_list = [];
         this.undo_list = [];
         this.gridActive = false;
         this.toolbar._manageUndoRedoBtn();
-        this.$canvas.dispatchEvent(DrawEvent('change', this));
+        this.$sourceElement.dispatchEvent(DrawEvent('change', this));
 
         // After event, else save event triggered
         const saved = localStorage.getItem(this.options.localStorageKey);
@@ -425,7 +453,7 @@ export class Drawer extends History {
           this.toolbar.$shapeBtn.innerHTML = icon;
           this.toolbar.$shapeMenu?.classList.remove('show');
           this.setTool(shape);
-          this.$canvas.dispatchEvent(DrawEvent('update.shape', { shape }));
+          this.$sourceElement.dispatchEvent(DrawEvent('update.shape', { shape }));
           resolve(true);
         }
       } catch (error: any) {
@@ -451,7 +479,7 @@ export class Drawer extends History {
           this.ctx.setLineDash(dash);
         }
         this.dotted = active;
-        this.$canvas.dispatchEvent(DrawEvent('update.dotted', { dotted: active, dash }));
+        this.$sourceElement.dispatchEvent(DrawEvent('update.dotted', { dotted: active, dash }));
         resolve(true);
       } catch (error: any) {
         reject(new DrawerError(error.message));
@@ -461,12 +489,12 @@ export class Drawer extends History {
 
   /**
    * Set the line width
+   * @fires Drawer#drawer.update.lineThickness
    * @param {number} width Line width
    */
   setLineWidth(width: number) {
     try {
       this.options.lineThickness = width;
-      this.ctx.lineWidth = width;
 
       if (this.toolbar.$lineThickness) {
         const $counter = this.toolbar.$lineThickness.querySelector('.counter');
@@ -475,7 +503,7 @@ export class Drawer extends History {
         }
       }
 
-      this.$canvas.dispatchEvent(DrawEvent('update.lineThickness', { lineThickness: width }));
+      this.$sourceElement.dispatchEvent(DrawEvent('update.lineThickness', { lineThickness: width }));
     } catch (error: any) {
       throw new DrawerError(error.message);
     }
@@ -494,48 +522,84 @@ export class Drawer extends History {
    * @param {PointerEvent} event
    * @returns
    */
-  private _startDraw(event: PointerEvent) {
-    if (this.activeTool === 'text') return;
-    this.#dragStartLocation = getMousePosition(this.$canvas, event);
-    this.ctx.beginPath();
-    this.isDrawing = true;
-    this._takeSnapshot();
-    this.saveState();
-
-    if (this.activeTool !== 'brush' && this.activeTool !== 'eraser' && this.options.guides) {
-      const position = getMousePosition(this.$canvas, event);
-      this._drawGuides(position);
-      this._drawPointerDownArc(position);
+  private _startDraw(event: KonvaEventObject<PointerEvent>) {
+    if (event.target !== this.stage || event.evt.buttons !== 1) {
+      return;
     }
+    const $target = event.evt.target as HTMLElement;
+    if ($target?.classList.contains('toolbar') || this.toolbar.$toolbar.contains($target)) return;
+    event.evt.preventDefault();
+    const shapes = this.stage.find('.rect, .line');
+    if (this.activeTool === 'select') {
+      // active draggable for all draw
+      shapes.filter((shape) => !shape.draggable()).forEach((shape) => shape.draggable(true));
+
+      this.#lastPointerPosition = this.stage.getPointerPosition();
+
+      this.selectionRange.visible(true);
+      this.selectionRange.width(0);
+      this.selectionRange.height(0);
+      return;
+    }
+    shapes.filter((shape) => shape.draggable()).forEach((shape) => shape.draggable(false));
+    this.isDrawing = true;
+    const pos = this.stage.getPointerPosition() ?? { x: 0, y: 0 };
+    this.lastLine = new Konva.Line({
+      stroke: this.options.color,
+      strokeWidth: this.options.lineThickness,
+      globalCompositeOperation: this.activeTool === 'brush' ? 'source-over' : 'destination-out',
+      // round cap for smoother lines
+      lineCap: this.options.cap,
+      lineJoin: 'round',
+      // add point twice, so we have some drawings even on a simple click
+      points: [pos.x, pos.y, pos.x, pos.y],
+      name: 'line',
+    });
+    this.layer.add(this.lastLine);
   }
   /**
    * @private _drawing
    * @param {PointerEvent} event
    * @returns
    */
-  private _drawing(event: PointerEvent) {
-    if (event.buttons !== 1 || this.activeTool === 'text') return; // if isDrawing is false return from here
+  private _drawing(event: KonvaEventObject<PointerEvent>) {
+    // prevent scrolling on touch devices
+    event.evt.preventDefault();
+    if (!this.isDrawing) {
+      // do nothing if we didn't start selection
+      if (!this.selectionRange.visible()) {
+        return;
+      }
+      event.evt.preventDefault();
+      const x1 = this.#lastPointerPosition?.x ?? 0;
+      const x2 = this.stage.getPointerPosition()?.x ?? 0;
+      const y1 = this.#lastPointerPosition?.y ?? 0;
+      const y2 = this.stage.getPointerPosition()?.y ?? 0;
 
-    if (this.activeTool !== 'eraser') {
-      this.ctx.globalCompositeOperation = this.settingModal.xor ? 'xor' : 'source-over';
-    } else if (this.activeTool === 'eraser') {
-      this.ctx.globalCompositeOperation = 'destination-out';
-    } else {
-      throw new DrawerError(`unknown active draw tool "${this.activeTool}"`);
+      this.selectionRange.visible();
+      this.selectionRange.setAttrs({
+        x: Math.min(x1, x2),
+        y: Math.min(y1, y2),
+        width: Math.abs(x2 - x1),
+        height: Math.abs(y2 - y1),
+      });
+      return;
     }
 
-    if (this.isShape()) {
-      this._restoreSnapshot();
-    }
-    const position = getMousePosition(this.$canvas, event);
+    if (event.evt.buttons !== 1 || this.activeTool === 'text') return; // if isDrawing is false return from here
 
-    if (this.activeTool !== 'brush' && this.activeTool !== 'eraser' && this.options.guides) {
-      this._drawGuides(position);
-      this._drawPointerDownArc(this.#dragStartLocation);
-      this._drawRubberBandReference(position);
-    }
+    // if (this.isShape()) {
+    //   this._restoreSnapshot();
+    // }
+    // const position = getMousePosition(this.$canvas, event);
 
-    this._draw(position);
+    // if (this.activeTool !== 'brush' && this.activeTool !== 'eraser' && this.options.guides) {
+    //   this._drawGuides(position);
+    //   this._drawPointerDownArc(this.#dragStartLocation);
+    //   this._drawRubberBandReference(position);
+    // }
+
+    this._draw();
   }
 
   /**
@@ -543,18 +607,64 @@ export class Drawer extends History {
    * trigger when draw ended
    * @param {PointerEvent} event
    */
-  private _drawend(event: PointerEvent) {
-    if (event.pointerType !== 'mouse' || event.button === 0) {
-      if (this.isShape()) {
-        this._restoreSnapshot();
-      }
-      const position =
-        this.activeTool === 'text' ? { x: event.clientX, y: event.clientY } : getMousePosition(this.$canvas, event);
+  private _drawend(event: KonvaEventObject<PointerEvent>) {
+    event.evt.preventDefault();
+    this.isDrawing = false;
 
-      this.toolbar._manageUndoRedoBtn();
-      this._draw(position);
+    this.selectionRange.visible(false);
+
+    if (this.activeTool === 'select') {
+      const shapes = this.stage.find('.rect, .line');
+      const box = this.selectionRange.getClientRect();
+      const selected = shapes.filter((shape) => Konva.Util.haveIntersection(box, shape.getClientRect()));
+      // selected.forEach(sel => {
+      //   sel.on('mouseenter', () => {
+      //     this.$sourceElement.style.cursor = `move`;
+      //   })
+      //   sel.on('mouseleave', () => {
+      //     this.$sourceElement.style.cursor = `default`;
+      //   })
+      // })
+      this.tr.nodes(selected);
+    }
+    if (event.evt.pointerType !== 'mouse' || event.evt.button === 0) {
       this.isDrawing = false;
-      this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
+      this.$sourceElement.dispatchEvent(DrawEvent('change', this.getData()));
+    }
+  }
+
+  private _tap(event: KonvaEventObject<MouseEvent>) {
+    // if click on empty area - remove all selections
+    if (event.target === this.stage) {
+      this.tr.nodes([]);
+      return;
+    }
+
+    if (this.selectionRange.visible()) {
+      return;
+    }
+
+    // do nothing if clicked NOT on our rectangles
+    if (!event.target.hasName('rect')) {
+      // return;
+    }
+
+    const metaPressed = event.evt.shiftKey || event.evt.ctrlKey || event.evt.metaKey;
+    const isSelected = this.tr.nodes().indexOf(event.target) >= 0;
+
+    if (!metaPressed && !isSelected) {
+      this.tr.nodes([event.target]);
+    } else if (metaPressed && isSelected) {
+      // if we pressed keys and node was selected
+      // we need to remove it from selection:
+      const nodes = this.tr.nodes().slice(); // use slice to have new copy of array
+      // remove node from array
+      nodes.splice(nodes.indexOf(event.target), 1);
+      this.tr.nodes(nodes);
+    } else if (metaPressed && !isSelected) {
+      // add the node into selection
+      const nodes = this.tr.nodes().concat([event.target]);
+      this.tr.nodes(nodes);
     }
   }
 
@@ -566,66 +676,56 @@ export class Drawer extends History {
     this.ctx.putImageData(this.#snapshot, 0, 0);
   }
 
-  private _draw(position: Position) {
-    this.ctx.lineWidth = this.options.lineThickness; // passing brushSize as line width
-    this.ctx.strokeStyle = this.options.color; // passing selectedColor as stroke style
-    this.ctx.fillStyle = this.options.color; // passing selectedColor as fill style
-    this.ctx.lineCap = this.options.cap;
-    const angle =
-      (Math.atan2(this.#dragStartLocation.y - position.y, this.#dragStartLocation.x - position.x) * 20) / Math.PI;
+  private _draw() {
+    // this.ctx.lineWidth = this.options.lineThickness; // passing brushSize as line width
+    // this.ctx.strokeStyle = this.options.color; // passing selectedColor as stroke style
+    // this.ctx.fillStyle = this.options.color; // passing selectedColor as fill style
+    // this.ctx.lineCap = this.options.cap;
+    // const angle =
+    //   (Math.atan2(this.#dragStartLocation.y - position.y, this.#dragStartLocation.x - position.x) * 20) / Math.PI;
 
     switch (this.activeTool) {
       case 'brush':
       case 'eraser':
-        this._drawHand(position);
+        this._drawHand();
         break;
       case 'text':
-        this._addTextArea(position);
+        // this._addTextArea(position);
         break;
       case 'line':
-        this._drawLine(position);
+        // this._drawLine(position);
         break;
       case 'rect':
-        this._drawRect(position);
+        // this._drawRect(position);
         break;
       case 'square':
-        this._drawPolygon(position, 4, Math.PI / 4);
+        // this._drawPolygon(position, 4, Math.PI / 4);
         break;
       case 'triangle':
-        this._drawPolygon(position, 3, (angle * Math.PI) / 4);
+        // this._drawPolygon(position, 3, (angle * Math.PI) / 4);
         break;
       case 'arrow':
-        this._drawArrow(position);
+        // this._drawArrow(position);
         break;
       case 'polygon':
-        this._drawPolygon(position, 5, angle * (Math.PI / 180));
+        // this._drawPolygon(position, 5, angle * (Math.PI / 180));
         break;
       case 'circle':
-        this._drawCircle(position);
+        // this._drawCircle(position);
         break;
       case 'ellipse':
-        this._drawEllipse(position);
+        // this._drawEllipse(position);
         break;
       case 'star':
         console.log('Not implemented');
         break;
     }
-
-    if (
-      this.options.fill &&
-      this.activeTool !== 'eraser' &&
-      this.activeTool !== 'brush' &&
-      this.activeTool !== 'text'
-    ) {
-      this.ctx.fill();
-    } else {
-      this.ctx.stroke();
-    }
   }
 
-  private _drawHand({ x, y }: Position) {
-    this.ctx.lineTo(x, y);
-    this.ctx.stroke();
+  private _drawHand() {
+    const pos = this.stage.getPointerPosition() ?? { x: 0, y: 0 };
+    const newPoints = this.lastLine.points().concat([pos.x, pos.y]);
+    this.lastLine.points(newPoints);
   }
 
   private _drawLine({ x, y }: Position) {
@@ -744,31 +844,38 @@ export class Drawer extends History {
       try {
         this.clear();
         this.options.grid = true;
-        const gridCellSize = 40;
-        const width = this.$canvas.width;
-        const height = this.$canvas.height;
-        const lineWidth = 1;
-        const x = 0;
-        const y = 0;
+        const stepSize = 40;
+        const xSize = this.stage.width(),
+          ySize = this.stage.height(),
+          xSteps = Math.round(xSize / stepSize),
+          ySteps = Math.round(ySize / stepSize);
 
-        this.ctx.save();
-        this.ctx.beginPath();
-        this.ctx.lineWidth = lineWidth;
-        this.ctx.strokeStyle = '#d4d4d4';
+        this.gridLines = [];
 
-        for (let lx = x; lx <= x + width; lx += gridCellSize) {
-          this.ctx.moveTo(lx, y);
-          this.ctx.lineTo(lx, y + height);
+        // draw vertical lines
+        for (let i = 0; i <= xSteps; i++) {
+          const line = new Konva.Line({
+            x: i * stepSize,
+            points: [0, 0, 0, ySize],
+            stroke: 'rgba(0, 0, 0, 0.2)',
+            strokeWidth: 1,
+          });
+          this.gridLines.push(line);
+          this.layer.add(line);
+        }
+        //draw Horizontal lines
+        for (let i = 0; i <= ySteps; i++) {
+          const line = new Konva.Line({
+            y: i * stepSize,
+            points: [0, 0, xSize, 0],
+            stroke: 'rgba(0, 0, 0, 0.2)',
+            strokeWidth: 1,
+          });
+          this.gridLines.push(line);
+          this.layer.add(line);
         }
 
-        for (let ly = y; ly <= y + height; ly += gridCellSize) {
-          this.ctx.moveTo(x, ly);
-          this.ctx.lineTo(x + width, ly);
-        }
-
-        this.ctx.stroke();
-        this.ctx.closePath();
-        this.ctx.restore();
+        this.layer.batchDraw();
         resolve(true);
       } catch (error: any) {
         reject(new DrawerError(error.message));
@@ -897,20 +1004,23 @@ export class Drawer extends History {
     } else if (this.activeTool === 'eraser') {
       ctx.strokeStyle = this.options.color;
       ctx.stroke();
+    } else if (this.activeTool === 'select') {
+      this.$sourceElement.style.cursor = 'default';
+      return;
     } else if (this.isShape()) {
-      this.$canvas.style.cursor = 'crosshair';
+      this.$sourceElement.style.cursor = 'crosshair';
       return;
     } else {
       // Text
-      this.$canvas.style.cursor = `text`;
+      this.$sourceElement.style.cursor = `text`;
       return;
     }
 
     cursorCanvas.toBlob((blob) => {
       if (blob) {
-        URL.revokeObjectURL(this.$canvas.style.cursor);
+        URL.revokeObjectURL(this.$sourceElement.style.cursor);
         const cursorURL = URL.createObjectURL(blob);
-        this.$canvas.style.cursor = `url(${cursorURL}) ${rad / 2} ${rad / 2}, auto`;
+        this.$sourceElement.style.cursor = `url(${cursorURL}) ${rad / 2} ${rad / 2}, auto`;
       }
     });
   }
@@ -923,26 +1033,34 @@ export class Drawer extends History {
     this._drawing = throttle(this._drawing, 10);
     this._drawend = throttle(this._drawend, 10);
 
-    this.$canvas.addEventListener('pointerdown', this._startDraw.bind(this), false);
-    this.$canvas.addEventListener('pointermove', this._drawing.bind(this), false);
-    this.$canvas.addEventListener('pointerup', this._drawend.bind(this), false);
+    this.stage.on('pointerdown', this._startDraw.bind(this));
+    this.stage.on('pointermove', this._drawing.bind(this));
+    this.stage.on('pointerup', this._drawend.bind(this));
+    this.stage.on('click tap', this._tap.bind(this));
 
-    this.$canvas.addEventListener('drawer.update.color', this._updateCursor.bind(this));
-    this.$canvas.addEventListener('drawer.update.lineThickness', this._updateCursor.bind(this));
-    this.$canvas.addEventListener('drawer.update.tool', this._updateCursor.bind(this));
+    this.layer.on('add remove', () => {});
 
-    this.$canvas.addEventListener('keypress', (event: KeyboardEvent) => {
+    this.$sourceElement.addEventListener('drawer.update.color', this._updateCursor.bind(this));
+    this.$sourceElement.addEventListener('drawer.update.lineThickness', this._updateCursor.bind(this));
+    this.$sourceElement.addEventListener('drawer.update.tool', this._updateCursor.bind(this));
+
+    this.$sourceElement.addEventListener('keydown', (event: KeyboardEvent) => {
       if (event.ctrlKey) {
         if (event.code === 'KeyW') {
           this.undo().then(() => {
-            this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
+            this.$sourceElement.dispatchEvent(DrawEvent('change', this.getData()));
           });
         } else if (event.code === 'KeyY') {
           this.redo().then(() => {
-            this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
+            this.$sourceElement.dispatchEvent(DrawEvent('change', this.getData()));
           });
         }
         this.toolbar._manageUndoRedoBtn();
+      } else if (event.code === 'Backspace' || event.code === 'Delete') {
+        if (this.tr.nodes().length) {
+          this.tr._nodes.forEach((node) => node.destroy());
+          this.tr.nodes([]);
+        }
       }
     });
 
@@ -989,10 +1107,10 @@ export class Drawer extends History {
         }
       }
       $textArea.remove();
-      this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
+      this.$sourceElement.dispatchEvent(DrawEvent('change', this.getData()));
     });
 
-    this.$drawerContainer.appendChild($textArea);
+    // this.$drawerContainer.appendChild($textArea);
 
     $textArea.focus();
   }

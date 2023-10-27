@@ -27,6 +27,7 @@ import { getScrollbarWidth, stringToHTMLElement } from '../utils/dom';
 import { debounce } from '../utils/perf';
 import { deepMerge } from '../utils/utils';
 import type { action, DrawTools, ToolbarOptions } from '../types/index';
+import { SelectIcon } from '../icons/select';
 
 export class Toolbar {
   drawer: Drawer;
@@ -37,6 +38,7 @@ export class Toolbar {
   $redoBtn!: HTMLButtonElement | null;
   $brushBtn!: HTMLButtonElement | null;
   $eraserBtn!: HTMLButtonElement | null;
+  $selectBtn!: HTMLButtonElement | null;
   $textBtn!: HTMLButtonElement | null;
   $drawGroupBtn!: HTMLButtonElement | null;
   $drawGroupMenu!: HTMLUListElement | null;
@@ -72,13 +74,13 @@ export class Toolbar {
           this.$toolbar.style.maxHeight = this.drawer.$canvas.height + 'px';
 
           if (this.options.toolbarPosition === 'outerTop' || this.options.toolbarPosition === 'outerStart') {
-            this.drawer.$canvas.before(this.$toolbar);
+            this.drawer.stage.content.prepend(this.$toolbar);
           } else {
-            this.drawer.$drawerContainer.appendChild(this.$toolbar);
+            this.drawer.stage.content.appendChild(this.$toolbar);
           }
 
           if (this.options.toolbarPosition === 'outerStart' || this.options.toolbarPosition === 'outerEnd') {
-            this.drawer.$drawerContainer.style.display = 'flex';
+            this.drawer.stage.content.style.display = 'flex';
           }
 
           resolve(this.$toolbar);
@@ -101,6 +103,7 @@ export class Toolbar {
     this.addRedoBtn();
     this.addBrushBtn();
     this.addEraserBtn();
+    this.addSelectBtn();
     this.addTextBtn();
     this.addClearBtn();
     this.addShapeBtn();
@@ -262,6 +265,42 @@ export class Toolbar {
   }
 
   /**
+   * Add select button to toolbar if exist
+   * see {@link addToolbar} before use it
+   * @param {action<HTMLButtonElement>?} action method to call onclick
+   * @returns {Promise<HTMLButtonElement>}
+   */
+  addSelectBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
+    return new Promise((resolve, reject) => {
+      try {
+        if (this.$toolbar && !this.$selectBtn) {
+          const selectBtn = /*html*/ `<button title="${'Select'}" class="btn">${SelectIcon}</button>`;
+          const $selectBtn = stringToHTMLElement<HTMLButtonElement>(selectBtn);
+          this.$selectBtn = $selectBtn;
+
+          this.$toolbar.appendChild(this.$selectBtn);
+
+          this.$selectBtn.addEventListener('click', () => {
+            if (typeof action === 'function') {
+              action.call(this, $selectBtn);
+            } else {
+              this.drawer.setTool('select');
+            }
+          });
+
+          resolve(this.$selectBtn);
+        } else if (!this.$toolbar) {
+          reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
+        } else {
+          reject(new DrawerError(`Eraser button already added, you cannot add it again.`));
+        }
+      } catch (error: any) {
+        reject(new DrawerError(error.message));
+      }
+    });
+  }
+
+  /**
    * Add text button to toolbar if exist
    * see {@link addToolbar} before use it
    * @param {action<HTMLButtonElement>?} action method to call onclick
@@ -341,7 +380,7 @@ export class Toolbar {
           this.$drawGroupMenu = $drawGroupMenu;
 
           this.$toolbar.appendChild($drawGroupBtn);
-          this.drawer.$drawerContainer.appendChild($drawGroupMenu);
+          this.drawer.stage.content.appendChild($drawGroupMenu);
 
           $drawGroupBtn.addEventListener('click', () => {
             if (typeof action === 'function') {
@@ -395,10 +434,8 @@ export class Toolbar {
           this.$clearBtn.addEventListener('click', () => {
             if (typeof action === 'function') {
               action.call(this, $clearBtn);
-            } else if (!this.drawer.isEmpty()) {
-              if (confirm(`${'Voulez vous suppimer la totalité du dessin ?'}`)) {
-                this.drawer.clear();
-              }
+            } else if (confirm(`${'Voulez vous suppimer la totalité du dessin ?'}`)) {
+              this.drawer.clear();
             }
           });
 
@@ -429,25 +466,25 @@ export class Toolbar {
           const shapeMenu = /*html*/ `
             <ul class="drawer-menu">
               <li class="drawer-menu-item">
-                <button data-shape="triangle" class="btn triangle" title="${"Triangle"}">${TriangleIcon}</button>
+                <button data-shape="triangle" class="btn triangle" title="${'Triangle'}">${TriangleIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="rect" class="btn rect" title="${"Rectangle"}">${RectIcon}</button>
+                <button data-shape="rect" class="btn rect" title="${'Rectangle'}">${RectIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="square" class="btn square" title="${"Square"}">${SquareIcon}</button>
+                <button data-shape="square" class="btn square" title="${'Square'}">${SquareIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="line" class="btn line" title="${"Line"}">${LineIcon}</button>
+                <button data-shape="line" class="btn line" title="${'Line'}">${LineIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="arrow" class="btn arrow" title="${"Arrow"}">${ArrowIcon}</button>
+                <button data-shape="arrow" class="btn arrow" title="${'Arrow'}">${ArrowIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="circle" class="btn circle" title="${"Circle"}">${CircleIcon}</button>
+                <button data-shape="circle" class="btn circle" title="${'Circle'}">${CircleIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="ellipse" class="btn circle" title="${"Ellipse"}">${EllipseIcon}</button>
+                <button data-shape="ellipse" class="btn circle" title="${'Ellipse'}">${EllipseIcon}</button>
               </li>
             </ul>`;
 
@@ -458,7 +495,7 @@ export class Toolbar {
           this.$shapeMenu = $shapeMenu;
 
           this.$toolbar.appendChild(this.$shapeBtn);
-          this.drawer.$drawerContainer.appendChild(this.$shapeMenu);
+          this.drawer.stage.content.appendChild(this.$shapeMenu);
 
           this.$shapeBtn.addEventListener('click', () => {
             if (typeof action === 'function') {
@@ -857,7 +894,7 @@ export class Toolbar {
 
     $menu.style.top = y + 5 + 'px';
 
-    if (this.options.toolbarPosition === "innerEnd") {
+    if (this.options.toolbarPosition === 'innerEnd') {
       $menu.style.left = '';
       $menu.style.right = x + 'px';
     } else {

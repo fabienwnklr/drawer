@@ -74,6 +74,7 @@
     "vitest-canvas-mock": "^0.3.3"
   },
   "dependencies": {
-    "@melloware/coloris": "^0.21.1"
+    "@melloware/coloris": "^0.21.1",
+    "konva": "^9.2.2"
   }
 }

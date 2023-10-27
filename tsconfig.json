@@ -3,7 +3,7 @@
     "target": "ES2015",
     "useDefineForClassFields": true,
     "module": "ESNext",
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "lib": ["ESNext", "DOM", "DOM.Iterable", "ES6"],
     "skipLibCheck": true,
 
     /* Bundler mode */

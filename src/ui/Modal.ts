@@ -91,9 +91,9 @@ export class Modal {
       `);
       this.$backdrop.append(this.$modal);
 
-      this.drawer.$drawerContainer.append(this.$backdrop);
+      this.drawer.stage.content.append(this.$backdrop);
     } else {
-      this.drawer.$drawerContainer.append(this.$modal);
+      this.drawer.stage.content.append(this.$modal);
     }
   }
 
