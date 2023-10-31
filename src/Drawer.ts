@@ -32,6 +32,7 @@ import { Toolbar } from './ui/Toolbar';
 import { EllipseIcon } from './icons/ellipse';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { Vector2d } from 'konva/lib/types';
+import { stringToHTMLElement } from './utils/dom';
 
 declare global {
   interface HTMLCanvasElement {
@@ -86,12 +87,14 @@ export class Drawer extends History {
   stage: Konva.Stage;
   layer: Konva.Layer;
   #lastPointerPosition!: Vector2d | null;
-  lastLine: any = null;
+  lastLine: Konva.Line | null = null;
   pos: any;
   tr: Konva.Transformer;
   selectionRange: Konva.Rect;
   background!: Konva.Rect | null;
   gridLines!: any[];
+  $container: any;
+  hoverRect!: Konva.Rect | null;
 
   /**
    *
@@ -109,26 +112,44 @@ export class Drawer extends History {
           options.width = $el.offsetWidth;
         }
         this.options = deepMerge<DrawerOptions>(defaultOptionsDrawer, options);
-        this.stage = new Konva.Stage({
-          container: this.$sourceElement,
-          width: this.options.width,
-          height: this.options.height,
-        });
-        this.$canvas = this.stage.toCanvas();
-        this.$sourceElement.tabIndex = 1;
-        this.layer = new Konva.Layer();
-        this.stage.add(this.layer);
-        this.tr = new Konva.Transformer();
+        this.$container = stringToHTMLElement(`<div class="drawer-container"></div>`);
+        this.$sourceElement.append(this.$container);
+
         this.selectionRange = new Konva.Rect({
           fill: 'rgb(100, 108, 255, 0.4)',
           visible: false,
           name: 'selection',
         });
+        this.tr = new Konva.Transformer();
 
-        this.setBgColor(this.options.bgColor);
+        const saved = localStorage.getItem(this.options.localStorageKey);
+
+        if (saved) {
+          this.stage = Konva.Node.create(saved, this.$container);
+
+          if (this.stage.children[0]) {
+            this.layer = this.stage.children[0];
+          } else {
+            this.layer = new Konva.Layer();
+          this.stage.add(this.layer);
+          }
+        } else {
+          this.stage = new Konva.Stage({
+            container: this.$container,
+            width: this.options.width,
+            height: this.options.height,
+          });
+          this.layer = new Konva.Layer();
+          this.stage.add(this.layer);
+
+          this.setBgColor(this.options.bgColor);
+        }
         // Add layer after bg color, considere z-index auto incremtented in order to add()
-        this.layer.add(this.selectionRange);
         this.layer.add(this.tr);
+        this.layer.add(this.selectionRange);
+
+        this.$canvas = this.stage.toCanvas();
+        this.$sourceElement.tabIndex = 1;
         this._initHandlerEvents();
         // this.setCanvas(this.$canvas);
 
@@ -140,12 +161,6 @@ export class Drawer extends History {
         this.toolbar = new Toolbar(this, {
           toolbarPosition: this.options.toolbarPosition,
         });
-
-        const saved = localStorage.getItem(this.options.localStorageKey);
-
-        if (saved && !this.isEmpty(saved)) {
-          // this.loadFromData(saved);
-        }
 
         if (this.options.defaultToolbar) {
           this.toolbar.addToolbar();
@@ -394,7 +409,7 @@ export class Drawer extends History {
   saveDraw() {
     try {
       if (this.options.localStorageKey) {
-        localStorage.setItem(this.options.localStorageKey, this.getData());
+        localStorage.setItem(this.options.localStorageKey, this.stage.toJSON());
       } else {
         throw new DrawerError(`Error saving draw, options 'localStorageKey' is wrong.`);
       }
@@ -543,19 +558,22 @@ export class Drawer extends History {
     }
     shapes.filter((shape) => shape.draggable()).forEach((shape) => shape.draggable(false));
     this.isDrawing = true;
-    const pos = this.stage.getPointerPosition() ?? { x: 0, y: 0 };
-    this.lastLine = new Konva.Line({
-      stroke: this.options.color,
-      strokeWidth: this.options.lineThickness,
-      globalCompositeOperation: this.activeTool === 'brush' ? 'source-over' : 'destination-out',
-      // round cap for smoother lines
-      lineCap: this.options.cap,
-      lineJoin: 'round',
-      // add point twice, so we have some drawings even on a simple click
-      points: [pos.x, pos.y, pos.x, pos.y],
-      name: 'line',
-    });
-    this.layer.add(this.lastLine);
+
+    if (this.activeTool === 'brush') {
+      const pos = this.stage.getPointerPosition() ?? { x: 0, y: 0 };
+      this.lastLine = new Konva.Line({
+        stroke: this.options.color,
+        strokeWidth: this.options.lineThickness,
+        globalCompositeOperation: this.activeTool === 'brush' ? 'source-over' : 'destination-out',
+        // round cap for smoother lines
+        lineCap: this.options.cap,
+        lineJoin: 'round',
+        // add point twice, so we have some drawings even on a simple click
+        points: [pos.x, pos.y, pos.x, pos.y],
+        name: 'line',
+      });
+      this.layer.add(this.lastLine);
+    }
   }
   /**
    * @private _drawing
@@ -629,7 +647,9 @@ export class Drawer extends History {
     }
     if (event.evt.pointerType !== 'mouse' || event.evt.button === 0) {
       this.isDrawing = false;
-      this.$sourceElement.dispatchEvent(DrawEvent('change', this.getData()));
+      if (this.activeTool !== 'select') {
+        this.trigger('change');
+      }
     }
   }
 
@@ -723,9 +743,35 @@ export class Drawer extends History {
   }
 
   private _drawHand() {
+    if (!this.lastLine) return;
     const pos = this.stage.getPointerPosition() ?? { x: 0, y: 0 };
     const newPoints = this.lastLine.points().concat([pos.x, pos.y]);
     this.lastLine.points(newPoints);
+
+    this.lastLine.on('mouseenter', (event) => {
+      if (this.activeTool === "select") {
+        const { x, y, width, height } = event.target.getClientRect()
+        if (!this.hoverRect) {
+          this.hoverRect = new Konva.Rect({
+            x,
+            y,
+            width,
+            height,
+            stroke: "red",
+          })
+        }
+        this.layer.add(this.hoverRect)
+      }
+    });
+    this.lastLine.on('mouseleave', () => {
+      if (this.activeTool === "select" && this.hoverRect) {
+        this.hoverRect.remove();
+      }
+    });
+  }
+
+  trigger(event: string, data: any = this.getData()) {
+    this.$sourceElement.dispatchEvent(DrawEvent(event, data));
   }
 
   private _drawLine({ x, y }: Position) {
@@ -1065,8 +1111,9 @@ export class Drawer extends History {
     });
 
     if (this.options.autoSave) {
-      this.$canvas.addEventListener('drawer.change', this.saveDraw.bind(this));
+      this.$sourceElement.addEventListener('drawer.change', this.saveDraw.bind(this));
     }
+    this.$sourceElement.addEventListener('drawer.change', () => this.saveState());
   }
 
   /**

@@ -74,13 +74,13 @@ export class Toolbar {
           this.$toolbar.style.maxHeight = this.drawer.$canvas.height + 'px';
 
           if (this.options.toolbarPosition === 'outerTop' || this.options.toolbarPosition === 'outerStart') {
-            this.drawer.stage.content.prepend(this.$toolbar);
+            this.drawer.$container.prepend(this.$toolbar);
           } else {
-            this.drawer.stage.content.appendChild(this.$toolbar);
+            this.drawer.$container.appendChild(this.$toolbar);
           }
 
           if (this.options.toolbarPosition === 'outerStart' || this.options.toolbarPosition === 'outerEnd') {
-            this.drawer.stage.content.style.display = 'flex';
+            this.drawer.$container.style.display = 'flex';
           }
 
           resolve(this.$toolbar);
@@ -380,7 +380,7 @@ export class Toolbar {
           this.$drawGroupMenu = $drawGroupMenu;
 
           this.$toolbar.appendChild($drawGroupBtn);
-          this.drawer.stage.content.appendChild($drawGroupMenu);
+          this.drawer.$container.appendChild($drawGroupMenu);
 
           $drawGroupBtn.addEventListener('click', () => {
             if (typeof action === 'function') {
@@ -495,7 +495,7 @@ export class Toolbar {
           this.$shapeMenu = $shapeMenu;
 
           this.$toolbar.appendChild(this.$shapeBtn);
-          this.drawer.stage.content.appendChild(this.$shapeMenu);
+          this.drawer.$container.appendChild(this.$shapeMenu);
 
           this.$shapeBtn.addEventListener('click', () => {
             if (typeof action === 'function') {
