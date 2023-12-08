@@ -33,7 +33,7 @@ describe('API', () => {
   it('setSize', () => {
     const drawer = new Drawer(document.body.querySelector('#test') as HTMLDivElement);
 
-    drawer.setSize(500, 600);
+    drawer.setCanvasSize(500, 600);
     expect(drawer.$canvas.width).toEqual(500);
     expect(drawer.$canvas.height).toEqual(600);
     // check max-width update of toolbar

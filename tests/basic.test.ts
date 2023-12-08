@@ -37,7 +37,7 @@ describe('Basic', () => {
     const drawer = new Drawer(document.body.querySelector('#test') as HTMLDivElement);
 
     expect(drawer.toolbar.$toolbar).toBeInstanceOf(HTMLDivElement);
-    expect(drawer.toolbar.$toolbar.childElementCount).toEqual(12);
+    expect(drawer.toolbar.$toolbar.childElementCount).toEqual(14);
   });
 
   it('Init drawer with custom size', () => {

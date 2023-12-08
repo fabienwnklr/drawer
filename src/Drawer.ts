@@ -172,6 +172,8 @@ export class Drawer extends History {
   async setSize(width: number, height: number): Promise<boolean> {
     this.$drawerContainer.style.width = width + "px";
     this.$drawerContainer.style.height = height + "px";
+
+    this.$canvas.dispatchEvent(DrawEvent('update.size', { setSize: { w: width, h: height } }));
     return true;
   }
 
@@ -197,7 +199,7 @@ export class Drawer extends History {
           this.toolbar.$toolbar.style.maxHeight = this.$canvas.height + 'px';
         }
 
-        this.$canvas.dispatchEvent(DrawEvent('update.size', { setSize: { w: width, h: height } }));
+        this.$canvas.dispatchEvent(DrawEvent('update.canvasSize', { setSize: { w: width, h: height } }));
 
         resolve(true);
       } catch (error: any) {
