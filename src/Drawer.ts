@@ -170,8 +170,8 @@ export class Drawer extends History {
    * @returns {Promise<boolean>}
    */
   async setSize(width: number, height: number): Promise<boolean> {
-    this.$drawerContainer.style.width = width + "px";
-    this.$drawerContainer.style.height = height + "px";
+    this.$drawerContainer.style.width = width + 'px';
+    this.$drawerContainer.style.height = height + 'px';
 
     this.$canvas.dispatchEvent(DrawEvent('update.size', { setSize: { w: width, h: height } }));
     return true;
@@ -481,7 +481,8 @@ export class Drawer extends History {
   setLineWidth(width: number) {
     try {
       this.options.lineThickness = width;
-      this.options.eraserThickness = width * 2;
+      this.options.eraserThickness =
+        width > this.options.minEraserThickness ? width * 2 : this.options.minEraserThickness;
       this.ctx.lineWidth = width;
 
       if (this.toolbar.$lineThickness) {
@@ -583,7 +584,7 @@ export class Drawer extends History {
   }
 
   private _draw(position: Position) {
-    this.ctx.lineWidth = this.options.lineThickness; // passing brushSize as line width
+    this.ctx.lineWidth = this.activeTool === 'eraser' ? this.options.eraserThickness : this.options.lineThickness; // passing brushSize as line width
     this.ctx.strokeStyle = this.options.color; // passing selectedColor as stroke style
     this.ctx.fillStyle = this.options.color; // passing selectedColor as fill style
     this.ctx.lineCap = this.options.cap;
@@ -592,10 +593,7 @@ export class Drawer extends History {
 
     switch (this.activeTool) {
       case 'brush':
-        this._drawHand(position);
-        break;
       case 'eraser':
-        this.ctx.lineWidth = this.ctx.lineWidth * 2;
         this._drawHand(position);
         break;
       case 'text':
@@ -895,7 +893,11 @@ export class Drawer extends History {
    * Update cursor style
    */
   private _updateCursor() {
-    const rad = this.activeTool === 'eraser' ? this.options.eraserThickness : this.options.lineThickness;
+    const eraserThickness =
+      this.options.eraserThickness > this.options.minEraserThickness
+        ? this.options.eraserThickness
+        : this.options.minEraserThickness;
+    const rad = this.activeTool === 'eraser' ? eraserThickness : this.options.lineThickness;
     const cursorCanvas = document.createElement('canvas');
     const ctx = cursorCanvas.getContext('2d') as CanvasRenderingContext2D;
     cursorCanvas.width = cursorCanvas.height = rad;
