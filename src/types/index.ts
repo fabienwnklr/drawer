@@ -14,6 +14,7 @@ export interface DrawerOptions {
   color: string;
   bgColor: string;
   lineThickness: number;
+  eraserThickness: number;
   cap: CanvasLineCap;
   fill: boolean;
   availableColor: string[];

@@ -156,6 +156,7 @@ export class Drawer extends History {
       this.#cloneCanvas = this.$canvas.cloneNode() as HTMLCanvasElement;
       this.ctx = this.$canvas.getContext('2d', { willReadFrequently: true }) as CanvasRenderingContext2D;
       this.ctx.globalAlpha = this.options.opacity;
+      this.ctx.imageSmoothingEnabled = false;
       this.$drawerContainer.appendChild(this.$canvas);
     } catch (error: any) {
       throw new DrawerError(error.message);
@@ -171,12 +172,13 @@ export class Drawer extends History {
   setSize(width: number, height: number): Promise<boolean> {
     return new Promise((resolve, reject) => {
       try {
+        const isEmpty = this.isEmpty();
         const data = this.getData();
         this.$canvas.width = width;
         this.$canvas.height = height;
 
         // Apply data if not empty for prevent error
-        if (!this.isEmpty()) this.loadFromData(data);
+        if (!isEmpty) this.loadFromData(data);
 
         if (this.toolbar.$toolbar) {
           this.toolbar.$toolbar.style.maxWidth = this.$canvas.width + 'px';
@@ -236,8 +238,7 @@ export class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         this.options.bgColor = bgColor;
-        this.ctx.fillStyle = bgColor;
-        this.ctx.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
+        this.$canvas.style.backgroundColor = bgColor;
 
         this.$canvas.dispatchEvent(DrawEvent('update.bgColor', { bgColor }));
         this.$canvas.dispatchEvent(DrawEvent('change'));
@@ -268,7 +269,7 @@ export class Drawer extends History {
               if (this.toolbar.$textBtn) $btn = this.toolbar.$textBtn;
               break;
             case 'eraser':
-              if (this.toolbar.$eraserBtn)  $btn = this.toolbar.$eraserBtn;
+              if (this.toolbar.$eraserBtn) $btn = this.toolbar.$eraserBtn;
               if (this.toolbar.$drawGroupMenu) $btn = this.toolbar.$drawGroupMenu.querySelector('[data-tool=eraser]');
               break;
             case 'square':
@@ -466,6 +467,7 @@ export class Drawer extends History {
   setLineWidth(width: number) {
     try {
       this.options.lineThickness = width;
+      this.options.eraserThickness = width * 2;
       this.ctx.lineWidth = width;
 
       if (this.toolbar.$lineThickness) {
@@ -576,7 +578,10 @@ export class Drawer extends History {
 
     switch (this.activeTool) {
       case 'brush':
+        this._drawHand(position);
+        break;
       case 'eraser':
+        this.ctx.lineWidth = this.ctx.lineWidth * 2;
         this._drawHand(position);
         break;
       case 'text':
@@ -876,7 +881,7 @@ export class Drawer extends History {
    * Update cursor style
    */
   private _updateCursor() {
-    const rad = this.options.lineThickness;
+    const rad = this.activeTool === 'eraser' ? this.options.eraserThickness : this.options.lineThickness;
     const cursorCanvas = document.createElement('canvas');
     const ctx = cursorCanvas.getContext('2d') as CanvasRenderingContext2D;
     cursorCanvas.width = cursorCanvas.height = rad;

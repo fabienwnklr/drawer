@@ -27,6 +27,8 @@ import { getScrollbarWidth, stringToHTMLElement } from '../utils/dom';
 import { debounce } from '../utils/perf';
 import { deepMerge } from '../utils/utils';
 import type { action, DrawTools, ToolbarOptions } from '../types/index';
+import { ExpandIcon } from '../icons/expand';
+import { FullscreenIcon } from '../icons/fullscreen';
 
 export class Toolbar {
   drawer: Drawer;
@@ -47,6 +49,9 @@ export class Toolbar {
   $shapeBtn!: HTMLButtonElement | null;
   $shapeMenu!: HTMLUListElement | null;
   $uploadFile!: HTMLInputElement | null;
+  $pickColorBtn!: HTMLButtonElement | null;
+  $expandBtn!: HTMLButtonElement | null;
+  $fullscreenBtn!: HTMLButtonElement | null;
   $settingBtn!: HTMLButtonElement | null;
   $colorPickerLabel!: HTMLLabelElement;
 
@@ -108,6 +113,8 @@ export class Toolbar {
     this.addColorPickerBtn();
     this.addUploadFileBtn();
     this.addDownloadBtn();
+    this.addExpandButton();
+    this.addFullscreenButton();
     this.addSettingBtn();
   }
 
@@ -429,25 +436,25 @@ export class Toolbar {
           const shapeMenu = /*html*/ `
             <ul class="drawer-menu">
               <li class="drawer-menu-item">
-                <button data-shape="triangle" class="btn triangle" title="${"Triangle"}">${TriangleIcon}</button>
+                <button data-shape="triangle" class="btn triangle" title="${'Triangle'}">${TriangleIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="rect" class="btn rect" title="${"Rectangle"}">${RectIcon}</button>
+                <button data-shape="rect" class="btn rect" title="${'Rectangle'}">${RectIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="square" class="btn square" title="${"Square"}">${SquareIcon}</button>
+                <button data-shape="square" class="btn square" title="${'Square'}">${SquareIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="line" class="btn line" title="${"Line"}">${LineIcon}</button>
+                <button data-shape="line" class="btn line" title="${'Line'}">${LineIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="arrow" class="btn arrow" title="${"Arrow"}">${ArrowIcon}</button>
+                <button data-shape="arrow" class="btn arrow" title="${'Arrow'}">${ArrowIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="circle" class="btn circle" title="${"Circle"}">${CircleIcon}</button>
+                <button data-shape="circle" class="btn circle" title="${'Circle'}">${CircleIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="ellipse" class="btn circle" title="${"Ellipse"}">${EllipseIcon}</button>
+                <button data-shape="ellipse" class="btn circle" title="${'Ellipse'}">${EllipseIcon}</button>
               </li>
             </ul>`;
 
@@ -683,6 +690,130 @@ export class Toolbar {
   }
 
   /**
+   * Add pick color button select color on canvas
+   * see {@link addToolbar} before use it
+   * @param {action<HTMLButtonElement>?} action method to call onclick
+   * @returns {Promise<HTMLButtonElement>}
+   */
+  addPickColorButton(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
+    return new Promise((resolve, reject) => {
+      if (this.$toolbar && !this.$pickColorBtn) {
+        const pickColor = /*html*/ `<button title="${'Pick color'}" class="btn">${ExpandIcon}</button>`;
+        const $pickColorBtn = stringToHTMLElement<HTMLButtonElement>(pickColor);
+        this.$pickColorBtn = $pickColorBtn;
+
+        this.$toolbar.appendChild(this.$pickColorBtn);
+
+        this.$pickColorBtn.addEventListener('click', () => {
+          if (typeof action === 'function') {
+            action.call(this, $pickColorBtn);
+          } else {
+            const hoveredColor = document.getElementById('hovered-color');
+            const selectedColor = document.getElementById('selected-color');
+
+            const pick = (event: PointerEvent, destination: HTMLElement | null) => {
+              const bounding = this.drawer.$canvas.getBoundingClientRect();
+              const x = event.clientX - bounding.left;
+              const y = event.clientY - bounding.top;
+              const pixel = this.drawer.ctx.getImageData(x, y, 1, 1);
+              const data = pixel.data;
+
+              const rgba = `rgba(${data[0]}, ${data[1]}, ${data[2]}, ${data[3] / 255})`;
+
+              if (destination) {
+                destination.style.background = rgba;
+                destination.textContent = rgba;
+              }
+
+              if (event.type === 'pointerdown') {
+                this.drawer.setColor(rgba);
+              }
+
+              return rgba;
+            };
+
+            this.drawer.$canvas.addEventListener('pointermove', (event) => pick(event, hoveredColor));
+            this.drawer.$canvas.addEventListener('pointerdown', (event) => pick(event, selectedColor));
+          }
+        });
+
+        resolve(this.$pickColorBtn);
+      } else if (!this.$toolbar) {
+        reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
+      } else {
+        reject(new DrawerError(`Download button already added, you cannot add it again.`));
+      }
+    });
+  }
+
+  /**
+   * Add expand button for toggle size to full width / height of window
+   * see {@link addToolbar} before use it
+   * @param {action<HTMLButtonElement>?} action method to call onclick
+   * @returns {Promise<HTMLButtonElement>}
+   */
+  addExpandButton(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
+    return new Promise((resolve, reject) => {
+      if (this.$toolbar && !this.$expandBtn) {
+        const expand = /*html*/ `<button title="${'Expand'}" class="btn">${ExpandIcon}</button>`;
+        const $expandBtn = stringToHTMLElement<HTMLButtonElement>(expand);
+        this.$expandBtn = $expandBtn;
+
+        this.$toolbar.appendChild(this.$expandBtn);
+
+        this.$expandBtn.addEventListener('click', () => {
+          if (typeof action === 'function') {
+            action.call(this, $expandBtn);
+          } else {
+            this.drawer.$drawerContainer.style.width = '100%';
+            this.drawer.$drawerContainer.style.height = '100%';
+          }
+        });
+
+        resolve(this.$expandBtn);
+      } else if (!this.$toolbar) {
+        reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
+      } else {
+        reject(new DrawerError(`Download button already added, you cannot add it again.`));
+      }
+    });
+  }
+
+  /**
+   * Add expand button for toggle size to full width / height of window
+   * see {@link addToolbar} before use it
+   * @param {action<HTMLButtonElement>?} action method to call onclick
+   * @returns {Promise<HTMLButtonElement>}
+   */
+  addFullscreenButton(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
+    return new Promise((resolve, reject) => {
+      if (this.$toolbar && !this.$fullscreenBtn) {
+        const fullscreen = /*html*/ `<button title="${'Fullscreen'}" class="btn">${FullscreenIcon}</button>`;
+        const $fullscreenBtn = stringToHTMLElement<HTMLButtonElement>(fullscreen);
+        this.$fullscreenBtn = $fullscreenBtn;
+
+        this.$toolbar.appendChild(this.$fullscreenBtn);
+
+        this.$fullscreenBtn.addEventListener('click', () => {
+          if (typeof action === 'function') {
+            action.call(this, $fullscreenBtn);
+          } else {
+            this._toggleFullScreen(this.drawer.$drawerContainer);
+            this.drawer.$canvas.width = window.innerWidth;
+            this.drawer.$canvas.height = window.innerHeight;
+          }
+        });
+
+        resolve(this.$fullscreenBtn);
+      } else if (!this.$toolbar) {
+        reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
+      } else {
+        reject(new DrawerError(`Download button already added, you cannot add it again.`));
+      }
+    });
+  }
+
+  /**
    * Add a params button
    * see {@link addToolbar} before use it
    * @param {action<HTMLButtonElement>?} action method to call onclick
@@ -795,6 +926,14 @@ export class Toolbar {
     }
   }
 
+  private _toggleFullScreen($el: HTMLElement) {
+    if (!document.fullscreenElement) {
+      $el.requestFullscreen();
+    } else if (document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  }
+
   /**
    * @private
    * Upload file from input file
@@ -857,7 +996,7 @@ export class Toolbar {
 
     $menu.style.top = y + 5 + 'px';
 
-    if (this.options.toolbarPosition === "innerEnd") {
+    if (this.options.toolbarPosition === 'innerEnd') {
       $menu.style.left = '';
       $menu.style.right = x + 'px';
     } else {

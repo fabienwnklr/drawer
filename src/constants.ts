@@ -15,6 +15,7 @@ export const defaultOptionsDrawer: DrawerOptions = {
   bgColor: '#fff',
   color: '#000',
   lineThickness: 3,
+  eraserThickness: 6,
   dotted: false,
   dash: [10, 5],
   cap: 'round',
