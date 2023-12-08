@@ -189,7 +189,6 @@ export declare class Drawer extends History_2 {
     private _addTextArea;
 }
 
-/** Drawer */
 declare interface DrawerOptions {
     id: string;
     defaultToolbar: boolean;
@@ -204,8 +203,11 @@ declare interface DrawerOptions {
     color: string;
     bgColor: string;
     lineThickness: number;
-    minEraserThickness: number;
+    /**
+     * @note up to 15, is dynamically calculate options.lineTickness * 2
+     */
     eraserThickness: number;
+    minEraserThickness: number;
     cap: CanvasLineCap;
     fill: boolean;
     availableColor: string[];

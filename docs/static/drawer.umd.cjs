@@ -45,6 +45,8 @@ var __privateSet = (obj, member, value, setter) => {
     defaultToolbar: true,
     width: 400,
     height: 400,
+    canvasWidth: window.innerWidth * 1.5,
+    canvasHeight: window.innerHeight * 1.5,
     localStorageKey: "draw",
     tool: "brush",
     autoSave: true,
@@ -2405,7 +2407,7 @@ var __privateSet = (obj, member, value, setter) => {
         const canvas = (
           /*html*/
           `
-      <canvas tabindex="0" id="${this.options.id}" height="${this.options.height}" width="${this.options.width}" class="canvas-drawer"></canvas>
+      <canvas tabindex="0" id="${this.options.id}" height="${this.options.canvasHeight}" width="${this.options.canvasWidth}" class="canvas-drawer"></canvas>
       `
         );
         this.$canvas = stringToHTMLElement(canvas);
