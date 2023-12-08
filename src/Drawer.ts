@@ -117,7 +117,9 @@ export class Drawer extends History {
         const saved = localStorage.getItem(this.options.localStorageKey);
 
         if (saved && !this.isEmpty(saved)) {
-          this.loadFromData(saved);
+          const data = JSON.parse(saved);
+          this.loadFromData(data.data);
+          this.setBgColor(data.bgcolor);
         }
 
         if (this.options.defaultToolbar) {
@@ -150,13 +152,15 @@ export class Drawer extends History {
     try {
       this.$drawerContainer = stringToHTMLElement<HTMLDivElement>(/*html*/ `<div class="drawer-container"></div>`);
       const canvas = /*html*/ `
-      <canvas tabindex="0" id="${this.options.id}" height="${this.options.height}" width="${this.options.width}" class="canvas-drawer"></canvas>
+      <canvas tabindex="0" id="${this.options.id}" height="${this.options.canvasHeight}" width="${this.options.canvasWidth}" class="canvas-drawer"></canvas>
       `;
       this.$canvas = stringToHTMLElement<HTMLCanvasElement>(canvas);
       this.#cloneCanvas = this.$canvas.cloneNode() as HTMLCanvasElement;
       this.ctx = this.$canvas.getContext('2d', { willReadFrequently: true }) as CanvasRenderingContext2D;
       this.ctx.globalAlpha = this.options.opacity;
       this.ctx.imageSmoothingEnabled = false;
+      this.$drawerContainer.style.width = this.options.width + 'px';
+      this.$drawerContainer.style.height = this.options.height + 'px';
       this.$drawerContainer.appendChild(this.$canvas);
     } catch (error: any) {
       throw new DrawerError(error.message);
@@ -244,7 +248,7 @@ export class Drawer extends History {
   }
 
   /**
-   * Change canvas background color
+   * Change CSS canvas background color
    * @param bgColor canvas css background color
    * @returns {Promise<boolean>}
    */
@@ -255,6 +259,27 @@ export class Drawer extends History {
         this.$canvas.style.backgroundColor = bgColor;
 
         this.$canvas.dispatchEvent(DrawEvent('update.bgColor', { bgColor }));
+        this.$canvas.dispatchEvent(DrawEvent('change'));
+        resolve(true);
+      } catch (error: any) {
+        reject(new DrawerError(error.message));
+      }
+    });
+  }
+
+  /**
+   * Change canvas background color
+   * @param bgColor canvas css background color
+   * @returns {Promise<boolean>}
+   */
+  setCanvasBgColor(bgColor: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      try {
+        this.options.bgColor = bgColor;
+        this.ctx.fillStyle = bgColor;
+        this.ctx.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
+
+        this.$canvas.dispatchEvent(DrawEvent('update.canvas.bgColor', { bgColor }));
         this.$canvas.dispatchEvent(DrawEvent('change'));
         resolve(true);
       } catch (error: any) {
@@ -381,7 +406,7 @@ export class Drawer extends History {
   saveDraw() {
     try {
       if (this.options.localStorageKey) {
-        localStorage.setItem(this.options.localStorageKey, this.getData());
+        localStorage.setItem(this.options.localStorageKey, JSON.stringify({data: this.getData(), bgcolor: this.options.bgColor}));
       } else {
         throw new DrawerError(`Error saving draw, options 'localStorageKey' is wrong.`);
       }
@@ -396,6 +421,16 @@ export class Drawer extends History {
    */
   getData(): string {
     return this.$canvas.toDataURL('image/png');
+  }
+
+  async getImage(): Promise<HTMLImageElement> {
+    const img = new Image();
+
+    img.src = this.getData();
+
+    await img.decode();
+
+    return img;
   }
 
   /**

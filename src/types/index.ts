@@ -1,10 +1,10 @@
-/** Drawer */
-
 export interface DrawerOptions {
   id: string;
   defaultToolbar: boolean;
   height: number;
   width: number;
+  canvasWidth: number;
+  canvasHeight: number;
   localStorageKey: string;
   tool: keyof typeof DrawTools;
   dotted: boolean;
@@ -14,8 +14,11 @@ export interface DrawerOptions {
   color: string;
   bgColor: string;
   lineThickness: number;
-  minEraserThickness: number;
+  /**
+   * @note up to 15, is dynamically calculate options.lineTickness * 2
+   */
   eraserThickness: number;
+  minEraserThickness: number;
   cap: CanvasLineCap;
   fill: boolean;
   availableColor: string[];

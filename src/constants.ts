@@ -8,6 +8,8 @@ export const defaultOptionsDrawer: DrawerOptions = {
   defaultToolbar: true,
   width: 400,
   height: 400,
+  canvasWidth: window.innerWidth * 1.5,
+  canvasHeight: window.innerHeight * 1.5,
   localStorageKey: 'draw',
   tool: 'brush',
   autoSave: true,

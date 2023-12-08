@@ -9,8 +9,19 @@
 }
 
 .drawer-container {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: var(--drawer-border-radius);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
   position: relative;
+  z-index: 999;
   font-family: helvetica, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.drawer-container.expanded {
+  width: 100vw!important;
+  height: 100vh!important;
 }
 
 .toolbar {
@@ -115,6 +126,10 @@
   border-bottom-right-radius: var(--drawer-border-radius);
 }
 
+.toolbar .drawer-separator {
+  margin-left: auto;
+}
+
 .toolbar .container-colorpicker {
   position: relative;
   margin: 0.2em;
@@ -125,6 +140,7 @@
   height: 24px;
   border-radius: var(--drawer-border-radius);
 }
+
 .clr-field button {
   border-radius: var(--drawer-border-radius);
 }
@@ -146,8 +162,6 @@
 .drawer-container .canvas-drawer,
 .drawer-container .svg-drawer {
   position: relative !important;
-  border-radius: var(--drawer-border-radius);
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
 }
 
 .drawer-container .canvas-drawer.grid,
@@ -169,7 +183,7 @@
 }
 
 .drawer-container .link {
-  color: currentColor;
+  color: red;
   transition: .2s color ease;
 }
 
