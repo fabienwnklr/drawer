@@ -40,7 +40,7 @@ export class SettingsModal extends Modal {
     this.setBodyContent(/*html*/ `
       <ul class="drawer-modal-body-list">
         <li class="drawer-modal-body-list-item">
-          <label for="setting-bgcolor-${this.drawer.options.id}">Background color (🚨 this removing all draw)</label>
+          <label for="setting-bgcolor-${this.drawer.options.id}">Background color</label>
           <input tabindex="-1" class="btn" id="setting-bgcolor-${this.drawer.options.id}"  name="bgcolor-${
             this.drawer.options.id
           }" type="texr" data-coloris value="${this.bgColor}"/>

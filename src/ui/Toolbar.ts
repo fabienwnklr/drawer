@@ -113,9 +113,10 @@ export class Toolbar {
     this.addColorPickerBtn();
     this.addUploadFileBtn();
     this.addDownloadBtn();
+    this.addSettingBtn();
+    this.addSeparator();
     this.addExpandButton();
     this.addFullscreenButton();
-    this.addSettingBtn();
   }
 
   /**
@@ -668,8 +669,16 @@ export class Toolbar {
           if (typeof action === 'function') {
             action.call(this, $downloadBtn);
           } else {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+            // const img = await
+            canvas.width = this.drawer.options.width;
+            canvas.height = this.drawer.options.height;
+            ctx.fillStyle = this.drawer.options.bgColor;
+            ctx.fillRect(0, 0, this.drawer.options.width, this.drawer.options.height);
+            ctx.drawImage(this.drawer.$canvas, 0, 0);
             // Download
-            const data = this.drawer.$canvas.toDataURL('image/png');
+            const data = canvas.toDataURL('image/png');
             const $link = document.createElement('a');
 
             $link.download = this.drawer.$canvas.id || 'draw' + '.png';
@@ -765,8 +774,7 @@ export class Toolbar {
           if (typeof action === 'function') {
             action.call(this, $expandBtn);
           } else {
-            this.drawer.$drawerContainer.style.width = '100%';
-            this.drawer.$drawerContainer.style.height = '100%';
+            this.drawer.$drawerContainer.classList.toggle('expanded');
           }
         });
 
@@ -799,8 +807,6 @@ export class Toolbar {
             action.call(this, $fullscreenBtn);
           } else {
             this._toggleFullScreen(this.drawer.$drawerContainer);
-            this.drawer.$canvas.width = window.innerWidth;
-            this.drawer.$canvas.height = window.innerHeight;
           }
         });
 
@@ -885,6 +891,19 @@ export class Toolbar {
         reject(new DrawerError(`Custom button with name "${name}" already exist.`));
       }
     });
+  }
+
+  /**
+   * Add separator (ml-auto)
+   * @returns {boolean}
+   */
+  async addSeparator(): Promise<boolean> {
+    const separator = /*html*/ `<div class="drawer-separator"></div>`;
+    const $separator = stringToHTMLElement<HTMLButtonElement>(separator);
+
+    this.$toolbar.appendChild($separator);
+
+    return true;
   }
 
   /**
