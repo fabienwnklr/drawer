@@ -189,7 +189,7 @@ declare interface DrawerOptions {
     height: number;
     width: number;
     localStorageKey: string;
-    tool: keyof typeof DrawTools;
+    tool: string;
     dotted: boolean;
     dash: number[];
     autoSave: boolean;
@@ -431,17 +431,16 @@ declare class Toolbar {
      * Apply active state to btn
      * @param {HTMLButtonElement} $btn Button to add active class
      */
-    setActiveBtn($btn: HTMLButtonElement): void;
+    setActiveBtn($btn: HTMLButtonElement | null): void;
     /**
      * @private
      * Upload file from input file
      */
     private _uploadFile;
     /**
-     * @private
      * Manage undo / redo button state
      */
-    _manageUndoRedoBtn(): void;
+    private _manageUndoRedoBtn;
     /**
      * Toggle show/hide menu
      * @param $btn

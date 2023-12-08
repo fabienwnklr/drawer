@@ -2076,7 +2076,7 @@ var __privateSet = (obj, member, value, setter) => {
       try {
         if (this.$toolbar) {
           this.$toolbar.querySelectorAll(".btn").forEach(($b) => $b.classList.remove("active"));
-          if (this.$drawGroupMenu && this.$drawGroupBtn) {
+          if (this.$drawGroupMenu) {
             this.$drawGroupMenu.querySelectorAll(".btn").forEach(($b) => $b.classList.remove("active"));
             $btn = this.$drawGroupBtn;
             let icon = BrushIcon;
@@ -2118,7 +2118,6 @@ var __privateSet = (obj, member, value, setter) => {
       }
     }
     /**
-     * @private
      * Manage undo / redo button state
      */
     _manageUndoRedoBtn() {
@@ -2362,22 +2361,17 @@ var __privateSet = (obj, member, value, setter) => {
       return new Promise((resolve, reject) => {
         try {
           this.activeTool = toolName;
+          let $btn = null;
           if (this.toolbar.$toolbar) {
-            let $btn = null;
             switch (toolName) {
               case "brush":
-                if (this.toolbar.$brushBtn)
-                  $btn = this.toolbar.$brushBtn;
+                $btn = this.toolbar.$brushBtn;
                 break;
               case "text":
-                if (this.toolbar.$textBtn)
-                  $btn = this.toolbar.$textBtn;
+                $btn = this.toolbar.$textBtn;
                 break;
               case "eraser":
-                if (this.toolbar.$eraserBtn)
-                  $btn = this.toolbar.$eraserBtn;
-                if (this.toolbar.$drawGroupMenu)
-                  $btn = this.toolbar.$drawGroupMenu.querySelector("[data-tool=eraser]");
+                $btn = this.toolbar.$eraserBtn;
                 break;
               case "square":
               case "star":
@@ -2387,12 +2381,9 @@ var __privateSet = (obj, member, value, setter) => {
               case "line":
               case "rect":
               case "triangle":
-                if (this.toolbar.$shapeBtn)
-                  $btn = this.toolbar.$shapeBtn;
-                break;
+                $btn = this.toolbar.$shapeBtn;
             }
-            if ($btn)
-              this.toolbar.setActiveBtn($btn);
+            this.toolbar.setActiveBtn($btn);
             this.$canvas.dispatchEvent(DrawEvent("update.tool", { toolName }));
             resolve(true);
           }
