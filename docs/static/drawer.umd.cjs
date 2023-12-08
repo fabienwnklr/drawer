@@ -52,7 +52,8 @@ var __privateSet = (obj, member, value, setter) => {
     bgColor: "#fff",
     color: "#000",
     lineThickness: 3,
-    eraserThickness: 6,
+    eraserThickness: 15,
+    minEraserThickness: 15,
     dotted: false,
     dash: [10, 5],
     cap: "round",
@@ -2711,7 +2712,7 @@ var __privateSet = (obj, member, value, setter) => {
     setLineWidth(width) {
       try {
         this.options.lineThickness = width;
-        this.options.eraserThickness = width * 2;
+        this.options.eraserThickness = width > this.options.minEraserThickness ? width * 2 : this.options.minEraserThickness;
         this.ctx.lineWidth = width;
         if (this.toolbar.$lineThickness) {
           const $counter = this.toolbar.$lineThickness.querySelector(".counter");
@@ -2800,17 +2801,14 @@ var __privateSet = (obj, member, value, setter) => {
       this.ctx.putImageData(__privateGet(this, _snapshot), 0, 0);
     }
     _draw(position) {
-      this.ctx.lineWidth = this.options.lineThickness;
+      this.ctx.lineWidth = this.activeTool === "eraser" ? this.options.eraserThickness : this.options.lineThickness;
       this.ctx.strokeStyle = this.options.color;
       this.ctx.fillStyle = this.options.color;
       this.ctx.lineCap = this.options.cap;
       const angle = Math.atan2(__privateGet(this, _dragStartLocation).y - position.y, __privateGet(this, _dragStartLocation).x - position.x) * 20 / Math.PI;
       switch (this.activeTool) {
         case "brush":
-          this._drawHand(position);
-          break;
         case "eraser":
-          this.ctx.lineWidth = this.ctx.lineWidth * 2;
           this._drawHand(position);
           break;
         case "text":
@@ -3062,7 +3060,8 @@ var __privateSet = (obj, member, value, setter) => {
      * Update cursor style
      */
     _updateCursor() {
-      const rad = this.activeTool === "eraser" ? this.options.eraserThickness : this.options.lineThickness;
+      const eraserThickness = this.options.eraserThickness > this.options.minEraserThickness ? this.options.eraserThickness : this.options.minEraserThickness;
+      const rad = this.activeTool === "eraser" ? eraserThickness : this.options.lineThickness;
       const cursorCanvas = document.createElement("canvas");
       const ctx = cursorCanvas.getContext("2d");
       cursorCanvas.width = cursorCanvas.height = rad;

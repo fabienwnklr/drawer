@@ -204,6 +204,7 @@ declare interface DrawerOptions {
     color: string;
     bgColor: string;
     lineThickness: number;
+    minEraserThickness: number;
     eraserThickness: number;
     cap: CanvasLineCap;
     fill: boolean;
