@@ -42,12 +42,19 @@ export declare class Drawer extends History_2 {
      */
     private _buildDrawer;
     /**
-     * Set canvas sizing
+     * Set size of container
      * @param {number} width Width
      * @param {number} height Height
      * @returns {Promise<boolean>}
      */
     setSize(width: number, height: number): Promise<boolean>;
+    /**
+     * Set canvas sizing - / ! \ Careful; this method change ur current drawing !!! / ! \
+     * @param {number} width Width
+     * @param {number} height Height
+     * @returns {Promise<boolean>}
+     */
+    setCanvasSize(width: number, height: number): Promise<boolean>;
     /**
      * Check if canvas empty
      * @returns {boolean}
@@ -189,7 +196,7 @@ declare interface DrawerOptions {
     height: number;
     width: number;
     localStorageKey: string;
-    tool: string;
+    tool: keyof typeof DrawTools;
     dotted: boolean;
     dash: number[];
     autoSave: boolean;
@@ -197,6 +204,7 @@ declare interface DrawerOptions {
     color: string;
     bgColor: string;
     lineThickness: number;
+    eraserThickness: number;
     cap: CanvasLineCap;
     fill: boolean;
     availableColor: string[];
@@ -308,6 +316,9 @@ declare class Toolbar {
     $shapeBtn: HTMLButtonElement | null;
     $shapeMenu: HTMLUListElement | null;
     $uploadFile: HTMLInputElement | null;
+    $pickColorBtn: HTMLButtonElement | null;
+    $expandBtn: HTMLButtonElement | null;
+    $fullscreenBtn: HTMLButtonElement | null;
     $settingBtn: HTMLButtonElement | null;
     $colorPickerLabel: HTMLLabelElement;
     customBtn: {
@@ -411,6 +422,27 @@ declare class Toolbar {
      */
     addDownloadBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement>;
     /**
+     * Add pick color button select color on canvas
+     * see {@link addToolbar} before use it
+     * @param {action<HTMLButtonElement>?} action method to call onclick
+     * @returns {Promise<HTMLButtonElement>}
+     */
+    addPickColorButton(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement>;
+    /**
+     * Add expand button for toggle size to full width / height of window
+     * see {@link addToolbar} before use it
+     * @param {action<HTMLButtonElement>?} action method to call onclick
+     * @returns {Promise<HTMLButtonElement>}
+     */
+    addExpandButton(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement>;
+    /**
+     * Add expand button for toggle size to full width / height of window
+     * see {@link addToolbar} before use it
+     * @param {action<HTMLButtonElement>?} action method to call onclick
+     * @returns {Promise<HTMLButtonElement>}
+     */
+    addFullscreenButton(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement>;
+    /**
      * Add a params button
      * see {@link addToolbar} before use it
      * @param {action<HTMLButtonElement>?} action method to call onclick
@@ -431,16 +463,18 @@ declare class Toolbar {
      * Apply active state to btn
      * @param {HTMLButtonElement} $btn Button to add active class
      */
-    setActiveBtn($btn: HTMLButtonElement | null): void;
+    setActiveBtn($btn: HTMLButtonElement): void;
+    private _toggleFullScreen;
     /**
      * @private
      * Upload file from input file
      */
     private _uploadFile;
     /**
+     * @private
      * Manage undo / redo button state
      */
-    private _manageUndoRedoBtn;
+    _manageUndoRedoBtn(): void;
     /**
      * Toggle show/hide menu
      * @param $btn

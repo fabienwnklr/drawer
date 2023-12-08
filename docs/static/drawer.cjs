@@ -50,6 +50,7 @@ const defaultOptionsDrawer = {
   bgColor: "#fff",
   color: "#000",
   lineThickness: 3,
+  eraserThickness: 6,
   dotted: false,
   dash: [10, 5],
   cap: "round",
@@ -1384,6 +1385,15 @@ const UploadIcon = `<svg width="16" height="16" viewBox="0 0 256 256" xmlns="htt
 const EllipseIcon = `<svg width="16" height="16" viewBox="0 0 2048 2048" xmlns="http://www.w3.org/2000/svg">
 <path fill="currentColor" d="M1024 256q131 0 268 27t264 85t233 144t175 206q41 71 62 147t22 159q0 82-21 158t-63 148q-68 119-174 206t-233 144t-264 84t-269 28q-131 0-268-27t-264-85t-233-144t-175-206q-41-71-62-147T0 1024q0-82 21-158t63-148q68-119 174-206t233-144t264-84t269-28zm0 1408q84 0 169-11t167-36t159-60t146-87q54-40 101-88t81-105t53-120t20-133q0-70-19-133t-54-119t-81-105t-101-89q-68-50-145-86t-160-61t-167-35t-169-12q-84 0-169 11t-167 36t-159 60t-146 87q-54 40-101 88t-81 105t-53 120t-20 133q0 70 19 133t54 119t81 105t101 89q68 50 145 86t160 61t167 35t169 12z"/>
 </svg>`;
+const ExpandIcon = `<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path fill="currentColor" d="M18 18v2H4a2 2 0 0 1-2-2V8h2v10M22 6v8a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2m-2 0H8v8h12Z"></path>
+</svg>`;
+const FullscreenIcon = `<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<g fill="none">
+    <path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z"></path>
+    <path fill="currentColor" d="M4 15a1 1 0 0 1 1 1v3h3a1 1 0 1 1 0 2H5a2 2 0 0 1-2-2v-3a1 1 0 0 1 1-1Zm16 0a1 1 0 0 1 .993.883L21 16v3a2 2 0 0 1-1.85 1.995L19 21h-3a1 1 0 0 1-.117-1.993L16 19h3v-3a1 1 0 0 1 1-1ZM19 3a2 2 0 0 1 1.995 1.85L21 5v3a1 1 0 0 1-1.993.117L19 8V5h-3a1 1 0 0 1-.117-1.993L16 3h3ZM8 3a1 1 0 0 1 .117 1.993L8 5H5v3a1 1 0 0 1-1.993.117L3 8V5a2 2 0 0 1 1.85-1.995L5 3h3Z"></path>
+</g>
+</svg>`;
 class Toolbar {
   constructor(drawer2, options) {
     __publicField(this, "drawer");
@@ -1403,6 +1413,9 @@ class Toolbar {
     __publicField(this, "$shapeBtn");
     __publicField(this, "$shapeMenu");
     __publicField(this, "$uploadFile");
+    __publicField(this, "$pickColorBtn");
+    __publicField(this, "$expandBtn");
+    __publicField(this, "$fullscreenBtn");
     __publicField(this, "$settingBtn");
     __publicField(this, "$colorPickerLabel");
     __publicField(this, "customBtn", {});
@@ -1458,6 +1471,8 @@ class Toolbar {
     this.addColorPickerBtn();
     this.addUploadFileBtn();
     this.addDownloadBtn();
+    this.addExpandButton();
+    this.addFullscreenButton();
     this.addSettingBtn();
   }
   /**
@@ -2000,6 +2015,121 @@ class Toolbar {
     });
   }
   /**
+   * Add pick color button select color on canvas
+   * see {@link addToolbar} before use it
+   * @param {action<HTMLButtonElement>?} action method to call onclick
+   * @returns {Promise<HTMLButtonElement>}
+   */
+  addPickColorButton(action) {
+    return new Promise((resolve, reject) => {
+      if (this.$toolbar && !this.$pickColorBtn) {
+        const pickColor = (
+          /*html*/
+          `<button title="${"Pick color"}" class="btn">${ExpandIcon}</button>`
+        );
+        const $pickColorBtn = stringToHTMLElement(pickColor);
+        this.$pickColorBtn = $pickColorBtn;
+        this.$toolbar.appendChild(this.$pickColorBtn);
+        this.$pickColorBtn.addEventListener("click", () => {
+          if (typeof action === "function") {
+            action.call(this, $pickColorBtn);
+          } else {
+            const hoveredColor = document.getElementById("hovered-color");
+            const selectedColor = document.getElementById("selected-color");
+            const pick = (event, destination) => {
+              const bounding = this.drawer.$canvas.getBoundingClientRect();
+              const x = event.clientX - bounding.left;
+              const y = event.clientY - bounding.top;
+              const pixel = this.drawer.ctx.getImageData(x, y, 1, 1);
+              const data = pixel.data;
+              const rgba = `rgba(${data[0]}, ${data[1]}, ${data[2]}, ${data[3] / 255})`;
+              if (destination) {
+                destination.style.background = rgba;
+                destination.textContent = rgba;
+              }
+              if (event.type === "pointerdown") {
+                this.drawer.setColor(rgba);
+              }
+              return rgba;
+            };
+            this.drawer.$canvas.addEventListener("pointermove", (event) => pick(event, hoveredColor));
+            this.drawer.$canvas.addEventListener("pointerdown", (event) => pick(event, selectedColor));
+          }
+        });
+        resolve(this.$pickColorBtn);
+      } else if (!this.$toolbar) {
+        reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
+      } else {
+        reject(new DrawerError(`Download button already added, you cannot add it again.`));
+      }
+    });
+  }
+  /**
+   * Add expand button for toggle size to full width / height of window
+   * see {@link addToolbar} before use it
+   * @param {action<HTMLButtonElement>?} action method to call onclick
+   * @returns {Promise<HTMLButtonElement>}
+   */
+  addExpandButton(action) {
+    return new Promise((resolve, reject) => {
+      if (this.$toolbar && !this.$expandBtn) {
+        const expand = (
+          /*html*/
+          `<button title="${"Expand"}" class="btn">${ExpandIcon}</button>`
+        );
+        const $expandBtn = stringToHTMLElement(expand);
+        this.$expandBtn = $expandBtn;
+        this.$toolbar.appendChild(this.$expandBtn);
+        this.$expandBtn.addEventListener("click", () => {
+          if (typeof action === "function") {
+            action.call(this, $expandBtn);
+          } else {
+            this.drawer.$drawerContainer.style.width = "100%";
+            this.drawer.$drawerContainer.style.height = "100%";
+          }
+        });
+        resolve(this.$expandBtn);
+      } else if (!this.$toolbar) {
+        reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
+      } else {
+        reject(new DrawerError(`Download button already added, you cannot add it again.`));
+      }
+    });
+  }
+  /**
+   * Add expand button for toggle size to full width / height of window
+   * see {@link addToolbar} before use it
+   * @param {action<HTMLButtonElement>?} action method to call onclick
+   * @returns {Promise<HTMLButtonElement>}
+   */
+  addFullscreenButton(action) {
+    return new Promise((resolve, reject) => {
+      if (this.$toolbar && !this.$fullscreenBtn) {
+        const fullscreen = (
+          /*html*/
+          `<button title="${"Fullscreen"}" class="btn">${FullscreenIcon}</button>`
+        );
+        const $fullscreenBtn = stringToHTMLElement(fullscreen);
+        this.$fullscreenBtn = $fullscreenBtn;
+        this.$toolbar.appendChild(this.$fullscreenBtn);
+        this.$fullscreenBtn.addEventListener("click", () => {
+          if (typeof action === "function") {
+            action.call(this, $fullscreenBtn);
+          } else {
+            this._toggleFullScreen(this.drawer.$drawerContainer);
+            this.drawer.$canvas.width = window.innerWidth;
+            this.drawer.$canvas.height = window.innerHeight;
+          }
+        });
+        resolve(this.$fullscreenBtn);
+      } else if (!this.$toolbar) {
+        reject(new DrawerError(`No toolbar provided, please call 'addToolbar' method first`));
+      } else {
+        reject(new DrawerError(`Download button already added, you cannot add it again.`));
+      }
+    });
+  }
+  /**
    * Add a params button
    * see {@link addToolbar} before use it
    * @param {action<HTMLButtonElement>?} action method to call onclick
@@ -2074,7 +2204,7 @@ class Toolbar {
     try {
       if (this.$toolbar) {
         this.$toolbar.querySelectorAll(".btn").forEach(($b) => $b.classList.remove("active"));
-        if (this.$drawGroupMenu) {
+        if (this.$drawGroupMenu && this.$drawGroupBtn) {
           this.$drawGroupMenu.querySelectorAll(".btn").forEach(($b) => $b.classList.remove("active"));
           $btn = this.$drawGroupBtn;
           let icon = BrushIcon;
@@ -2100,6 +2230,13 @@ class Toolbar {
       throw new DrawerError(error.message);
     }
   }
+  _toggleFullScreen($el) {
+    if (!document.fullscreenElement) {
+      $el.requestFullscreen();
+    } else if (document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  }
   /**
    * @private
    * Upload file from input file
@@ -2116,6 +2253,7 @@ class Toolbar {
     }
   }
   /**
+   * @private
    * Manage undo / redo button state
    */
   _manageUndoRedoBtn() {
@@ -2271,30 +2409,44 @@ class Drawer extends History {
       __privateSet(this, _cloneCanvas, this.$canvas.cloneNode());
       this.ctx = this.$canvas.getContext("2d", { willReadFrequently: true });
       this.ctx.globalAlpha = this.options.opacity;
+      this.ctx.imageSmoothingEnabled = false;
       this.$drawerContainer.appendChild(this.$canvas);
     } catch (error) {
       throw new DrawerError(error.message);
     }
   }
   /**
-   * Set canvas sizing
+   * Set size of container
    * @param {number} width Width
    * @param {number} height Height
    * @returns {Promise<boolean>}
    */
-  setSize(width, height) {
+  async setSize(width, height) {
+    this.$drawerContainer.style.width = width + "px";
+    this.$drawerContainer.style.height = height + "px";
+    this.$canvas.dispatchEvent(DrawEvent("update.size", { setSize: { w: width, h: height } }));
+    return true;
+  }
+  /**
+   * Set canvas sizing - / ! \ Careful; this method change ur current drawing !!! / ! \
+   * @param {number} width Width
+   * @param {number} height Height
+   * @returns {Promise<boolean>}
+   */
+  setCanvasSize(width, height) {
     return new Promise((resolve, reject) => {
       try {
+        const isEmpty = this.isEmpty();
         const data = this.getData();
         this.$canvas.width = width;
         this.$canvas.height = height;
-        if (!this.isEmpty())
+        if (!isEmpty)
           this.loadFromData(data);
         if (this.toolbar.$toolbar) {
           this.toolbar.$toolbar.style.maxWidth = this.$canvas.width + "px";
           this.toolbar.$toolbar.style.maxHeight = this.$canvas.height + "px";
         }
-        this.$canvas.dispatchEvent(DrawEvent("update.size", { setSize: { w: width, h: height } }));
+        this.$canvas.dispatchEvent(DrawEvent("update.canvasSize", { setSize: { w: width, h: height } }));
         resolve(true);
       } catch (error) {
         reject(new DrawerError(error.message));
@@ -2340,8 +2492,7 @@ class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         this.options.bgColor = bgColor;
-        this.ctx.fillStyle = bgColor;
-        this.ctx.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
+        this.$canvas.style.backgroundColor = bgColor;
         this.$canvas.dispatchEvent(DrawEvent("update.bgColor", { bgColor }));
         this.$canvas.dispatchEvent(DrawEvent("change"));
         resolve(true);
@@ -2359,17 +2510,22 @@ class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         this.activeTool = toolName;
-        let $btn = null;
         if (this.toolbar.$toolbar) {
+          let $btn = null;
           switch (toolName) {
             case "brush":
-              $btn = this.toolbar.$brushBtn;
+              if (this.toolbar.$brushBtn)
+                $btn = this.toolbar.$brushBtn;
               break;
             case "text":
-              $btn = this.toolbar.$textBtn;
+              if (this.toolbar.$textBtn)
+                $btn = this.toolbar.$textBtn;
               break;
             case "eraser":
-              $btn = this.toolbar.$eraserBtn;
+              if (this.toolbar.$eraserBtn)
+                $btn = this.toolbar.$eraserBtn;
+              if (this.toolbar.$drawGroupMenu)
+                $btn = this.toolbar.$drawGroupMenu.querySelector("[data-tool=eraser]");
               break;
             case "square":
             case "star":
@@ -2379,9 +2535,12 @@ class Drawer extends History {
             case "line":
             case "rect":
             case "triangle":
-              $btn = this.toolbar.$shapeBtn;
+              if (this.toolbar.$shapeBtn)
+                $btn = this.toolbar.$shapeBtn;
+              break;
           }
-          this.toolbar.setActiveBtn($btn);
+          if ($btn)
+            this.toolbar.setActiveBtn($btn);
           this.$canvas.dispatchEvent(DrawEvent("update.tool", { toolName }));
           resolve(true);
         }
@@ -2550,6 +2709,7 @@ class Drawer extends History {
   setLineWidth(width) {
     try {
       this.options.lineThickness = width;
+      this.options.eraserThickness = width * 2;
       this.ctx.lineWidth = width;
       if (this.toolbar.$lineThickness) {
         const $counter = this.toolbar.$lineThickness.querySelector(".counter");
@@ -2645,7 +2805,10 @@ class Drawer extends History {
     const angle = Math.atan2(__privateGet(this, _dragStartLocation).y - position.y, __privateGet(this, _dragStartLocation).x - position.x) * 20 / Math.PI;
     switch (this.activeTool) {
       case "brush":
+        this._drawHand(position);
+        break;
       case "eraser":
+        this.ctx.lineWidth = this.ctx.lineWidth * 2;
         this._drawHand(position);
         break;
       case "text":
@@ -2897,7 +3060,7 @@ class Drawer extends History {
    * Update cursor style
    */
   _updateCursor() {
-    const rad = this.options.lineThickness;
+    const rad = this.activeTool === "eraser" ? this.options.eraserThickness : this.options.lineThickness;
     const cursorCanvas = document.createElement("canvas");
     const ctx = cursorCanvas.getContext("2d");
     cursorCanvas.width = cursorCanvas.height = rad;
