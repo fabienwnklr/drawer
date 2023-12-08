@@ -65,7 +65,7 @@
   background-color: transparent;
   border: none;
   transition: background-color 0.25s;
-  padding: 0.2em;
+  padding: 0.4em;
 }
 
 .drawer-modal .drawer-modal-header .btn-close:not(:disabled):hover {

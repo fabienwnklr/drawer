@@ -4,7 +4,7 @@ import { defaultOptionsModal } from '../constants';
 import { stringToHTMLElement } from '../utils/dom';
 import type { Drawer } from '../Drawer';
 import type { ModalOptions } from '../types/index';
-import { IconClose } from '../icons/close';
+import { CloseIcon } from '../icons/close';
 
 declare global {
   interface HTMLDivElement {
@@ -36,7 +36,7 @@ export class Modal {
     this._createModal();
     this.setHeaderContent(
       this.options.headerContent ??
-        `<h2 class="drawer-modal-title">${this.options.title ?? "Modal"}</h2><button title="Close" class="btn-close" data-modal="close">${IconClose(20, 20)}</button>`
+        `<h2 class="drawer-modal-title">${this.options.title ?? "Modal"}</h2><button title="Close" class="btn-close" data-modal="close">${CloseIcon}</button>`
     );
     this.setBodyContent(this.options.bodyContent ?? '');
     this.setFooterContent(this.options.footerContent ?? '');

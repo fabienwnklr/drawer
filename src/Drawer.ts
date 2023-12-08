@@ -167,6 +167,11 @@ export class Drawer extends History {
     }
   }
 
+  destroy() {
+    this.clear();
+    this.$drawerContainer.remove();
+  }
+
   /**
    * Set size of container
    * @param {number} width Width

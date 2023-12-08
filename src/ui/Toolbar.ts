@@ -29,6 +29,7 @@ import { deepMerge } from '../utils/utils';
 import type { action, DrawTools, ToolbarOptions } from '../types/index';
 import { ExpandIcon } from '../icons/expand';
 import { FullscreenIcon } from '../icons/fullscreen';
+import { CloseIcon } from '../icons/close';
 
 export class Toolbar {
   drawer: Drawer;
@@ -53,7 +54,8 @@ export class Toolbar {
   $expandBtn!: HTMLButtonElement | null;
   $fullscreenBtn!: HTMLButtonElement | null;
   $settingBtn!: HTMLButtonElement | null;
-  $colorPickerLabel!: HTMLLabelElement;
+  $closeBtn!: HTMLButtonElement | null;
+  $colorPickerLabel!: HTMLLabelElement | null;
 
   customBtn: { [key: string]: HTMLButtonElement } = {};
 
@@ -117,6 +119,7 @@ export class Toolbar {
     this.addSeparator();
     this.addExpandButton();
     this.addFullscreenButton();
+    this.addCloseButton();
   }
 
   /**
@@ -788,7 +791,7 @@ export class Toolbar {
   }
 
   /**
-   * Add expand button for toggle size to full width / height of window
+   * Add fullscreen button for toggle fullscreen native
    * see {@link addToolbar} before use it
    * @param {action<HTMLButtonElement>?} action method to call onclick
    * @returns {Promise<HTMLButtonElement>}
@@ -817,6 +820,25 @@ export class Toolbar {
         reject(new DrawerError(`Download button already added, you cannot add it again.`));
       }
     });
+  }
+
+  async addCloseButton(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement | undefined> {
+    if (this.$toolbar && !this.$closeBtn) {
+      const close = /*html*/ `<button title="${'Close'}" class="btn">${CloseIcon}</button>`;
+      const $closeBtn = stringToHTMLElement<HTMLButtonElement>(close);
+      this.$closeBtn = $closeBtn;
+
+      this.$toolbar.appendChild(this.$closeBtn);
+
+      this.$closeBtn.addEventListener('click', () => {
+        if (typeof action === 'function') {
+          action.call(this, $closeBtn);
+        } else if (confirm('Do you want to close and lose data ?')) {
+          this.drawer.destroy();
+        }
+      });
+      return this.$closeBtn;
+    }
   }
 
   /**
