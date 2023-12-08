@@ -164,12 +164,24 @@ export class Drawer extends History {
   }
 
   /**
-   * Set canvas sizing
+   * Set size of container
    * @param {number} width Width
    * @param {number} height Height
    * @returns {Promise<boolean>}
    */
-  setSize(width: number, height: number): Promise<boolean> {
+  async setSize(width: number, height: number): Promise<boolean> {
+    this.$drawerContainer.style.width = width + "px";
+    this.$drawerContainer.style.height = height + "px";
+    return true;
+  }
+
+  /**
+   * Set canvas sizing - / ! \ Careful; this method change ur current drawing !!! / ! \
+   * @param {number} width Width
+   * @param {number} height Height
+   * @returns {Promise<boolean>}
+   */
+  setCanvasSize(width: number, height: number): Promise<boolean> {
     return new Promise((resolve, reject) => {
       try {
         const isEmpty = this.isEmpty();
