@@ -41,6 +41,7 @@ export declare class Drawer extends History_2 {
      * Draw html drawer
      */
     private _buildDrawer;
+    destroy(): void;
     /**
      * Set size of container
      * @param {number} width Width
@@ -67,11 +68,18 @@ export declare class Drawer extends History_2 {
      */
     setColor(color: string): Promise<boolean>;
     /**
+     * Change CSS canvas background color
+     * @param bgColor canvas css background color
+     * @param {Boolean} triggerChange Trigger change event
+     * @returns {Promise<boolean>}
+     */
+    setBgColor(bgColor: string, triggerChange?: boolean): Promise<boolean>;
+    /**
      * Change canvas background color
      * @param bgColor canvas css background color
      * @returns {Promise<boolean>}
      */
-    setBgColor(bgColor: string): Promise<boolean>;
+    setCanvasBgColor(bgColor: string): Promise<boolean>;
     /**
      * set active tool
      * @param {keyof typeof DrawTools} toolName Tool name to set
@@ -87,9 +95,10 @@ export declare class Drawer extends History_2 {
     /**
      * Inject data to canvas
      * @param data
+     * @param {Boolean} triggerChange Trigger change event
      * @returns {Promise<Drawer>}
      */
-    loadFromData(data: string): Promise<Drawer>;
+    loadFromData(data: string, triggerChange?: boolean): Promise<Drawer>;
     /**
      * Save draw to localStorage
      * {@link DrawerOptions.localStorageKey}
@@ -100,6 +109,7 @@ export declare class Drawer extends History_2 {
      * @returns {string} canvas png data
      */
     getData(): string;
+    getImage(): Promise<HTMLImageElement>;
     /**
      * Change drawing shape
      * @param {keyof typeof DrawTools} shape
@@ -152,13 +162,11 @@ export declare class Drawer extends History_2 {
     private _drawPolygon;
     /**
      * Add a grid for draw helping
-     * /!\ This is drawing into canvas, so it remove all draw and it's visible on export /!\
-     *
+     * @param {Boolean} triggerChange Trigger change event (for prevent auto saving for example)
      */
-    addGrid(): Promise<unknown>;
+    addGrid(triggerChange?: boolean): Promise<unknown>;
     /**
      * Remove grid for draw helping
-     * /!\ This is drawing into canvas, so it remove all draw and it's visible on export /!\
      */
     removeGrid(): void;
     /**
@@ -194,6 +202,8 @@ declare interface DrawerOptions {
     defaultToolbar: boolean;
     height: number;
     width: number;
+    canvasWidth: number;
+    canvasHeight: number;
     localStorageKey: string;
     tool: keyof typeof DrawTools;
     dotted: boolean;
@@ -323,7 +333,8 @@ declare class Toolbar {
     $expandBtn: HTMLButtonElement | null;
     $fullscreenBtn: HTMLButtonElement | null;
     $settingBtn: HTMLButtonElement | null;
-    $colorPickerLabel: HTMLLabelElement;
+    $closeBtn: HTMLButtonElement | null;
+    $colorPickerLabel: HTMLLabelElement | null;
     customBtn: {
         [key: string]: HTMLButtonElement;
     };
@@ -439,12 +450,13 @@ declare class Toolbar {
      */
     addExpandButton(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement>;
     /**
-     * Add expand button for toggle size to full width / height of window
+     * Add fullscreen button for toggle fullscreen native
      * see {@link addToolbar} before use it
      * @param {action<HTMLButtonElement>?} action method to call onclick
      * @returns {Promise<HTMLButtonElement>}
      */
     addFullscreenButton(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement>;
+    addCloseButton(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement | undefined>;
     /**
      * Add a params button
      * see {@link addToolbar} before use it
@@ -462,6 +474,11 @@ declare class Toolbar {
      * @returns {Promise<HTMLButtonElement>}
      */
     addCustomBtn(name: string, title: string, label: string, action: action<HTMLButtonElement>): Promise<HTMLButtonElement>;
+    /**
+     * Add separator (ml-auto)
+     * @returns {boolean}
+     */
+    addSeparator(): Promise<boolean>;
     /**
      * Apply active state to btn
      * @param {HTMLButtonElement} $btn Button to add active class

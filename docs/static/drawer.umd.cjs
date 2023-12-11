@@ -72,7 +72,7 @@ var __privateSet = (obj, member, value, setter) => {
     headerContent: void 0,
     bodyContent: void 0,
     footerContent: void 0,
-    closeOnClickOutside: true,
+    closeOnClickOutside: false,
     backdrop: true
   };
   const defaultOptionsToolbar = {
@@ -1093,10 +1093,11 @@ var __privateSet = (obj, member, value, setter) => {
   Coloris.removeInstance;
   Coloris.updatePosition;
   const modal = "";
+  const CloseIcon = IconClose();
   function IconClose(w = 16, h = 16) {
     return `<svg width="${w}" height="${h}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="m7 7l10 10M7 17L17 7"/>
-    </svg>`;
+    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21l-9-9m0 0L3 3m9 9l9-9m-9 9l-9 9"/>
+</svg>`;
   }
   class Modal {
     constructor(drawer2, options) {
@@ -1119,7 +1120,7 @@ var __privateSet = (obj, member, value, setter) => {
     _init() {
       this._createModal();
       this.setHeaderContent(
-        this.options.headerContent ?? `<h2 class="drawer-modal-title">${this.options.title ?? "Modal"}</h2><button title="Close" class="btn-close" data-modal="close">${IconClose(20, 20)}</button>`
+        this.options.headerContent ?? `<h2 class="drawer-modal-title">${this.options.title ?? "Modal"}</h2><button title="Close" class="btn-close" data-modal="close">${CloseIcon}</button>`
       );
       this.setBodyContent(this.options.bodyContent ?? "");
       this.setFooterContent(this.options.footerContent ?? "");
@@ -1256,7 +1257,7 @@ var __privateSet = (obj, member, value, setter) => {
         `
       <ul class="drawer-modal-body-list">
         <li class="drawer-modal-body-list-item">
-          <label for="setting-bgcolor-${this.drawer.options.id}">Background color (🚨 this removing all draw)</label>
+          <label for="setting-bgcolor-${this.drawer.options.id}">Background color</label>
           <input tabindex="-1" class="btn" id="setting-bgcolor-${this.drawer.options.id}"  name="bgcolor-${this.drawer.options.id}" type="texr" data-coloris value="${this.bgColor}"/>
         </li>
         <li class="drawer-modal-body-list-item">
@@ -1292,7 +1293,9 @@ var __privateSet = (obj, member, value, setter) => {
         theme: "polaroid",
         swatches: this.drawer.options.availableColor,
         swatchesOnly: this.drawer.options.availableColorOnly,
-        formatToggle: !this.drawer.options.availableColorOnly
+        formatToggle: !this.drawer.options.availableColorOnly,
+        closeButton: true,
+        closeLabel: "Validate"
       });
     }
     _setupSelectors() {
@@ -1422,6 +1425,7 @@ var __privateSet = (obj, member, value, setter) => {
       __publicField(this, "$expandBtn");
       __publicField(this, "$fullscreenBtn");
       __publicField(this, "$settingBtn");
+      __publicField(this, "$closeBtn");
       __publicField(this, "$colorPickerLabel");
       __publicField(this, "customBtn", {});
       this.drawer = drawer2;
@@ -1476,9 +1480,11 @@ var __privateSet = (obj, member, value, setter) => {
       this.addColorPickerBtn();
       this.addUploadFileBtn();
       this.addDownloadBtn();
+      this.addSettingBtn();
+      this.addSeparator();
       this.addExpandButton();
       this.addFullscreenButton();
-      this.addSettingBtn();
+      this.addCloseButton();
     }
     /**
      * Add undo button to toolbar if exist
@@ -1919,7 +1925,8 @@ var __privateSet = (obj, member, value, setter) => {
               theme: "polaroid",
               swatches: this.drawer.options.availableColor,
               swatchesOnly: this.drawer.options.availableColorOnly,
-              formatToggle: !this.drawer.options.availableColorOnly
+              formatToggle: !this.drawer.options.availableColorOnly,
+              closeButton: true
             });
             $colorPicker.addEventListener("change", () => {
               if (typeof action === "function") {
@@ -2002,7 +2009,14 @@ var __privateSet = (obj, member, value, setter) => {
             if (typeof action === "function") {
               action.call(this, $downloadBtn);
             } else {
-              const data = this.drawer.$canvas.toDataURL("image/png");
+              const canvas = document.createElement("canvas");
+              const ctx = canvas.getContext("2d");
+              canvas.width = this.drawer.options.width;
+              canvas.height = this.drawer.options.height;
+              ctx.fillStyle = this.drawer.options.bgColor;
+              ctx.fillRect(0, 0, this.drawer.options.width, this.drawer.options.height);
+              ctx.drawImage(this.drawer.$canvas, 0, 0);
+              const data = canvas.toDataURL("image/png");
               const $link = document.createElement("a");
               $link.download = this.drawer.$canvas.id || "draw.png";
               $link.href = data;
@@ -2089,8 +2103,7 @@ var __privateSet = (obj, member, value, setter) => {
             if (typeof action === "function") {
               action.call(this, $expandBtn);
             } else {
-              this.drawer.$drawerContainer.style.width = "100%";
-              this.drawer.$drawerContainer.style.height = "100%";
+              this.drawer.$drawerContainer.classList.toggle("expanded");
             }
           });
           resolve(this.$expandBtn);
@@ -2102,7 +2115,7 @@ var __privateSet = (obj, member, value, setter) => {
       });
     }
     /**
-     * Add expand button for toggle size to full width / height of window
+     * Add fullscreen button for toggle fullscreen native
      * see {@link addToolbar} before use it
      * @param {action<HTMLButtonElement>?} action method to call onclick
      * @returns {Promise<HTMLButtonElement>}
@@ -2122,8 +2135,6 @@ var __privateSet = (obj, member, value, setter) => {
               action.call(this, $fullscreenBtn);
             } else {
               this._toggleFullScreen(this.drawer.$drawerContainer);
-              this.drawer.$canvas.width = window.innerWidth;
-              this.drawer.$canvas.height = window.innerHeight;
             }
           });
           resolve(this.$fullscreenBtn);
@@ -2133,6 +2144,25 @@ var __privateSet = (obj, member, value, setter) => {
           reject(new DrawerError(`Download button already added, you cannot add it again.`));
         }
       });
+    }
+    async addCloseButton(action) {
+      if (this.$toolbar && !this.$closeBtn) {
+        const close = (
+          /*html*/
+          `<button title="${"Close"}" class="btn">${CloseIcon}</button>`
+        );
+        const $closeBtn = stringToHTMLElement(close);
+        this.$closeBtn = $closeBtn;
+        this.$toolbar.appendChild(this.$closeBtn);
+        this.$closeBtn.addEventListener("click", () => {
+          if (typeof action === "function") {
+            action.call(this, $closeBtn);
+          } else if (confirm("Do you want to close and lose data ?")) {
+            this.drawer.destroy();
+          }
+        });
+        return this.$closeBtn;
+      }
     }
     /**
      * Add a params button
@@ -2202,6 +2232,19 @@ var __privateSet = (obj, member, value, setter) => {
       });
     }
     /**
+     * Add separator (ml-auto)
+     * @returns {boolean}
+     */
+    async addSeparator() {
+      const separator = (
+        /*html*/
+        `<div class="drawer-separator"></div>`
+      );
+      const $separator = stringToHTMLElement(separator);
+      this.$toolbar.appendChild($separator);
+      return true;
+    }
+    /**
      * Apply active state to btn
      * @param {HTMLButtonElement} $btn Button to add active class
      */
@@ -2251,9 +2294,7 @@ var __privateSet = (obj, member, value, setter) => {
       if ((_a = this.$uploadFile) == null ? void 0 : _a.files) {
         const file = this.$uploadFile.files[0];
         if (file) {
-          this.drawer.loadFromData(URL.createObjectURL(file)).then(() => {
-            this.drawer.$canvas.dispatchEvent(DrawEvent("change", this.drawer.getData()));
-          });
+          this.drawer.loadFromData(URL.createObjectURL(file));
         }
       }
     }
@@ -2369,15 +2410,20 @@ var __privateSet = (obj, member, value, setter) => {
           this._initHandlerEvents();
           this.setCanvas(this.$canvas);
           this._updateCursor();
+          const saved = localStorage.getItem(this.options.localStorageKey);
+          let trigger = true;
+          if (saved && !this.isEmpty(saved)) {
+            const data = JSON.parse(saved);
+            this.loadFromData(data.data, false);
+            this.setBgColor(data.bgcolor, false);
+            this.options.grid = data.grid;
+            trigger = false;
+          }
           if (this.options.grid) {
-            this.addGrid();
+            this.addGrid(trigger);
           }
           this.$canvas.drawer = this;
           this.toolbar = new Toolbar(this, { toolbarPosition: this.options.toolbarPosition });
-          const saved = localStorage.getItem(this.options.localStorageKey);
-          if (saved && !this.isEmpty(saved)) {
-            this.loadFromData(saved);
-          }
           if (this.options.defaultToolbar) {
             this.toolbar.addToolbar();
             this.toolbar.addDefaults();
@@ -2415,10 +2461,16 @@ var __privateSet = (obj, member, value, setter) => {
         this.ctx = this.$canvas.getContext("2d", { willReadFrequently: true });
         this.ctx.globalAlpha = this.options.opacity;
         this.ctx.imageSmoothingEnabled = false;
+        this.$drawerContainer.style.width = this.options.width + "px";
+        this.$drawerContainer.style.height = this.options.height + "px";
         this.$drawerContainer.appendChild(this.$canvas);
       } catch (error) {
         throw new DrawerError(error.message);
       }
+    }
+    destroy() {
+      this.clear();
+      this.$drawerContainer.remove();
     }
     /**
      * Set size of container
@@ -2489,16 +2541,37 @@ var __privateSet = (obj, member, value, setter) => {
       });
     }
     /**
-     * Change canvas background color
+     * Change CSS canvas background color
      * @param bgColor canvas css background color
+     * @param {Boolean} triggerChange Trigger change event
      * @returns {Promise<boolean>}
      */
-    setBgColor(bgColor) {
+    setBgColor(bgColor, triggerChange = true) {
       return new Promise((resolve, reject) => {
         try {
           this.options.bgColor = bgColor;
           this.$canvas.style.backgroundColor = bgColor;
           this.$canvas.dispatchEvent(DrawEvent("update.bgColor", { bgColor }));
+          if (triggerChange)
+            this.$canvas.dispatchEvent(DrawEvent("change"));
+          resolve(true);
+        } catch (error) {
+          reject(new DrawerError(error.message));
+        }
+      });
+    }
+    /**
+     * Change canvas background color
+     * @param bgColor canvas css background color
+     * @returns {Promise<boolean>}
+     */
+    setCanvasBgColor(bgColor) {
+      return new Promise((resolve, reject) => {
+        try {
+          this.options.bgColor = bgColor;
+          this.ctx.fillStyle = bgColor;
+          this.ctx.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
+          this.$canvas.dispatchEvent(DrawEvent("update.canvas.bgColor", { bgColor }));
           this.$canvas.dispatchEvent(DrawEvent("change"));
           resolve(true);
         } catch (error) {
@@ -2582,9 +2655,10 @@ var __privateSet = (obj, member, value, setter) => {
     /**
      * Inject data to canvas
      * @param data
+     * @param {Boolean} triggerChange Trigger change event
      * @returns {Promise<Drawer>}
      */
-    loadFromData(data) {
+    loadFromData(data, triggerChange = true) {
       return new Promise((resolve, reject) => {
         const img = new Image();
         img.onload = () => {
@@ -2605,6 +2679,8 @@ var __privateSet = (obj, member, value, setter) => {
             img.width * ratio,
             img.height * ratio
           );
+          if (triggerChange)
+            this.$canvas.dispatchEvent(DrawEvent("change", this.getData()));
           resolve(this);
         };
         img.onerror = () => {
@@ -2620,7 +2696,10 @@ var __privateSet = (obj, member, value, setter) => {
     saveDraw() {
       try {
         if (this.options.localStorageKey) {
-          localStorage.setItem(this.options.localStorageKey, this.getData());
+          localStorage.setItem(
+            this.options.localStorageKey,
+            JSON.stringify({ data: this.getData(), bgcolor: this.options.bgColor, grid: this.options.grid })
+          );
         } else {
           throw new DrawerError(`Error saving draw, options 'localStorageKey' is wrong.`);
         }
@@ -2634,6 +2713,12 @@ var __privateSet = (obj, member, value, setter) => {
      */
     getData() {
       return this.$canvas.toDataURL("image/png");
+    }
+    async getImage() {
+      const img = new Image();
+      img.src = this.getData();
+      await img.decode();
+      return img;
     }
     /**
      * Change drawing shape
@@ -2740,6 +2825,8 @@ var __privateSet = (obj, member, value, setter) => {
      * @returns
      */
     _startDraw(event) {
+      if (event.button === 2)
+        return;
       if (this.activeTool === "text")
         return;
       __privateSet(this, _dragStartLocation, getMousePosition(this.$canvas, event));
@@ -2941,35 +3028,15 @@ var __privateSet = (obj, member, value, setter) => {
     }
     /**
      * Add a grid for draw helping
-     * /!\ This is drawing into canvas, so it remove all draw and it's visible on export /!\
-     *
+     * @param {Boolean} triggerChange Trigger change event (for prevent auto saving for example)
      */
-    addGrid() {
+    addGrid(triggerChange = true) {
       return new Promise((resolve, reject) => {
         try {
-          this.clear();
           this.options.grid = true;
-          const gridCellSize = 40;
-          const width = this.$canvas.width;
-          const height = this.$canvas.height;
-          const lineWidth = 1;
-          const x = 0;
-          const y = 0;
-          this.ctx.save();
-          this.ctx.beginPath();
-          this.ctx.lineWidth = lineWidth;
-          this.ctx.strokeStyle = "#d4d4d4";
-          for (let lx = x; lx <= x + width; lx += gridCellSize) {
-            this.ctx.moveTo(lx, y);
-            this.ctx.lineTo(lx, y + height);
-          }
-          for (let ly = y; ly <= y + height; ly += gridCellSize) {
-            this.ctx.moveTo(x, ly);
-            this.ctx.lineTo(x + width, ly);
-          }
-          this.ctx.stroke();
-          this.ctx.closePath();
-          this.ctx.restore();
+          this.$canvas.classList.add("grid");
+          if (triggerChange)
+            this.$canvas.dispatchEvent(DrawEvent("change", this.getData()));
           resolve(true);
         } catch (error) {
           reject(new DrawerError(error.message));
@@ -2978,11 +3045,11 @@ var __privateSet = (obj, member, value, setter) => {
     }
     /**
      * Remove grid for draw helping
-     * /!\ This is drawing into canvas, so it remove all draw and it's visible on export /!\
      */
     removeGrid() {
       this.options.grid = false;
-      this.clear();
+      this.$canvas.classList.remove("grid");
+      this.$canvas.dispatchEvent(DrawEvent("change", this.getData()));
     }
     /**
      * Add a guide when drawing for draw helping
