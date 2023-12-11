@@ -37,7 +37,7 @@ describe('Basic', () => {
     const drawer = new Drawer(document.body.querySelector('#test') as HTMLDivElement);
 
     expect(drawer.toolbar.$toolbar).toBeInstanceOf(HTMLDivElement);
-    expect(drawer.toolbar.$toolbar.childElementCount).toEqual(14);
+    expect(drawer.toolbar.$toolbar.childElementCount).toEqual(16);
   });
 
   it('Init drawer with custom size', () => {
@@ -46,9 +46,9 @@ describe('Basic', () => {
       width: 200,
       autoSave: false,
     });
-    expect(drawer.$canvas).toBeInstanceOf(HTMLCanvasElement);
-    expect(drawer.$canvas.width).toEqual(200);
-    expect(drawer.$canvas.height).toEqual(200);
+    expect(drawer.$drawerContainer).toBeInstanceOf(HTMLDivElement);
+    expect(drawer.$drawerContainer.style.width).toEqual('200px');
+    expect(drawer.$drawerContainer.style.height).toEqual('200px');
   });
 
   it('Init drawer with custom tool', () => {

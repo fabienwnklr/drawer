@@ -24,13 +24,13 @@ describe('Drawer event', () => {
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const drawer = new Drawer($el);
+    const drawer = new Drawer($el, { autoSave: false });
     expect(init).toBe(true);
   });
 
   it('update size event', async () => {
     let done = false;
-    const drawer = new Drawer($el);
+    const drawer = new Drawer($el, { autoSave: false });
     drawer.$canvas.addEventListener('drawer.update.size', () => {
       done = true;
     });
@@ -41,29 +41,29 @@ describe('Drawer event', () => {
 
   it('update color event', async () => {
     let done = false;
-    const drawer = new Drawer($el);
+    const drawer = new Drawer($el, { autoSave: false });
     drawer.$canvas.addEventListener('drawer.update.color', () => {
       done = true;
     });
-    await drawer.setColor("red").then(() => {
+    await drawer.setColor('red').then(() => {
       expect(done).toBe(true);
     });
   });
 
   it('update bg color event', async () => {
     let done = false;
-    const drawer = new Drawer($el);
+    const drawer = new Drawer($el, { autoSave: false });
     drawer.$canvas.addEventListener('drawer.update.bgColor', () => {
       done = true;
     });
-    await drawer.setBgColor("red").then(() => {
+    await drawer.setBgColor('red').then(() => {
       expect(done).toBe(true);
     });
   });
 
   it('change event', async () => {
     let done = false;
-    const drawer = new Drawer($el);
+    const drawer = new Drawer($el, { autoSave: false });
     drawer.$canvas.addEventListener('drawer.change', () => {
       done = true;
     });
