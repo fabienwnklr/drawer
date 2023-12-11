@@ -92,6 +92,8 @@ export class SettingsModal extends Modal {
       swatches: this.drawer.options.availableColor,
       swatchesOnly: this.drawer.options.availableColorOnly,
       formatToggle: !this.drawer.options.availableColorOnly,
+      closeButton: true,
+      closeLabel: 'Validate'
     });
   }
 

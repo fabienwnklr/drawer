@@ -239,33 +239,9 @@
   width: fit-content;
 }
 
-/* [title]:not(input) {
-  position: relative;
+.clr-picker {
+  font-family: helvetica, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
-
-[title]:after {
-  display: flex;
-  opacity: 0;
-  justify-content: center;
-  background: #444;
-  border-radius: 8px;
-  color: #fff;
-  content: attr(title);
-  padding: 0.4em;
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: translateY(-100%);
-  transition: opacity .3s ease;
-}
-
-[title].container-colorpicker:after {
-  transform: translateY(-200%);
-}
-
-[title]:hover:after {
-  opacity: 1;
-} */
 
 .drawer-menu {
   display: flex;

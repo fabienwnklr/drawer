@@ -584,6 +584,7 @@ export class Toolbar {
             swatches: this.drawer.options.availableColor,
             swatchesOnly: this.drawer.options.availableColorOnly,
             formatToggle: !this.drawer.options.availableColorOnly,
+            closeButton: true,
           });
 
           $colorPicker.addEventListener('change', () => {

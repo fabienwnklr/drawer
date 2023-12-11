@@ -261,7 +261,7 @@ export class Drawer extends History {
    * @param {Boolean} triggerChange Trigger change event
    * @returns {Promise<boolean>}
    */
-  setBgColor(bgColor: string, triggerChange: boolean = false): Promise<boolean> {
+  setBgColor(bgColor: string, triggerChange: boolean = true): Promise<boolean> {
     return new Promise((resolve, reject) => {
       try {
         this.options.bgColor = bgColor;

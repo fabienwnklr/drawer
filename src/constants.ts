@@ -39,7 +39,7 @@ export const defaultOptionsModal: ModalOptions = {
   headerContent: undefined,
   bodyContent: undefined,
   footerContent: undefined,
-  closeOnClickOutside: true,
+  closeOnClickOutside: false,
   backdrop: true,
 };
 
