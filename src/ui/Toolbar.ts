@@ -984,9 +984,7 @@ export class Toolbar {
       const file = this.$uploadFile.files[0];
 
       if (file) {
-        this.drawer.loadFromData(URL.createObjectURL(file)).then(() => {
-          this.drawer.$canvas.dispatchEvent(DrawEvent('change', this.drawer.getData()));
-        });
+        this.drawer.loadFromData(URL.createObjectURL(file));
       }
     }
   }
