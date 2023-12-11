@@ -183,7 +183,7 @@
 }
 
 .drawer-container .link {
-  color: red;
+  color: currentColor;
   transition: .2s color ease;
 }
 

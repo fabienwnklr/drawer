@@ -107,20 +107,23 @@ export class Drawer extends History {
         this.setCanvas(this.$canvas);
         this._updateCursor();
 
+        const saved = localStorage.getItem(this.options.localStorageKey);
+        let trigger = true;
+
+        if (saved && !this.isEmpty(saved)) {
+          const data = JSON.parse(saved);
+          this.loadFromData(data.data, false);
+          this.setBgColor(data.bgcolor, false);
+          this.options.grid = data.grid;
+          trigger = false;
+        }
+
         if (this.options.grid) {
-          this.addGrid();
+          this.addGrid(trigger);
         }
 
         this.$canvas.drawer = this;
         this.toolbar = new Toolbar(this, { toolbarPosition: this.options.toolbarPosition });
-
-        const saved = localStorage.getItem(this.options.localStorageKey);
-
-        if (saved && !this.isEmpty(saved)) {
-          const data = JSON.parse(saved);
-          this.loadFromData(data.data);
-          this.setBgColor(data.bgcolor);
-        }
 
         if (this.options.defaultToolbar) {
           this.toolbar.addToolbar();
@@ -255,16 +258,17 @@ export class Drawer extends History {
   /**
    * Change CSS canvas background color
    * @param bgColor canvas css background color
+   * @param {Boolean} triggerChange Trigger change event
    * @returns {Promise<boolean>}
    */
-  setBgColor(bgColor: string): Promise<boolean> {
+  setBgColor(bgColor: string, triggerChange: boolean = false): Promise<boolean> {
     return new Promise((resolve, reject) => {
       try {
         this.options.bgColor = bgColor;
         this.$canvas.style.backgroundColor = bgColor;
 
         this.$canvas.dispatchEvent(DrawEvent('update.bgColor', { bgColor }));
-        this.$canvas.dispatchEvent(DrawEvent('change'));
+        if (triggerChange) this.$canvas.dispatchEvent(DrawEvent('change'));
         resolve(true);
       } catch (error: any) {
         reject(new DrawerError(error.message));
@@ -372,9 +376,10 @@ export class Drawer extends History {
   /**
    * Inject data to canvas
    * @param data
+   * @param {Boolean} triggerChange Trigger change event
    * @returns {Promise<Drawer>}
    */
-  loadFromData(data: string): Promise<Drawer> {
+  loadFromData(data: string, triggerChange: boolean = true): Promise<Drawer> {
     return new Promise((resolve, reject) => {
       const img = new Image();
       img.onload = () => {
@@ -395,6 +400,8 @@ export class Drawer extends History {
           img.width * ratio,
           img.height * ratio
         );
+
+        if (triggerChange) this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
         resolve(this);
       };
       img.onerror = () => {
@@ -411,7 +418,10 @@ export class Drawer extends History {
   saveDraw() {
     try {
       if (this.options.localStorageKey) {
-        localStorage.setItem(this.options.localStorageKey, JSON.stringify({data: this.getData(), bgcolor: this.options.bgColor}));
+        localStorage.setItem(
+          this.options.localStorageKey,
+          JSON.stringify({ data: this.getData(), bgcolor: this.options.bgColor, grid: this.options.grid })
+        );
       } else {
         throw new DrawerError(`Error saving draw, options 'localStorageKey' is wrong.`);
       }
@@ -552,6 +562,7 @@ export class Drawer extends History {
    * @returns
    */
   private _startDraw(event: PointerEvent) {
+    if (event.button === 2) return;
     if (this.activeTool === 'text') return;
     this.#dragStartLocation = getMousePosition(this.$canvas, event);
     this.ctx.beginPath();
@@ -793,39 +804,14 @@ export class Drawer extends History {
 
   /**
    * Add a grid for draw helping
-   * /!\ This is drawing into canvas, so it remove all draw and it's visible on export /!\
-   *
+   * @param {Boolean} triggerChange Trigger change event (for prevent auto saving for example)
    */
-  addGrid() {
+  addGrid(triggerChange: boolean = true) {
     return new Promise((resolve, reject) => {
       try {
-        this.clear();
         this.options.grid = true;
-        const gridCellSize = 40;
-        const width = this.$canvas.width;
-        const height = this.$canvas.height;
-        const lineWidth = 1;
-        const x = 0;
-        const y = 0;
-
-        this.ctx.save();
-        this.ctx.beginPath();
-        this.ctx.lineWidth = lineWidth;
-        this.ctx.strokeStyle = '#d4d4d4';
-
-        for (let lx = x; lx <= x + width; lx += gridCellSize) {
-          this.ctx.moveTo(lx, y);
-          this.ctx.lineTo(lx, y + height);
-        }
-
-        for (let ly = y; ly <= y + height; ly += gridCellSize) {
-          this.ctx.moveTo(x, ly);
-          this.ctx.lineTo(x + width, ly);
-        }
-
-        this.ctx.stroke();
-        this.ctx.closePath();
-        this.ctx.restore();
+        this.$canvas.classList.add('grid');
+        if (triggerChange) this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
         resolve(true);
       } catch (error: any) {
         reject(new DrawerError(error.message));
@@ -835,11 +821,11 @@ export class Drawer extends History {
 
   /**
    * Remove grid for draw helping
-   * /!\ This is drawing into canvas, so it remove all draw and it's visible on export /!\
    */
   removeGrid() {
     this.options.grid = false;
-    this.clear();
+    this.$canvas.classList.remove('grid');
+    this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
   }
 
   /**
