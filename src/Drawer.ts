@@ -185,6 +185,11 @@ export class Drawer extends History {
     this.$drawerContainer.style.width = width + 'px';
     this.$drawerContainer.style.height = height + 'px';
 
+    if (this.toolbar.$toolbar) {
+      this.toolbar.$toolbar.style.maxWidth = width + 'px';
+      this.toolbar.$toolbar.style.maxHeight = height + 'px';
+    }
+
     this.$canvas.dispatchEvent(DrawEvent('update.size', { setSize: { w: width, h: height } }));
     return true;
   }
@@ -207,8 +212,8 @@ export class Drawer extends History {
         if (!isEmpty) this.loadFromData(data);
 
         if (this.toolbar.$toolbar) {
-          this.toolbar.$toolbar.style.maxWidth = this.$canvas.width + 'px';
-          this.toolbar.$toolbar.style.maxHeight = this.$canvas.height + 'px';
+          this.toolbar.$toolbar.style.maxWidth = width + 'px';
+          this.toolbar.$toolbar.style.maxHeight = height + 'px';
         }
 
         this.$canvas.dispatchEvent(DrawEvent('update.canvasSize', { setSize: { w: width, h: height } }));
@@ -352,14 +357,9 @@ export class Drawer extends History {
   clear(): Promise<HTMLCanvasElement> {
     return new Promise((resolve, reject) => {
       try {
-        // Conserve current bgcolor ?
-        // this.ctx.fillStyle = this.options.bgColor;
-        // this.ctx.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
         this.ctx.clearRect(0, 0, this.$canvas.width, this.$canvas.height);
-        this.options.bgColor = defaultOptionsDrawer.bgColor;
         this.redo_list = [];
         this.undo_list = [];
-        this.gridActive = false;
         this.toolbar._manageUndoRedoBtn();
         this.$canvas.dispatchEvent(DrawEvent('change', this));
 
@@ -491,10 +491,10 @@ export class Drawer extends History {
           }
           this.toolbar.$shapeBtn.innerHTML = icon;
           this.toolbar.$shapeMenu?.classList.remove('show');
-          this.setTool(shape);
-          this.$canvas.dispatchEvent(DrawEvent('update.shape', { shape }));
-          resolve(true);
         }
+        this.setTool(shape);
+        this.$canvas.dispatchEvent(DrawEvent('update.shape', { shape }));
+        resolve(true);
       } catch (error: any) {
         reject(new DrawerError(error.message));
       }
