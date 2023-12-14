@@ -6,6 +6,7 @@ import { execSync } from "child_process";
 
 export default defineConfig({
   build: {
+    sourcemap: true,
     cssMinify: true,
     minify: false,
     lib: {

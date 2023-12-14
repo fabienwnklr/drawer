@@ -38,7 +38,7 @@ export default function Home() {
   return (
     <Layout
       title={`${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      description="Drawer official documentation">
       <HomepageHeader />
       <main>
         <HomepageFeatures />

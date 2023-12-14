@@ -1,4 +1,3 @@
-"use strict";
 var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __publicField = (obj, key, value) => {
@@ -24,7 +23,6 @@ var __privateSet = (obj, member, value, setter) => {
   return value;
 };
 var _dragStartLocation, _snapshot, _availableShape, _cloneCanvas;
-Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
 const drawer = "";
 function stringToHTMLElement(string) {
   return new DOMParser().parseFromString(string, "text/html").body.firstChild;
@@ -40,30 +38,55 @@ class DrawerError extends Error {
 }
 const defaultOptionsDrawer = {
   id: Date.now().toString(),
+  // id for drawer
   defaultToolbar: true,
+  // add toolbar with default boutons
   width: 400,
+  // width of canvas container
   height: 400,
+  // height of canvas container
   canvasWidth: window.innerWidth * 1.5,
+  // canvas width
   canvasHeight: window.innerHeight * 1.5,
+  // canvas height
   localStorageKey: "draw",
-  tool: "brush",
+  // local storage key for save
   autoSave: true,
+  // save on change in localStorage
   toolbarPosition: "outerTop",
+  // can be 'outerTop', 'outerEnd', 'outerBottom', 'outerStart', 'innerTop', 'innerEnd', 'innerBottom', 'innerStart'
   bgColor: "#fff",
+  // can be format hex, rgba, rgba, hlsa
   color: "#000",
+  // can be format hex, rgba, rgba, hlsa
   lineThickness: 3,
-  eraserThickness: 15,
-  minEraserThickness: 15,
+  // Line thickness
   dotted: false,
+  // active line dotted
   dash: [10, 5],
+  // if dotted true
   cap: "round",
+  // "butt" | "round" | "square"
   fill: true,
+  // fill draw
   availableColor: [],
+  // for input color
   availableColorOnly: false,
+  // show color only into colorpicker popover
   grid: false,
+  // show css grid for draw helping
   guides: false,
+  // show guide when drawing
   opacity: 1,
-  xor: false
+  // global opacity of draw
+  xor: false,
+  // active xor
+  tool: "brush",
+  // default tool on init
+  eraserThickness: 15,
+  // eraser width
+  minEraserThickness: 15
+  // min eraser width
 };
 const defaultOptionsModal = {
   id: Date.now().toString(),
@@ -1351,7 +1374,7 @@ class SettingsModal extends Modal {
     });
   }
 }
-const version = "1.1.6";
+const version = "1.2.0";
 const coloris = "";
 const BrushIcon = `<svg width="16" height="16" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
 <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -1432,6 +1455,8 @@ class Toolbar {
   /**
    * Adding an empty toolbar element
    * @returns {Promise<HTMLDivElement>} HTML toolbar element
+   *
+   * @description This method add html toolbar element, is **required** for add any toolbar button
    */
   addToolbar() {
     return new Promise((resolve, reject) => {
@@ -1467,6 +1492,15 @@ class Toolbar {
    * undo, redo, brush, eraser, text, clear, line thickness, colorpicker, upload, download, setting
    */
   addDefaults() {
+    this.addUndoBtn();
+    this.addRedoBtn();
+    this.addBrushBtn();
+    this.addEraserBtn();
+    this.addClearBtn();
+    this.addSeparator();
+    this.addSettingBtn();
+  }
+  addAllButtons() {
     this.addUndoBtn();
     this.addRedoBtn();
     this.addBrushBtn();
@@ -1759,7 +1793,7 @@ class Toolbar {
             if (typeof action === "function") {
               action.call(this, $clearBtn);
             } else if (!this.drawer.isEmpty()) {
-              if (confirm(`${"Voulez vous suppimer la totalité du dessin ?"}`)) {
+              if (confirm(`${"Delete the entire drawing"} ?`)) {
                 this.drawer.clear();
               }
             }
@@ -2551,7 +2585,7 @@ class Drawer extends History {
         this.$canvas.style.backgroundColor = bgColor;
         this.$canvas.dispatchEvent(DrawEvent("update.bgColor", { bgColor }));
         if (triggerChange)
-          this.$canvas.dispatchEvent(DrawEvent("change"));
+          this.$canvas.dispatchEvent(DrawEvent("change", this));
         resolve(true);
       } catch (error) {
         reject(new DrawerError(error.message));
@@ -2570,7 +2604,7 @@ class Drawer extends History {
         this.ctx.fillStyle = bgColor;
         this.ctx.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
         this.$canvas.dispatchEvent(DrawEvent("update.canvas.bgColor", { bgColor }));
-        this.$canvas.dispatchEvent(DrawEvent("change"));
+        this.$canvas.dispatchEvent(DrawEvent("change", this));
         resolve(true);
       } catch (error) {
         reject(new DrawerError(error.message));
@@ -2678,7 +2712,7 @@ class Drawer extends History {
           img.height * ratio
         );
         if (triggerChange)
-          this.$canvas.dispatchEvent(DrawEvent("change", this.getData()));
+          this.$canvas.dispatchEvent(DrawEvent("change", this));
         resolve(this);
       };
       img.onerror = () => {
@@ -2878,7 +2912,7 @@ class Drawer extends History {
       this.toolbar._manageUndoRedoBtn();
       this._draw(position);
       this.isDrawing = false;
-      this.$canvas.dispatchEvent(DrawEvent("change", this.getData()));
+      this.$canvas.dispatchEvent(DrawEvent("change", this));
     }
   }
   _takeSnapshot() {
@@ -3034,7 +3068,7 @@ class Drawer extends History {
         this.options.grid = true;
         this.$canvas.classList.add("grid");
         if (triggerChange)
-          this.$canvas.dispatchEvent(DrawEvent("change", this.getData()));
+          this.$canvas.dispatchEvent(DrawEvent("change", this));
         resolve(true);
       } catch (error) {
         reject(new DrawerError(error.message));
@@ -3047,14 +3081,14 @@ class Drawer extends History {
   removeGrid() {
     this.options.grid = false;
     this.$canvas.classList.remove("grid");
-    this.$canvas.dispatchEvent(DrawEvent("change", this.getData()));
+    this.$canvas.dispatchEvent(DrawEvent("change", this));
   }
   /**
    * Add a guide when drawing for draw helping
    */
   _drawGuides({ x, y }) {
     this.ctx.save();
-    this.ctx.strokeStyle = "rgb(255, 26, 121, 0.8)";
+    this.ctx.strokeStyle = "rgba(255, 26, 121, 0.8)";
     this.ctx.lineWidth = 1;
     this.ctx.beginPath();
     this.ctx.moveTo(0, y);
@@ -3178,11 +3212,11 @@ class Drawer extends History {
       if (event.ctrlKey) {
         if (event.code === "KeyW") {
           this.undo().then(() => {
-            this.$canvas.dispatchEvent(DrawEvent("change", this.getData()));
+            this.$canvas.dispatchEvent(DrawEvent("change", this));
           });
         } else if (event.code === "KeyY") {
           this.redo().then(() => {
-            this.$canvas.dispatchEvent(DrawEvent("change", this.getData()));
+            this.$canvas.dispatchEvent(DrawEvent("change", this));
           });
         }
         this.toolbar._manageUndoRedoBtn();
@@ -3226,7 +3260,7 @@ class Drawer extends History {
         }
       }
       $textArea.remove();
-      this.$canvas.dispatchEvent(DrawEvent("change", this.getData()));
+      this.$canvas.dispatchEvent(DrawEvent("change", this));
     });
     this.$drawerContainer.appendChild($textArea);
     $textArea.focus();
@@ -3236,4 +3270,7 @@ _dragStartLocation = new WeakMap();
 _snapshot = new WeakMap();
 _availableShape = new WeakMap();
 _cloneCanvas = new WeakMap();
-exports.Drawer = Drawer;
+export {
+  Drawer
+};
+//# sourceMappingURL=drawer.js.map

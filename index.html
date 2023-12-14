@@ -27,13 +27,10 @@
       // !!! Edit this can break e2e test !!!
       const $el = document.querySelector('#app');
       window.drawer = new Drawer($el, {
-        width: window.innerWidth - 100,
-        height: window.innerHeight - 100,
-        defaultToolbar: true,
-        toolbarPosition: 'outerTop',
+        defaultToolbar: false,
       });
-      // drawer.addToolbar();
-      // drawer.addDrawGroupBtn();
+      drawer.toolbar.addToolbar();
+      drawer.toolbar.addDrawGroupBtn();
     </script>
   </body>
 </html>

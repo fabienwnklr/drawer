@@ -29,6 +29,7 @@ const sidebars = {
       items: [
         "examples/basic",
         "examples/custom-toolbar",
+        "examples/full-toolbar",
       ]
     }
   ],

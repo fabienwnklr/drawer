@@ -13,22 +13,49 @@ const FeatureList = [
     ),
   },
   {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    title: 'Fully customisable',
+    Svg: require('@site/static/img/advanced_customization.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Drawer was designed for be fully customisable. U can use integrated tool or create you'r own. Be free !
       </>
     ),
   },
   {
-    title: 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    title: 'Open source',
+    Svg: require('@site/static/img/open_source.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Drawer is fully free and open source. This approach allows to have broader views and improve the base code
+
+
+      </>
+    ),
+  },
+  {
+    title: 'Using Typescript',
+    Svg: require('@site/static/img/code_review.svg').default,
+    description: (
+      <>
+        Drawer is fully coded using Typescript and Vite. Typescript is an additional security on the reliability of the code.
+      </>
+    ),
+  },
+  {
+    title: 'Lightweight',
+    Svg: require('@site/static/img/fast_loading.svg').default,
+    description: (
+      <>
+        Drawer is lightweight (127ko) and fast.
+      </>
+    ),
+  },
+  {
+    title: 'For all device',
+    Svg: require('@site/static/img/mobile_content.svg').default,
+    description: (
+      <>
+        Drawer is also designed for mobile.
       </>
     ),
   },

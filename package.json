@@ -45,7 +45,7 @@
     "format": "prettier src/**/*.ts --write",
     "lint": "npx eslint src/**",
     "build:api": "npx typedoc --gitRevision master --excludePrivate --plugin typedoc-plugin-markdown --out docs/docs/api src/**/*.ts",
-    "build:docs": "cp dist/* docs/static",
+    "build:docs": "cp dist/*.js docs/src/js && cp dist/*.css docs/src/css",
     "prepare": "husky install",
     "release": "npm run build && standard-version",
     "release:patch": "npm run build && standard-version --release-as patch && git push --follow-tags origin master && npm publish --access public",

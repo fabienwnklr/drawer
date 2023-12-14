@@ -1,18 +1,19 @@
 import React, { useEffect } from 'react';
 import CodeBlock from '@theme/CodeBlock';
 import Admonition from '@theme/Admonition';
-import { Drawer } from '../../../static/Drawer';
-import '../../../static/style.css';
+import { Drawer } from '../../js/drawer';
+import '../../css/style.css';
 
 export default function Basic() {
   useEffect(() => {
     const $el = document.getElementById('canvas-container');
-    window.basic = new Drawer($el);
+    const basic = new Drawer($el);
+    window.basic = basic;
   }, []);
 
   return (
     <>
-      <h4>The most vanilla of examples.</h4>
+      <h4>The most vanilla of examples, using default toolbar.</h4>
 
       <Admonition type="tip" icon="💡" title="Tip...">
         <p>
