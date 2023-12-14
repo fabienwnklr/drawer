@@ -2513,6 +2513,10 @@ class Drawer extends History {
   async setSize(width, height) {
     this.$drawerContainer.style.width = width + "px";
     this.$drawerContainer.style.height = height + "px";
+    if (this.toolbar.$toolbar) {
+      this.toolbar.$toolbar.style.maxWidth = width + "px";
+      this.toolbar.$toolbar.style.maxHeight = height + "px";
+    }
     this.$canvas.dispatchEvent(DrawEvent("update.size", { setSize: { w: width, h: height } }));
     return true;
   }
@@ -2532,8 +2536,8 @@ class Drawer extends History {
         if (!isEmpty)
           this.loadFromData(data);
         if (this.toolbar.$toolbar) {
-          this.toolbar.$toolbar.style.maxWidth = this.$canvas.width + "px";
-          this.toolbar.$toolbar.style.maxHeight = this.$canvas.height + "px";
+          this.toolbar.$toolbar.style.maxWidth = width + "px";
+          this.toolbar.$toolbar.style.maxHeight = height + "px";
         }
         this.$canvas.dispatchEvent(DrawEvent("update.canvasSize", { setSize: { w: width, h: height } }));
         resolve(true);
@@ -2626,10 +2630,14 @@ class Drawer extends History {
             case "brush":
               if (this.toolbar.$brushBtn)
                 $btn = this.toolbar.$brushBtn;
+              if (this.toolbar.$drawGroupMenu)
+                $btn = this.toolbar.$drawGroupMenu.querySelector("[data-tool=brush]");
               break;
             case "text":
               if (this.toolbar.$textBtn)
                 $btn = this.toolbar.$textBtn;
+              if (this.toolbar.$drawGroupMenu)
+                $btn = this.toolbar.$drawGroupMenu.querySelector("[data-tool=text]");
               break;
             case "eraser":
               if (this.toolbar.$eraserBtn)
@@ -2668,10 +2676,8 @@ class Drawer extends History {
     return new Promise((resolve, reject) => {
       try {
         this.ctx.clearRect(0, 0, this.$canvas.width, this.$canvas.height);
-        this.options.bgColor = defaultOptionsDrawer.bgColor;
         this.redo_list = [];
         this.undo_list = [];
-        this.gridActive = false;
         this.toolbar._manageUndoRedoBtn();
         this.$canvas.dispatchEvent(DrawEvent("change", this));
         const saved = localStorage.getItem(this.options.localStorageKey);
@@ -2792,10 +2798,10 @@ class Drawer extends History {
           }
           this.toolbar.$shapeBtn.innerHTML = icon;
           (_a = this.toolbar.$shapeMenu) == null ? void 0 : _a.classList.remove("show");
-          this.setTool(shape);
-          this.$canvas.dispatchEvent(DrawEvent("update.shape", { shape }));
-          resolve(true);
         }
+        this.setTool(shape);
+        this.$canvas.dispatchEvent(DrawEvent("update.shape", { shape }));
+        resolve(true);
       } catch (error) {
         reject(new DrawerError(error.message));
       }
