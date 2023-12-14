@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://github.com/fabwcie/drawer/compare/v1.2.0...v1.2.1) (2023-12-14)
+
+
+### Bug Fixes
+
+* draw group button change tool ([78c8a19](https://github.com/fabwcie/drawer/commits/78c8a19377fd6aceeb0ad90a47c563978a339527))
+* toolbar max width ([22030c0](https://github.com/fabwcie/drawer/commits/22030c0e3712f254fd1030cfe62f5fb9c5275fc1))
+
 ## [1.2.0](https://github.com/fabwcie/drawer/compare/v1.1.6...v1.2.0) (2023-12-11)
 
 
