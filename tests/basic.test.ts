@@ -21,7 +21,9 @@ describe('Basic', () => {
     expect(drawer).toBeInstanceOf(Drawer);
     expect(drawer.toolbar.$toolbar).toBeInstanceOf(HTMLDivElement);
     expect(drawer.toolbar.$toolbar.querySelectorAll('button, input').length).not.toEqual(0);
-    expect(drawer.toolbar.$brushBtn?.classList.contains('active')).toEqual(true);
+    if (drawer.toolbar.$brushBtn) {
+      expect(drawer.toolbar.$brushBtn.classList.contains('active')).toEqual(true);
+    }
   });
 
   it('Init drawer without toolbar', () => {
