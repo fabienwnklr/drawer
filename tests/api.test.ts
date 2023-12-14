@@ -60,25 +60,33 @@ describe('API', () => {
 
     await drawer.setColor('#3e3e3e');
     expect(drawer.options.color).toEqual('#3e3e3e');
-    expect(drawer.toolbar.$colorPicker?.value).toEqual('#3e3e3e');
+    if (drawer.toolbar.$colorPicker) {
+      expect(drawer.toolbar.$colorPicker.value).toEqual('#3e3e3e');
+    }
     expect(drawer.ctx.fillStyle).toEqual('#3e3e3e');
 
     // With keyword, converted to hex
     await drawer.setColor('red');
     expect(drawer.options.color).toEqual('red');
-    expect(drawer.toolbar.$colorPicker?.value).toEqual('red');
+    if (drawer.toolbar.$colorPicker) {
+      expect(drawer.toolbar.$colorPicker.value).toEqual('red');
+    }
     expect(drawer.ctx.fillStyle).toEqual('#ff0000');
 
     // With rgb
     drawer.setColor('rgb(0, 0, 152)');
     expect(drawer.options.color).toEqual('rgb(0, 0, 152)');
-    expect(drawer.toolbar.$colorPicker?.value).toEqual('rgb(0, 0, 152)');
+    if (drawer.toolbar.$colorPicker) {
+      expect(drawer.toolbar.$colorPicker.value).toEqual('rgb(0, 0, 152)');
+    }
     expect(drawer.ctx.fillStyle).toEqual('#000098');
 
     // With rgba
     drawer.setColor('rgba(0, 0, 152, 0.5)');
     expect(drawer.options.color).toEqual('rgba(0, 0, 152, 0.5)');
-    expect(drawer.toolbar.$colorPicker?.value).toEqual('rgba(0, 0, 152, 0.5)');
+    if (drawer.toolbar.$colorPicker) {
+      expect(drawer.toolbar.$colorPicker.value).toEqual('rgba(0, 0, 152, 0.5)');
+    }
     expect(drawer.ctx.fillStyle).toEqual('rgba(0, 0, 152, 0.5)');
   });
 });

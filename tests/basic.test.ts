@@ -37,6 +37,18 @@ describe('Basic', () => {
     const drawer = new Drawer(document.body.querySelector('#test') as HTMLDivElement);
 
     expect(drawer.toolbar.$toolbar).toBeInstanceOf(HTMLDivElement);
+    expect(drawer.toolbar.$toolbar.childElementCount).toEqual(7);
+  });
+
+  it('Init drawer with full toolbar', () => {
+    const drawer = new Drawer(document.body.querySelector('#test') as HTMLDivElement, {
+      defaultToolbar: false
+    });
+
+    drawer.toolbar.addToolbar();
+    drawer.toolbar.addAllButtons();
+
+    expect(drawer.toolbar.$toolbar).toBeInstanceOf(HTMLDivElement);
     expect(drawer.toolbar.$toolbar.childElementCount).toEqual(16);
   });
 
