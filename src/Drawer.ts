@@ -39,7 +39,7 @@ declare global {
 
 /**
  * @class Drawer
- * {@link https://}
+ * {@link https://drawer.netlify.app}
  *
  * Copyright (c) 2023 Winkler Fabien & contributors
  *
@@ -268,7 +268,7 @@ export class Drawer extends History {
         this.$canvas.style.backgroundColor = bgColor;
 
         this.$canvas.dispatchEvent(DrawEvent('update.bgColor', { bgColor }));
-        if (triggerChange) this.$canvas.dispatchEvent(DrawEvent('change'));
+        if (triggerChange) this.$canvas.dispatchEvent(DrawEvent('change', this));
         resolve(true);
       } catch (error: any) {
         reject(new DrawerError(error.message));
@@ -289,7 +289,7 @@ export class Drawer extends History {
         this.ctx.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
 
         this.$canvas.dispatchEvent(DrawEvent('update.canvas.bgColor', { bgColor }));
-        this.$canvas.dispatchEvent(DrawEvent('change'));
+        this.$canvas.dispatchEvent(DrawEvent('change', this));
         resolve(true);
       } catch (error: any) {
         reject(new DrawerError(error.message));
@@ -312,9 +312,11 @@ export class Drawer extends History {
           switch (toolName) {
             case 'brush':
               if (this.toolbar.$brushBtn) $btn = this.toolbar.$brushBtn;
+              if (this.toolbar.$drawGroupMenu) $btn = this.toolbar.$drawGroupMenu.querySelector('[data-tool=brush]');
               break;
             case 'text':
               if (this.toolbar.$textBtn) $btn = this.toolbar.$textBtn;
+              if (this.toolbar.$drawGroupMenu) $btn = this.toolbar.$drawGroupMenu.querySelector('[data-tool=text]');
               break;
             case 'eraser':
               if (this.toolbar.$eraserBtn) $btn = this.toolbar.$eraserBtn;
@@ -401,7 +403,7 @@ export class Drawer extends History {
           img.height * ratio
         );
 
-        if (triggerChange) this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
+        if (triggerChange) this.$canvas.dispatchEvent(DrawEvent('change', this));
         resolve(this);
       };
       img.onerror = () => {
@@ -622,7 +624,7 @@ export class Drawer extends History {
       this.toolbar._manageUndoRedoBtn();
       this._draw(position);
       this.isDrawing = false;
-      this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
+      this.$canvas.dispatchEvent(DrawEvent('change', this));
     }
   }
 
@@ -811,7 +813,7 @@ export class Drawer extends History {
       try {
         this.options.grid = true;
         this.$canvas.classList.add('grid');
-        if (triggerChange) this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
+        if (triggerChange) this.$canvas.dispatchEvent(DrawEvent('change', this));
         resolve(true);
       } catch (error: any) {
         reject(new DrawerError(error.message));
@@ -825,7 +827,7 @@ export class Drawer extends History {
   removeGrid() {
     this.options.grid = false;
     this.$canvas.classList.remove('grid');
-    this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
+    this.$canvas.dispatchEvent(DrawEvent('change', this));
   }
 
   /**
@@ -833,7 +835,7 @@ export class Drawer extends History {
    */
   private _drawGuides({ x, y }: Position) {
     this.ctx.save();
-    this.ctx.strokeStyle = 'rgb(255, 26, 121, 0.8)';
+    this.ctx.strokeStyle = 'rgba(255, 26, 121, 0.8)';
     this.ctx.lineWidth = 1;
 
     this.ctx.beginPath();
@@ -982,11 +984,11 @@ export class Drawer extends History {
       if (event.ctrlKey) {
         if (event.code === 'KeyW') {
           this.undo().then(() => {
-            this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
+            this.$canvas.dispatchEvent(DrawEvent('change', this));
           });
         } else if (event.code === 'KeyY') {
           this.redo().then(() => {
-            this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
+            this.$canvas.dispatchEvent(DrawEvent('change', this));
           });
         }
         this.toolbar._manageUndoRedoBtn();
@@ -1036,7 +1038,7 @@ export class Drawer extends History {
         }
       }
       $textArea.remove();
-      this.$canvas.dispatchEvent(DrawEvent('change', this.getData()));
+      this.$canvas.dispatchEvent(DrawEvent('change', this));
     });
 
     this.$drawerContainer.appendChild($textArea);

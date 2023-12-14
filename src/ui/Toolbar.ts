@@ -67,6 +67,8 @@ export class Toolbar {
   /**
    * Adding an empty toolbar element
    * @returns {Promise<HTMLDivElement>} HTML toolbar element
+   *
+   * @description This method add html toolbar element, is **required** for add any toolbar button
    */
   addToolbar(): Promise<HTMLDivElement> {
     return new Promise((resolve, reject) => {
@@ -104,6 +106,16 @@ export class Toolbar {
    * undo, redo, brush, eraser, text, clear, line thickness, colorpicker, upload, download, setting
    */
   addDefaults() {
+    this.addUndoBtn();
+    this.addRedoBtn();
+    this.addBrushBtn();
+    this.addEraserBtn();
+    this.addClearBtn();
+    this.addSeparator();
+    this.addSettingBtn();
+  }
+
+  addAllButtons() {
     this.addUndoBtn();
     this.addRedoBtn();
     this.addBrushBtn();
@@ -407,7 +419,7 @@ export class Toolbar {
             if (typeof action === 'function') {
               action.call(this, $clearBtn);
             } else if (!this.drawer.isEmpty()) {
-              if (confirm(`${'Voulez vous suppimer la totalité du dessin ?'}`)) {
+              if (confirm(`${'Delete the entire drawing'} ?`)) {
                 this.drawer.clear();
               }
             }
