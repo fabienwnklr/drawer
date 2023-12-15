@@ -627,11 +627,9 @@ export class Drawer extends History {
    */
   private _drawend(event: KonvaEventObject<PointerEvent>) {
     event.evt.preventDefault();
-    this.isDrawing = false;
 
-    this.selectionRange.visible(false);
-
-    if (this.activeTool === 'select') {
+    if (this.activeTool === 'select' && this.selectionRange.visible()) {
+      this.selectionRange.visible(false);
       const shapes = this.stage.find('.rect, .line');
       const box = this.selectionRange.getClientRect();
       const selected = shapes.filter((shape) => Konva.Util.haveIntersection(box, shape.getClientRect()));
@@ -651,9 +649,11 @@ export class Drawer extends History {
         this.trigger('change');
       }
     }
+    this.isDrawing = false;
   }
 
   private _tap(event: KonvaEventObject<MouseEvent>) {
+    if (this.activeTool !== "select") return;
     // if click on empty area - remove all selections
     if (event.target === this.stage) {
       this.tr.nodes([]);
