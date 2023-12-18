@@ -33,7 +33,7 @@ const config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
-
+  scripts: ["/js/drawer.iife.js"],
   presets: [
     [
       'classic',

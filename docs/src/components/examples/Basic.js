@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import CodeBlock from '@theme/CodeBlock';
 import Admonition from '@theme/Admonition';
-import { Drawer } from '../../js/drawer';
+// import { Drawer } from '../../js/drawer';
 import '../../css/style.css';
 
 export default function Basic() {
   useEffect(() => {
     const $el = document.getElementById('canvas-container');
-    const basic = new Drawer($el);
+    // eslint-disable-next-line no-undef
+    const basic = new Drawer.Drawer($el);
     window.basic = basic;
   }, []);
 

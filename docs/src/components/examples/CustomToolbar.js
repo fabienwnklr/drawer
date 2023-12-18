@@ -2,13 +2,14 @@ import React, { useEffect } from 'react';
 import CodeBlock from '@theme/CodeBlock';
 import Admonition from '@theme/Admonition';
 import Link from '@docusaurus/Link';
-import { Drawer } from '../../js/drawer';
+// import { Drawer } from '../../js/drawer';
 import '../../css/style.css';
 
 export default function CustomToolbar() {
   useEffect(() => {
     const $el = document.getElementById('canvas-container');
-    const customToolbar = new Drawer($el, { defaultToolbar: false });
+    // eslint-disable-next-line no-undef
+    const customToolbar = new Drawer.Drawer($el, { defaultToolbar: false });
     customToolbar.toolbar.addToolbar();
     customToolbar.toolbar.addDrawGroupBtn();
     window.customToolbar = customToolbar;
