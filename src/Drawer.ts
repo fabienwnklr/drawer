@@ -54,7 +54,7 @@ declare global {
  *
  * @author Winkler Fabien <fabienwinkler@outlook.fr>
  */
-export class Drawer extends History {
+class Drawer extends History {
   declare ctx: CanvasRenderingContext2D;
   isDrawing: boolean = false;
   activeTool: keyof typeof DrawTools = 'brush';
@@ -1045,4 +1045,9 @@ export class Drawer extends History {
 
     $textArea.focus();
   }
+}
+
+export {
+  Drawer as default,
+  Drawer
 }

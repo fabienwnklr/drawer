@@ -688,13 +688,13 @@ export class Toolbar {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
             // const img = await
-            canvas.width = this.drawer.options.width;
-            canvas.height = this.drawer.options.height;
+            canvas.width = this.drawer.$canvas.width;
+            canvas.height = this.drawer.$canvas.height;
             ctx.fillStyle = this.drawer.options.bgColor;
-            ctx.fillRect(0, 0, this.drawer.options.width, this.drawer.options.height);
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(this.drawer.$canvas, 0, 0);
             // Download
-            const data = canvas.toDataURL('image/png');
+            const data = this._cropImageFromCanvas(ctx);
             const $link = document.createElement('a');
 
             $link.download = this.drawer.$canvas.id || 'draw' + '.png';
@@ -714,6 +714,46 @@ export class Toolbar {
     });
   }
 
+  /**
+   * Crop image
+   */
+  _cropImageFromCanvas(ctx: CanvasRenderingContext2D) {
+    const canvas = ctx.canvas,
+      pix = { x: [] as number[], y: [] as number[] },
+      imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    let x,
+      y,
+      index,
+      w = canvas.width,
+      h = canvas.height;
+
+    for (y = 0; y < h; y++) {
+      for (x = 0; x < w; x++) {
+        index = (y * w + x) * 4;
+        if (imageData.data[index + 3] > 0) {
+          pix.x.push(x);
+          pix.y.push(y);
+        }
+      }
+    }
+    pix.x.sort(function (a, b) {
+      return a - b;
+    });
+    pix.y.sort(function (a, b) {
+      return a - b;
+    });
+    const n = pix.x.length - 1;
+
+    w = 1 + pix.x[n] - pix.x[0];
+    h = 1 + pix.y[n] - pix.y[0];
+    const cut = ctx.getImageData(pix.x[0], pix.y[0], w, h);
+
+    canvas.width = w;
+    canvas.height = h;
+    ctx.putImageData(cut, 0, 0);
+
+    return canvas.toDataURL();
+  }
   /**
    * Add pick color button select color on canvas
    * see {@link addToolbar} before use it

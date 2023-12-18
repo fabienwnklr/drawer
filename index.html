@@ -28,9 +28,10 @@
       const $el = document.querySelector('#app');
       window.drawer = new Drawer($el, {
         defaultToolbar: false,
+        width: 1400
       });
       drawer.toolbar.addToolbar();
-      drawer.toolbar.addDrawGroupBtn();
+      drawer.toolbar.addAllButtons();
     </script>
   </body>
 </html>
