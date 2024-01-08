@@ -1,8 +1,9 @@
 :root {
   --drawer-primary: rgba(100, 108, 255, 1);
-  --drawer-primary-light: rgba(100, 108, 255, 0.4);
+  --drawer-bg-hover: rgba(100, 108, 255, 0.4);
   --drawer-primary-active-color: rgba(248, 248, 248, 1);
   --drawer-primary-active-bg: rgba(79, 87, 192, 1);
+  --drawer-primary-active-bg-hover: rgb(93, 102, 224);
   --drawer-light: rgba(243, 243, 243, 1);
   --drawer-light-btn: rgba(212, 212, 212, 1);
   --drawer-border-radius: 0.5rem;
@@ -104,6 +105,7 @@
 .toolbar.innerTop {
   top: 0;
   left: 0;
+  right: 0;
 }
 
 .toolbar.innerStart,
@@ -201,24 +203,25 @@
 .drawer-menu .btn,
 .drawer-modal .btn {
   border-radius: var(--drawer-border-radius);
-  border: 1px solid transparent;
+  border: none;
   padding: 0.2em 0.4em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: background-color 0.25s;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--drawer-light-btn);
+  background-color: transparent;
 }
 
-.drawer-container .btn:not(:disabled):hover,
-.drawer-menu .btn:not(:disabled):hover,
-.drawer-modal .btn:not(:disabled):hover {
-  border-color: var(--drawer-primary);
+.drawer-container .btn:not(:disabled):not(.active):hover,
+.drawer-menu .btn:not(:disabled):not(.active):hover,
+.drawer-modal .btn:not(:disabled):not(.active):hover {
+  background-color: var(--drawer-bg-hover);
 }
+
 .drawer-container .btn:disabled,
 .drawer-menu .btn:disabled .drawer-modal .btn:disabled {
   cursor: not-allowed;

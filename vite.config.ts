@@ -2,13 +2,18 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'node:path';
 import dts from 'vite-plugin-dts';
-import { execSync } from "child_process";
+import { execSync } from 'child_process';
 
 export default defineConfig({
   build: {
     sourcemap: true,
     cssMinify: true,
     minify: false,
+    rollupOptions: {
+      output: {
+        exports: 'named',
+      },
+    },
     lib: {
       // Could also be a dictionary or array of multiple entry points
       entry: resolve(__dirname, 'src/Drawer.ts'),
@@ -21,15 +26,15 @@ export default defineConfig({
   plugins: [
     dts({
       insertTypesEntry: true,
-      rollupTypes: true
+      rollupTypes: true,
     }),
     {
       name: 'postbuild-commands', // the name of your custom plugin. Could be anything.
       closeBundle: async () => {
-        console.log('Build docs...')
-        execSync("npm run build:docs") // run during closeBundle hook. https://rollupjs.org/guide/en/#closebundle
-        console.log('Docs build !')
-      }
+        console.log('Build docs...');
+        execSync('npm run build:docs'); // run during closeBundle hook. https://rollupjs.org/guide/en/#closebundle
+        console.log('Docs build !');
+      },
     },
   ],
   resolve: {

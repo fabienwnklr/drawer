@@ -69,7 +69,7 @@
 }
 
 .drawer-modal .drawer-modal-header .btn-close:not(:disabled):hover {
-  background-color: var(--drawer-primary-light);
+  background-color: var(--drawer-bg-hover);
 }
 
 .drawer-modal .drawer-modal-body {
