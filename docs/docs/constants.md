@@ -3,7 +3,7 @@
 
 ## defaultOptionsDrawer
 
-__default value for [DrawerOptions](api/interfaces/types_drawer.DrawerOptions)__
+__default value for [DrawerOptions](api/interfaces/types.DrawerOptions)__
 
 ```ts
 export const defaultOptionsDrawer: DrawerOptions = {
@@ -32,7 +32,7 @@ export const defaultOptionsDrawer: DrawerOptions = {
 
 ## defaultOptionsModal
 
-__default value for [ModalOptions](api/interfaces/types_modal.ModalOptions)__
+__default value for [ModalOptions](api/interfaces/types.ModalOptions)__
 
 ```ts
 
@@ -48,7 +48,7 @@ export const defaultOptionsModal: ModalOptions = {
 
 ## defaultOptionsToolbar
 
-__default value for [ToolbarOptions](api/interfaces/types_toolbar.ToolbarOptions)__
+__default value for [ToolbarOptions](api/interfaces/types.ToolbarOptions)__
 
 ```ts
 export const defaultOptionsToolbar: ToolbarOptions = {
