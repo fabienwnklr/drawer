@@ -1038,6 +1038,8 @@ export class Toolbar {
 
       if (file) {
         this.drawer.loadFromData(URL.createObjectURL(file));
+        // Clear value for prevent load again same img
+        this.$uploadFile.value = "";
       }
     }
   }
