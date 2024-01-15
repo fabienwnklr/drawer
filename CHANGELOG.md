@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.2](https://github.com/fabwcie/drawer/compare/v1.2.1...v1.2.2) (2024-01-08)
+
+
+### Bug Fixes
+
+* clear upload input ([8f0e132](https://github.com/fabwcie/drawer/commits/8f0e132f7aae7ccf9ed75d502b28cf1f23fd490e))
+* starting croping on export ([c9637d1](https://github.com/fabwcie/drawer/commits/c9637d17c8c0b3cdad140d51c18d1a5ef6bb8b78))
+
 ### [1.2.1](https://github.com/fabwcie/drawer/compare/v1.2.0...v1.2.1) (2023-12-14)
 
 

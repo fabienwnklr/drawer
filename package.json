@@ -3,7 +3,7 @@
   "description": "Canvas drawer for free hand drawing and more utility tools.",
   "author": "Winkler Fabien <fabienwinkler@outlook.fr>",
   "contributors": [],
-  "version": "1.2.1",
+  "version": "1.2.2",
   "type": "module",
   "main": "src/Drawer.ts",
   "types": "./dist/index.d.ts",
@@ -50,7 +50,8 @@
     "release": "npm run build && standard-version",
     "release:patch": "npm run build && standard-version --release-as patch && git push --follow-tags origin master && npm publish --access public",
     "release:minor": "npm run build && standard-version --release-as minor && git push --follow-tags origin master && npm publish --access public",
-    "release:major": "npm run build && standard-version --release-as major && git push --follow-tags origin master && npm publish --access public"
+    "release:major": "npm run build && standard-version --release-as major && git push --follow-tags origin master && npm publish --access public",
+    "deploy": "sh scripts/deploy.sh"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.2",
