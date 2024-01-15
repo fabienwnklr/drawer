@@ -5,7 +5,7 @@ import { defaultOptionsDrawer } from './constants';
 import { DrawEvent } from './utils/DrawEvent';
 
 // Type import
-import type { DrawTools, DrawerOptions, Position } from './types/index';
+import type { DrawTools, DrawerOptions, Position, savedStorage } from './types/index';
 
 // History
 import { History } from './utils/History';
@@ -22,7 +22,7 @@ import { ArrowIcon } from './icons/arrow';
 // Utils
 import { throttle } from './utils/perf';
 import { getMousePosition } from './utils/infos';
-import { deepMerge } from './utils/utils';
+import { deepMerge, isJSON } from './utils/utils';
 
 // UI
 import { SettingsModal } from './ui/SettingsModal';
@@ -110,11 +110,19 @@ class Drawer extends History {
         const saved = localStorage.getItem(this.options.localStorageKey);
         let trigger = true;
 
-        if (saved && !this.isEmpty(saved)) {
-          const data = JSON.parse(saved);
-          this.loadFromData(data.data, false);
-          this.setBgColor(data.bgcolor, false);
-          this.options.grid = data.grid;
+        if (saved) {
+          if (isJSON(saved)) {
+            const parsed = JSON.parse(saved) as savedStorage;
+
+            if (!this.isEmpty(parsed.data)) {
+              this.loadFromData(parsed.data, false);
+            }
+            this.setBgColor(parsed.bgcolor, false);
+            this.options.grid = parsed.grid;
+          } else if (!this.isEmpty(saved)) {
+            // temporary, after 1.1.6 storage value changed, remove on v2
+            this.loadFromData(saved, false);
+          }
           trigger = false;
         }
 
@@ -1047,7 +1055,4 @@ class Drawer extends History {
   }
 }
 
-export {
-  Drawer as default,
-  Drawer
-}
+export { Drawer as default, Drawer };
