@@ -1,6 +1,9 @@
 :root {
   --drawer-primary: rgba(100, 108, 255, 1);
-  --drawer-bg-hover: rgba(100, 108, 255, 0.4);
+  --drawer-primary-bg-hover: rgba(100, 108, 255, 0.4);
+  --drawer-neutral-bg-hover: rgba(124, 124, 124, 0.4);
+  --drawer-danger-bg-hover: rgba(228, 21, 21, 0.4);
+  --drawer-success-bg-hover: rgba(35, 156, 55, 0.4);
   --drawer-primary-active-color: rgba(248, 248, 248, 1);
   --drawer-primary-active-bg: rgba(79, 87, 192, 1);
   --drawer-primary-active-bg-hover: rgb(93, 102, 224);
@@ -216,15 +219,31 @@
   background-color: transparent;
 }
 
-.drawer-container .btn:not(:disabled):not(.active):hover,
-.drawer-menu .btn:not(:disabled):not(.active):hover,
-.drawer-modal .btn:not(:disabled):not(.active):hover {
-  background-color: var(--drawer-bg-hover);
+.drawer-container .btn.btn-primary:not(:disabled):not(.active):hover,
+.drawer-menu .btn.btn-primary:not(:disabled):not(.active):hover,
+.drawer-modal .btn.btn-primary:not(:disabled):not(.active):hover {
+  background-color: var(--drawer-primary-bg-hover);
+}
+
+.drawer-container .btn.btn-neutral:not(:disabled):not(.active):hover,
+.drawer-menu .btn.btn-neutral:not(:disabled):not(.active):hover,
+.drawer-modal .btn.btn-neutral:not(:disabled):not(.active):hover {
+  background-color: var(--drawer-neutral-bg-hover);
+}
+
+.drawer-container .btn.btn-danger:not(:disabled):not(.active):hover,
+.drawer-menu .btn.btn-danger:not(:disabled):not(.active):hover,
+.drawer-modal .btn.btn-danger:not(:disabled):not(.active):hover {
+  background-color: var(--drawer-danger-bg-hover);
 }
 
 .drawer-container .btn:disabled,
 .drawer-menu .btn:disabled .drawer-modal .btn:disabled {
   cursor: not-allowed;
+}
+
+.drawer-container .p-2 {
+  padding: .7em;
 }
 
 .drawer-container .btn.active,

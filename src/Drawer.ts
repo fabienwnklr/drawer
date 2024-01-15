@@ -65,7 +65,7 @@ class Drawer extends History {
   declare $canvas: HTMLCanvasElement;
   $sourceElement: HTMLElement;
   $drawerContainer!: HTMLDivElement;
-  #dragStartLocation!: Position;
+  #dragStartLocation!: Position | undefined;
   #snapshot!: ImageData;
   #availableShape: Array<keyof typeof DrawTools> = [
     'rect',
@@ -540,6 +540,7 @@ class Drawer extends History {
    */
   setLineWidth(width: number) {
     try {
+      // TODO : manage eraser/brush independently
       this.options.lineThickness = width;
       this.options.eraserThickness =
         width > this.options.minEraserThickness ? width * 2 : this.options.minEraserThickness;
@@ -609,7 +610,7 @@ class Drawer extends History {
 
     if (this.activeTool !== 'brush' && this.activeTool !== 'eraser' && this.options.guides) {
       this._drawGuides(position);
-      this._drawPointerDownArc(this.#dragStartLocation);
+      this._drawPointerDownArc(this.#dragStartLocation as Position);
       this._drawRubberBandReference(position);
     }
 
@@ -650,7 +651,7 @@ class Drawer extends History {
     this.ctx.fillStyle = this.options.color; // passing selectedColor as fill style
     this.ctx.lineCap = this.options.cap;
     const angle =
-      (Math.atan2(this.#dragStartLocation.y - position.y, this.#dragStartLocation.x - position.x) * 20) / Math.PI;
+      (Math.atan2(this.#dragStartLocation!.y - position.y, this.#dragStartLocation!.x - position.x) * 20) / Math.PI;
 
     switch (this.activeTool) {
       case 'brush':
@@ -708,33 +709,33 @@ class Drawer extends History {
 
   private _drawLine({ x, y }: Position) {
     this.ctx.beginPath();
-    this.ctx.moveTo(this.#dragStartLocation.x, this.#dragStartLocation.y);
+    this.ctx.moveTo(this.#dragStartLocation!.x, this.#dragStartLocation!.y);
     this.ctx.lineTo(x, y);
     this.ctx.stroke();
   }
 
   private _drawRect({ x, y }: Position) {
-    const w = x - this.#dragStartLocation.x;
-    const h = y - this.#dragStartLocation.y;
+    const w = x - this.#dragStartLocation!.x;
+    const h = y - this.#dragStartLocation!.y;
     this.ctx.beginPath();
-    this.ctx.rect(this.#dragStartLocation.x, this.#dragStartLocation.y, w, h);
+    this.ctx.rect(this.#dragStartLocation!.x, this.#dragStartLocation!.y, w, h);
   }
 
   private _drawCircle({ x, y }: Position) {
-    const radius = Math.sqrt(Math.pow(this.#dragStartLocation.x - x, 2) + Math.pow(this.#dragStartLocation.y - y, 2));
+    const radius = Math.sqrt(Math.pow(this.#dragStartLocation!.x - x, 2) + Math.pow(this.#dragStartLocation!.y - y, 2));
     this.ctx.beginPath();
-    this.ctx.arc(this.#dragStartLocation.x, this.#dragStartLocation.y, radius, 0, 2 * Math.PI);
+    this.ctx.arc(this.#dragStartLocation!.x, this.#dragStartLocation!.y, radius, 0, 2 * Math.PI);
   }
 
   private _drawArrow({ x, y }: Position) {
-    const angle = Math.atan2(y - this.#dragStartLocation.y, x - this.#dragStartLocation.x);
+    const angle = Math.atan2(y - this.#dragStartLocation!.y, x - this.#dragStartLocation!.x);
     const hyp = Math.sqrt(
-      (x - this.#dragStartLocation.x) * (x - this.#dragStartLocation.x) +
-        (y - this.#dragStartLocation.y) * (y - this.#dragStartLocation.y)
+      (x - this.#dragStartLocation!.x) * (x - this.#dragStartLocation!.x) +
+        (y - this.#dragStartLocation!.y) * (y - this.#dragStartLocation!.y)
     );
 
     this.ctx.save();
-    this.ctx.translate(this.#dragStartLocation.x, this.#dragStartLocation.y);
+    this.ctx.translate(this.#dragStartLocation!.x, this.#dragStartLocation!.y);
     this.ctx.rotate(angle);
 
     // line
@@ -759,14 +760,14 @@ class Drawer extends History {
   }
 
   private _drawEllipse({ x, y }: Position) {
-    const w = x - this.#dragStartLocation.x;
-    const h = y - this.#dragStartLocation.y;
+    const w = x - this.#dragStartLocation!.x;
+    const h = y - this.#dragStartLocation!.y;
     const angle = Math.atan2(y - 100, x - 100);
     this.ctx.beginPath();
 
     this.ctx.ellipse(
-      this.#dragStartLocation.x,
-      this.#dragStartLocation.y,
+      this.#dragStartLocation!.x,
+      this.#dragStartLocation!.y,
       Math.abs(w),
       Math.abs(h),
       angle,
@@ -792,12 +793,12 @@ class Drawer extends History {
 
   private _drawPolygon({ x, y }: Position, sides: number, angle: number) {
     const coordinates = [],
-      radius = Math.sqrt(Math.pow(this.#dragStartLocation.x - x, 2) + Math.pow(this.#dragStartLocation.y - y, 2));
+      radius = Math.sqrt(Math.pow(this.#dragStartLocation!.x - x, 2) + Math.pow(this.#dragStartLocation!.y - y, 2));
 
     for (let index = 0; index < sides; index++) {
       coordinates.push({
-        x: this.#dragStartLocation.x + radius * Math.cos(angle),
-        y: this.#dragStartLocation.y - radius * Math.sin(angle),
+        x: this.#dragStartLocation!.x + radius * Math.cos(angle),
+        y: this.#dragStartLocation!.y - radius * Math.sin(angle),
       });
       angle += (2 * Math.PI) / sides;
     }
@@ -878,20 +879,20 @@ class Drawer extends History {
    */
   private _drawRubberBandReference({ x, y }: Position) {
     const rubberBandRect: any = {};
-    if (this.#dragStartLocation.x < x) {
-      rubberBandRect.left = this.#dragStartLocation.x;
+    if (this.#dragStartLocation!.x < x) {
+      rubberBandRect.left = this.#dragStartLocation!.x;
     } else {
       rubberBandRect.left = x;
     }
 
-    if (this.#dragStartLocation.y < y) {
-      rubberBandRect.top = this.#dragStartLocation.y;
+    if (this.#dragStartLocation!.y < y) {
+      rubberBandRect.top = this.#dragStartLocation!.y;
     } else {
       rubberBandRect.top = y;
     }
 
-    rubberBandRect.width = Math.abs(this.#dragStartLocation.x - x);
-    rubberBandRect.height = Math.abs(this.#dragStartLocation.y - y);
+    rubberBandRect.width = Math.abs(this.#dragStartLocation!.x - x);
+    rubberBandRect.height = Math.abs(this.#dragStartLocation!.y - y);
     this.ctx.save();
     this.ctx.strokeStyle = 'black';
     this.ctx.lineWidth = 1;

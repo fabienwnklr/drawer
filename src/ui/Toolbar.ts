@@ -30,6 +30,7 @@ import type { action, DrawTools, ToolbarOptions } from '../types/index';
 import { ExpandIcon } from '../icons/expand';
 import { FullscreenIcon } from '../icons/fullscreen';
 import { CloseIcon } from '../icons/close';
+import { ConfirmModal } from './ConfirmModal';
 
 export class Toolbar {
   drawer: Drawer;
@@ -144,7 +145,7 @@ export class Toolbar {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$undoBtn) {
-          const undoBtn = /*html*/ `<button title="${'Redo'}" class="btn" disabled>${UndoIcon}</button>`;
+          const undoBtn = /*html*/ `<button title="${'Redo'}" class="btn btn-primary" disabled>${UndoIcon}</button>`;
           const $undoBtn = stringToHTMLElement<HTMLButtonElement>(undoBtn);
           this.$undoBtn = $undoBtn;
 
@@ -183,7 +184,7 @@ export class Toolbar {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$redoBtn) {
-          const redoBtn = /*html*/ `<button title="${'Redo'}" class="btn" disabled>${RedoIcon}</button>`;
+          const redoBtn = /*html*/ `<button title="${'Redo'}" class="btn btn-primary" disabled>${RedoIcon}</button>`;
           const $redoBtn = stringToHTMLElement<HTMLButtonElement>(redoBtn);
           this.$redoBtn = $redoBtn;
 
@@ -222,7 +223,7 @@ export class Toolbar {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$brushBtn) {
-          const brushBtn = /*html*/ `<button title="${'Brush'}" class="btn active">${BrushIcon}</button>`;
+          const brushBtn = /*html*/ `<button title="${'Brush'}" class="btn btn-primary active">${BrushIcon}</button>`;
           const $brushBtn = stringToHTMLElement<HTMLButtonElement>(brushBtn);
           this.$brushBtn = $brushBtn;
 
@@ -258,7 +259,7 @@ export class Toolbar {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$eraserBtn) {
-          const eraserBtn = /*html*/ `<button title="${'Eraser'}" class="btn">${EraserIcon}</button>`;
+          const eraserBtn = /*html*/ `<button title="${'Eraser'}" class="btn btn-primary">${EraserIcon}</button>`;
           const $eraserBtn = stringToHTMLElement<HTMLButtonElement>(eraserBtn);
           this.$eraserBtn = $eraserBtn;
 
@@ -294,7 +295,7 @@ export class Toolbar {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$textBtn) {
-          const textBtn = /*html*/ `<button title="${'Text zone'}" class="btn">${TextIcon}</button>`;
+          const textBtn = /*html*/ `<button title="${'Text zone'}" class="btn btn-primary">${TextIcon}</button>`;
           const $textBtn = stringToHTMLElement<HTMLButtonElement>(textBtn);
           this.$textBtn = $textBtn;
 
@@ -347,13 +348,13 @@ export class Toolbar {
           const drawGroupMenu = /*html*/ `
             <ul class="drawer-menu">
               <li class="drawer-menu-item">
-                <button data-tool="brush" title=${'Brush'} class="btn">${BrushIcon}</button>
+                <button data-tool="brush" title=${'Brush'} class="btn btn-primary">${BrushIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-tool="eraser" title=${'Eraser'} class="btn">${EraserIcon}</button>
+                <button data-tool="eraser" title=${'Eraser'} class="btn btn-primary">${EraserIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-tool="text" title=${'Text zone'} class="btn">${TextIcon}</button>
+                <button data-tool="text" title=${'Text zone'} class="btn btn-primary">${TextIcon}</button>
               </li>
             </ul>`;
 
@@ -409,7 +410,7 @@ export class Toolbar {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$clearBtn) {
-          const clearBtn = /*html*/ `<button title="${'Clear draw'}" class="btn">${ClearIcon}</button>`;
+          const clearBtn = /*html*/ `<button title="${'Clear draw'}" class="btn btn-primary">${ClearIcon}</button>`;
           const $clearBtn = stringToHTMLElement<HTMLButtonElement>(clearBtn);
           this.$clearBtn = $clearBtn;
 
@@ -419,9 +420,7 @@ export class Toolbar {
             if (typeof action === 'function') {
               action.call(this, $clearBtn);
             } else if (!this.drawer.isEmpty()) {
-              if (confirm(`${'Delete the entire drawing'} ?`)) {
-                this.drawer.clear();
-              }
+              new ConfirmModal(this.drawer, { message: 'Do you want to delete the entire drawing?' }).show();
             }
           });
 
@@ -447,30 +446,30 @@ export class Toolbar {
     return new Promise((resolve, reject) => {
       try {
         if (this.$toolbar && !this.$shapeBtn) {
-          const shapeBtn = /*html*/ `<button title="${'Draw shape'}" class="btn btn-shape">${ShapeIcon}</button>`;
+          const shapeBtn = /*html*/ `<button title="${'Draw shape'}" class="btn btn-primary btn-shape">${ShapeIcon}</button>`;
 
           const shapeMenu = /*html*/ `
             <ul class="drawer-menu">
               <li class="drawer-menu-item">
-                <button data-shape="triangle" class="btn triangle" title="${'Triangle'}">${TriangleIcon}</button>
+                <button data-shape="triangle" class="btn btn-primary triangle" title="${'Triangle'}">${TriangleIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="rect" class="btn rect" title="${'Rectangle'}">${RectIcon}</button>
+                <button data-shape="rect" class="btn btn-primary rect" title="${'Rectangle'}">${RectIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="square" class="btn square" title="${'Square'}">${SquareIcon}</button>
+                <button data-shape="square" class="btn btn-primary square" title="${'Square'}">${SquareIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="line" class="btn line" title="${'Line'}">${LineIcon}</button>
+                <button data-shape="line" class="btn btn-primary line" title="${'Line'}">${LineIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="arrow" class="btn arrow" title="${'Arrow'}">${ArrowIcon}</button>
+                <button data-shape="arrow" class="btn btn-primary arrow" title="${'Arrow'}">${ArrowIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="circle" class="btn circle" title="${'Circle'}">${CircleIcon}</button>
+                <button data-shape="circle" class="btn btn-primary circle" title="${'Circle'}">${CircleIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="ellipse" class="btn circle" title="${'Ellipse'}">${EllipseIcon}</button>
+                <button data-shape="ellipse" class="btn btn-primary circle" title="${'Ellipse'}">${EllipseIcon}</button>
               </li>
             </ul>`;
 
@@ -573,7 +572,7 @@ export class Toolbar {
         if (this.$toolbar && !this.$colorPicker) {
           const colorPickerContainer = /*html*/ `
             <div class="container-colorpicker">
-              <input class="btn" id="colopicker-${
+              <input class="btn btn-primary" id="colopicker-${
                 this.drawer.options.id
               }" class="" type="text" title="${'Color'}" value="${this.drawer.options.color}" data-coloris/>
             </div>
@@ -632,7 +631,7 @@ export class Toolbar {
           const uploadFile = /*html*/ `
             <div class="container-uploadFile">
               <input tabindex="-1" id="${this.drawer.options.id}-uploadfile" title="${'Color'}" class="" type="file" />
-              <label tabindex="0" title="${'Upload file'}" accept="image/png, image/jpeg, .svg" class="btn" for="${
+              <label tabindex="0" title="${'Upload file'}" accept="image/png, image/jpeg, .svg" class="btn btn-primary" for="${
                 this.drawer.options.id
               }-uploadfile">
                 ${UploadIcon}
@@ -675,7 +674,7 @@ export class Toolbar {
   addDownloadBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
     return new Promise((resolve, reject) => {
       if (this.$toolbar && !this.$downloadBtn) {
-        const download = /*html*/ `<button title="${'Download'}" class="btn">${DownloadIcon}</button>`;
+        const download = /*html*/ `<button title="${'Download'}" class="btn btn-primary">${DownloadIcon}</button>`;
         const $downloadBtn = stringToHTMLElement<HTMLButtonElement>(download);
         this.$downloadBtn = $downloadBtn;
 
@@ -763,7 +762,7 @@ export class Toolbar {
   addPickColorButton(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
     return new Promise((resolve, reject) => {
       if (this.$toolbar && !this.$pickColorBtn) {
-        const pickColor = /*html*/ `<button title="${'Pick color'}" class="btn">${ExpandIcon}</button>`;
+        const pickColor = /*html*/ `<button title="${'Pick color'}" class="btn btn-primary">${ExpandIcon}</button>`;
         const $pickColorBtn = stringToHTMLElement<HTMLButtonElement>(pickColor);
         this.$pickColorBtn = $pickColorBtn;
 
@@ -820,7 +819,7 @@ export class Toolbar {
   addExpandButton(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
     return new Promise((resolve, reject) => {
       if (this.$toolbar && !this.$expandBtn) {
-        const expand = /*html*/ `<button title="${'Expand'}" class="btn">${ExpandIcon}</button>`;
+        const expand = /*html*/ `<button title="${'Expand'}" class="btn btn-primary">${ExpandIcon}</button>`;
         const $expandBtn = stringToHTMLElement<HTMLButtonElement>(expand);
         this.$expandBtn = $expandBtn;
 
@@ -852,7 +851,7 @@ export class Toolbar {
   addFullscreenButton(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
     return new Promise((resolve, reject) => {
       if (this.$toolbar && !this.$fullscreenBtn) {
-        const fullscreen = /*html*/ `<button title="${'Fullscreen'}" class="btn">${FullscreenIcon}</button>`;
+        const fullscreen = /*html*/ `<button title="${'Fullscreen'}" class="btn btn-primary">${FullscreenIcon}</button>`;
         const $fullscreenBtn = stringToHTMLElement<HTMLButtonElement>(fullscreen);
         this.$fullscreenBtn = $fullscreenBtn;
 
@@ -877,7 +876,7 @@ export class Toolbar {
 
   async addCloseButton(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement | undefined> {
     if (this.$toolbar && !this.$closeBtn) {
-      const close = /*html*/ `<button title="${'Close'}" class="btn">${CloseIcon}</button>`;
+      const close = /*html*/ `<button title="${'Close'}" class="btn btn-primary">${CloseIcon}</button>`;
       const $closeBtn = stringToHTMLElement<HTMLButtonElement>(close);
       this.$closeBtn = $closeBtn;
 
@@ -886,8 +885,14 @@ export class Toolbar {
       this.$closeBtn.addEventListener('click', () => {
         if (typeof action === 'function') {
           action.call(this, $closeBtn);
-        } else if (confirm('Do you want to close and lose data ?')) {
-          this.drawer.destroy();
+        } else {
+          new ConfirmModal(this.drawer, {
+            message: 'Do you want to close and lose data ?',
+            onConfirm: (modal) => {
+              modal.drawer.destroy();
+              modal.hide();
+            },
+          }).show();
         }
       });
       return this.$closeBtn;
@@ -903,7 +908,7 @@ export class Toolbar {
   addSettingBtn(action?: action<HTMLButtonElement>): Promise<HTMLButtonElement> {
     return new Promise((resolve, reject) => {
       if (this.$toolbar && !this.$settingBtn) {
-        const settingBtn = /*html*/ `<button title="${'Settings'}" class="btn">${SettingIcon}</button>`;
+        const settingBtn = /*html*/ `<button title="${'Settings'}" class="btn btn-primary">${SettingIcon}</button>`;
         const $settingBtn = stringToHTMLElement<HTMLButtonElement>(settingBtn);
         this.$settingBtn = $settingBtn;
 
@@ -945,7 +950,7 @@ export class Toolbar {
   ): Promise<HTMLButtonElement> {
     return new Promise((resolve, reject) => {
       if (this.$toolbar && !this.customBtn[name]) {
-        const customBtn = /*html*/ `<button title="${title}" class="btn">${label}</button>`;
+        const customBtn = /*html*/ `<button title="${title}" class="btn btn-primary">${label}</button>`;
         const $customBtn = stringToHTMLElement<HTMLButtonElement>(customBtn);
         this.customBtn[name] = $customBtn;
 
@@ -1039,7 +1044,7 @@ export class Toolbar {
       if (file) {
         this.drawer.loadFromData(URL.createObjectURL(file));
         // Clear value for prevent load again same img
-        this.$uploadFile.value = "";
+        this.$uploadFile.value = '';
       }
     }
   }
