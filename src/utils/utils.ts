@@ -84,3 +84,13 @@ export async function blobToBase64(blob: Blob): Promise<string> {
     reader.readAsDataURL(blob);
   });
 }
+
+export function isJSON(obj: any): boolean {
+  try {
+    JSON.parse(obj);
+
+    return true;
+  } catch (err: any) {
+    return false
+  }
+}
