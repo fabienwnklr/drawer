@@ -241,6 +241,14 @@ var Drawer = function(exports) {
     }
     return output;
   }
+  function isJSON(obj) {
+    try {
+      JSON.parse(obj);
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
   var Coloris = function() {
     /*!
     * Copyright (c) 2021-2023 Momo Bassit.
@@ -1376,7 +1384,7 @@ var Drawer = function(exports) {
       });
     }
   }
-  const version = "1.2.1";
+  const version = "1.2.2";
   const coloris = "";
   const BrushIcon = `<svg width="16" height="16" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
 <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -2477,11 +2485,17 @@ var Drawer = function(exports) {
           this._updateCursor();
           const saved = localStorage.getItem(this.options.localStorageKey);
           let trigger = true;
-          if (saved && !this.isEmpty(saved)) {
-            const data = JSON.parse(saved);
-            this.loadFromData(data.data, false);
-            this.setBgColor(data.bgcolor, false);
-            this.options.grid = data.grid;
+          if (saved) {
+            if (isJSON(saved)) {
+              const parsed = JSON.parse(saved);
+              if (!this.isEmpty(parsed.data)) {
+                this.loadFromData(parsed.data, false);
+              }
+              this.setBgColor(parsed.bgcolor, false);
+              this.options.grid = parsed.grid;
+            } else if (!this.isEmpty(saved)) {
+              this.loadFromData(saved, false);
+            }
             trigger = false;
           }
           if (this.options.grid) {

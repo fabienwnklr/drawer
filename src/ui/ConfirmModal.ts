@@ -34,6 +34,7 @@ export class ConfirmModal extends Modal {
   _options: ConfirmModalOptions;
 
   constructor(drawer: Drawer, options: Partial<ConfirmModalOptions> = {}) {
+    // TODO: add unit test
     super(drawer, { headerContent: 'Confirm' });
 
     this._options = deepMerge<ConfirmModalOptions>(defaultOptions, options);
