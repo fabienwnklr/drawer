@@ -83,3 +83,5 @@ export interface ModalOptions {
 /** Utils */
 
 export type ThrottledFunction<T extends (...args: any) => any> = (...args: Parameters<T>) => ReturnType<T>;
+
+export type savedStorage = { data: string, bgcolor: string, grid: boolean }
