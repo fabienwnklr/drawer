@@ -1,7 +1,7 @@
 :root {
   --drawer-primary: rgba(100, 108, 255, 1);
   --drawer-bg: rgba(100, 108, 255, .1);
-  --drawer-primary-light: rgb(190, 193, 255);
+  --drawer-primary-light: rgb(176, 180, 252);
   --drawer-primary-bg-hover: rgba(100, 108, 255, 0.4);
   --drawer-neutral-bg: rgba(124, 124, 124, 0.4);
   --drawer-neutral-bg-hover: rgba(124, 124, 124, 0.7);

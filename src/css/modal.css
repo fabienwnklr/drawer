@@ -77,7 +77,6 @@
   align-items: center;
   justify-content: center;
   overflow: auto;
-  /* margin-top: 1rem; */
 }
 
 .drawer-modal .drawer-modal-body::-webkit-scrollbar-track {
@@ -85,11 +84,11 @@
 }
 
 .drawer-modal .drawer-modal-body::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
 }
 
 .drawer-modal .drawer-modal-body::-webkit-scrollbar-thumb {
-  background-color: var(--drawer-primary);
+  background-color: var(--drawer-primary-light);
   border-radius: var(--drawer-border-radius);
 }
 
@@ -103,11 +102,12 @@
   background-color: var(--drawer-primary-light);
   font-weight: bold;
   padding: .3rem .7rem;
+  border: 0;
   border-radius: var(--drawer-border-radius);
 }
 
 .drawer-modal .drawer-modal-body .drawer-modal-body-list:first-child {
-  margin-top: 7.2rem;
+  margin-top: auto;
   margin-bottom: .5rem
 }
 .drawer-modal .drawer-modal-body .drawer-modal-body-list {
