@@ -1,5 +1,8 @@
 # Drawer
 
+> [!TIP]
+> **Watch docs and demo [here](https://drawer.fabienwinkler.fr)**
+
 ## Dependencies
 
 - [Coloris](https://github.com/mdbassit/Coloris) for color input better managing
