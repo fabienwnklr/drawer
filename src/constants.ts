@@ -1,4 +1,5 @@
 import type { DrawerOptions, ModalOptions, ToolbarOptions } from './types/index';
+import { ConfirmModal } from './ui/ConfirmModal';
 
 /**
  * @private
@@ -48,4 +49,17 @@ export const defaultOptionsModal: ModalOptions = {
  */
 export const defaultOptionsToolbar: ToolbarOptions = {
   toolbarPosition: 'outerTop',
+};
+
+export const confirmModalDefaultOpts = {
+  message: 'Would you confirm action ?',
+  cancelLabel: 'Cancel',
+  confirmLabel: 'Confirm',
+  onCancel: (modal: ConfirmModal) => {
+    modal.hide();
+  },
+  onConfirm: (modal: ConfirmModal) => {
+    modal.drawer.clear();
+    modal.hide();
+  },
 };
