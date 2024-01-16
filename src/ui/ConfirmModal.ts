@@ -1,4 +1,5 @@
 import Drawer from '../Drawer';
+import { confirmModalDefaultOpts } from '../constants';
 import { deepMerge } from '../utils/utils';
 import { Modal } from './Modal';
 
@@ -9,23 +10,11 @@ type ConfirmModalOptions = {
     onCancel: (modal: ConfirmModal) => void,
     onConfirm: (modal: ConfirmModal) => void,
 }
-const defaultOptions = {
-  message: 'Would you confirm action ?',
-  cancelLabel: 'Cancel',
-  confirmLabel: 'Confirm',
-  onCancel: (modal: ConfirmModal) => {
-    modal.hide();
-  },
-  onConfirm: (modal: ConfirmModal) => {
-    modal.drawer.clear();
-    modal.hide();
-  },
-};
 
 export class ConfirmModal extends Modal {
   drawer: Drawer;
-  $cancelBtn!: HTMLButtonElement | undefined;
-  $confirmBtn!: HTMLButtonElement | undefined;
+  $cancelBtn!: HTMLButtonElement;
+  $confirmBtn!: HTMLButtonElement;
   message: string;
   cancelLabel: string;
   onCancel: (modal: ConfirmModal) => void;
@@ -37,7 +26,7 @@ export class ConfirmModal extends Modal {
     // TODO: add unit test
     super(drawer, { headerContent: 'Confirm' });
 
-    this._options = deepMerge<ConfirmModalOptions>(defaultOptions, options);
+    this._options = deepMerge<ConfirmModalOptions>(confirmModalDefaultOpts, options);
     this.drawer = drawer;
     this.message = this._options.message;
     this.cancelLabel = this._options.cancelLabel;
