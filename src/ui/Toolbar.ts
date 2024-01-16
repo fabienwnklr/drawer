@@ -420,7 +420,12 @@ export class Toolbar {
             if (typeof action === 'function') {
               action.call(this, $clearBtn);
             } else if (!this.drawer.isEmpty()) {
-              new ConfirmModal(this.drawer, { message: 'Do you want to delete the entire drawing?' }).show();
+              if (!this.drawer.clearModal) {
+                this.drawer.clearModal = new ConfirmModal(this.drawer, {
+                  message: 'Do you want to delete the entire drawing?',
+                });
+              }
+              this.drawer.clearModal.show();
             }
           });
 
