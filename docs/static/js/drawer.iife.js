@@ -101,6 +101,18 @@ var Drawer = function(exports) {
   const defaultOptionsToolbar = {
     toolbarPosition: "outerTop"
   };
+  const confirmModalDefaultOpts = {
+    message: "Would you confirm action ?",
+    cancelLabel: "Cancel",
+    confirmLabel: "Confirm",
+    onCancel: (modal2) => {
+      modal2.hide();
+    },
+    onConfirm: (modal2) => {
+      modal2.drawer.clear();
+      modal2.hide();
+    }
+  };
   const DrawEvent = (name, detail = "") => new CustomEvent("drawer." + name, { detail });
   class History {
     constructor() {
@@ -240,6 +252,14 @@ var Drawer = function(exports) {
       });
     }
     return output;
+  }
+  function isJSON(obj) {
+    try {
+      JSON.parse(obj);
+      return true;
+    } catch (err) {
+      return false;
+    }
   }
   var Coloris = function() {
     /*!
@@ -1376,7 +1396,7 @@ var Drawer = function(exports) {
       });
     }
   }
-  const version = "1.2.0";
+  const version = "1.3.0";
   const coloris = "";
   const BrushIcon = `<svg width="16" height="16" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
 <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -1425,6 +1445,54 @@ var Drawer = function(exports) {
     <path fill="currentColor" d="M4 15a1 1 0 0 1 1 1v3h3a1 1 0 1 1 0 2H5a2 2 0 0 1-2-2v-3a1 1 0 0 1 1-1Zm16 0a1 1 0 0 1 .993.883L21 16v3a2 2 0 0 1-1.85 1.995L19 21h-3a1 1 0 0 1-.117-1.993L16 19h3v-3a1 1 0 0 1 1-1ZM19 3a2 2 0 0 1 1.995 1.85L21 5v3a1 1 0 0 1-1.993.117L19 8V5h-3a1 1 0 0 1-.117-1.993L16 3h3ZM8 3a1 1 0 0 1 .117 1.993L8 5H5v3a1 1 0 0 1-1.993.117L3 8V5a2 2 0 0 1 1.85-1.995L5 3h3Z"></path>
 </g>
 </svg>`;
+  class ConfirmModal extends Modal {
+    constructor(drawer2, options = {}) {
+      super(drawer2, { headerContent: "Confirm" });
+      __publicField(this, "drawer");
+      __publicField(this, "$cancelBtn");
+      __publicField(this, "$confirmBtn");
+      __publicField(this, "message");
+      __publicField(this, "cancelLabel");
+      __publicField(this, "onCancel");
+      __publicField(this, "confirmLabel");
+      __publicField(this, "onConfirm");
+      __publicField(this, "_options");
+      this._options = deepMerge(confirmModalDefaultOpts, options);
+      this.drawer = drawer2;
+      this.message = this._options.message;
+      this.cancelLabel = this._options.cancelLabel;
+      this.onCancel = this._options.onCancel;
+      this.confirmLabel = this._options.confirmLabel;
+      this.onConfirm = this._options.onConfirm;
+      this.fill();
+      this._setupElements();
+      this._initEvents();
+    }
+    fill() {
+      this.setBodyContent(`<p class="p-2">${this.message}</p>`);
+      this.setFooterContent(
+        /*html*/
+        `<button id="confirm-modal-cancel-${this.drawer.options.id}" class="btn btn-neutral">${this.cancelLabel}</button><button id="confirm-modal-confirm-${this.drawer.options.id}" class="btn btn-danger">${this.confirmLabel}</button>`
+      );
+    }
+    _setupElements() {
+      this.$cancelBtn = this.$modalFooter.querySelector(
+        `#confirm-modal-cancel-${this.drawer.options.id}`
+      );
+      this.$confirmBtn = this.$modalFooter.querySelector(
+        `#confirm-modal-confirm-${this.drawer.options.id}`
+      );
+    }
+    _initEvents() {
+      var _a, _b;
+      (_a = this.$cancelBtn) == null ? void 0 : _a.addEventListener("click", () => {
+        this.onCancel(this);
+      });
+      (_b = this.$confirmBtn) == null ? void 0 : _b.addEventListener("click", () => {
+        this.onConfirm(this);
+      });
+    }
+  }
   class Toolbar {
     constructor(drawer2, options) {
       __publicField(this, "drawer");
@@ -1532,7 +1600,7 @@ var Drawer = function(exports) {
           if (this.$toolbar && !this.$undoBtn) {
             const undoBtn = (
               /*html*/
-              `<button title="${"Redo"}" class="btn" disabled>${UndoIcon}</button>`
+              `<button title="${"Redo"}" class="btn btn-primary" disabled>${UndoIcon}</button>`
             );
             const $undoBtn = stringToHTMLElement(undoBtn);
             this.$undoBtn = $undoBtn;
@@ -1570,7 +1638,7 @@ var Drawer = function(exports) {
           if (this.$toolbar && !this.$redoBtn) {
             const redoBtn = (
               /*html*/
-              `<button title="${"Redo"}" class="btn" disabled>${RedoIcon}</button>`
+              `<button title="${"Redo"}" class="btn btn-primary" disabled>${RedoIcon}</button>`
             );
             const $redoBtn = stringToHTMLElement(redoBtn);
             this.$redoBtn = $redoBtn;
@@ -1608,7 +1676,7 @@ var Drawer = function(exports) {
           if (this.$toolbar && !this.$brushBtn) {
             const brushBtn = (
               /*html*/
-              `<button title="${"Brush"}" class="btn active">${BrushIcon}</button>`
+              `<button title="${"Brush"}" class="btn btn-primary active">${BrushIcon}</button>`
             );
             const $brushBtn = stringToHTMLElement(brushBtn);
             this.$brushBtn = $brushBtn;
@@ -1643,7 +1711,7 @@ var Drawer = function(exports) {
           if (this.$toolbar && !this.$eraserBtn) {
             const eraserBtn = (
               /*html*/
-              `<button title="${"Eraser"}" class="btn">${EraserIcon}</button>`
+              `<button title="${"Eraser"}" class="btn btn-primary">${EraserIcon}</button>`
             );
             const $eraserBtn = stringToHTMLElement(eraserBtn);
             this.$eraserBtn = $eraserBtn;
@@ -1678,7 +1746,7 @@ var Drawer = function(exports) {
           if (this.$toolbar && !this.$textBtn) {
             const textBtn = (
               /*html*/
-              `<button title="${"Text zone"}" class="btn">${TextIcon}</button>`
+              `<button title="${"Text zone"}" class="btn btn-primary">${TextIcon}</button>`
             );
             const $textBtn = stringToHTMLElement(textBtn);
             this.$textBtn = $textBtn;
@@ -1730,13 +1798,13 @@ var Drawer = function(exports) {
               `
             <ul class="drawer-menu">
               <li class="drawer-menu-item">
-                <button data-tool="brush" title=${"Brush"} class="btn">${BrushIcon}</button>
+                <button data-tool="brush" title=${"Brush"} class="btn btn-primary">${BrushIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-tool="eraser" title=${"Eraser"} class="btn">${EraserIcon}</button>
+                <button data-tool="eraser" title=${"Eraser"} class="btn btn-primary">${EraserIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-tool="text" title=${"Text zone"} class="btn">${TextIcon}</button>
+                <button data-tool="text" title=${"Text zone"} class="btn btn-primary">${TextIcon}</button>
               </li>
             </ul>`
             );
@@ -1786,7 +1854,7 @@ var Drawer = function(exports) {
           if (this.$toolbar && !this.$clearBtn) {
             const clearBtn = (
               /*html*/
-              `<button title="${"Clear draw"}" class="btn">${ClearIcon}</button>`
+              `<button title="${"Clear draw"}" class="btn btn-primary">${ClearIcon}</button>`
             );
             const $clearBtn = stringToHTMLElement(clearBtn);
             this.$clearBtn = $clearBtn;
@@ -1795,9 +1863,12 @@ var Drawer = function(exports) {
               if (typeof action === "function") {
                 action.call(this, $clearBtn);
               } else if (!this.drawer.isEmpty()) {
-                if (confirm(`${"Delete the entire drawing"} ?`)) {
-                  this.drawer.clear();
+                if (!this.drawer.clearModal) {
+                  this.drawer.clearModal = new ConfirmModal(this.drawer, {
+                    message: "Do you want to delete the entire drawing?"
+                  });
                 }
+                this.drawer.clearModal.show();
               }
             });
             resolve(this.$clearBtn);
@@ -1823,32 +1894,32 @@ var Drawer = function(exports) {
           if (this.$toolbar && !this.$shapeBtn) {
             const shapeBtn = (
               /*html*/
-              `<button title="${"Draw shape"}" class="btn btn-shape">${ShapeIcon}</button>`
+              `<button title="${"Draw shape"}" class="btn btn-primary btn-shape">${ShapeIcon}</button>`
             );
             const shapeMenu = (
               /*html*/
               `
             <ul class="drawer-menu">
               <li class="drawer-menu-item">
-                <button data-shape="triangle" class="btn triangle" title="${"Triangle"}">${TriangleIcon}</button>
+                <button data-shape="triangle" class="btn btn-primary triangle" title="${"Triangle"}">${TriangleIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="rect" class="btn rect" title="${"Rectangle"}">${RectIcon}</button>
+                <button data-shape="rect" class="btn btn-primary rect" title="${"Rectangle"}">${RectIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="square" class="btn square" title="${"Square"}">${SquareIcon}</button>
+                <button data-shape="square" class="btn btn-primary square" title="${"Square"}">${SquareIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="line" class="btn line" title="${"Line"}">${LineIcon}</button>
+                <button data-shape="line" class="btn btn-primary line" title="${"Line"}">${LineIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="arrow" class="btn arrow" title="${"Arrow"}">${ArrowIcon}</button>
+                <button data-shape="arrow" class="btn btn-primary arrow" title="${"Arrow"}">${ArrowIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="circle" class="btn circle" title="${"Circle"}">${CircleIcon}</button>
+                <button data-shape="circle" class="btn btn-primary circle" title="${"Circle"}">${CircleIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="ellipse" class="btn circle" title="${"Ellipse"}">${EllipseIcon}</button>
+                <button data-shape="ellipse" class="btn btn-primary circle" title="${"Ellipse"}">${EllipseIcon}</button>
               </li>
             </ul>`
             );
@@ -1942,7 +2013,7 @@ var Drawer = function(exports) {
               /*html*/
               `
             <div class="container-colorpicker">
-              <input class="btn" id="colopicker-${this.drawer.options.id}" class="" type="text" title="${"Color"}" value="${this.drawer.options.color}" data-coloris/>
+              <input class="btn btn-primary" id="colopicker-${this.drawer.options.id}" class="" type="text" title="${"Color"}" value="${this.drawer.options.color}" data-coloris/>
             </div>
             `
             );
@@ -1995,7 +2066,7 @@ var Drawer = function(exports) {
               `
             <div class="container-uploadFile">
               <input tabindex="-1" id="${this.drawer.options.id}-uploadfile" title="${"Color"}" class="" type="file" />
-              <label tabindex="0" title="${"Upload file"}" accept="image/png, image/jpeg, .svg" class="btn" for="${this.drawer.options.id}-uploadfile">
+              <label tabindex="0" title="${"Upload file"}" accept="image/png, image/jpeg, .svg" class="btn btn-primary" for="${this.drawer.options.id}-uploadfile">
                 ${UploadIcon}
               </label>
             </div>
@@ -2034,7 +2105,7 @@ var Drawer = function(exports) {
         if (this.$toolbar && !this.$downloadBtn) {
           const download = (
             /*html*/
-            `<button title="${"Download"}" class="btn">${DownloadIcon}</button>`
+            `<button title="${"Download"}" class="btn btn-primary">${DownloadIcon}</button>`
           );
           const $downloadBtn = stringToHTMLElement(download);
           this.$downloadBtn = $downloadBtn;
@@ -2045,12 +2116,12 @@ var Drawer = function(exports) {
             } else {
               const canvas = document.createElement("canvas");
               const ctx = canvas.getContext("2d");
-              canvas.width = this.drawer.options.width;
-              canvas.height = this.drawer.options.height;
+              canvas.width = this.drawer.$canvas.width;
+              canvas.height = this.drawer.$canvas.height;
               ctx.fillStyle = this.drawer.options.bgColor;
-              ctx.fillRect(0, 0, this.drawer.options.width, this.drawer.options.height);
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
               ctx.drawImage(this.drawer.$canvas, 0, 0);
-              const data = canvas.toDataURL("image/png");
+              const data = this._cropImageFromCanvas(ctx);
               const $link = document.createElement("a");
               $link.download = this.drawer.$canvas.id || "draw.png";
               $link.href = data;
@@ -2068,6 +2139,36 @@ var Drawer = function(exports) {
       });
     }
     /**
+     * Crop image
+     */
+    _cropImageFromCanvas(ctx) {
+      const canvas = ctx.canvas, pix = { x: [], y: [] }, imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      let x, y, index, w = canvas.width, h = canvas.height;
+      for (y = 0; y < h; y++) {
+        for (x = 0; x < w; x++) {
+          index = (y * w + x) * 4;
+          if (imageData.data[index + 3] > 0) {
+            pix.x.push(x);
+            pix.y.push(y);
+          }
+        }
+      }
+      pix.x.sort(function(a, b) {
+        return a - b;
+      });
+      pix.y.sort(function(a, b) {
+        return a - b;
+      });
+      const n = pix.x.length - 1;
+      w = 1 + pix.x[n] - pix.x[0];
+      h = 1 + pix.y[n] - pix.y[0];
+      const cut = ctx.getImageData(pix.x[0], pix.y[0], w, h);
+      canvas.width = w;
+      canvas.height = h;
+      ctx.putImageData(cut, 0, 0);
+      return canvas.toDataURL();
+    }
+    /**
      * Add pick color button select color on canvas
      * see {@link addToolbar} before use it
      * @param {action<HTMLButtonElement>?} action method to call onclick
@@ -2078,7 +2179,7 @@ var Drawer = function(exports) {
         if (this.$toolbar && !this.$pickColorBtn) {
           const pickColor = (
             /*html*/
-            `<button title="${"Pick color"}" class="btn">${ExpandIcon}</button>`
+            `<button title="${"Pick color"}" class="btn btn-primary">${ExpandIcon}</button>`
           );
           const $pickColorBtn = stringToHTMLElement(pickColor);
           this.$pickColorBtn = $pickColorBtn;
@@ -2128,7 +2229,7 @@ var Drawer = function(exports) {
         if (this.$toolbar && !this.$expandBtn) {
           const expand = (
             /*html*/
-            `<button title="${"Expand"}" class="btn">${ExpandIcon}</button>`
+            `<button title="${"Expand"}" class="btn btn-primary">${ExpandIcon}</button>`
           );
           const $expandBtn = stringToHTMLElement(expand);
           this.$expandBtn = $expandBtn;
@@ -2159,7 +2260,7 @@ var Drawer = function(exports) {
         if (this.$toolbar && !this.$fullscreenBtn) {
           const fullscreen = (
             /*html*/
-            `<button title="${"Fullscreen"}" class="btn">${FullscreenIcon}</button>`
+            `<button title="${"Fullscreen"}" class="btn btn-primary">${FullscreenIcon}</button>`
           );
           const $fullscreenBtn = stringToHTMLElement(fullscreen);
           this.$fullscreenBtn = $fullscreenBtn;
@@ -2183,7 +2284,7 @@ var Drawer = function(exports) {
       if (this.$toolbar && !this.$closeBtn) {
         const close = (
           /*html*/
-          `<button title="${"Close"}" class="btn">${CloseIcon}</button>`
+          `<button title="${"Close"}" class="btn btn-primary">${CloseIcon}</button>`
         );
         const $closeBtn = stringToHTMLElement(close);
         this.$closeBtn = $closeBtn;
@@ -2191,8 +2292,14 @@ var Drawer = function(exports) {
         this.$closeBtn.addEventListener("click", () => {
           if (typeof action === "function") {
             action.call(this, $closeBtn);
-          } else if (confirm("Do you want to close and lose data ?")) {
-            this.drawer.destroy();
+          } else {
+            new ConfirmModal(this.drawer, {
+              message: "Do you want to close and lose data ?",
+              onConfirm: (modal2) => {
+                modal2.drawer.destroy();
+                modal2.hide();
+              }
+            }).show();
           }
         });
         return this.$closeBtn;
@@ -2209,7 +2316,7 @@ var Drawer = function(exports) {
         if (this.$toolbar && !this.$settingBtn) {
           const settingBtn = (
             /*html*/
-            `<button title="${"Settings"}" class="btn">${SettingIcon}</button>`
+            `<button title="${"Settings"}" class="btn btn-primary">${SettingIcon}</button>`
           );
           const $settingBtn = stringToHTMLElement(settingBtn);
           this.$settingBtn = $settingBtn;
@@ -2245,7 +2352,7 @@ var Drawer = function(exports) {
         if (this.$toolbar && !this.customBtn[name]) {
           const customBtn = (
             /*html*/
-            `<button title="${title}" class="btn">${label}</button>`
+            `<button title="${title}" class="btn btn-primary">${label}</button>`
           );
           const $customBtn = stringToHTMLElement(customBtn);
           this.customBtn[name] = $customBtn;
@@ -2329,6 +2436,7 @@ var Drawer = function(exports) {
         const file = this.$uploadFile.files[0];
         if (file) {
           this.drawer.loadFromData(URL.createObjectURL(file));
+          this.$uploadFile.value = "";
         }
       }
     }
@@ -2413,7 +2521,7 @@ var Drawer = function(exports) {
       __publicField(this, "options", defaultOptionsDrawer);
       __publicField(this, "$sourceElement");
       __publicField(this, "$drawerContainer");
-      __privateAdd(this, _dragStartLocation, void 0);
+      __privateAdd(this, _dragStartLocation, { x: 0, y: 0 });
       __privateAdd(this, _snapshot, void 0);
       __privateAdd(this, _availableShape, [
         "rect",
@@ -2427,6 +2535,7 @@ var Drawer = function(exports) {
         "polygon"
       ]);
       __publicField(this, "settingModal");
+      __publicField(this, "clearModal");
       __publicField(this, "gridActive");
       __publicField(this, "VERSION", version);
       __publicField(this, "toolbar");
@@ -2446,11 +2555,17 @@ var Drawer = function(exports) {
           this._updateCursor();
           const saved = localStorage.getItem(this.options.localStorageKey);
           let trigger = true;
-          if (saved && !this.isEmpty(saved)) {
-            const data = JSON.parse(saved);
-            this.loadFromData(data.data, false);
-            this.setBgColor(data.bgcolor, false);
-            this.options.grid = data.grid;
+          if (saved) {
+            if (isJSON(saved)) {
+              const parsed = JSON.parse(saved);
+              if (!this.isEmpty(parsed.data)) {
+                this.loadFromData(parsed.data, false);
+              }
+              this.setBgColor(parsed.bgcolor, false);
+              this.options.grid = parsed.grid;
+            } else if (!this.isEmpty(saved)) {
+              this.loadFromData(saved, false);
+            }
             trigger = false;
           }
           if (this.options.grid) {
@@ -2971,7 +3086,7 @@ var Drawer = function(exports) {
           console.log("Not implemented");
           break;
       }
-      if (this.options.fill && this.activeTool !== "eraser" && this.activeTool !== "brush" && this.activeTool !== "text") {
+      if (this.options.fill && this.isShape()) {
         this.ctx.fill();
       } else {
         this.ctx.stroke();
@@ -3279,7 +3394,8 @@ var Drawer = function(exports) {
   _availableShape = new WeakMap();
   _cloneCanvas = new WeakMap();
   exports.Drawer = Drawer2;
-  Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
+  exports.default = Drawer2;
+  Object.defineProperties(exports, { __esModule: { value: true }, [Symbol.toStringTag]: { value: "Module" } });
   return exports;
 }({});
 //# sourceMappingURL=drawer.iife.js.map

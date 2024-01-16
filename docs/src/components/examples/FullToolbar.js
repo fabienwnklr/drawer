@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import CodeBlock from '@theme/CodeBlock';
 import Admonition from '@theme/Admonition';
 import Link from '@docusaurus/Link';
-import '../../css/style.css';
+import '../../../static/css/style.css';
 
 export default function FullToolbar() {
   useEffect(() => {

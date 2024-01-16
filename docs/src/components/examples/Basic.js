@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import CodeBlock from '@theme/CodeBlock';
 import Admonition from '@theme/Admonition';
 // import { Drawer } from '../../js/drawer';
-import '../../css/style.css';
+import "../../../static/css/style.css";
 
 export default function Basic() {
   useEffect(() => {
