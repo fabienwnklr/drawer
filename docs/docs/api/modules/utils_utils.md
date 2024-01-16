@@ -10,6 +10,7 @@
 - [blobToBase64](utils_utils.md#blobtobase64)
 - [deepMerge](utils_utils.md#deepmerge)
 - [hexToRgbA](utils_utils.md#hextorgba)
+- [isJSON](utils_utils.md#isjson)
 - [isObject](utils_utils.md#isobject)
 - [isTruthy](utils_utils.md#istruthy)
 
@@ -102,6 +103,26 @@ Convert hex to rgba
 #### Defined in
 
 [src/utils/utils.ts:7](https://github.com/fabwcie/drawer/blob/master/src/utils/utils.ts#L7)
+
+___
+
+### isJSON
+
+▸ **isJSON**(`obj`): `boolean`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `obj` | `any` |
+
+#### Returns
+
+`boolean`
+
+#### Defined in
+
+[src/utils/utils.ts:88](https://github.com/fabwcie/drawer/blob/master/src/utils/utils.ts#L88)
 
 ___
 

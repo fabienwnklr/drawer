@@ -4,8 +4,6 @@
 
 [types](../modules/types.md).DrawerOptions
 
-Drawer
-
 ## Table of contents
 
 ### Properties
@@ -14,11 +12,14 @@ Drawer
 - [availableColor](types.DrawerOptions.md#availablecolor)
 - [availableColorOnly](types.DrawerOptions.md#availablecoloronly)
 - [bgColor](types.DrawerOptions.md#bgcolor)
+- [canvasHeight](types.DrawerOptions.md#canvasheight)
+- [canvasWidth](types.DrawerOptions.md#canvaswidth)
 - [cap](types.DrawerOptions.md#cap)
 - [color](types.DrawerOptions.md#color)
 - [dash](types.DrawerOptions.md#dash)
 - [defaultToolbar](types.DrawerOptions.md#defaulttoolbar)
 - [dotted](types.DrawerOptions.md#dotted)
+- [eraserThickness](types.DrawerOptions.md#eraserthickness)
 - [fill](types.DrawerOptions.md#fill)
 - [grid](types.DrawerOptions.md#grid)
 - [guides](types.DrawerOptions.md#guides)
@@ -26,6 +27,7 @@ Drawer
 - [id](types.DrawerOptions.md#id)
 - [lineThickness](types.DrawerOptions.md#linethickness)
 - [localStorageKey](types.DrawerOptions.md#localstoragekey)
+- [minEraserThickness](types.DrawerOptions.md#mineraserthickness)
 - [opacity](types.DrawerOptions.md#opacity)
 - [tool](types.DrawerOptions.md#tool)
 - [toolbarPosition](types.DrawerOptions.md#toolbarposition)
@@ -50,7 +52,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:19](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L19)
+[src/types/index.ts:24](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L24)
 
 ___
 
@@ -60,7 +62,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:20](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L20)
+[src/types/index.ts:25](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L25)
 
 ___
 
@@ -74,13 +76,33 @@ ___
 
 ___
 
+### canvasHeight
+
+• **canvasHeight**: `number`
+
+#### Defined in
+
+[src/types/index.ts:7](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L7)
+
+___
+
+### canvasWidth
+
+• **canvasWidth**: `number`
+
+#### Defined in
+
+[src/types/index.ts:6](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L6)
+
+___
+
 ### cap
 
 • **cap**: `CanvasLineCap`
 
 #### Defined in
 
-[src/types/index.ts:17](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L17)
+[src/types/index.ts:22](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L22)
 
 ___
 
@@ -110,7 +132,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:5](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L5)
+[src/types/index.ts:3](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L3)
 
 ___
 
@@ -124,13 +146,27 @@ ___
 
 ___
 
+### eraserThickness
+
+• **eraserThickness**: `number`
+
+**`Note`**
+
+up to 15, is dynamically calculate options.lineTickness * 2
+
+#### Defined in
+
+[src/types/index.ts:20](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L20)
+
+___
+
 ### fill
 
 • **fill**: `boolean`
 
 #### Defined in
 
-[src/types/index.ts:18](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L18)
+[src/types/index.ts:23](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L23)
 
 ___
 
@@ -140,7 +176,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:21](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L21)
+[src/types/index.ts:26](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L26)
 
 ___
 
@@ -150,7 +186,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:22](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L22)
+[src/types/index.ts:27](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L27)
 
 ___
 
@@ -160,7 +196,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:6](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L6)
+[src/types/index.ts:4](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L4)
 
 ___
 
@@ -170,7 +206,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:4](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L4)
+[src/types/index.ts:2](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L2)
 
 ___
 
@@ -194,13 +230,23 @@ ___
 
 ___
 
+### minEraserThickness
+
+• **minEraserThickness**: `number`
+
+#### Defined in
+
+[src/types/index.ts:21](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L21)
+
+___
+
 ### opacity
 
 • **opacity**: `number`
 
 #### Defined in
 
-[src/types/index.ts:23](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L23)
+[src/types/index.ts:28](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L28)
 
 ___
 
@@ -230,7 +276,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:7](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L7)
+[src/types/index.ts:5](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L5)
 
 ___
 
@@ -240,4 +286,4 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:24](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L24)
+[src/types/index.ts:29](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L29)

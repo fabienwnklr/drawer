@@ -27,6 +27,7 @@ Winkler Fabien <fabienwinkler@outlook.fr>
 - [$sourceElement](Drawer.Drawer.md#$sourceelement)
 - [VERSION](Drawer.Drawer.md#version)
 - [activeTool](Drawer.Drawer.md#activetool)
+- [clearModal](Drawer.Drawer.md#clearmodal)
 - [ctx](Drawer.Drawer.md#ctx)
 - [dotted](Drawer.Drawer.md#dotted)
 - [gridActive](Drawer.Drawer.md#gridactive)
@@ -41,7 +42,9 @@ Winkler Fabien <fabienwinkler@outlook.fr>
 
 - [addGrid](Drawer.Drawer.md#addgrid)
 - [clear](Drawer.Drawer.md#clear)
+- [destroy](Drawer.Drawer.md#destroy)
 - [getData](Drawer.Drawer.md#getdata)
+- [getImage](Drawer.Drawer.md#getimage)
 - [isEmpty](Drawer.Drawer.md#isempty)
 - [isShape](Drawer.Drawer.md#isshape)
 - [loadFromData](Drawer.Drawer.md#loadfromdata)
@@ -52,6 +55,8 @@ Winkler Fabien <fabienwinkler@outlook.fr>
 - [saveState](Drawer.Drawer.md#savestate)
 - [setBgColor](Drawer.Drawer.md#setbgcolor)
 - [setCanvas](Drawer.Drawer.md#setcanvas)
+- [setCanvasBgColor](Drawer.Drawer.md#setcanvasbgcolor)
+- [setCanvasSize](Drawer.Drawer.md#setcanvassize)
 - [setColor](Drawer.Drawer.md#setcolor)
 - [setDottedLine](Drawer.Drawer.md#setdottedline)
 - [setLineWidth](Drawer.Drawer.md#setlinewidth)
@@ -79,7 +84,7 @@ Winkler Fabien <fabienwinkler@outlook.fr>
 
 #### Defined in
 
-[src/Drawer.ts:92](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L92)
+[src/Drawer.ts:94](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L94)
 
 ## Properties
 
@@ -93,7 +98,7 @@ Winkler Fabien <fabienwinkler@outlook.fr>
 
 #### Defined in
 
-[src/Drawer.ts:65](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L65)
+[src/Drawer.ts:66](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L66)
 
 ___
 
@@ -103,7 +108,7 @@ ___
 
 #### Defined in
 
-[src/Drawer.ts:67](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L67)
+[src/Drawer.ts:68](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L68)
 
 ___
 
@@ -113,7 +118,7 @@ ___
 
 #### Defined in
 
-[src/Drawer.ts:66](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L66)
+[src/Drawer.ts:67](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L67)
 
 ___
 
@@ -123,7 +128,7 @@ ___
 
 #### Defined in
 
-[src/Drawer.ts:83](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L83)
+[src/Drawer.ts:85](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L85)
 
 ___
 
@@ -133,7 +138,17 @@ ___
 
 #### Defined in
 
-[src/Drawer.ts:60](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L60)
+[src/Drawer.ts:61](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L61)
+
+___
+
+### clearModal
+
+• **clearModal**: [`ConfirmModal`](ui_ConfirmModal.ConfirmModal.md)
+
+#### Defined in
+
+[src/Drawer.ts:83](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L83)
 
 ___
 
@@ -147,7 +162,7 @@ ___
 
 #### Defined in
 
-[src/Drawer.ts:58](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L58)
+[src/Drawer.ts:59](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L59)
 
 ___
 
@@ -157,7 +172,7 @@ ___
 
 #### Defined in
 
-[src/Drawer.ts:61](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L61)
+[src/Drawer.ts:62](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L62)
 
 ___
 
@@ -167,7 +182,7 @@ ___
 
 #### Defined in
 
-[src/Drawer.ts:82](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L82)
+[src/Drawer.ts:84](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L84)
 
 ___
 
@@ -177,7 +192,7 @@ ___
 
 #### Defined in
 
-[src/Drawer.ts:59](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L59)
+[src/Drawer.ts:60](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L60)
 
 ___
 
@@ -187,7 +202,7 @@ ___
 
 #### Defined in
 
-[src/Drawer.ts:63](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L63)
+[src/Drawer.ts:64](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L64)
 
 ___
 
@@ -211,7 +226,7 @@ ___
 
 #### Defined in
 
-[src/Drawer.ts:81](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L81)
+[src/Drawer.ts:82](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L82)
 
 ___
 
@@ -221,7 +236,7 @@ ___
 
 #### Defined in
 
-[src/Drawer.ts:84](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L84)
+[src/Drawer.ts:86](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L86)
 
 ___
 
@@ -241,10 +256,15 @@ ___
 
 ### addGrid
 
-▸ **addGrid**(): `Promise`<`unknown`\>
+▸ **addGrid**(`triggerChange?`): `Promise`<`unknown`\>
 
 Add a grid for draw helping
-/!\ This is drawing into canvas, so it remove all draw and it's visible on export /!\
+
+#### Parameters
+
+| Name | Type | Default value | Description |
+| :------ | :------ | :------ | :------ |
+| `triggerChange` | `boolean` | `true` | Trigger change event (for prevent auto saving for example) |
 
 #### Returns
 
@@ -252,7 +272,7 @@ Add a grid for draw helping
 
 #### Defined in
 
-[src/Drawer.ts:741](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L741)
+[src/Drawer.ts:817](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L817)
 
 ___
 
@@ -268,7 +288,21 @@ Clear all canvas
 
 #### Defined in
 
-[src/Drawer.ts:300](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L300)
+[src/Drawer.ts:367](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L367)
+
+___
+
+### destroy
+
+▸ **destroy**(): `void`
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[src/Drawer.ts:183](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L183)
 
 ___
 
@@ -286,7 +320,21 @@ canvas png data
 
 #### Defined in
 
-[src/Drawer.ts:381](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L381)
+[src/Drawer.ts:449](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L449)
+
+___
+
+### getImage
+
+▸ **getImage**(): `Promise`<`HTMLImageElement`\>
+
+#### Returns
+
+`Promise`<`HTMLImageElement`\>
+
+#### Defined in
+
+[src/Drawer.ts:453](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L453)
 
 ___
 
@@ -308,7 +356,7 @@ Check if canvas empty
 
 #### Defined in
 
-[src/Drawer.ts:199](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L199)
+[src/Drawer.ts:242](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L242)
 
 ___
 
@@ -324,21 +372,22 @@ Check if active tool is shape
 
 #### Defined in
 
-[src/Drawer.ts:487](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L487)
+[src/Drawer.ts:568](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L568)
 
 ___
 
 ### loadFromData
 
-▸ **loadFromData**(`data`): `Promise`<[`Drawer`](Drawer.Drawer.md)\>
+▸ **loadFromData**(`data`, `triggerChange?`): `Promise`<[`Drawer`](Drawer.Drawer.md)\>
 
 Inject data to canvas
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `data` | `string` |
+| Name | Type | Default value | Description |
+| :------ | :------ | :------ | :------ |
+| `data` | `string` | `undefined` |  |
+| `triggerChange` | `boolean` | `true` | Trigger change event |
 
 #### Returns
 
@@ -346,7 +395,7 @@ Inject data to canvas
 
 #### Defined in
 
-[src/Drawer.ts:331](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L331)
+[src/Drawer.ts:394](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L394)
 
 ___
 
@@ -373,7 +422,6 @@ ___
 ▸ **removeGrid**(): `void`
 
 Remove grid for draw helping
-/!\ This is drawing into canvas, so it remove all draw and it's visible on export /!\
 
 #### Returns
 
@@ -381,7 +429,7 @@ Remove grid for draw helping
 
 #### Defined in
 
-[src/Drawer.ts:782](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L782)
+[src/Drawer.ts:833](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L833)
 
 ___
 
@@ -424,7 +472,7 @@ Save draw to localStorage
 
 #### Defined in
 
-[src/Drawer.ts:365](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L365)
+[src/Drawer.ts:430](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L430)
 
 ___
 
@@ -455,15 +503,16 @@ ___
 
 ### setBgColor
 
-▸ **setBgColor**(`bgColor`): `Promise`<`boolean`\>
+▸ **setBgColor**(`bgColor`, `triggerChange?`): `Promise`<`boolean`\>
 
-Change canvas background color
+Change CSS canvas background color
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `bgColor` | `string` | canvas css background color |
+| Name | Type | Default value | Description |
+| :------ | :------ | :------ | :------ |
+| `bgColor` | `string` | `undefined` | canvas css background color |
+| `triggerChange` | `boolean` | `true` | Trigger change event |
 
 #### Returns
 
@@ -471,7 +520,7 @@ Change canvas background color
 
 #### Defined in
 
-[src/Drawer.ts:235](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L235)
+[src/Drawer.ts:279](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L279)
 
 ___
 
@@ -499,6 +548,51 @@ ___
 
 ___
 
+### setCanvasBgColor
+
+▸ **setCanvasBgColor**(`bgColor`): `Promise`<`boolean`\>
+
+Change canvas background color
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `bgColor` | `string` | canvas css background color |
+
+#### Returns
+
+`Promise`<`boolean`\>
+
+#### Defined in
+
+[src/Drawer.ts:299](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L299)
+
+___
+
+### setCanvasSize
+
+▸ **setCanvasSize**(`width`, `height`): `Promise`<`boolean`\>
+
+Set canvas sizing - / ! \ Careful; this method change ur current drawing !!! / ! \
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `width` | `number` | Width |
+| `height` | `number` | Height |
+
+#### Returns
+
+`Promise`<`boolean`\>
+
+#### Defined in
+
+[src/Drawer.ts:213](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L213)
+
+___
+
 ### setColor
 
 ▸ **setColor**(`color`): `Promise`<`boolean`\>
@@ -517,7 +611,7 @@ Change drawing color
 
 #### Defined in
 
-[src/Drawer.ts:209](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L209)
+[src/Drawer.ts:252](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L252)
 
 ___
 
@@ -540,7 +634,7 @@ Set line style dotted
 
 #### Defined in
 
-[src/Drawer.ts:442](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L442)
+[src/Drawer.ts:520](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L520)
 
 ___
 
@@ -562,7 +656,7 @@ Set the line width
 
 #### Defined in
 
-[src/Drawer.ts:465](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L465)
+[src/Drawer.ts:543](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L543)
 
 ___
 
@@ -584,7 +678,7 @@ Change drawing shape
 
 #### Defined in
 
-[src/Drawer.ts:389](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L389)
+[src/Drawer.ts:467](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L467)
 
 ___
 
@@ -592,7 +686,7 @@ ___
 
 ▸ **setSize**(`width`, `height`): `Promise`<`boolean`\>
 
-Set canvas sizing
+Set size of container
 
 #### Parameters
 
@@ -607,7 +701,7 @@ Set canvas sizing
 
 #### Defined in
 
-[src/Drawer.ts:171](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L171)
+[src/Drawer.ts:194](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L194)
 
 ___
 
@@ -629,7 +723,7 @@ set active tool
 
 #### Defined in
 
-[src/Drawer.ts:256](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L256)
+[src/Drawer.ts:320](https://github.com/fabwcie/drawer/blob/master/src/Drawer.ts#L320)
 
 ___
 

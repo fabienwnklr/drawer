@@ -14,8 +14,8 @@ Modal
 - [bodyContent](types.ModalOptions.md#bodycontent)
 - [closeOnClickOutside](types.ModalOptions.md#closeonclickoutside)
 - [footerContent](types.ModalOptions.md#footercontent)
-- [headerContent](types.ModalOptions.md#headercontent)
 - [id](types.ModalOptions.md#id)
+- [showHeader](types.ModalOptions.md#showheader)
 - [title](types.ModalOptions.md#title)
 
 ## Properties
@@ -26,7 +26,7 @@ Modal
 
 #### Defined in
 
-[src/types/index.ts:75](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L75)
+[src/types/index.ts:80](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L80)
 
 ___
 
@@ -36,7 +36,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:72](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L72)
+[src/types/index.ts:77](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L77)
 
 ___
 
@@ -46,7 +46,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:74](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L74)
+[src/types/index.ts:79](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L79)
 
 ___
 
@@ -56,17 +56,7 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:73](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L73)
-
-___
-
-### headerContent
-
-• `Optional` **headerContent**: `string`
-
-#### Defined in
-
-[src/types/index.ts:71](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L71)
+[src/types/index.ts:78](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L78)
 
 ___
 
@@ -76,7 +66,17 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:69](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L69)
+[src/types/index.ts:74](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L74)
+
+___
+
+### showHeader
+
+• `Optional` **showHeader**: `boolean`
+
+#### Defined in
+
+[src/types/index.ts:76](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L76)
 
 ___
 
@@ -86,4 +86,4 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:70](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L70)
+[src/types/index.ts:75](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L75)

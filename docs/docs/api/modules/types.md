@@ -20,6 +20,7 @@
 
 - [ThrottledFunction](types.md#throttledfunction)
 - [action](types.md#action)
+- [savedStorage](types.md#savedstorage)
 
 ## Type Aliases
 
@@ -51,7 +52,7 @@ Utils
 
 #### Defined in
 
-[src/types/index.ts:80](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L80)
+[src/types/index.ts:85](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L85)
 
 ___
 
@@ -82,4 +83,22 @@ ___
 
 #### Defined in
 
-[src/types/index.ts:27](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L27)
+[src/types/index.ts:32](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L32)
+
+___
+
+### savedStorage
+
+Ƭ **savedStorage**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `bgcolor` | `string` |
+| `data` | `string` |
+| `grid` | `boolean` |
+
+#### Defined in
+
+[src/types/index.ts:87](https://github.com/fabwcie/drawer/blob/master/src/types/index.ts#L87)

@@ -1,66 +1,63 @@
-[@fabwcie/drawer](../README.md) / [Exports](../modules.md) / [ui/SettingsModal](../modules/ui_SettingsModal.md) / SettingsModal
+[@fabwcie/drawer](../README.md) / [Exports](../modules.md) / [ui/ConfirmModal](../modules/ui_ConfirmModal.md) / ConfirmModal
 
-# Class: SettingsModal
+# Class: ConfirmModal
 
-[ui/SettingsModal](../modules/ui_SettingsModal.md).SettingsModal
+[ui/ConfirmModal](../modules/ui_ConfirmModal.md).ConfirmModal
 
 ## Hierarchy
 
 - [`Modal`](ui_Modal.Modal.md)
 
-  ↳ **`SettingsModal`**
+  ↳ **`ConfirmModal`**
 
 ## Table of contents
 
 ### Constructors
 
-- [constructor](ui_SettingsModal.SettingsModal.md#constructor)
+- [constructor](ui_ConfirmModal.ConfirmModal.md#constructor)
 
 ### Properties
 
-- [$backdrop](ui_SettingsModal.SettingsModal.md#$backdrop)
-- [$bgCologSettingInput](ui_SettingsModal.SettingsModal.md#$bgcologsettinginput)
-- [$fillSettingInput](ui_SettingsModal.SettingsModal.md#$fillsettinginput)
-- [$gridSettingInput](ui_SettingsModal.SettingsModal.md#$gridsettinginput)
-- [$guidesSettingInput](ui_SettingsModal.SettingsModal.md#$guidessettinginput)
-- [$modal](ui_SettingsModal.SettingsModal.md#$modal)
-- [$modalBody](ui_SettingsModal.SettingsModal.md#$modalbody)
-- [$modalFooter](ui_SettingsModal.SettingsModal.md#$modalfooter)
-- [$modalHeader](ui_SettingsModal.SettingsModal.md#$modalheader)
-- [$opacitySettingInput](ui_SettingsModal.SettingsModal.md#$opacitysettinginput)
-- [$xorSettingInput](ui_SettingsModal.SettingsModal.md#$xorsettinginput)
-- [bgColor](ui_SettingsModal.SettingsModal.md#bgcolor)
-- [drawer](ui_SettingsModal.SettingsModal.md#drawer)
-- [filled](ui_SettingsModal.SettingsModal.md#filled)
-- [grid](ui_SettingsModal.SettingsModal.md#grid)
-- [guides](ui_SettingsModal.SettingsModal.md#guides)
-- [opacity](ui_SettingsModal.SettingsModal.md#opacity)
-- [options](ui_SettingsModal.SettingsModal.md#options)
-- [xor](ui_SettingsModal.SettingsModal.md#xor)
+- [$backdrop](ui_ConfirmModal.ConfirmModal.md#$backdrop)
+- [$cancelBtn](ui_ConfirmModal.ConfirmModal.md#$cancelbtn)
+- [$confirmBtn](ui_ConfirmModal.ConfirmModal.md#$confirmbtn)
+- [$modal](ui_ConfirmModal.ConfirmModal.md#$modal)
+- [$modalBody](ui_ConfirmModal.ConfirmModal.md#$modalbody)
+- [$modalFooter](ui_ConfirmModal.ConfirmModal.md#$modalfooter)
+- [$modalHeader](ui_ConfirmModal.ConfirmModal.md#$modalheader)
+- [\_options](ui_ConfirmModal.ConfirmModal.md#_options)
+- [cancelLabel](ui_ConfirmModal.ConfirmModal.md#cancellabel)
+- [confirmLabel](ui_ConfirmModal.ConfirmModal.md#confirmlabel)
+- [drawer](ui_ConfirmModal.ConfirmModal.md#drawer)
+- [message](ui_ConfirmModal.ConfirmModal.md#message)
+- [onCancel](ui_ConfirmModal.ConfirmModal.md#oncancel)
+- [onConfirm](ui_ConfirmModal.ConfirmModal.md#onconfirm)
+- [options](ui_ConfirmModal.ConfirmModal.md#options)
 
 ### Methods
 
-- [appendBodyContent](ui_SettingsModal.SettingsModal.md#appendbodycontent)
-- [destroy](ui_SettingsModal.SettingsModal.md#destroy)
-- [fill](ui_SettingsModal.SettingsModal.md#fill)
-- [hide](ui_SettingsModal.SettingsModal.md#hide)
-- [isVisible](ui_SettingsModal.SettingsModal.md#isvisible)
-- [setBodyContent](ui_SettingsModal.SettingsModal.md#setbodycontent)
-- [setFooterContent](ui_SettingsModal.SettingsModal.md#setfootercontent)
-- [setHeaderContent](ui_SettingsModal.SettingsModal.md#setheadercontent)
-- [show](ui_SettingsModal.SettingsModal.md#show)
+- [appendBodyContent](ui_ConfirmModal.ConfirmModal.md#appendbodycontent)
+- [destroy](ui_ConfirmModal.ConfirmModal.md#destroy)
+- [fill](ui_ConfirmModal.ConfirmModal.md#fill)
+- [hide](ui_ConfirmModal.ConfirmModal.md#hide)
+- [isVisible](ui_ConfirmModal.ConfirmModal.md#isvisible)
+- [setBodyContent](ui_ConfirmModal.ConfirmModal.md#setbodycontent)
+- [setFooterContent](ui_ConfirmModal.ConfirmModal.md#setfootercontent)
+- [setHeaderContent](ui_ConfirmModal.ConfirmModal.md#setheadercontent)
+- [show](ui_ConfirmModal.ConfirmModal.md#show)
 
 ## Constructors
 
 ### constructor
 
-• **new SettingsModal**(`drawer`)
+• **new ConfirmModal**(`drawer`, `options?`)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `drawer` | [`Drawer`](Drawer.Drawer.md) |
+| `options` | `Partial`<`ConfirmModalOptions`\> |
 
 #### Overrides
 
@@ -68,7 +65,7 @@
 
 #### Defined in
 
-[src/ui/SettingsModal.ts:22](https://github.com/fabwcie/drawer/blob/master/src/ui/SettingsModal.ts#L22)
+[src/ui/ConfirmModal.ts:25](https://github.com/fabwcie/drawer/blob/master/src/ui/ConfirmModal.ts#L25)
 
 ## Properties
 
@@ -86,43 +83,23 @@
 
 ___
 
-### $bgCologSettingInput
+### $cancelBtn
 
-• **$bgCologSettingInput**: `HTMLInputElement`
+• **$cancelBtn**: `HTMLButtonElement`
 
 #### Defined in
 
-[src/ui/SettingsModal.ts:20](https://github.com/fabwcie/drawer/blob/master/src/ui/SettingsModal.ts#L20)
+[src/ui/ConfirmModal.ts:16](https://github.com/fabwcie/drawer/blob/master/src/ui/ConfirmModal.ts#L16)
 
 ___
 
-### $fillSettingInput
+### $confirmBtn
 
-• **$fillSettingInput**: `HTMLInputElement`
-
-#### Defined in
-
-[src/ui/SettingsModal.ts:15](https://github.com/fabwcie/drawer/blob/master/src/ui/SettingsModal.ts#L15)
-
-___
-
-### $gridSettingInput
-
-• **$gridSettingInput**: `HTMLInputElement`
+• **$confirmBtn**: `HTMLButtonElement`
 
 #### Defined in
 
-[src/ui/SettingsModal.ts:16](https://github.com/fabwcie/drawer/blob/master/src/ui/SettingsModal.ts#L16)
-
-___
-
-### $guidesSettingInput
-
-• **$guidesSettingInput**: `HTMLInputElement`
-
-#### Defined in
-
-[src/ui/SettingsModal.ts:17](https://github.com/fabwcie/drawer/blob/master/src/ui/SettingsModal.ts#L17)
+[src/ui/ConfirmModal.ts:17](https://github.com/fabwcie/drawer/blob/master/src/ui/ConfirmModal.ts#L17)
 
 ___
 
@@ -182,33 +159,33 @@ ___
 
 ___
 
-### $opacitySettingInput
+### \_options
 
-• **$opacitySettingInput**: `HTMLInputElement`
+• **\_options**: `ConfirmModalOptions`
 
 #### Defined in
 
-[src/ui/SettingsModal.ts:18](https://github.com/fabwcie/drawer/blob/master/src/ui/SettingsModal.ts#L18)
+[src/ui/ConfirmModal.ts:23](https://github.com/fabwcie/drawer/blob/master/src/ui/ConfirmModal.ts#L23)
 
 ___
 
-### $xorSettingInput
+### cancelLabel
 
-• **$xorSettingInput**: `HTMLInputElement`
+• **cancelLabel**: `string`
 
 #### Defined in
 
-[src/ui/SettingsModal.ts:19](https://github.com/fabwcie/drawer/blob/master/src/ui/SettingsModal.ts#L19)
+[src/ui/ConfirmModal.ts:19](https://github.com/fabwcie/drawer/blob/master/src/ui/ConfirmModal.ts#L19)
 
 ___
 
-### bgColor
+### confirmLabel
 
-• **bgColor**: `string`
+• **confirmLabel**: `string`
 
 #### Defined in
 
-[src/ui/SettingsModal.ts:12](https://github.com/fabwcie/drawer/blob/master/src/ui/SettingsModal.ts#L12)
+[src/ui/ConfirmModal.ts:21](https://github.com/fabwcie/drawer/blob/master/src/ui/ConfirmModal.ts#L21)
 
 ___
 
@@ -222,47 +199,65 @@ ___
 
 #### Defined in
 
-[src/ui/SettingsModal.ts:14](https://github.com/fabwcie/drawer/blob/master/src/ui/SettingsModal.ts#L14)
+[src/ui/ConfirmModal.ts:15](https://github.com/fabwcie/drawer/blob/master/src/ui/ConfirmModal.ts#L15)
 
 ___
 
-### filled
+### message
 
-• **filled**: `boolean`
+• **message**: `string`
 
 #### Defined in
 
-[src/ui/SettingsModal.ts:7](https://github.com/fabwcie/drawer/blob/master/src/ui/SettingsModal.ts#L7)
+[src/ui/ConfirmModal.ts:18](https://github.com/fabwcie/drawer/blob/master/src/ui/ConfirmModal.ts#L18)
 
 ___
 
-### grid
+### onCancel
 
-• **grid**: `boolean`
+• **onCancel**: (`modal`: [`ConfirmModal`](ui_ConfirmModal.ConfirmModal.md)) => `void`
+
+#### Type declaration
+
+▸ (`modal`): `void`
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `modal` | [`ConfirmModal`](ui_ConfirmModal.ConfirmModal.md) |
+
+##### Returns
+
+`void`
 
 #### Defined in
 
-[src/ui/SettingsModal.ts:8](https://github.com/fabwcie/drawer/blob/master/src/ui/SettingsModal.ts#L8)
+[src/ui/ConfirmModal.ts:20](https://github.com/fabwcie/drawer/blob/master/src/ui/ConfirmModal.ts#L20)
 
 ___
 
-### guides
+### onConfirm
 
-• **guides**: `boolean`
+• **onConfirm**: (`modal`: [`ConfirmModal`](ui_ConfirmModal.ConfirmModal.md)) => `void`
+
+#### Type declaration
+
+▸ (`modal`): `void`
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `modal` | [`ConfirmModal`](ui_ConfirmModal.ConfirmModal.md) |
+
+##### Returns
+
+`void`
 
 #### Defined in
 
-[src/ui/SettingsModal.ts:9](https://github.com/fabwcie/drawer/blob/master/src/ui/SettingsModal.ts#L9)
-
-___
-
-### opacity
-
-• **opacity**: `number`
-
-#### Defined in
-
-[src/ui/SettingsModal.ts:10](https://github.com/fabwcie/drawer/blob/master/src/ui/SettingsModal.ts#L10)
+[src/ui/ConfirmModal.ts:22](https://github.com/fabwcie/drawer/blob/master/src/ui/ConfirmModal.ts#L22)
 
 ___
 
@@ -277,16 +272,6 @@ ___
 #### Defined in
 
 [src/ui/Modal.ts:20](https://github.com/fabwcie/drawer/blob/master/src/ui/Modal.ts#L20)
-
-___
-
-### xor
-
-• **xor**: `boolean`
-
-#### Defined in
-
-[src/ui/SettingsModal.ts:11](https://github.com/fabwcie/drawer/blob/master/src/ui/SettingsModal.ts#L11)
 
 ## Methods
 
@@ -336,15 +321,13 @@ ___
 
 ▸ **fill**(): `void`
 
-Fill the content modal
-
 #### Returns
 
 `void`
 
 #### Defined in
 
-[src/ui/SettingsModal.ts:39](https://github.com/fabwcie/drawer/blob/master/src/ui/SettingsModal.ts#L39)
+[src/ui/ConfirmModal.ts:42](https://github.com/fabwcie/drawer/blob/master/src/ui/ConfirmModal.ts#L42)
 
 ___
 

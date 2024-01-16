@@ -14,13 +14,17 @@
 
 - [$brushBtn](ui_Toolbar.Toolbar.md#$brushbtn)
 - [$clearBtn](ui_Toolbar.Toolbar.md#$clearbtn)
+- [$closeBtn](ui_Toolbar.Toolbar.md#$closebtn)
 - [$colorPicker](ui_Toolbar.Toolbar.md#$colorpicker)
 - [$colorPickerLabel](ui_Toolbar.Toolbar.md#$colorpickerlabel)
 - [$downloadBtn](ui_Toolbar.Toolbar.md#$downloadbtn)
 - [$drawGroupBtn](ui_Toolbar.Toolbar.md#$drawgroupbtn)
 - [$drawGroupMenu](ui_Toolbar.Toolbar.md#$drawgroupmenu)
 - [$eraserBtn](ui_Toolbar.Toolbar.md#$eraserbtn)
+- [$expandBtn](ui_Toolbar.Toolbar.md#$expandbtn)
+- [$fullscreenBtn](ui_Toolbar.Toolbar.md#$fullscreenbtn)
 - [$lineThickness](ui_Toolbar.Toolbar.md#$linethickness)
+- [$pickColorBtn](ui_Toolbar.Toolbar.md#$pickcolorbtn)
 - [$redoBtn](ui_Toolbar.Toolbar.md#$redobtn)
 - [$settingBtn](ui_Toolbar.Toolbar.md#$settingbtn)
 - [$shapeBtn](ui_Toolbar.Toolbar.md#$shapebtn)
@@ -35,16 +39,23 @@
 
 ### Methods
 
+- [\_cropImageFromCanvas](ui_Toolbar.Toolbar.md#_cropimagefromcanvas)
+- [addAllButtons](ui_Toolbar.Toolbar.md#addallbuttons)
 - [addBrushBtn](ui_Toolbar.Toolbar.md#addbrushbtn)
 - [addClearBtn](ui_Toolbar.Toolbar.md#addclearbtn)
+- [addCloseButton](ui_Toolbar.Toolbar.md#addclosebutton)
 - [addColorPickerBtn](ui_Toolbar.Toolbar.md#addcolorpickerbtn)
 - [addCustomBtn](ui_Toolbar.Toolbar.md#addcustombtn)
 - [addDefaults](ui_Toolbar.Toolbar.md#adddefaults)
 - [addDownloadBtn](ui_Toolbar.Toolbar.md#adddownloadbtn)
 - [addDrawGroupBtn](ui_Toolbar.Toolbar.md#adddrawgroupbtn)
 - [addEraserBtn](ui_Toolbar.Toolbar.md#adderaserbtn)
+- [addExpandButton](ui_Toolbar.Toolbar.md#addexpandbutton)
+- [addFullscreenButton](ui_Toolbar.Toolbar.md#addfullscreenbutton)
 - [addLineThicknessBtn](ui_Toolbar.Toolbar.md#addlinethicknessbtn)
+- [addPickColorButton](ui_Toolbar.Toolbar.md#addpickcolorbutton)
 - [addRedoBtn](ui_Toolbar.Toolbar.md#addredobtn)
+- [addSeparator](ui_Toolbar.Toolbar.md#addseparator)
 - [addSettingBtn](ui_Toolbar.Toolbar.md#addsettingbtn)
 - [addShapeBtn](ui_Toolbar.Toolbar.md#addshapebtn)
 - [addTextBtn](ui_Toolbar.Toolbar.md#addtextbtn)
@@ -68,7 +79,7 @@
 
 #### Defined in
 
-[src/ui/Toolbar.ts:55](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L55)
+[src/ui/Toolbar.ts:63](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L63)
 
 ## Properties
 
@@ -78,7 +89,7 @@
 
 #### Defined in
 
-[src/ui/Toolbar.ts:38](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L38)
+[src/ui/Toolbar.ts:42](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L42)
 
 ___
 
@@ -88,7 +99,17 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:43](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L43)
+[src/ui/Toolbar.ts:47](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L47)
+
+___
+
+### $closeBtn
+
+• **$closeBtn**: ``null`` \| `HTMLButtonElement`
+
+#### Defined in
+
+[src/ui/Toolbar.ts:58](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L58)
 
 ___
 
@@ -98,17 +119,17 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:46](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L46)
+[src/ui/Toolbar.ts:50](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L50)
 
 ___
 
 ### $colorPickerLabel
 
-• **$colorPickerLabel**: `HTMLLabelElement`
+• **$colorPickerLabel**: ``null`` \| `HTMLLabelElement`
 
 #### Defined in
 
-[src/ui/Toolbar.ts:51](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L51)
+[src/ui/Toolbar.ts:59](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L59)
 
 ___
 
@@ -118,7 +139,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:45](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L45)
+[src/ui/Toolbar.ts:49](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L49)
 
 ___
 
@@ -128,7 +149,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:41](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L41)
+[src/ui/Toolbar.ts:45](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L45)
 
 ___
 
@@ -138,7 +159,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:42](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L42)
+[src/ui/Toolbar.ts:46](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L46)
 
 ___
 
@@ -148,7 +169,27 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:39](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L39)
+[src/ui/Toolbar.ts:43](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L43)
+
+___
+
+### $expandBtn
+
+• **$expandBtn**: ``null`` \| `HTMLButtonElement`
+
+#### Defined in
+
+[src/ui/Toolbar.ts:55](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L55)
+
+___
+
+### $fullscreenBtn
+
+• **$fullscreenBtn**: ``null`` \| `HTMLButtonElement`
+
+#### Defined in
+
+[src/ui/Toolbar.ts:56](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L56)
 
 ___
 
@@ -158,7 +199,17 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:44](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L44)
+[src/ui/Toolbar.ts:48](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L48)
+
+___
+
+### $pickColorBtn
+
+• **$pickColorBtn**: ``null`` \| `HTMLButtonElement`
+
+#### Defined in
+
+[src/ui/Toolbar.ts:54](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L54)
 
 ___
 
@@ -168,7 +219,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:37](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L37)
+[src/ui/Toolbar.ts:41](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L41)
 
 ___
 
@@ -178,7 +229,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:50](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L50)
+[src/ui/Toolbar.ts:57](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L57)
 
 ___
 
@@ -188,7 +239,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:47](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L47)
+[src/ui/Toolbar.ts:51](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L51)
 
 ___
 
@@ -198,7 +249,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:48](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L48)
+[src/ui/Toolbar.ts:52](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L52)
 
 ___
 
@@ -208,7 +259,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:40](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L40)
+[src/ui/Toolbar.ts:44](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L44)
 
 ___
 
@@ -218,7 +269,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:35](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L35)
+[src/ui/Toolbar.ts:39](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L39)
 
 ___
 
@@ -228,7 +279,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:36](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L36)
+[src/ui/Toolbar.ts:40](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L40)
 
 ___
 
@@ -238,7 +289,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:49](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L49)
+[src/ui/Toolbar.ts:53](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L53)
 
 ___
 
@@ -252,7 +303,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:53](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L53)
+[src/ui/Toolbar.ts:61](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L61)
 
 ___
 
@@ -262,7 +313,7 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:32](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L32)
+[src/ui/Toolbar.ts:36](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L36)
 
 ___
 
@@ -272,9 +323,45 @@ ___
 
 #### Defined in
 
-[src/ui/Toolbar.ts:33](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L33)
+[src/ui/Toolbar.ts:37](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L37)
 
 ## Methods
+
+### \_cropImageFromCanvas
+
+▸ **_cropImageFromCanvas**(`ctx`): `string`
+
+Crop image
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `ctx` | `CanvasRenderingContext2D` |
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+[src/ui/Toolbar.ts:724](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L724)
+
+___
+
+### addAllButtons
+
+▸ **addAllButtons**(): `void`
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[src/ui/Toolbar.ts:119](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L119)
+
+___
 
 ### addBrushBtn
 
@@ -295,7 +382,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:198](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L198)
+[src/ui/Toolbar.ts:222](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L222)
 
 ___
 
@@ -318,7 +405,27 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:385](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L385)
+[src/ui/Toolbar.ts:409](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L409)
+
+___
+
+### addCloseButton
+
+▸ **addCloseButton**(`action?`): `Promise`<`undefined` \| `HTMLButtonElement`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `action?` | [`action`](../modules/types.md#action)<`HTMLButtonElement`\> |
+
+#### Returns
+
+`Promise`<`undefined` \| `HTMLButtonElement`\>
+
+#### Defined in
+
+[src/ui/Toolbar.ts:882](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L882)
 
 ___
 
@@ -342,7 +449,7 @@ using Coloris, for customisation please see here [https://github.com/mdbassit/Co
 
 #### Defined in
 
-[src/ui/Toolbar.ts:547](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L547)
+[src/ui/Toolbar.ts:574](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L574)
 
 ___
 
@@ -368,7 +475,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:728](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L728)
+[src/ui/Toolbar.ts:950](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L950)
 
 ___
 
@@ -386,7 +493,7 @@ undo, redo, brush, eraser, text, clear, line thickness, colorpicker, upload, dow
 
 #### Defined in
 
-[src/ui/Toolbar.ts:99](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L99)
+[src/ui/Toolbar.ts:109](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L109)
 
 ___
 
@@ -409,7 +516,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:651](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L651)
+[src/ui/Toolbar.ts:679](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L679)
 
 ___
 
@@ -432,7 +539,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:306](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L306)
+[src/ui/Toolbar.ts:330](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L330)
 
 ___
 
@@ -455,7 +562,53 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:234](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L234)
+[src/ui/Toolbar.ts:258](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L258)
+
+___
+
+### addExpandButton
+
+▸ **addExpandButton**(`action?`): `Promise`<`HTMLButtonElement`\>
+
+Add expand button for toggle size to full width / height of window
+see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `action?` | [`action`](../modules/types.md#action)<`HTMLButtonElement`\> | method to call onclick |
+
+#### Returns
+
+`Promise`<`HTMLButtonElement`\>
+
+#### Defined in
+
+[src/ui/Toolbar.ts:824](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L824)
+
+___
+
+### addFullscreenButton
+
+▸ **addFullscreenButton**(`action?`): `Promise`<`HTMLButtonElement`\>
+
+Add fullscreen button for toggle fullscreen native
+see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `action?` | [`action`](../modules/types.md#action)<`HTMLButtonElement`\> | method to call onclick |
+
+#### Returns
+
+`Promise`<`HTMLButtonElement`\>
+
+#### Defined in
+
+[src/ui/Toolbar.ts:856](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L856)
 
 ___
 
@@ -480,7 +633,30 @@ HTML input range element
 
 #### Defined in
 
-[src/ui/Toolbar.ts:499](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L499)
+[src/ui/Toolbar.ts:526](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L526)
+
+___
+
+### addPickColorButton
+
+▸ **addPickColorButton**(`action?`): `Promise`<`HTMLButtonElement`\>
+
+Add pick color button select color on canvas
+see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `action?` | [`action`](../modules/types.md#action)<`HTMLButtonElement`\> | method to call onclick |
+
+#### Returns
+
+`Promise`<`HTMLButtonElement`\>
+
+#### Defined in
+
+[src/ui/Toolbar.ts:767](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L767)
 
 ___
 
@@ -503,7 +679,23 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:159](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L159)
+[src/ui/Toolbar.ts:183](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L183)
+
+___
+
+### addSeparator
+
+▸ **addSeparator**(): `Promise`<`boolean`\>
+
+Add separator (ml-auto)
+
+#### Returns
+
+`Promise`<`boolean`\>
+
+#### Defined in
+
+[src/ui/Toolbar.ts:985](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L985)
 
 ___
 
@@ -526,7 +718,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:691](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L691)
+[src/ui/Toolbar.ts:913](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L913)
 
 ___
 
@@ -549,7 +741,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:423](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L423)
+[src/ui/Toolbar.ts:450](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L450)
 
 ___
 
@@ -572,7 +764,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:270](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L270)
+[src/ui/Toolbar.ts:294](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L294)
 
 ___
 
@@ -588,9 +780,13 @@ Adding an empty toolbar element
 
 HTML toolbar element
 
+**`Description`**
+
+This method add html toolbar element, is **required** for add any toolbar button
+
 #### Defined in
 
-[src/ui/Toolbar.ts:64](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L64)
+[src/ui/Toolbar.ts:74](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L74)
 
 ___
 
@@ -613,7 +809,7 @@ see [addToolbar](ui_Toolbar.Toolbar.md#addtoolbar) before use it
 
 #### Defined in
 
-[src/ui/Toolbar.ts:120](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L120)
+[src/ui/Toolbar.ts:144](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L144)
 
 ___
 
@@ -638,7 +834,7 @@ HTML input range element
 
 #### Defined in
 
-[src/ui/Toolbar.ts:604](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L604)
+[src/ui/Toolbar.ts:632](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L632)
 
 ___
 
@@ -660,4 +856,4 @@ Apply active state to btn
 
 #### Defined in
 
-[src/ui/Toolbar.ts:763](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L763)
+[src/ui/Toolbar.ts:998](https://github.com/fabwcie/drawer/blob/master/src/ui/Toolbar.ts#L998)

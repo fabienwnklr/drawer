@@ -8,6 +8,8 @@
 
 - **`Modal`**
 
+  ↳ [`ConfirmModal`](ui_ConfirmModal.ConfirmModal.md)
+
   ↳ [`SettingsModal`](ui_SettingsModal.SettingsModal.md)
 
 ## Table of contents
@@ -142,7 +144,7 @@ ___
 
 #### Defined in
 
-[src/ui/Modal.ts:110](https://github.com/fabwcie/drawer/blob/master/src/ui/Modal.ts#L110)
+[src/ui/Modal.ts:115](https://github.com/fabwcie/drawer/blob/master/src/ui/Modal.ts#L115)
 
 ___
 
@@ -156,7 +158,7 @@ ___
 
 #### Defined in
 
-[src/ui/Modal.ts:136](https://github.com/fabwcie/drawer/blob/master/src/ui/Modal.ts#L136)
+[src/ui/Modal.ts:141](https://github.com/fabwcie/drawer/blob/master/src/ui/Modal.ts#L141)
 
 ___
 
@@ -170,7 +172,7 @@ ___
 
 #### Defined in
 
-[src/ui/Modal.ts:125](https://github.com/fabwcie/drawer/blob/master/src/ui/Modal.ts#L125)
+[src/ui/Modal.ts:130](https://github.com/fabwcie/drawer/blob/master/src/ui/Modal.ts#L130)
 
 ___
 
@@ -184,7 +186,7 @@ ___
 
 #### Defined in
 
-[src/ui/Modal.ts:132](https://github.com/fabwcie/drawer/blob/master/src/ui/Modal.ts#L132)
+[src/ui/Modal.ts:137](https://github.com/fabwcie/drawer/blob/master/src/ui/Modal.ts#L137)
 
 ___
 
@@ -204,7 +206,7 @@ ___
 
 #### Defined in
 
-[src/ui/Modal.ts:106](https://github.com/fabwcie/drawer/blob/master/src/ui/Modal.ts#L106)
+[src/ui/Modal.ts:111](https://github.com/fabwcie/drawer/blob/master/src/ui/Modal.ts#L111)
 
 ___
 
@@ -224,7 +226,7 @@ ___
 
 #### Defined in
 
-[src/ui/Modal.ts:114](https://github.com/fabwcie/drawer/blob/master/src/ui/Modal.ts#L114)
+[src/ui/Modal.ts:119](https://github.com/fabwcie/drawer/blob/master/src/ui/Modal.ts#L119)
 
 ___
 
@@ -244,7 +246,7 @@ ___
 
 #### Defined in
 
-[src/ui/Modal.ts:100](https://github.com/fabwcie/drawer/blob/master/src/ui/Modal.ts#L100)
+[src/ui/Modal.ts:105](https://github.com/fabwcie/drawer/blob/master/src/ui/Modal.ts#L105)
 
 ___
 
@@ -258,4 +260,4 @@ ___
 
 #### Defined in
 
-[src/ui/Modal.ts:118](https://github.com/fabwcie/drawer/blob/master/src/ui/Modal.ts#L118)
+[src/ui/Modal.ts:123](https://github.com/fabwcie/drawer/blob/master/src/ui/Modal.ts#L123)
