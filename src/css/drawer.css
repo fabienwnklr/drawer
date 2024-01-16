@@ -8,8 +8,27 @@
   --drawer-primary-active-bg: rgba(79, 87, 192, 1);
   --drawer-primary-active-bg-hover: rgb(93, 102, 224);
   --drawer-light: rgba(243, 243, 243, 1);
+  --drawer-border-color: rgb(216, 216, 216);
   --drawer-light-btn: rgba(212, 212, 212, 1);
   --drawer-border-radius: 0.5rem;
+}
+
+html[data-theme='dark'] {
+  --drawer-primary-active-color: rgba(248, 248, 248, 1);
+  --drawer-primary-active-bg: rgb(72, 79, 173);
+  --drawer-primary-active-bg-hover: rgb(93, 102, 231);
+  --drawer-light: rgb(40, 42, 54);
+  --drawer-light-btn: rgba(212, 212, 212, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --drawer-primary-active-color: rgba(248, 248, 248, 1);
+    --drawer-primary-active-bg: rgba(79, 87, 192, 1);
+    --drawer-primary-active-bg-hover: rgb(93, 102, 224);
+    --drawer-light: rgb(141, 141, 141);
+    --drawer-light-btn: rgba(212, 212, 212, 1);
+  }
 }
 
 .drawer-container {
@@ -243,7 +262,7 @@
 }
 
 .drawer-container .p-2 {
-  padding: .7em;
+  padding: 0.7em;
 }
 
 .drawer-container .btn.active,
