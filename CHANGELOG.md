@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/fabwcie/drawer/compare/v1.2.2...v1.3.0) (2024-01-16)
+
+
+### Features
+
+* add confirmModal ui ([f2a46e8](https://github.com/fabwcie/drawer/commits/f2a46e8cf3d7e403d03f97ab2ccdf88b695e5771))
+
+
+### Bug Fixes
+
+* default value for dragStartLocation ([b649182](https://github.com/fabwcie/drawer/commits/b6491821d1dd02befb79ff6ac41bd224516a0e5c))
+* restore saved draw from legacy format ([9b34beb](https://github.com/fabwcie/drawer/commits/9b34bebbe74403e5ecec312f92927229cea1ad4c))
+* store clearModal ([d17ae7c](https://github.com/fabwcie/drawer/commits/d17ae7c7c3c8645b6b8fafcb73fdc9aab8dc6d9f))
+
 ### [1.2.2](https://github.com/fabwcie/drawer/compare/v1.2.1...v1.2.2) (2024-01-08)
 
 
