@@ -37,7 +37,7 @@ export const defaultOptionsDrawer: DrawerOptions = {
  */
 export const defaultOptionsModal: ModalOptions = {
   id: Date.now().toString(),
-  headerContent: undefined,
+  showHeader: true,
   bodyContent: undefined,
   footerContent: undefined,
   closeOnClickOutside: false,
