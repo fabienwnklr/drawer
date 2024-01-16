@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://github.com/fabwcie/drawer/compare/v1.3.0...v1.3.1) (2024-01-16)
+
+
+### Features
+
+* add shortcut keyboard index to setting modal ([2129047](https://github.com/fabwcie/drawer/commits/2129047928a56caaf5b28652a5f8d641428c389e))
+* **modal:** add `showHeader` option ([b0d357f](https://github.com/fabwcie/drawer/commits/b0d357fb266c75388338b4457cf6d2d8ae7d636a))
+* **modal:** add `showHeader` option ([2545b6b](https://github.com/fabwcie/drawer/commits/2545b6b8d28ae74087beafabf9189835d4eda87d))
+* support darkmode ([7fd2fc9](https://github.com/fabwcie/drawer/commits/7fd2fc9a7ac01d2601194d78918e1986d257a0ac))
+
+
+### Bug Fixes
+
+* tabindex "bump" html ([7985209](https://github.com/fabwcie/drawer/commits/7985209b80420aba4a539337ea7d4fc2bad40508))
+
 ## [1.3.0](https://github.com/fabwcie/drawer/compare/v1.2.2...v1.3.0) (2024-01-16)
 
 
