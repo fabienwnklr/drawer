@@ -92,7 +92,7 @@ var Drawer = function(exports) {
   };
   const defaultOptionsModal = {
     id: Date.now().toString(),
-    headerContent: void 0,
+    showHeader: true,
     bodyContent: void 0,
     footerContent: void 0,
     closeOnClickOutside: false,
@@ -1162,9 +1162,13 @@ var Drawer = function(exports) {
     }
     _init() {
       this._createModal();
-      this.setHeaderContent(
-        this.options.headerContent ?? `<h2 class="drawer-modal-title">${this.options.title ?? "Modal"}</h2><button title="Close" class="btn-close" data-modal="close">${CloseIcon}</button>`
-      );
+      if (this.options.showHeader) {
+        this.setHeaderContent(
+          `<h2 class="drawer-modal-title">${this.options.title ?? "Modal"}</h2><button title="Close" class="btn-close" data-modal="close">${CloseIcon}</button>`
+        );
+      } else {
+        this.$modalHeader.remove();
+      }
       this.setBodyContent(this.options.bodyContent ?? "");
       this.setFooterContent(this.options.footerContent ?? "");
     }
@@ -1323,12 +1327,22 @@ var Drawer = function(exports) {
           <label for="setting-xor-${this.drawer.options.id}">XOR (<a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation" target="_blank" />example</a>)</label>
           <input id="setting-xor-${this.drawer.options.id}" type="checkbox" name="xor-${this.drawer.options.id}" ${this.xor ? "checked" : ""}>
         </li>
+        <hr />
+        <p class="drawer-modal-p">${"Keyboard shortcuts"}</p>
+        <ul class="drawer-modal-body-list">
+          <li class="drawer-modal-body-list-item">
+            ${"Undo"} <span><kbd>Ctrl</kbd> + <kbd>Z</kbd></span>
+          </li>
+          <li class="drawer-modal-body-list-item">
+           ${"Redo"} <span><kbd>Ctrl</kbd> + <kbd>Y</kbd></span>
+          </li>
+        </ul
       </ul>
     `
       );
       this.setFooterContent(
         /*html*/
-        `<div class="drawer-modal-footer"><small>Version ${this.drawer.VERSION}</small><a class="link" target="_blank" title="Visit code source" href="https://github.com/fabwcie/drawer">${GithubIcon}</a></div>`
+        `<small>Version ${this.drawer.VERSION}</small><a class="link" target="_blank" title="Visit code source" href="https://github.com/fabwcie/drawer">${GithubIcon}</a>`
       );
       Coloris.init();
       Coloris({
@@ -1447,7 +1461,7 @@ var Drawer = function(exports) {
 </svg>`;
   class ConfirmModal extends Modal {
     constructor(drawer2, options = {}) {
-      super(drawer2, { headerContent: "Confirm" });
+      super(drawer2, { showHeader: false });
       __publicField(this, "drawer");
       __publicField(this, "$cancelBtn");
       __publicField(this, "$confirmBtn");
@@ -2602,7 +2616,7 @@ var Drawer = function(exports) {
         const canvas = (
           /*html*/
           `
-      <canvas tabindex="0" id="${this.options.id}" height="${this.options.canvasHeight}" width="${this.options.canvasWidth}" class="canvas-drawer"></canvas>
+      <canvas tabindex="1" id="${this.options.id}" height="${this.options.canvasHeight}" width="${this.options.canvasWidth}" class="canvas-drawer"></canvas>
       `
         );
         this.$canvas = stringToHTMLElement(canvas);

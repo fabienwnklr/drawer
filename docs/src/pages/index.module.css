@@ -3,11 +3,6 @@
  * and scoped locally.
  */
 
-:root {
-  --ifm-color-primary: #666eff666eff;
-  --ifm-code-font-size: 95%;
-}
-
 .heroBanner {
   padding: 4rem 0;
   text-align: center;
