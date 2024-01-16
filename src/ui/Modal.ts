@@ -34,10 +34,15 @@ export class Modal {
 
   private _init() {
     this._createModal();
-    this.setHeaderContent(
-      this.options.headerContent ??
-        `<h2 class="drawer-modal-title">${this.options.title ?? "Modal"}</h2><button title="Close" class="btn-close" data-modal="close">${CloseIcon}</button>`
-    );
+
+    if (this.options.showHeader) {
+      this.setHeaderContent(
+          `<h2 class="drawer-modal-title">${this.options.title ?? "Modal"}</h2><button title="Close" class="btn-close" data-modal="close">${CloseIcon}</button>`
+      );
+    } else {
+      this.$modalHeader.remove();
+    }
+
     this.setBodyContent(this.options.bodyContent ?? '');
     this.setFooterContent(this.options.footerContent ?? '');
   }

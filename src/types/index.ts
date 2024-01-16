@@ -73,7 +73,7 @@ export enum ToolbarPosition {
 export interface ModalOptions {
   id?: string;
   title?: string;
-  headerContent?: string;
+  showHeader?: boolean;
   bodyContent?: string;
   footerContent?: string;
   closeOnClickOutside?: boolean;
