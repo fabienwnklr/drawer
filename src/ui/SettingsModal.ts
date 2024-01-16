@@ -77,11 +77,21 @@ export class SettingsModal extends Modal {
             this.xor ? 'checked' : ''
           }>
         </li>
+        <hr />
+        <p class="drawer-modal-p">${'Keyboard shortcuts'}</p>
+        <ul class="drawer-modal-body-list">
+          <li class="drawer-modal-body-list-item">
+            ${'Undo'} <span><kbd>Ctrl</kbd> + <kbd>Z</kbd></span>
+          </li>
+          <li class="drawer-modal-body-list-item">
+           ${'Redo'} <span><kbd>Ctrl</kbd> + <kbd>Y</kbd></span>
+          </li>
+        </ul
       </ul>
     `);
 
     this.setFooterContent(
-      /*html*/ `<div class="drawer-modal-footer"><small>Version ${this.drawer.VERSION}</small><a class="link" target="_blank" title="Visit code source" href="https://github.com/fabwcie/drawer">${GithubIcon}</a></div>`
+      /*html*/ `<small>Version ${this.drawer.VERSION}</small><a class="link" target="_blank" title="Visit code source" href="https://github.com/fabwcie/drawer">${GithubIcon}</a>`
     );
 
     // Init input color
@@ -93,7 +103,7 @@ export class SettingsModal extends Modal {
       swatchesOnly: this.drawer.options.availableColorOnly,
       formatToggle: !this.drawer.options.availableColorOnly,
       closeButton: true,
-      closeLabel: 'Validate'
+      closeLabel: 'Validate',
     });
   }
 
