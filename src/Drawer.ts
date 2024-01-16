@@ -165,7 +165,7 @@ class Drawer extends History {
     try {
       this.$drawerContainer = stringToHTMLElement<HTMLDivElement>(/*html*/ `<div class="drawer-container"></div>`);
       const canvas = /*html*/ `
-      <canvas tabindex="0" id="${this.options.id}" height="${this.options.canvasHeight}" width="${this.options.canvasWidth}" class="canvas-drawer"></canvas>
+      <canvas tabindex="1" id="${this.options.id}" height="${this.options.canvasHeight}" width="${this.options.canvasWidth}" class="canvas-drawer"></canvas>
       `;
       this.$canvas = stringToHTMLElement<HTMLCanvasElement>(canvas);
       this.#cloneCanvas = this.$canvas.cloneNode() as HTMLCanvasElement;
