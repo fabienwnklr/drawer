@@ -1394,7 +1394,7 @@ class SettingsModal extends Modal {
     });
   }
 }
-const version = "1.2.2";
+const version = "1.3.0";
 const coloris = "";
 const BrushIcon = `<svg width="16" height="16" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
 <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
