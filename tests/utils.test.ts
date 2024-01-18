@@ -60,6 +60,6 @@ describe('utilities', () => {
 
     const end = Date.now();
     const timer = end - start;
-    expect(timer).toBeGreaterThan(100);
+    expect(timer).toBeGreaterThanOrEqual(100);
   });
 });

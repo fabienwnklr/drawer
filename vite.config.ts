@@ -31,9 +31,11 @@ export default defineConfig({
     {
       name: 'postbuild-commands', // the name of your custom plugin. Could be anything.
       closeBundle: async () => {
-        console.log('Build docs...');
-        execSync('npm run build:docs'); // run during closeBundle hook. https://rollupjs.org/guide/en/#closebundle
-        console.log('Docs build !');
+        if (process.env.NODE_ENV !== 'test') {
+          console.log('Build docs...');
+          execSync('npm run build:docs'); // run during closeBundle hook. https://rollupjs.org/guide/en/#closebundle
+          console.log('Docs build !');
+        }
       },
     },
   ],
@@ -44,7 +46,7 @@ export default defineConfig({
     },
   },
   server: {
-    open: process.env.NODE_ENV === 'test',
+    open: process.env.NODE_ENV !== 'test',
   },
   test: {
     server: {
