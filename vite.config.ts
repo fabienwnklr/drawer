@@ -44,7 +44,7 @@ export default defineConfig({
     },
   },
   server: {
-    open: '/index.html'
+    open: process.env.NODE_ENV === 'test',
   },
   test: {
     server: {
