@@ -293,6 +293,8 @@ class Drawer extends History {
 
   /**
    * Change canvas background color
+   *
+   * @note use setBgColor (only css) better for prevent draw front of current draw
    * @param bgColor canvas css background color
    * @returns {Promise<boolean>}
    */
