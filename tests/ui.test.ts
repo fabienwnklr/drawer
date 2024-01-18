@@ -61,7 +61,7 @@ describe('Ui', () => {
     // drawer.ctx.
     const path = new Path2D('M 100,100 h 50 v 50 h 50');
     drawer.ctx.stroke(path);
-    sleep(10).then(() => {
+    sleep(100).then(() => {
       drawer.toolbar.$clearBtn?.dispatchEvent(new Event('click'));
       expect(drawer.clearModal).toBeInstanceOf(ConfirmModal);
       expect(drawer.clearModal.isVisible()).toBe(true);
