@@ -3,6 +3,7 @@ import { Drawer } from '../src/Drawer';
 import { Blob } from 'node:buffer';
 import { confirmModalDefaultOpts } from '../src/constants';
 import { ConfirmModal } from '../src/ui/ConfirmModal';
+import { sleep } from '../src/utils/utils';
 
 declare global {
   interface Window {
@@ -53,21 +54,20 @@ describe('Ui', () => {
     expect(drawer.clearModal).toBe(undefined);
   });
 
-  it('Open clear confirm modal', () => {
+  it('Open clear confirm modal', async () => {
     const drawer = new Drawer(document.body.querySelector('#test') as HTMLDivElement, { autoSave: false });
 
     // draw on canvas for can display confirm clear modal
-    const img = new Image();
-    img.src = './img/test.png';
-    img.onload = () => {
-      drawer.ctx.drawImage(img, 0, 0);
+    // drawer.ctx.
+    const path = new Path2D('M 100,100 h 50 v 50 h 50');
+    drawer.ctx.stroke(path);
+    sleep(10).then(() => {
       drawer.toolbar.$clearBtn?.dispatchEvent(new Event('click'));
-      console.log(drawer.clearModal);
       expect(drawer.clearModal).toBeInstanceOf(ConfirmModal);
       expect(drawer.clearModal.isVisible()).toBe(true);
       expect(drawer.clearModal.$cancelBtn?.innerText).toBe(confirmModalDefaultOpts.cancelLabel);
       expect(drawer.clearModal.$cancelBtn?.innerText).toBe(confirmModalDefaultOpts.cancelLabel);
       expect(drawer.clearModal.$confirmBtn?.innerText).toBe(confirmModalDefaultOpts.confirmLabel);
-    };
+    });
   });
 });

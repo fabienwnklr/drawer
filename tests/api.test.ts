@@ -150,40 +150,28 @@ describe('API', () => {
     expect(drawer.$canvas.style.backgroundColor).toEqual('rgba(0, 0, 152, 0.5)');
   });
 
-  // it('setCanvasBgColor', async () => {
-  //   const drawer = new Drawer(document.body.querySelector('#test') as HTMLDivElement);
+  it('setCanvasBgColor', async () => {
+    const drawer = new Drawer(document.body.querySelector('#test') as HTMLDivElement);
 
-  //   await drawer.setColor('#3e3e3e');
-  //   expect(drawer.options.color).toEqual('#3e3e3e');
-  //   if (drawer.toolbar.$colorPicker) {
-  //     expect(drawer.toolbar.$colorPicker.value).toEqual('#3e3e3e');
-  //   }
-  //   expect(drawer.ctx.fillStyle).toEqual('#3e3e3e');
+    await drawer.setCanvasBgColor('#3e3e3e');
+    expect(drawer.options.bgColor).toEqual('#3e3e3e');
+    expect(drawer.ctx.fillStyle).toEqual('#3e3e3e');
 
-  //   // With keyword, converted to hex
-  //   await drawer.setColor('red');
-  //   expect(drawer.options.color).toEqual('red');
-  //   if (drawer.toolbar.$colorPicker) {
-  //     expect(drawer.toolbar.$colorPicker.value).toEqual('red');
-  //   }
-  //   expect(drawer.ctx.fillStyle).toEqual('#ff0000');
+    // With keyword, converted to hex
+    await drawer.setCanvasBgColor('red');
+    expect(drawer.options.bgColor).toEqual('red');
+    expect(drawer.ctx.fillStyle).toEqual('#ff0000');
 
-  //   // With rgb
-  //   drawer.setColor('rgb(0, 0, 152)');
-  //   expect(drawer.options.color).toEqual('rgb(0, 0, 152)');
-  //   if (drawer.toolbar.$colorPicker) {
-  //     expect(drawer.toolbar.$colorPicker.value).toEqual('rgb(0, 0, 152)');
-  //   }
-  //   expect(drawer.ctx.fillStyle).toEqual('#000098');
+    // With rgb
+    drawer.setCanvasBgColor('rgb(0, 0, 152)');
+    expect(drawer.options.bgColor).toEqual('rgb(0, 0, 152)');
+    expect(drawer.ctx.fillStyle).toEqual('#000098');
 
-  //   // With rgba
-  //   drawer.setColor('rgba(0, 0, 152, 0.5)');
-  //   expect(drawer.options.color).toEqual('rgba(0, 0, 152, 0.5)');
-  //   if (drawer.toolbar.$colorPicker) {
-  //     expect(drawer.toolbar.$colorPicker.value).toEqual('rgba(0, 0, 152, 0.5)');
-  //   }
-  //   expect(drawer.ctx.fillStyle).toEqual('rgba(0, 0, 152, 0.5)');
-  // });
+    // With rgba
+    drawer.setCanvasBgColor('rgba(0, 0, 152, 0.5)');
+    expect(drawer.options.bgColor).toEqual('rgba(0, 0, 152, 0.5)');
+    expect(drawer.ctx.fillStyle).toEqual('rgba(0, 0, 152, 0.5)');
+  });
 
   it('saveDraw', async () => {
     const drawer = new Drawer(document.body.querySelector('#test') as HTMLDivElement);
@@ -223,7 +211,7 @@ describe('API', () => {
     expect(drawer.isShape()).toBe(false);
     await drawer.setShape('circle');
     expect(drawer.isShape()).toBe(true);
-  })
+  });
 
   it('clear', async () => {
     const drawer = new Drawer(document.body.querySelector('#test') as HTMLDivElement);
