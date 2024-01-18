@@ -2,7 +2,7 @@ import { test, expect, describe } from 'vitest';
 import { stringToHTMLElement } from '../src/utils/dom';
 import { DrawerError } from '../src/utils/DrawError';
 import { isTactil } from '../src/utils/infos';
-import { deepMerge, hexToRgbA } from '../src/utils/utils';
+import { deepMerge, hexToRgbA, sleep } from '../src/utils/utils';
 
 describe('utilities', () => {
   test('Convert string to HTML element', () => {
@@ -21,13 +21,13 @@ describe('utilities', () => {
   });
 
   test('merge objects refuse falsy value', () => {
-    const target = { test: "test"};
-    const source = { test: "" };
+    const target = { test: 'test' };
+    const source = { test: '' };
 
     const final = deepMerge(target, source);
 
-    expect(final.test).eq("test")
-  })
+    expect(final.test).eq('test');
+  });
 
   test('accepts a hex value of 6 numbers and returns a rgba color string', () => {
     expect(hexToRgbA('#F3F3F3')).toBe('rgba(243,243,243,1)');
@@ -51,5 +51,15 @@ describe('utilities', () => {
 
   test('accepts a hex value of 3 numbers with opacity of 1 and returns same color string', () => {
     expect(hexToRgbA('#aaa', 1)).toBe(hexToRgbA('#aaa', 1));
+  });
+
+  test('sleep', async () => {
+    const start = Date.now();
+
+    await sleep(100);
+
+    const end = Date.now();
+    const timer = end - start;
+    expect(timer).toBeGreaterThan(100);
   });
 });

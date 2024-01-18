@@ -91,6 +91,15 @@ export function isJSON(obj: any): boolean {
 
     return true;
   } catch (err: any) {
-    return false
+    return false;
   }
+}
+
+/**
+ * Sleep 😴
+ * @param {Number} ms Time to sleep
+ * @returns {Promise<any>}
+ */
+export function sleep(ms: number): Promise<any> {
+  return new Promise((r) => setTimeout(r, ms));
 }
