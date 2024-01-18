@@ -43,6 +43,9 @@ export default defineConfig({
       replacement: resolve(__dirname, 'src'),
     },
   },
+  server: {
+    open: '/index.html'
+  },
   test: {
     server: {
       deps: {
