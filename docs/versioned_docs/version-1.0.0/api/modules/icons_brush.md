@@ -1,0 +1,19 @@
+[@fabwcie/drawer](../README.md) / [Exports](../modules.md) / icons/brush
+
+# Module: icons/brush
+
+## Table of contents
+
+### Variables
+
+- [BrushIcon](icons_brush.md#brushicon)
+
+## Variables
+
+### BrushIcon
+
+• `Const` **BrushIcon**: ``"<svg width=\"16\" height=\"16\" viewBox=\"0 0 512 512\" xmlns=\"http://www.w3.org/2000/svg\">\n<path fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"\n    stroke-width=\"32\"\n    d=\"M452.37 59.63h0a40.49 40.49 0 0 0-57.26 0L184 294.74c23.08 4.7 46.12 27.29 49.26 49.26l219.11-227.11a40.49 40.49 0 0 0 0-57.26ZM138 336c-29.88 0-54 24.5-54 54.86c0 23.95-20.88 36.57-36 36.57C64.56 449.74 92.82 464 120 464c39.78 0 72-32.73 72-73.14c0-30.36-24.12-54.86-54-54.86Z\" />\n</svg>\n"``
+
+#### Defined in
+
+[src/icons/brush.ts:1](https://github.com/fabwcie/drawer/blob/master/src/icons/brush.ts#L1)

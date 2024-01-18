@@ -33,13 +33,25 @@ const config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
-  scripts: ["/js/drawer.iife.js"],
+  scripts: ['/js/drawer.iife.js'],
   presets: [
     [
       'classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          lastVersion: '1.3.1',
+          versions: {
+            current: {
+              label: "Canary 🚧"
+            },
+            "1.3.1": {
+              label: "1.3.1"
+            },
+            "1.0.0": {
+              label: "1.0.0"
+            }
+          },
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
@@ -76,6 +88,16 @@ const config = {
             sidebarId: 'apiSidebar',
             position: 'left',
             label: 'API',
+          },
+          {
+            to: 'docs/CHANGELOG',
+            position: 'left',
+            label: 'Changelog',
+          },
+          {
+            type: 'docsVersionDropdown',
+            position: 'right',
+            dropdownActiveClassDisabled: true,
           },
           {
             href: 'https://github.com/fabwcie/drawer/discussions',
