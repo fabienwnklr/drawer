@@ -1,4 +1,4 @@
 - ~~backdrop and menu in drawer container instead body~~
-- add option 'tool' for init with custom tool
-- enhance icon gestion (class , function, other ?) see `icons/close.ts` for example
+- ~~add option 'tool' for init with custom tool~~
+- replace icons/close.ts to icons/close.svg then import as SVG
 - split toolbar tools into plugins / tools folder with file for each ? with abstract baseTool class cf https://github.com/personalizedrefrigerator/js-draw/blob/main/packages/js-draw/src/tools/Eraser.ts
