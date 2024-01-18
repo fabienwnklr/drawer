@@ -89,7 +89,6 @@ const sidebars = {
         'api/modules/utils_infos',
         'api/modules/utils_perf',
         'api/modules/utils_utils',
-        'api/modules/vite_env',
       ],
     },
   ],

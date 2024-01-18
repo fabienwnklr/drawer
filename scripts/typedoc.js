@@ -8,6 +8,7 @@ async function main() {
   const app = await Application.bootstrapWithPlugins({
     entryPoints: ['src/**/*.ts'],
     plugin: ["typedoc-plugin-markdown"],
+    exclude: ["src/vite-env.d.ts"],
     gitRevision: "master",
     excludePrivate: true,
     logLevel: "Verbose"

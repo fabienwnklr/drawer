@@ -44,4 +44,3 @@
 - [utils/infos](modules/utils_infos.md)
 - [utils/perf](modules/utils_perf.md)
 - [utils/utils](modules/utils_utils.md)
-- [vite-env](modules/vite_env.md)
