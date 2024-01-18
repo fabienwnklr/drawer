@@ -3,6 +3,7 @@ import { defineConfig } from 'vite';
 import { resolve } from 'node:path';
 import dts from 'vite-plugin-dts';
 import { execSync } from 'child_process';
+import svgLoader from 'vite-svg-loader'
 
 export default defineConfig({
   build: {
@@ -27,7 +28,9 @@ export default defineConfig({
     dts({
       insertTypesEntry: true,
       rollupTypes: true,
-    }),
+    },
+    ),
+    svgLoader(),
     {
       name: 'postbuild-commands', // the name of your custom plugin. Could be anything.
       closeBundle: async () => {

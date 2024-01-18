@@ -17,7 +17,7 @@ import { LineIcon } from './icons/line';
 import { StarIcon } from './icons/star';
 import { CircleIcon } from './icons/circle';
 import { RectIcon } from './icons/rect';
-import { ArrowIcon } from './icons/arrow';
+import ArrowIcon from './icons/arrow.svg';
 
 // Utils
 import { throttle } from './utils/perf';

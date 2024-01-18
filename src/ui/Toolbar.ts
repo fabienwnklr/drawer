@@ -3,7 +3,7 @@ import '@melloware/coloris/dist/coloris.css';
 import Coloris from '@melloware/coloris';
 
 import { Drawer } from '../Drawer';
-import { ArrowIcon } from '../icons/arrow';
+import ArrowIcon from '../icons/arrow.svg?raw';
 import { BrushIcon } from '../icons/brush';
 import { CircleIcon } from '../icons/circle';
 import { ClearIcon } from '../icons/clear';
