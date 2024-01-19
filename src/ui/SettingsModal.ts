@@ -1,7 +1,7 @@
 import Coloris from '@melloware/coloris';
 import type { Drawer } from '../Drawer';
 import { Modal } from './Modal';
-import { GithubIcon } from '../icons/github';
+import GithubIcon from '../icons/github.svg?raw';
 
 export class SettingsModal extends Modal {
   filled: boolean;

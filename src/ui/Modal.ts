@@ -4,7 +4,7 @@ import { defaultOptionsModal } from '../constants';
 import { stringToHTMLElement } from '../utils/dom';
 import type { Drawer } from '../Drawer';
 import type { ModalOptions } from '../types/index';
-import { CloseIcon } from '../icons/close';
+import CloseIcon from '../icons/close.svg?raw';
 
 declare global {
   interface HTMLDivElement {

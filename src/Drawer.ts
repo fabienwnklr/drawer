@@ -11,13 +11,14 @@ import type { DrawTools, DrawerOptions, Position, savedStorage } from './types/i
 import { History } from './utils/History';
 
 // icons
-import { TriangleIcon } from './icons/triangle';
-import { SquareIcon } from './icons/square';
-import { LineIcon } from './icons/line';
-import { StarIcon } from './icons/star';
-import { CircleIcon } from './icons/circle';
-import { RectIcon } from './icons/rect';
-import ArrowIcon from './icons/arrow.svg';
+import TriangleIcon from './icons/triangle.svg?raw';
+import SquareIcon from './icons/square.svg?raw';
+import LineIcon from './icons/line.svg?raw';
+import StarIcon from './icons/star.svg?raw';
+import CircleIcon from './icons/circle.svg?raw';
+import RectIcon from './icons/rect.svg?raw';
+import ArrowIcon from './icons/arrow.svg?raw';
+import EllipseIcon from './icons/ellipse.svg?raw';
 
 // Utils
 import { throttle } from './utils/perf';
@@ -29,7 +30,6 @@ import { SettingsModal } from './ui/SettingsModal';
 
 import { version } from '../package.json';
 import { Toolbar } from './ui/Toolbar';
-import { EllipseIcon } from './icons/ellipse';
 import { ConfirmModal } from './ui/ConfirmModal';
 
 declare global {
