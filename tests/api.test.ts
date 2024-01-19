@@ -1,7 +1,7 @@
 import { describe, expect, it, beforeAll } from 'vitest';
 import { Drawer } from '../src/Drawer';
 import { Blob } from 'node:buffer';
-import { CircleIcon } from '../src/icons/circle';
+import CircleIcon from '../src/icons/circle.svg?raw';
 
 declare global {
   interface Window {
