@@ -32,7 +32,7 @@ type IIsObject = (item: any) => boolean;
  * @return {Boolean} Whether or not @item is an object
  */
 export const isObject: IIsObject = (item: any): boolean => {
-  return item === Object(item) && !Array.isArray(item);
+  return item === Object(item) && !Array.isArray(item) && typeof item !== 'function';
 };
 
 export function isTruthy(t: any): boolean {

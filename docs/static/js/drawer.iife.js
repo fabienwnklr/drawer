@@ -177,27 +177,14 @@ var Drawer = function(exports) {
       this.ctx = $canvas.getContext("2d");
     }
   }
-  const TriangleIcon = `<svg width="16" height="16" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
-<path fill="currentColor" d="M236.8 188.09L149.35 36.22a24.76 24.76 0 0 0-42.7 0L19.2 188.09a23.51 23.51 0 0 0 0 23.72A24.34 24.34 0 0 0 40.55 224h174.9a24.34 24.34 0 0 0 21.33-12.19a23.51 23.51 0 0 0 .02-23.72Zm-13.87 15.71a8.5 8.5 0 0 1-7.48 4.2H40.55a8.5 8.5 0 0 1-7.48-4.2a7.59 7.59 0 0 1 0-7.72l87.45-151.87a8.75 8.75 0 0 1 15 0l87.45 151.87a7.59 7.59 0 0 1-.04 7.72Z"/>
-</svg>`;
-  const SquareIcon = `<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path fill="currentColor" d="M17 2H7a5 5 0 0 0-5 5v10a5 5 0 0 0 5 5h10a5 5 0 0 0 5-5V7a5 5 0 0 0-5-5Zm3 15a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3Z"/>
-</svg>`;
-  const LineIcon = `<svg width="16" height="16" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-<path fill="currentColor" fill-rule="evenodd" d="M1 10a1 1 0 0 1 1-1h16a1 1 0 1 1 0 2H2a1 1 0 0 1-1-1Z" clip-rule="evenodd"/>
-</svg>`;
-  const StarIcon = `<svg width="16" height="16" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
-<path fill="currentColor" d="M239.2 97.29a16 16 0 0 0-13.81-11L166 81.17l-23.28-55.36a15.95 15.95 0 0 0-29.44 0L90.07 81.17l-59.46 5.15a16 16 0 0 0-9.11 28.06l45.11 39.42l-13.52 58.54a16 16 0 0 0 23.84 17.34l51-31l51.11 31a16 16 0 0 0 23.84-17.34l-13.51-58.6l45.1-39.36a16 16 0 0 0 4.73-17.09Zm-15.22 5l-45.1 39.36a16 16 0 0 0-5.08 15.71L187.35 216l-51.07-31a15.9 15.9 0 0 0-16.54 0l-51 31l13.46-58.6a16 16 0 0 0-5.08-15.71L32 102.35a.37.37 0 0 1 0-.09l59.44-5.14a16 16 0 0 0 13.35-9.75L128 32.08l23.2 55.29a16 16 0 0 0 13.35 9.75l59.45 5.14v.07Z"/>
-</svg>`;
-  const CircleIcon = `<svg width="16" height="16" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
-<path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 192a88 88 0 1 1 88-88a88.1 88.1 0 0 1-88 88Z"/>
-</svg>`;
-  const RectIcon = `<svg width="16" height="16" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
-<path fill="currentColor" d="M216 40H40a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16Zm0 160H40V56h176v144Z"/>
-</svg>`;
-  const ArrowIcon = `<svg style="transform: rotate(135deg);" width="16" height="16" viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg">
-<path fill="currentColor" d="M4.5 0h-4a.5.5 0 0 0-.5.5v4a.5.5 0 0 0 .854.354L2.5 3.207l11.646 11.647l.708-.708L3.207 2.5L4.854.854A.5.5 0 0 0 4.5 0Z"/>
-</svg>`;
+  const TriangleIcon = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\r\n<!DOCTYPE xml>\r\n<svg width="16" height="16" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">\r\n    <path fill="currentColor"\r\n        d="M236.8 188.09L149.35 36.22a24.76 24.76 0 0 0-42.7 0L19.2 188.09a23.51 23.51 0 0 0 0 23.72A24.34 24.34 0 0 0 40.55 224h174.9a24.34 24.34 0 0 0 21.33-12.19a23.51 23.51 0 0 0 .02-23.72Zm-13.87 15.71a8.5 8.5 0 0 1-7.48 4.2H40.55a8.5 8.5 0 0 1-7.48-4.2a7.59 7.59 0 0 1 0-7.72l87.45-151.87a8.75 8.75 0 0 1 15 0l87.45 151.87a7.59 7.59 0 0 1-.04 7.72Z" />\r\n</svg>\r\n';
+  const SquareIcon = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\r\n<!DOCTYPE xml><svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">\r\n<path fill="currentColor" d="M17 2H7a5 5 0 0 0-5 5v10a5 5 0 0 0 5 5h10a5 5 0 0 0 5-5V7a5 5 0 0 0-5-5Zm3 15a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3Z"/>\r\n</svg>\r\n';
+  const LineIcon = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\r\n<!DOCTYPE xml>\r\n<svg width="16" height="16" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">\r\n    <path fill="currentColor" fill-rule="evenodd"\r\n        d="M1 10a1 1 0 0 1 1-1h16a1 1 0 1 1 0 2H2a1 1 0 0 1-1-1Z" clip-rule="evenodd" />\r\n</svg>\r\n';
+  const StarIcon = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\r\n<!DOCTYPE xml>\r\n<svg width="16" height="16" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">\r\n    <path fill="currentColor"\r\n        d="M239.2 97.29a16 16 0 0 0-13.81-11L166 81.17l-23.28-55.36a15.95 15.95 0 0 0-29.44 0L90.07 81.17l-59.46 5.15a16 16 0 0 0-9.11 28.06l45.11 39.42l-13.52 58.54a16 16 0 0 0 23.84 17.34l51-31l51.11 31a16 16 0 0 0 23.84-17.34l-13.51-58.6l45.1-39.36a16 16 0 0 0 4.73-17.09Zm-15.22 5l-45.1 39.36a16 16 0 0 0-5.08 15.71L187.35 216l-51.07-31a15.9 15.9 0 0 0-16.54 0l-51 31l13.46-58.6a16 16 0 0 0-5.08-15.71L32 102.35a.37.37 0 0 1 0-.09l59.44-5.14a16 16 0 0 0 13.35-9.75L128 32.08l23.2 55.29a16 16 0 0 0 13.35 9.75l59.45 5.14v.07Z" />\r\n</svg>\r\n';
+  const CircleIcon = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\r\n<!DOCTYPE xml>\r\n<svg width="16" height="16" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">\r\n    <path fill="currentColor"\r\n        d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 192a88 88 0 1 1 88-88a88.1 88.1 0 0 1-88 88Z" />\r\n</svg>\r\n';
+  const RectIcon = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\r\n<!DOCTYPE xml>\r\n<svg width="16" height="16" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">\r\n    <path fill="currentColor"\r\n        d="M216 40H40a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16Zm0 160H40V56h176v144Z" />\r\n</svg>\r\n';
+  const ArrowIcon = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\r\n<!DOCTYPE xml>\r\n<svg style="transform: rotate(135deg);" width="16" height="16" viewBox="0 0 15 15"\r\n    xmlns="http://www.w3.org/2000/svg">\r\n    <path fill="currentColor"\r\n        d="M4.5 0h-4a.5.5 0 0 0-.5.5v4a.5.5 0 0 0 .854.354L2.5 3.207l11.646 11.647l.708-.708L3.207 2.5L4.854.854A.5.5 0 0 0 4.5 0Z" />\r\n</svg>\r\n';
+  const EllipseIcon = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\r\n<!DOCTYPE xml>\r\n<svg width="16" height="16" viewBox="0 0 2048 2048" xmlns="http://www.w3.org/2000/svg">\r\n    <path fill="currentColor"\r\n        d="M1024 256q131 0 268 27t264 85t233 144t175 206q41 71 62 147t22 159q0 82-21 158t-63 148q-68 119-174 206t-233 144t-264 84t-269 28q-131 0-268-27t-264-85t-233-144t-175-206q-41-71-62-147T0 1024q0-82 21-158t63-148q68-119 174-206t233-144t264-84t269-28zm0 1408q84 0 169-11t167-36t159-60t146-87q54-40 101-88t81-105t53-120t20-133q0-70-19-133t-54-119t-81-105t-101-89q-68-50-145-86t-160-61t-167-35t-169-12q-84 0-169 11t-167 36t-159 60t-146 87q-54 40-101 88t-81 105t-53 120t-20 133q0 70 19 133t54 119t81 105t101 89q68 50 145 86t160 61t167 35t169 12z" />\r\n</svg>\r\n';
   function debounce(callback, delay = 300) {
     let timer;
     return function(...args) {
@@ -221,11 +208,28 @@ var Drawer = function(exports) {
       return lastResult;
     };
   }
-  function getMousePosition($canvas, evt) {
+  function getMousePosition($canvas, evt, relative = true) {
+    let posTarget;
+    if (evt instanceof TouchEvent) {
+      posTarget = evt.touches[0];
+      if (evt.type === "touchend") {
+        posTarget = evt.changedTouches[0];
+      }
+    } else {
+      posTarget = evt;
+    }
     const rect = $canvas.getBoundingClientRect();
+    const x = posTarget.clientX;
+    const y = posTarget.clientY;
+    if (relative) {
+      return {
+        x: x - rect.left,
+        y: y - rect.top
+      };
+    }
     return {
-      x: evt.clientX - rect.left,
-      y: evt.clientY - rect.top
+      x,
+      y
     };
   }
   const isObject = (item) => {
@@ -1136,12 +1140,7 @@ var Drawer = function(exports) {
   Coloris.removeInstance;
   Coloris.updatePosition;
   const modal = "";
-  const CloseIcon = IconClose();
-  function IconClose(w = 16, h = 16) {
-    return `<svg width="${w}" height="${h}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21l-9-9m0 0L3 3m9 9l9-9m-9 9l-9 9"/>
-</svg>`;
-  }
+  const CloseIcon = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\r\n<!DOCTYPE xml>\r\n<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">\r\n    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"\r\n        stroke-width="2" d="m21 21l-9-9m0 0L3 3m9 9l9-9m-9 9l-9 9" />\r\n</svg>\r\n';
   class Modal {
     constructor(drawer2, options) {
       __publicField(this, "$modal");
@@ -1265,9 +1264,7 @@ var Drawer = function(exports) {
       this.$modal.remove();
     }
   }
-  const GithubIcon = `<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path fill="currentColor" d="M12 2.247a10 10 0 0 0-3.162 19.487c.5.088.687-.212.687-.475c0-.237-.012-1.025-.012-1.862c-2.513.462-3.163-.613-3.363-1.175a3.636 3.636 0 0 0-1.025-1.413c-.35-.187-.85-.65-.013-.662a2.001 2.001 0 0 1 1.538 1.025a2.137 2.137 0 0 0 2.912.825a2.104 2.104 0 0 1 .638-1.338c-2.225-.25-4.55-1.112-4.55-4.937a3.892 3.892 0 0 1 1.025-2.688a3.594 3.594 0 0 1 .1-2.65s.837-.262 2.75 1.025a9.427 9.427 0 0 1 5 0c1.912-1.3 2.75-1.025 2.75-1.025a3.593 3.593 0 0 1 .1 2.65a3.869 3.869 0 0 1 1.025 2.688c0 3.837-2.338 4.687-4.563 4.937a2.368 2.368 0 0 1 .675 1.85c0 1.338-.012 2.413-.012 2.75c0 .263.187.575.687.475A10.005 10.005 0 0 0 12 2.247Z"/>
-</svg>`;
+  const GithubIcon = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\r\n<!DOCTYPE xml><svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">\r\n<path fill="currentColor" d="M12 2.247a10 10 0 0 0-3.162 19.487c.5.088.687-.212.687-.475c0-.237-.012-1.025-.012-1.862c-2.513.462-3.163-.613-3.363-1.175a3.636 3.636 0 0 0-1.025-1.413c-.35-.187-.85-.65-.013-.662a2.001 2.001 0 0 1 1.538 1.025a2.137 2.137 0 0 0 2.912.825a2.104 2.104 0 0 1 .638-1.338c-2.225-.25-4.55-1.112-4.55-4.937a3.892 3.892 0 0 1 1.025-2.688a3.594 3.594 0 0 1 .1-2.65s.837-.262 2.75 1.025a9.427 9.427 0 0 1 5 0c1.912-1.3 2.75-1.025 2.75-1.025a3.593 3.593 0 0 1 .1 2.65a3.869 3.869 0 0 1 1.025 2.688c0 3.837-2.338 4.687-4.563 4.937a2.368 2.368 0 0 1 .675 1.85c0 1.338-.012 2.413-.012 2.75c0 .263.187.575.687.475A10.005 10.005 0 0 0 12 2.247Z"/>\r\n</svg>\r\n';
   class SettingsModal extends Modal {
     constructor(drawer2) {
       super(drawer2, { title: "Settings" });
@@ -1410,55 +1407,20 @@ var Drawer = function(exports) {
       });
     }
   }
-  const version = "1.3.0";
+  const version = "1.3.1";
   const coloris = "";
-  const BrushIcon = `<svg width="16" height="16" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-<path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-    stroke-width="32"
-    d="M452.37 59.63h0a40.49 40.49 0 0 0-57.26 0L184 294.74c23.08 4.7 46.12 27.29 49.26 49.26l219.11-227.11a40.49 40.49 0 0 0 0-57.26ZM138 336c-29.88 0-54 24.5-54 54.86c0 23.95-20.88 36.57-36 36.57C64.56 449.74 92.82 464 120 464c39.78 0 72-32.73 72-73.14c0-30.36-24.12-54.86-54-54.86Z" />
-</svg>
-`;
-  const ClearIcon = `<svg width="16" height="16" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
-<path fill="currentColor" d="M216 48h-40v-8a24 24 0 0 0-24-24h-48a24 24 0 0 0-24 24v8H40a8 8 0 0 0 0 16h8v144a16 16 0 0 0 16 16h128a16 16 0 0 0 16-16V64h8a8 8 0 0 0 0-16ZM96 40a8 8 0 0 1 8-8h48a8 8 0 0 1 8 8v8H96Zm96 168H64V64h128Zm-80-104v64a8 8 0 0 1-16 0v-64a8 8 0 0 1 16 0Zm48 0v64a8 8 0 0 1-16 0v-64a8 8 0 0 1 16 0Z"/>
-</svg>`;
-  const DownloadIcon = `<svg width="16" height="16" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
-<path fill="currentColor" d="M240 136v64a16 16 0 0 1-16 16H32a16 16 0 0 1-16-16v-64a16 16 0 0 1 16-16h40a8 8 0 0 1 0 16H32v64h192v-64h-40a8 8 0 0 1 0-16h40a16 16 0 0 1 16 16Zm-117.66-2.34a8 8 0 0 0 11.32 0l48-48a8 8 0 0 0-11.32-11.32L136 108.69V24a8 8 0 0 0-16 0v84.69L85.66 74.34a8 8 0 0 0-11.32 11.32ZM200 168a12 12 0 1 0-12 12a12 12 0 0 0 12-12Z"/>
-</svg>`;
-  const EraserIcon = `<svg width="16" height="16" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
-<path fill="currentColor"
-    d="M225 80.4L183.6 39a24 24 0 0 0-33.94 0L31 157.66a24 24 0 0 0 0 33.94l30.06 30.06a8 8 0 0 0 5.68 2.34H216a8 8 0 0 0 0-16h-84.7l93.7-93.66a24 24 0 0 0 0-33.94ZM108.68 208H70.05l-27.72-27.72a8 8 0 0 1 0-11.31L96 115.31L148.69 168Zm105-105L160 156.69L107.31 104L161 50.34a8 8 0 0 1 11.32 0l41.38 41.38a8 8 0 0 1 0 11.31Z" />
-</svg>
-`;
-  const RedoIcon = `<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path fill="currentColor" d="M9.9 19q-2.425 0-4.163-1.575T4 13.5q0-2.35 1.738-3.925T9.9 8h6.3l-2.6-2.6L15 4l5 5l-5 5l-1.4-1.4l2.6-2.6H9.9q-1.575 0-2.738 1T6 13.5Q6 15 7.163 16T9.9 17H17v2H9.9Z"/>
-</svg>`;
-  const SettingIcon = `<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path fill="currentColor" d="M19.9 12.66a1 1 0 0 1 0-1.32l1.28-1.44a1 1 0 0 0 .12-1.17l-2-3.46a1 1 0 0 0-1.07-.48l-1.88.38a1 1 0 0 1-1.15-.66l-.61-1.83a1 1 0 0 0-.95-.68h-4a1 1 0 0 0-1 .68l-.56 1.83a1 1 0 0 1-1.15.66L5 4.79a1 1 0 0 0-1 .48L2 8.73a1 1 0 0 0 .1 1.17l1.27 1.44a1 1 0 0 1 0 1.32L2.1 14.1a1 1 0 0 0-.1 1.17l2 3.46a1 1 0 0 0 1.07.48l1.88-.38a1 1 0 0 1 1.15.66l.61 1.83a1 1 0 0 0 1 .68h4a1 1 0 0 0 .95-.68l.61-1.83a1 1 0 0 1 1.15-.66l1.88.38a1 1 0 0 0 1.07-.48l2-3.46a1 1 0 0 0-.12-1.17ZM18.41 14l.8.9l-1.28 2.22l-1.18-.24a3 3 0 0 0-3.45 2L12.92 20h-2.56L10 18.86a3 3 0 0 0-3.45-2l-1.18.24l-1.3-2.21l.8-.9a3 3 0 0 0 0-4l-.8-.9l1.28-2.2l1.18.24a3 3 0 0 0 3.45-2L10.36 4h2.56l.38 1.14a3 3 0 0 0 3.45 2l1.18-.24l1.28 2.22l-.8.9a3 3 0 0 0 0 3.98Zm-6.77-6a4 4 0 1 0 4 4a4 4 0 0 0-4-4Zm0 6a2 2 0 1 1 2-2a2 2 0 0 1-2 2Z"/>
-</svg>`;
-  const ShapeIcon = `<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path fill="currentColor" d="M17 15.7V13h2v4l-9 4l-7-7l4-9h4v2H8.3l-2.9 6.6l5 5l6.6-2.9M22 5v2h-3v3h-2V7h-3V5h3V2h2v3h3Z"/>
-</svg>`;
-  const TextIcon = `<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path fill="currentColor" d="M13 6v15h-2V6H5V4h14v2h-6Z"/>
-</svg>`;
-  const UndoIcon = `<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path fill="currentColor" d="M7 19v-2h7.1q1.575 0 2.738-1T18 13.5q0-1.5-1.163-2.5T14.1 10H7.8l2.6 2.6L9 14L4 9l5-5l1.4 1.4L7.8 8h6.3q2.425 0 4.163 1.575T20 13.5q0 2.35-1.738 3.925T14.1 19H7Z"/>
-</svg>`;
-  const UploadIcon = `<svg width="16" height="16" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
-<path fill="currentColor" d="M238 136v64a14 14 0 0 1-14 14H32a14 14 0 0 1-14-14v-64a14 14 0 0 1 14-14h48a6 6 0 0 1 0 12H32a2 2 0 0 0-2 2v64a2 2 0 0 0 2 2h192a2 2 0 0 0 2-2v-64a2 2 0 0 0-2-2h-48a6 6 0 0 1 0-12h48a14 14 0 0 1 14 14ZM84.24 76.24L122 38.49V128a6 6 0 0 0 12 0V38.49l37.76 37.75a6 6 0 0 0 8.48-8.48l-48-48a6 6 0 0 0-8.48 0l-48 48a6 6 0 0 0 8.48 8.48ZM198 168a10 10 0 1 0-10 10a10 10 0 0 0 10-10Z"/>
-</svg>`;
-  const EllipseIcon = `<svg width="16" height="16" viewBox="0 0 2048 2048" xmlns="http://www.w3.org/2000/svg">
-<path fill="currentColor" d="M1024 256q131 0 268 27t264 85t233 144t175 206q41 71 62 147t22 159q0 82-21 158t-63 148q-68 119-174 206t-233 144t-264 84t-269 28q-131 0-268-27t-264-85t-233-144t-175-206q-41-71-62-147T0 1024q0-82 21-158t63-148q68-119 174-206t233-144t264-84t269-28zm0 1408q84 0 169-11t167-36t159-60t146-87q54-40 101-88t81-105t53-120t20-133q0-70-19-133t-54-119t-81-105t-101-89q-68-50-145-86t-160-61t-167-35t-169-12q-84 0-169 11t-167 36t-159 60t-146 87q-54 40-101 88t-81 105t-53 120t-20 133q0 70 19 133t54 119t81 105t101 89q68 50 145 86t160 61t167 35t169 12z"/>
-</svg>`;
-  const ExpandIcon = `<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path fill="currentColor" d="M18 18v2H4a2 2 0 0 1-2-2V8h2v10M22 6v8a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2m-2 0H8v8h12Z"></path>
-</svg>`;
-  const FullscreenIcon = `<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<g fill="none">
-    <path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z"></path>
-    <path fill="currentColor" d="M4 15a1 1 0 0 1 1 1v3h3a1 1 0 1 1 0 2H5a2 2 0 0 1-2-2v-3a1 1 0 0 1 1-1Zm16 0a1 1 0 0 1 .993.883L21 16v3a2 2 0 0 1-1.85 1.995L19 21h-3a1 1 0 0 1-.117-1.993L16 19h3v-3a1 1 0 0 1 1-1ZM19 3a2 2 0 0 1 1.995 1.85L21 5v3a1 1 0 0 1-1.993.117L19 8V5h-3a1 1 0 0 1-.117-1.993L16 3h3ZM8 3a1 1 0 0 1 .117 1.993L8 5H5v3a1 1 0 0 1-1.993.117L3 8V5a2 2 0 0 1 1.85-1.995L5 3h3Z"></path>
-</g>
-</svg>`;
+  const BrushIcon = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\r\n<!DOCTYPE xml>\r\n<svg width="16" height="16" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">\r\n<path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"\r\n    stroke-width="32"\r\n    d="M452.37 59.63h0a40.49 40.49 0 0 0-57.26 0L184 294.74c23.08 4.7 46.12 27.29 49.26 49.26l219.11-227.11a40.49 40.49 0 0 0 0-57.26ZM138 336c-29.88 0-54 24.5-54 54.86c0 23.95-20.88 36.57-36 36.57C64.56 449.74 92.82 464 120 464c39.78 0 72-32.73 72-73.14c0-30.36-24.12-54.86-54-54.86Z" />\r\n</svg>\r\n';
+  const ClearIcon = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\r\n<!DOCTYPE xml>\r\n<svg width="16" height="16" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">\r\n    <path fill="currentColor"\r\n        d="M216 48h-40v-8a24 24 0 0 0-24-24h-48a24 24 0 0 0-24 24v8H40a8 8 0 0 0 0 16h8v144a16 16 0 0 0 16 16h128a16 16 0 0 0 16-16V64h8a8 8 0 0 0 0-16ZM96 40a8 8 0 0 1 8-8h48a8 8 0 0 1 8 8v8H96Zm96 168H64V64h128Zm-80-104v64a8 8 0 0 1-16 0v-64a8 8 0 0 1 16 0Zm48 0v64a8 8 0 0 1-16 0v-64a8 8 0 0 1 16 0Z" />\r\n</svg>\r\n';
+  const DownloadIcon = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\r\n<!DOCTYPE xml>\r\n<svg width="16" height="16" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">\r\n    <path fill="currentColor"\r\n        d="M240 136v64a16 16 0 0 1-16 16H32a16 16 0 0 1-16-16v-64a16 16 0 0 1 16-16h40a8 8 0 0 1 0 16H32v64h192v-64h-40a8 8 0 0 1 0-16h40a16 16 0 0 1 16 16Zm-117.66-2.34a8 8 0 0 0 11.32 0l48-48a8 8 0 0 0-11.32-11.32L136 108.69V24a8 8 0 0 0-16 0v84.69L85.66 74.34a8 8 0 0 0-11.32 11.32ZM200 168a12 12 0 1 0-12 12a12 12 0 0 0 12-12Z" />\r\n</svg>\r\n';
+  const EraserIcon = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\r\n<!DOCTYPE xml>\r\n<svg width="16" height="16" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">\r\n    <path fill="currentColor"\r\n        d="M225 80.4L183.6 39a24 24 0 0 0-33.94 0L31 157.66a24 24 0 0 0 0 33.94l30.06 30.06a8 8 0 0 0 5.68 2.34H216a8 8 0 0 0 0-16h-84.7l93.7-93.66a24 24 0 0 0 0-33.94ZM108.68 208H70.05l-27.72-27.72a8 8 0 0 1 0-11.31L96 115.31L148.69 168Zm105-105L160 156.69L107.31 104L161 50.34a8 8 0 0 1 11.32 0l41.38 41.38a8 8 0 0 1 0 11.31Z" />\r\n</svg>\r\n';
+  const RedoIcon = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\r\n<!DOCTYPE xml>\r\n<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">\r\n    <path fill="currentColor"\r\n        d="M9.9 19q-2.425 0-4.163-1.575T4 13.5q0-2.35 1.738-3.925T9.9 8h6.3l-2.6-2.6L15 4l5 5l-5 5l-1.4-1.4l2.6-2.6H9.9q-1.575 0-2.738 1T6 13.5Q6 15 7.163 16T9.9 17H17v2H9.9Z" />\r\n</svg>\r\n';
+  const SettingIcon = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\r\n<!DOCTYPE xml>\r\n<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">\r\n    <path fill="currentColor"\r\n        d="M19.9 12.66a1 1 0 0 1 0-1.32l1.28-1.44a1 1 0 0 0 .12-1.17l-2-3.46a1 1 0 0 0-1.07-.48l-1.88.38a1 1 0 0 1-1.15-.66l-.61-1.83a1 1 0 0 0-.95-.68h-4a1 1 0 0 0-1 .68l-.56 1.83a1 1 0 0 1-1.15.66L5 4.79a1 1 0 0 0-1 .48L2 8.73a1 1 0 0 0 .1 1.17l1.27 1.44a1 1 0 0 1 0 1.32L2.1 14.1a1 1 0 0 0-.1 1.17l2 3.46a1 1 0 0 0 1.07.48l1.88-.38a1 1 0 0 1 1.15.66l.61 1.83a1 1 0 0 0 1 .68h4a1 1 0 0 0 .95-.68l.61-1.83a1 1 0 0 1 1.15-.66l1.88.38a1 1 0 0 0 1.07-.48l2-3.46a1 1 0 0 0-.12-1.17ZM18.41 14l.8.9l-1.28 2.22l-1.18-.24a3 3 0 0 0-3.45 2L12.92 20h-2.56L10 18.86a3 3 0 0 0-3.45-2l-1.18.24l-1.3-2.21l.8-.9a3 3 0 0 0 0-4l-.8-.9l1.28-2.2l1.18.24a3 3 0 0 0 3.45-2L10.36 4h2.56l.38 1.14a3 3 0 0 0 3.45 2l1.18-.24l1.28 2.22l-.8.9a3 3 0 0 0 0 3.98Zm-6.77-6a4 4 0 1 0 4 4a4 4 0 0 0-4-4Zm0 6a2 2 0 1 1 2-2a2 2 0 0 1-2 2Z" />\r\n</svg>\r\n';
+  const ShapeIcon = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\r\n<!DOCTYPE xml>\r\n<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">\r\n    <path fill="currentColor"\r\n        d="M17 15.7V13h2v4l-9 4l-7-7l4-9h4v2H8.3l-2.9 6.6l5 5l6.6-2.9M22 5v2h-3v3h-2V7h-3V5h3V2h2v3h3Z" />\r\n</svg>\r\n';
+  const TextIcon = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\r\n<!DOCTYPE xml>\r\n<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">\r\n    <path fill="currentColor" d="M13 6v15h-2V6H5V4h14v2h-6Z" />\r\n</svg>\r\n';
+  const UndoIcon = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\r\n<!DOCTYPE xml>\r\n<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">\r\n    <path fill="currentColor"\r\n        d="M7 19v-2h7.1q1.575 0 2.738-1T18 13.5q0-1.5-1.163-2.5T14.1 10H7.8l2.6 2.6L9 14L4 9l5-5l1.4 1.4L7.8 8h6.3q2.425 0 4.163 1.575T20 13.5q0 2.35-1.738 3.925T14.1 19H7Z" />\r\n</svg>\r\n';
+  const UploadIcon = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\r\n<!DOCTYPE xml>\r\n<svg width="16" height="16" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">\r\n    <path fill="currentColor"\r\n        d="M238 136v64a14 14 0 0 1-14 14H32a14 14 0 0 1-14-14v-64a14 14 0 0 1 14-14h48a6 6 0 0 1 0 12H32a2 2 0 0 0-2 2v64a2 2 0 0 0 2 2h192a2 2 0 0 0 2-2v-64a2 2 0 0 0-2-2h-48a6 6 0 0 1 0-12h48a14 14 0 0 1 14 14ZM84.24 76.24L122 38.49V128a6 6 0 0 0 12 0V38.49l37.76 37.75a6 6 0 0 0 8.48-8.48l-48-48a6 6 0 0 0-8.48 0l-48 48a6 6 0 0 0 8.48 8.48ZM198 168a10 10 0 1 0-10 10a10 10 0 0 0 10-10Z" />\r\n</svg>\r\n';
+  const ExpandIcon = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\r\n<!DOCTYPE xml>\r\n<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">\r\n    <path fill="currentColor"\r\n        d="M18 18v2H4a2 2 0 0 1-2-2V8h2v10M22 6v8a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2m-2 0H8v8h12Z"></path>\r\n</svg>\r\n';
+  const FullscreenIcon = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\r\n<!DOCTYPE xml>\r\n<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">\r\n    <g fill="none">\r\n        <path\r\n            d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z"></path>\r\n        <path fill="currentColor"\r\n            d="M4 15a1 1 0 0 1 1 1v3h3a1 1 0 1 1 0 2H5a2 2 0 0 1-2-2v-3a1 1 0 0 1 1-1Zm16 0a1 1 0 0 1 .993.883L21 16v3a2 2 0 0 1-1.85 1.995L19 21h-3a1 1 0 0 1-.117-1.993L16 19h3v-3a1 1 0 0 1 1-1ZM19 3a2 2 0 0 1 1.995 1.85L21 5v3a1 1 0 0 1-1.993.117L19 8V5h-3a1 1 0 0 1-.117-1.993L16 3h3ZM8 3a1 1 0 0 1 .117 1.993L8 5H5v3a1 1 0 0 1-1.993.117L3 8V5a2 2 0 0 1 1.85-1.995L5 3h3Z"></path>\r\n    </g>\r\n</svg>\r\n';
   class ConfirmModal extends Modal {
     constructor(drawer2, options = {}) {
       super(drawer2, { showHeader: false });
@@ -1614,7 +1576,7 @@ var Drawer = function(exports) {
           if (this.$toolbar && !this.$undoBtn) {
             const undoBtn = (
               /*html*/
-              `<button title="${"Redo"}" class="btn btn-primary" disabled>${UndoIcon}</button>`
+              `<button title="${"Redo"}" class="btn btn-drawer-primary" disabled>${UndoIcon}</button>`
             );
             const $undoBtn = stringToHTMLElement(undoBtn);
             this.$undoBtn = $undoBtn;
@@ -1652,7 +1614,7 @@ var Drawer = function(exports) {
           if (this.$toolbar && !this.$redoBtn) {
             const redoBtn = (
               /*html*/
-              `<button title="${"Redo"}" class="btn btn-primary" disabled>${RedoIcon}</button>`
+              `<button title="${"Redo"}" class="btn btn-drawer-primary" disabled>${RedoIcon}</button>`
             );
             const $redoBtn = stringToHTMLElement(redoBtn);
             this.$redoBtn = $redoBtn;
@@ -1690,7 +1652,7 @@ var Drawer = function(exports) {
           if (this.$toolbar && !this.$brushBtn) {
             const brushBtn = (
               /*html*/
-              `<button title="${"Brush"}" class="btn btn-primary active">${BrushIcon}</button>`
+              `<button title="${"Brush"}" class="btn btn-drawer-primary active">${BrushIcon}</button>`
             );
             const $brushBtn = stringToHTMLElement(brushBtn);
             this.$brushBtn = $brushBtn;
@@ -1725,7 +1687,7 @@ var Drawer = function(exports) {
           if (this.$toolbar && !this.$eraserBtn) {
             const eraserBtn = (
               /*html*/
-              `<button title="${"Eraser"}" class="btn btn-primary">${EraserIcon}</button>`
+              `<button title="${"Eraser"}" class="btn btn-drawer-primary">${EraserIcon}</button>`
             );
             const $eraserBtn = stringToHTMLElement(eraserBtn);
             this.$eraserBtn = $eraserBtn;
@@ -1760,7 +1722,7 @@ var Drawer = function(exports) {
           if (this.$toolbar && !this.$textBtn) {
             const textBtn = (
               /*html*/
-              `<button title="${"Text zone"}" class="btn btn-primary">${TextIcon}</button>`
+              `<button title="${"Text zone"}" class="btn btn-drawer-primary">${TextIcon}</button>`
             );
             const $textBtn = stringToHTMLElement(textBtn);
             this.$textBtn = $textBtn;
@@ -1812,13 +1774,13 @@ var Drawer = function(exports) {
               `
             <ul class="drawer-menu">
               <li class="drawer-menu-item">
-                <button data-tool="brush" title=${"Brush"} class="btn btn-primary">${BrushIcon}</button>
+                <button data-tool="brush" title=${"Brush"} class="btn btn-drawer-primary">${BrushIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-tool="eraser" title=${"Eraser"} class="btn btn-primary">${EraserIcon}</button>
+                <button data-tool="eraser" title=${"Eraser"} class="btn btn-drawer-primary">${EraserIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-tool="text" title=${"Text zone"} class="btn btn-primary">${TextIcon}</button>
+                <button data-tool="text" title=${"Text zone"} class="btn btn-drawer-primary">${TextIcon}</button>
               </li>
             </ul>`
             );
@@ -1868,7 +1830,7 @@ var Drawer = function(exports) {
           if (this.$toolbar && !this.$clearBtn) {
             const clearBtn = (
               /*html*/
-              `<button title="${"Clear draw"}" class="btn btn-primary">${ClearIcon}</button>`
+              `<button title="${"Clear draw"}" class="btn btn-drawer-primary">${ClearIcon}</button>`
             );
             const $clearBtn = stringToHTMLElement(clearBtn);
             this.$clearBtn = $clearBtn;
@@ -1908,32 +1870,32 @@ var Drawer = function(exports) {
           if (this.$toolbar && !this.$shapeBtn) {
             const shapeBtn = (
               /*html*/
-              `<button title="${"Draw shape"}" class="btn btn-primary btn-shape">${ShapeIcon}</button>`
+              `<button title="${"Draw shape"}" class="btn btn-drawer-primary btn-shape">${ShapeIcon}</button>`
             );
             const shapeMenu = (
               /*html*/
               `
             <ul class="drawer-menu">
               <li class="drawer-menu-item">
-                <button data-shape="triangle" class="btn btn-primary triangle" title="${"Triangle"}">${TriangleIcon}</button>
+                <button data-shape="triangle" class="btn btn-drawer-primary triangle" title="${"Triangle"}">${TriangleIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="rect" class="btn btn-primary rect" title="${"Rectangle"}">${RectIcon}</button>
+                <button data-shape="rect" class="btn btn-drawer-primary rect" title="${"Rectangle"}">${RectIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="square" class="btn btn-primary square" title="${"Square"}">${SquareIcon}</button>
+                <button data-shape="square" class="btn btn-drawer-primary square" title="${"Square"}">${SquareIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="line" class="btn btn-primary line" title="${"Line"}">${LineIcon}</button>
+                <button data-shape="line" class="btn btn-drawer-primary line" title="${"Line"}">${LineIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="arrow" class="btn btn-primary arrow" title="${"Arrow"}">${ArrowIcon}</button>
+                <button data-shape="arrow" class="btn btn-drawer-primary arrow" title="${"Arrow"}">${ArrowIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="circle" class="btn btn-primary circle" title="${"Circle"}">${CircleIcon}</button>
+                <button data-shape="circle" class="btn btn-drawer-primary circle" title="${"Circle"}">${CircleIcon}</button>
               </li>
               <li class="drawer-menu-item">
-                <button data-shape="ellipse" class="btn btn-primary circle" title="${"Ellipse"}">${EllipseIcon}</button>
+                <button data-shape="ellipse" class="btn btn-drawer-primary circle" title="${"Ellipse"}">${EllipseIcon}</button>
               </li>
             </ul>`
             );
@@ -2027,7 +1989,7 @@ var Drawer = function(exports) {
               /*html*/
               `
             <div class="container-colorpicker">
-              <input class="btn btn-primary" id="colopicker-${this.drawer.options.id}" class="" type="text" title="${"Color"}" value="${this.drawer.options.color}" data-coloris/>
+              <input class="btn btn-drawer-primary" id="colopicker-${this.drawer.options.id}" class="" type="text" title="${"Color"}" value="${this.drawer.options.color}" data-coloris/>
             </div>
             `
             );
@@ -2080,7 +2042,7 @@ var Drawer = function(exports) {
               `
             <div class="container-uploadFile">
               <input tabindex="-1" id="${this.drawer.options.id}-uploadfile" title="${"Color"}" class="" type="file" />
-              <label tabindex="0" title="${"Upload file"}" accept="image/png, image/jpeg, .svg" class="btn btn-primary" for="${this.drawer.options.id}-uploadfile">
+              <label tabindex="0" title="${"Upload file"}" accept="image/png, image/jpeg, .svg" class="btn btn-drawer-primary" for="${this.drawer.options.id}-uploadfile">
                 ${UploadIcon}
               </label>
             </div>
@@ -2119,7 +2081,7 @@ var Drawer = function(exports) {
         if (this.$toolbar && !this.$downloadBtn) {
           const download = (
             /*html*/
-            `<button title="${"Download"}" class="btn btn-primary">${DownloadIcon}</button>`
+            `<button title="${"Download"}" class="btn btn-drawer-primary">${DownloadIcon}</button>`
           );
           const $downloadBtn = stringToHTMLElement(download);
           this.$downloadBtn = $downloadBtn;
@@ -2193,7 +2155,7 @@ var Drawer = function(exports) {
         if (this.$toolbar && !this.$pickColorBtn) {
           const pickColor = (
             /*html*/
-            `<button title="${"Pick color"}" class="btn btn-primary">${ExpandIcon}</button>`
+            `<button title="${"Pick color"}" class="btn btn-drawer-primary">${ExpandIcon}</button>`
           );
           const $pickColorBtn = stringToHTMLElement(pickColor);
           this.$pickColorBtn = $pickColorBtn;
@@ -2243,7 +2205,7 @@ var Drawer = function(exports) {
         if (this.$toolbar && !this.$expandBtn) {
           const expand = (
             /*html*/
-            `<button title="${"Expand"}" class="btn btn-primary">${ExpandIcon}</button>`
+            `<button title="${"Expand"}" class="btn btn-drawer-primary">${ExpandIcon}</button>`
           );
           const $expandBtn = stringToHTMLElement(expand);
           this.$expandBtn = $expandBtn;
@@ -2274,7 +2236,7 @@ var Drawer = function(exports) {
         if (this.$toolbar && !this.$fullscreenBtn) {
           const fullscreen = (
             /*html*/
-            `<button title="${"Fullscreen"}" class="btn btn-primary">${FullscreenIcon}</button>`
+            `<button title="${"Fullscreen"}" class="btn btn-drawer-primary">${FullscreenIcon}</button>`
           );
           const $fullscreenBtn = stringToHTMLElement(fullscreen);
           this.$fullscreenBtn = $fullscreenBtn;
@@ -2298,7 +2260,7 @@ var Drawer = function(exports) {
       if (this.$toolbar && !this.$closeBtn) {
         const close = (
           /*html*/
-          `<button title="${"Close"}" class="btn btn-primary">${CloseIcon}</button>`
+          `<button title="${"Close"}" class="btn btn-drawer-primary">${CloseIcon}</button>`
         );
         const $closeBtn = stringToHTMLElement(close);
         this.$closeBtn = $closeBtn;
@@ -2330,7 +2292,7 @@ var Drawer = function(exports) {
         if (this.$toolbar && !this.$settingBtn) {
           const settingBtn = (
             /*html*/
-            `<button title="${"Settings"}" class="btn btn-primary">${SettingIcon}</button>`
+            `<button title="${"Settings"}" class="btn btn-drawer-primary">${SettingIcon}</button>`
           );
           const $settingBtn = stringToHTMLElement(settingBtn);
           this.$settingBtn = $settingBtn;
@@ -2366,7 +2328,7 @@ var Drawer = function(exports) {
         if (this.$toolbar && !this.customBtn[name]) {
           const customBtn = (
             /*html*/
-            `<button title="${title}" class="btn btn-primary">${label}</button>`
+            `<button title="${title}" class="btn btn-drawer-primary">${label}</button>`
           );
           const $customBtn = stringToHTMLElement(customBtn);
           this.customBtn[name] = $customBtn;
@@ -2729,6 +2691,8 @@ var Drawer = function(exports) {
     }
     /**
      * Change canvas background color
+     *
+     * @note use setBgColor (only css) better for prevent draw front of current draw
      * @param bgColor canvas css background color
      * @returns {Promise<boolean>}
      */
@@ -2990,11 +2954,11 @@ var Drawer = function(exports) {
     }
     /**
      * Start drawing (mousedown)
-     * @param {PointerEvent} event
+     * @param {MouseEvent | TouchEvent} event
      * @returns
      */
     _startDraw(event) {
-      if (event.button === 2)
+      if (event instanceof MouseEvent && event.button === 2)
         return;
       if (this.activeTool === "text")
         return;
@@ -3011,11 +2975,11 @@ var Drawer = function(exports) {
     }
     /**
      * @private _drawing
-     * @param {PointerEvent} event
+     * @param {MouseEvent | TouchEvent} event
      * @returns
      */
     _drawing(event) {
-      if (event.buttons !== 1 || this.activeTool === "text")
+      if (event instanceof MouseEvent && event.buttons !== 1 || this.activeTool === "text")
         return;
       if (this.activeTool !== "eraser") {
         this.ctx.globalCompositeOperation = this.settingModal.xor ? "xor" : "source-over";
@@ -3038,14 +3002,14 @@ var Drawer = function(exports) {
     /**
      * @private _drawend
      * trigger when draw ended
-     * @param {PointerEvent} event
+     * @param {MouseEvent | TouchEvent} event
      */
     _drawend(event) {
-      if (event.pointerType !== "mouse" || event.button === 0) {
+      if (event instanceof MouseEvent && event.button !== 2 || event instanceof TouchEvent) {
         if (this.isShape()) {
           this._restoreSnapshot();
         }
-        const position = this.activeTool === "text" ? { x: event.clientX, y: event.clientY } : getMousePosition(this.$canvas, event);
+        const position = this.activeTool === "text" ? getMousePosition(this.$canvas, event, false) : getMousePosition(this.$canvas, event);
         this.toolbar._manageUndoRedoBtn();
         this._draw(position);
         this.isDrawing = false;
@@ -3339,9 +3303,12 @@ var Drawer = function(exports) {
       this._startDraw = throttle(this._startDraw, 10);
       this._drawing = throttle(this._drawing, 10);
       this._drawend = throttle(this._drawend, 10);
-      this.$canvas.addEventListener("pointerdown", this._startDraw.bind(this), false);
-      this.$canvas.addEventListener("pointermove", this._drawing.bind(this), false);
-      this.$canvas.addEventListener("pointerup", this._drawend.bind(this), false);
+      this.$canvas.addEventListener("mousedown", this._startDraw.bind(this), false);
+      this.$canvas.addEventListener("touchstart", this._startDraw.bind(this), false);
+      this.$canvas.addEventListener("mousemove", this._drawing.bind(this), false);
+      this.$canvas.addEventListener("touchmove", this._drawing.bind(this), false);
+      this.$canvas.addEventListener("mouseup", this._drawend.bind(this), false);
+      this.$canvas.addEventListener("touchend", this._drawend.bind(this), false);
       this.$canvas.addEventListener("drawer.update.color", this._updateCursor.bind(this));
       this.$canvas.addEventListener("drawer.update.lineThickness", this._updateCursor.bind(this));
       this.$canvas.addEventListener("drawer.update.tool", this._updateCursor.bind(this));

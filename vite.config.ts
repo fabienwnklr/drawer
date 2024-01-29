@@ -36,7 +36,7 @@ export default defineConfig({
       closeBundle: async () => {
         if (process.env.NODE_ENV !== 'test') {
           console.log('Build docs...');
-          execSync('npm run build:docs'); // run during closeBundle hook. https://rollupjs.org/guide/en/#closebundle
+          execSync('npm run doc:js'); // run during closeBundle hook. https://rollupjs.org/guide/en/#closebundle
           console.log('Docs build !');
         }
       },

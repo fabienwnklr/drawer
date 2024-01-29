@@ -45,6 +45,7 @@ html[data-theme='dark'] {
   position: relative;
   z-index: 100;
   font-family: helvetica, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  touch-action: none;
 }
 
 .drawer-container.expanded {
@@ -243,9 +244,9 @@ html[data-theme='dark'] {
   background-color: transparent;
 }
 
-.drawer-container .btn.btn-primary:not(:disabled):not(.active):hover,
-.drawer-menu .btn.btn-primary:not(:disabled):not(.active):hover,
-.drawer-modal .btn.btn-primary:not(:disabled):not(.active):hover {
+.drawer-container .btn.btn-drawer-primary:not(:disabled):not(.active):hover,
+.drawer-menu .btn.btn-drawer-primary:not(:disabled):not(.active):hover,
+.drawer-modal .btn.btn-drawer-primary:not(:disabled):not(.active):hover {
   background-color: var(--drawer-primary-bg-hover);
 }
 

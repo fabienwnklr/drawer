@@ -573,11 +573,11 @@ class Drawer extends History {
 
   /**
    * Start drawing (mousedown)
-   * @param {PointerEvent} event
+   * @param {MouseEvent | TouchEvent} event
    * @returns
    */
-  private _startDraw(event: PointerEvent) {
-    if (event.button === 2) return;
+  private _startDraw(event: MouseEvent | TouchEvent) {
+    if (event instanceof MouseEvent && event.button === 2) return;
     if (this.activeTool === 'text') return;
     this.#dragStartLocation = getMousePosition(this.$canvas, event);
     this.ctx.beginPath();
@@ -593,11 +593,11 @@ class Drawer extends History {
   }
   /**
    * @private _drawing
-   * @param {PointerEvent} event
+   * @param {MouseEvent | TouchEvent} event
    * @returns
    */
-  private _drawing(event: PointerEvent) {
-    if (event.buttons !== 1 || this.activeTool === 'text') return; // if isDrawing is false return from here
+  private _drawing(event: MouseEvent | TouchEvent) {
+    if (event instanceof MouseEvent && event.buttons !== 1 || this.activeTool === 'text') return; // if isDrawing is false return from here
 
     if (this.activeTool !== 'eraser') {
       this.ctx.globalCompositeOperation = this.settingModal.xor ? 'xor' : 'source-over';
@@ -624,15 +624,16 @@ class Drawer extends History {
   /**
    * @private _drawend
    * trigger when draw ended
-   * @param {PointerEvent} event
+   * @param {MouseEvent | TouchEvent} event
    */
-  private _drawend(event: PointerEvent) {
-    if (event.pointerType !== 'mouse' || event.button === 0) {
+  private _drawend(event: MouseEvent | TouchEvent) {
+    if ((event instanceof MouseEvent && event.button !== 2) || event instanceof TouchEvent) {
       if (this.isShape()) {
         this._restoreSnapshot();
       }
+
       const position =
-        this.activeTool === 'text' ? { x: event.clientX, y: event.clientY } : getMousePosition(this.$canvas, event);
+        this.activeTool === 'text' ? getMousePosition(this.$canvas, event, false) : getMousePosition(this.$canvas, event);
 
       this.toolbar._manageUndoRedoBtn();
       this._draw(position);
@@ -980,9 +981,12 @@ class Drawer extends History {
     this._drawing = throttle(this._drawing, 10);
     this._drawend = throttle(this._drawend, 10);
 
-    this.$canvas.addEventListener('pointerdown', this._startDraw.bind(this), false);
-    this.$canvas.addEventListener('pointermove', this._drawing.bind(this), false);
-    this.$canvas.addEventListener('pointerup', this._drawend.bind(this), false);
+    this.$canvas.addEventListener('mousedown', this._startDraw.bind(this), false);
+    this.$canvas.addEventListener('touchstart', this._startDraw.bind(this), false);
+    this.$canvas.addEventListener('mousemove', this._drawing.bind(this), false);
+    this.$canvas.addEventListener('touchmove', this._drawing.bind(this), false);
+    this.$canvas.addEventListener('mouseup', this._drawend.bind(this), false);
+    this.$canvas.addEventListener('touchend', this._drawend.bind(this), false);
 
     this.$canvas.addEventListener('drawer.update.color', this._updateCursor.bind(this));
     this.$canvas.addEventListener('drawer.update.lineThickness', this._updateCursor.bind(this));
